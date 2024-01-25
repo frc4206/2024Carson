@@ -9,6 +9,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class ZeroGyroCommand extends Command {
   private SwerveSubsystem swerveSubsystem;
+  boolean isfinished = false;
   public ZeroGyroCommand(SwerveSubsystem m_swerveSubsystem) {
     swerveSubsystem = m_swerveSubsystem;
     addRequirements(swerveSubsystem);
@@ -22,6 +23,8 @@ public class ZeroGyroCommand extends Command {
   @Override
   public void execute() {
     swerveSubsystem.zeroGyro();
+    isfinished = true;
+    isFinished();
   }
 
   // Called once the command ends or is interrupted.
@@ -31,6 +34,6 @@ public class ZeroGyroCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

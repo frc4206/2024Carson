@@ -14,8 +14,8 @@ public class LimelightCameraClass {
 
 
     //April tag variables
-    public double[] aprilTagResult ;
-    public double[] Fieldresult;
+    public double[] aprilTagResult = {0,0,0};
+    public double[] Fieldresult ={0,0,0};
 
 
     // Ai variables
@@ -69,8 +69,13 @@ public class LimelightCameraClass {
 
   public double[] GetGamePiecePosition(double[] OdometryArray, double angle) {
         double[] gamePiecePos = {0,0};
-        gamePiecePos[0] = OdometryArray[0] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.sin(angle + limelightTable.getEntry("tx").getDouble(0));
-        gamePiecePos[1] = OdometryArray[1] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.cos(angle + limelightTable.getEntry("ty").getDouble(0));
+        if (angle > 0) {
+            gamePiecePos[0] = OdometryArray[0] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.sin(angle - limelightTable.getEntry("tx").getDouble(0));
+            gamePiecePos[1] = OdometryArray[1] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.cos(angle - limelightTable.getEntry("tx").getDouble(0)); 
+        } else {
+            gamePiecePos[0] = OdometryArray[0] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.sin(angle + limelightTable.getEntry("tx").getDouble(0));
+            gamePiecePos[1] = OdometryArray[1] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.cos(angle + limelightTable.getEntry("tx").getDouble(0)); 
+        }
 
         SmartDashboard.putNumber(limelightName + " game piece X", gamePiecePos[0]);
         SmartDashboard.putNumber(limelightName + " game piece Y", gamePiecePos[1]);
@@ -82,6 +87,7 @@ public class LimelightCameraClass {
     //Updates the current pipleines calcuations
     if (limelightTable.getEntry("pipeline").getDouble(0) == 2) {
         aprilTagResult = limelightTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
+        aprilTagResult[2] *= -1;
         Fieldresult = limelightTable.getEntry("botpose").getDoubleArray(new double[6]);
     } else if (limelightTable.getEntry("pipeline").getDouble(0) == 1) {
         SmartDashboard.putNumber(limelightName + " ai distance: ", GetDistanceToGamePiece());

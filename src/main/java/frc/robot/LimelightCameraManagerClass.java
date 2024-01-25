@@ -82,23 +82,22 @@ public class LimelightCameraManagerClass {
                 SmartDashboard.putNumber(i + " X", cameraList[i].aprilTagResult[2]);
                 for (int ii = 0; ii < cameraList.length; ii++) {
                     try {
-                        if (cameraList[ii].aprilTagResult[2] < cameraList[ii + 1].aprilTagResult[2] && cameraList[ii + 1].GetPipeline() == 2) {
-                            if (ii >= 1) {
-                                if (cameraList[ii].aprilTagResult[2] < cameraList[ii - 1].aprilTagResult[2]&& cameraList[ii - 1].GetPipeline() == 2) {
-                                    X = cameraList[ii].Fieldresult[5];
-                                    Y = cameraList[ii].Fieldresult[3];
-                                    Z = cameraList[ii].Fieldresult[2];
-                                }
-                            } else {
-                                X = cameraList[ii].Fieldresult[5];
-                                Y = cameraList[ii].Fieldresult[3];
-                                Z = cameraList[ii].Fieldresult[2];
-                            }
+                        if (cameraList[ii].aprilTagResult[2] < cameraList[ii + 1].aprilTagResult[2] && cameraList[ii].GetPipeline() == 2) {
+                            X = cameraList[ii].Fieldresult[0];
+                            Y = cameraList[ii].Fieldresult[1];
+                            Z = cameraList[ii].Fieldresult[2];
                         }
                     } catch (Exception e) {
                         // TODO: handle exception
                         //chill out
                     }
+                    if (ii > 1) {
+                        if (cameraList[ii].aprilTagResult[2] < cameraList[ii - 1].aprilTagResult[2] && cameraList[ii - 1].GetPipeline() == 2) {
+                            X = cameraList[ii].Fieldresult[0];
+                            Y = cameraList[ii].Fieldresult[1];
+                            Z = cameraList[ii].Fieldresult[2];
+                        }
+                    } 
                     double[] pos = {X, Y, Z};
                     pose = pos;
                 }

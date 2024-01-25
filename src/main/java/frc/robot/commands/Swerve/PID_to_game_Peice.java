@@ -7,6 +7,7 @@ package frc.robot.commands.Swerve;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -26,16 +27,21 @@ public class PID_to_game_Peice extends Command {
 
   private boolean advanced_setpoints;
 
+  private double init_time;
+  private double current_time;
+  private double timeout;
+
   public PIDController pidx = new PIDController(0.0002, 0, 0);
   public PIDController pidy = new PIDController(0.000, 0, 0);
   public PIDController pidyaw = new PIDController(0.0002, 0, 0);
 
-  public PID_to_game_Peice(SwerveSubsystem s_Swerve, Joystick controller, int translationAxis, int strafeAxis, int rotationAxis, boolean fieldRelative, boolean openLoop, boolean advanced_setpoints) {
+  public PID_to_game_Peice(SwerveSubsystem s_Swerve, boolean fieldRelative, boolean openLoop, boolean advanced_setpoints, double timeout) {
       this.s_Swerve = s_Swerve;
       addRequirements(s_Swerve);
       this.fieldRelative = fieldRelative;
       this.openLoop = openLoop;
       this.advanced_setpoints = advanced_setpoints;
+      this.timeout = timeout;
   }
 
   // Called when the command is initially scheduled.
@@ -45,7 +51,7 @@ public class PID_to_game_Peice extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    current_time = Timer.getFPGATimestamp() - init_time;
     double[] OdometryArray = {s_Swerve.getPose().getX(), s_Swerve.getPose().getY()};
 
     double[] gamePiecePos = s_Swerve.limelight.limelightfront.GetGamePiecePosition(OdometryArray, s_Swerve.getYaw().getDegrees());

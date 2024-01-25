@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.FlywheelSpinCommand;
 import frc.robot.commands.IntakeCommand;
@@ -37,7 +36,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+      new CommandXboxController(1);
 
   private final CommandXboxController driver = new CommandXboxController(1);
 

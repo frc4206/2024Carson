@@ -4,21 +4,17 @@
 
 package frc.robot;
 
-
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.ChangePipelineCommand;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.Swerve.PID_DistanceOdometry;
-import frc.robot.commands.Swerve.TeleopSwerve;
-import frc.robot.commands.Swerve.ZeroGyroCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.commands.FlywheelSpinCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.PivotCommand;
+import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -27,50 +23,52 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-public class RobotContainer {
+
+
+//Ctrl+F & looking for keywords can help find potential issues in the code or what needs to be changed. ex IDK, Change, etc.
+
+
+ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Joystick driver = new Joystick(0);
-
-  private final int translationAxis = XboxController.Axis.kLeftY.value;
-  private final int strafeAxis = XboxController.Axis.kLeftX.value;
-  private final int rotationAxis = XboxController.Axis.kRightX.value;
-
-  private final Limelight m_Limelight = new Limelight();
-  private final SwerveSubsystem swerve = new SwerveSubsystem(m_Limelight);
-
-  public final static edu.wpi.first.wpilibj.XboxController.Axis tAxis = XboxController.Axis.kLeftY;
+  private final FlywheelSubsystem FLYWHEEL_SUBSYSTEM = new FlywheelSubsystem();
+  // To fix on Monday
+  public ShooterPositions position;
+  private final PivotSubsystem PIVOT_SUBSYSTEM = new PivotSubsystem(position);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  
-  Joystick operator = new Joystick(1);
+  private final CommandXboxController driverController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  private final CommandXboxController driver = new CommandXboxController(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    boolean fieldRelative = true;
-    boolean openLoop = true;
-    swerve.setDefaultCommand(new TeleopSwerve(swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
-
     configureBindings();
   }
 
+  /**
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * predicate, or via the named factories in {@link
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
+   */
+
   private void configureBindings() {
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    // Flywheel Bindings
+    driverController.leftTrigger().onTrue(new FlywheelSpinCommand(FLYWHEEL_SUBSYSTEM, 0.2)); // CHANGE LATER!!
+    driverController.rightTrigger().onTrue(new FlywheelSpinCommand(FLYWHEEL_SUBSYSTEM, -0.2));
+    
+    // Pivot Bindings
+    driverController.leftBumper().onTrue(new PivotCommand(PIVOT_SUBSYSTEM, 0.2));
+    driverController.rightBumper().onTrue(new PivotCommand(PIVOT_SUBSYSTEM, -0.2));
 
-    new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(swerve));
-    new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 0));
-    new JoystickButton(driver, 2).onTrue(new ChangePipelineCommand(m_Limelight, 1));
-    new JoystickButton(driver, 4).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-    new JoystickButton(driver, 5).whileTrue(new InstantCommand(() -> swerve.justTurn()));
-    new JoystickButton(driver, 6).whileTrue(new PID_DistanceOdometry(m_Limelight, swerve, translationAxis, strafeAxis, rotationAxis, false, false, 1, 1, 0, 10));
-
-    new JoystickButton(operator, 1).onTrue(new ChangePipelineCommand(m_Limelight, 0));
-    new JoystickButton(operator, 2).onTrue(new ChangePipelineCommand(m_Limelight, 1));
-    new JoystickButton(operator, 3).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-    // Schedule `exampleMehodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
+    //driverController.leftBumper().whileTrue(new IntakeCommand(flywheelSubsystem, 0.3));
+    //driverController.rightBumper().whileTrue(new IntakeCommand(flywheelSubsystem, -0.3));
+    //driver.button(0, new FlywheelSpinCommand(null, driver));
   }
 
   /**
@@ -79,7 +77,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return null; // CHANGE LATER!!
   }
 }

@@ -4,10 +4,10 @@
 
 package frc.robot;
 
+import frc.robot.Intake.IntakeCommand;
+import frc.robot.Shooter.FlywheelSpinCommand;
+import frc.robot.Shooter.PivotCommand;
 import frc.robot.commands.Autos;
-import frc.robot.commands.FlywheelSpinCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.PivotCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;

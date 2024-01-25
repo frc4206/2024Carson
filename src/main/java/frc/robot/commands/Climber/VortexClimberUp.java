@@ -2,17 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-import frc.robot.subsystems.Intake_subsystem;
-import edu.wpi.first.wpilibj2.command.Command;
+package frc.robot.commands.Climber;
 
-public class IntakeGo extends Command {
-  /** Creates a new IntakeGo. */
-  private Intake_subsystem intakeMotor;
-  public IntakeGo(Intake_subsystem m_intakeMotor) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    intakeMotor = m_intakeMotor; 
-    addRequirements(intakeMotor);
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.VortexClimberSub;
+
+public class VortexClimberUp extends Command {
+  private VortexClimberSub vortexClimberSub;
+  public VortexClimberUp(VortexClimberSub m_VortexClimberSub) {
+    vortexClimberSub = m_VortexClimberSub;
+    addRequirements(vortexClimberSub);
   }
 
   // Called when the command is initially scheduled.
@@ -22,12 +21,14 @@ public class IntakeGo extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeMotor.IntakeGo(0.5);
+    vortexClimberSub.climbUP();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    vortexClimberSub.climbSTOP();
+  }
 
   // Returns true when the command should end.
   @Override

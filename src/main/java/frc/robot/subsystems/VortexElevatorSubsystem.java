@@ -72,10 +72,11 @@ public class VortexElevatorSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     if (elevatorBottomLimitSwitch.get()) {
-        
+      elevatorLeadEncoder.setPosition(0);
     }
+    /* Get value from testing!! */
     if (elevatorTopLimitSwitch.get()) {
-        
+      elevatorLeadEncoder.setPosition(7.5);
     }
   }
 }

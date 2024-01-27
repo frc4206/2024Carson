@@ -21,7 +21,8 @@ public class VortexClimberSubsystem extends SubsystemBase {
   //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.ClimberFollowerID, MotorType.kBrushless);
 
   private SparkPIDController climbLeadPid;
-  private RelativeEncoder climbLeadEncoder;
+  private RelativeEncoder climbLeadEncoder; /* top encoder */
+  //private RelativeEncoder climbBottomEncoder; /* bottom encoder */
 
   private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.ClimberLimitSwitch);
 
@@ -48,30 +49,33 @@ public class VortexClimberSubsystem extends SubsystemBase {
     
   }
 
-  public void climbSTOP(){
+  public void climbSTOP() {
     climberLeaderMotor.set(0);
     //climberFollowerMotor.set(0);
   }
 
-  public void climbUP(){
+  public void climbUP() {
     climberLeaderMotor.set(0.8);
     //climberFollowerMotor.set(0.8);
   }
 
-  public void climbDOWN(){
+  public void climbDOWN() {
     climberLeaderMotor.set(-0.8);
     //climberFollowerMotor.set(-0.8);
   }
 
-  public void GoToSetpoint (double setpoint) {
+  public void GoToSetpoint(double setpoint) {
     climbLeadPid.setReference(setpoint, ControlType.kPosition, 0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (climberLimitSwitch.get()) {
-
+    if(climberLimitSwitch.get()) {
+      climbLeadEncoder.setPosition(0);
     }
+    /*if(climberBottomSwitch.get()) {
+      climbLeadEncoder.setPosition(7.5);
+    } */
   }
 }

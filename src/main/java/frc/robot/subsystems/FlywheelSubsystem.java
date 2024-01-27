@@ -21,7 +21,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   //public CANSparkFlex pivotMotor = new CANSparkFlex(3, MotorType.kBrushless);
   //public CANSparkFlex intakeMotor = new CANSparkFlex(4, MotorType.kBrushless);
 
-  public DigitalInput beamBreak = new DigitalInput(1);
+  public DigitalInput beamBreak = new DigitalInput(Constants.Shooter.ShooterBeamBreak);
 
   public SparkPIDController flyController;
   public SparkPIDController pivotController;

@@ -71,14 +71,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
   private void configureBindings() {
     // Flywheel Bindings
-    //driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_FlywheelSubsystem, 1000)); // finished
+    driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_FlywheelSubsystem, 1000)); // finished
     // Pivot Bindings
-    //driverController.leftBumper().onTrue(new PivotCommand(m_PivotSubsystem, 100));
+    driverController.leftBumper().onTrue(new PivotCommand(m_PivotSubsystem, -100));
 
-    //driverController.a().onTrue(new GoUntilBeamBreak(m_IntakeSubsystem));// finished :)
+    driverController.a().onTrue(new GoUntilBeamBreak(m_IntakeSubsystem));// finished :)
     driverController.b().onTrue(new VortexClimberPIDCommand(m_ClimberSub));
     driverController.x().onTrue(new VortexElevatorPIDCommand(m_ElevatorSub));
-    driverController.a().onTrue(new VortexElevatorDown(m_ElevatorSub));
+    //driverController.a().onTrue(new VortexElevatorDown(m_ElevatorSub));
     // Climber Bindings
     //driverController.x().onTrue(new VortexClimberDown(null/*?????*/));
     //driverController.y().onTrue(new VortexClimberUp(null/*?????*/));

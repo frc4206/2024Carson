@@ -2,31 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Shooter;
-//e
+package frc.robot.commands.Shooter;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.PivotSubsystem;
-import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
+import frc.robot.subsystems.FlywheelSubsystem;
 
-public class PivotCommand extends Command {
-  public PivotSubsystem PivotSubsystem;
-  public double pivotSpeed;
-  public ShooterPositions positon;
+public class FlywheelSpinCommand extends Command {
+  public FlywheelSubsystem flywheelSubsystem;
+  private double flySpeed;
 
-  /** Creates a new PivotCommand. */
-  public PivotCommand(PivotSubsystem pivotSubsystem, double PIVOTspeed) {
+  /** Creates a new FlywheelSpinCommand. */
+  public FlywheelSpinCommand(FlywheelSubsystem flywheelSubsystem, double FLYspeed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.PivotSubsystem = pivotSubsystem;
-    pivotSpeed = PIVOTspeed;
-    addRequirements(PivotSubsystem);
+    this.flywheelSubsystem = flywheelSubsystem;
+    flySpeed = FLYspeed;
+
+    addRequirements(flywheelSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Which one do we use and when?
-    PivotSubsystem.setFieldRelativePosition(0 /*PLACEHOLDER!*/, ShooterPositions.SUBWOOFER);
-    PivotSubsystem.setPos(0.0, 0.0);
+    flywheelSubsystem.setVelocity(flySpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,6 +37,6 @@ public class PivotCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

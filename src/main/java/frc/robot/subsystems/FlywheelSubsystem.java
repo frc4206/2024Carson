@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import com.revrobotics.*;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -14,8 +16,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class FlywheelSubsystem extends SubsystemBase {
 
-  public CANSparkFlex upperFlyMotor = new CANSparkFlex(12, MotorType.kBrushless); // TMNTBC!
-  public CANSparkFlex lowerFlyMotor = new CANSparkFlex(2, MotorType.kBrushless);
+  public CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.ShooterLeadMotorID, MotorType.kBrushless); // TMNTBC!
+  public CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.ShooterFollowerID, MotorType.kBrushless);
   //public CANSparkFlex pivotMotor = new CANSparkFlex(3, MotorType.kBrushless);
   //public CANSparkFlex intakeMotor = new CANSparkFlex(4, MotorType.kBrushless);
 
@@ -35,6 +37,12 @@ public class FlywheelSubsystem extends SubsystemBase {
 //
     //pivotMotor.setIdleMode(IdleMode.kBrake);//might be bad IDK
 
+    flyController = upperFlyMotor.getPIDController();
+
+    relFlyEnc = upperFlyMotor.getEncoder();
+
+    lowerFlyMotor.follow(upperFlyMotor);
+
     flyController.setFeedbackDevice(relFlyEnc);
     flyController.setP(0.00029);
     flyController.setI(7e-7);
@@ -46,9 +54,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     flyController.setSmartMotionMaxAccel(100, 0);
     flyController.setSmartMotionAllowedClosedLoopError(5, 0);
 //
-    flyController = upperFlyMotor.getPIDController();
 
-    relFlyEnc = upperFlyMotor.getEncoder();
   }
 
   public void motorTurn(double flySpeed) {}

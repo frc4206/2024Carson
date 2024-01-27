@@ -6,32 +6,68 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class VortexClimberSub extends SubsystemBase {
-  private CANSparkFlex climber1 = new CANSparkFlex(20, MotorType.kBrushless);
+  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.ClimberLeaderMotorID, MotorType.kBrushless);
+  //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.ClimberFollowerID, MotorType.kBrushless);
 
+  private SparkPIDController climbLeadPid;
+  private RelativeEncoder climbLeadEncoder;
+
+  private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.ClimberLimitSwitch);
   public VortexClimberSub() {
-    climber1.restoreFactoryDefaults();
-    climber1.setInverted(false);
+    climberLeaderMotor.restoreFactoryDefaults();
+    //climberFollowerMotor.restoreFactoryDefaults();
+    climberLeaderMotor.setInverted(false);
+    //climberFollowerMotor.setInverted(false);
+
+    climbLeadEncoder = climberLeaderMotor.getEncoder();
+    climbLeadPid = climberLeaderMotor.getPIDController();
+    
+    climbLeadPid.setFeedbackDevice(climbLeadEncoder);
+    climbLeadPid.setP(0.02);
+    climbLeadPid.setI(9e-8);
+    climbLeadPid.setD(0.0);
+    //climbLeadPid.setFF(0.0);
+    //climbLeadPid.setSmartMotionMaxVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecondfast, 0);
+    //climbLeadPid.setSmartMotionMinOutputVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecond, 0);
+    //climbLeadPid.setSmartMotionMaxAccel(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared, 0);
+    //climbLeadPid.setSmartMotionAllowedClosedLoopError(5, 0);
+
+    
   }
 
   public void climbSTOP(){
-    climber1.set(0);
+    climberLeaderMotor.set(0);
+    //climberFollowerMotor.set(0);
   }
 
   public void climbUP(){
-    climber1.set(0.8);
+    climberLeaderMotor.set(0.8);
+    //climberFollowerMotor.set(0.8);
   }
 
   public void climbDOWN(){
-    climber1.set(-0.8);
+    climberLeaderMotor.set(-0.8);
+    //climberFollowerMotor.set(-0.8);
+  }
+
+  public void GoToSetpoint (double setpoint) {
+    climbLeadPid.setReference(setpoint, ControlType.kPosition, 0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (climberLimitSwitch.get()) {
+
+    }
   }
 }

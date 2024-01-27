@@ -4,12 +4,22 @@
 
 package frc.robot;
 
-import frc.robot.Intake.IntakeCommand;
-import frc.robot.Shooter.FlywheelSpinCommand;
-import frc.robot.Shooter.PivotCommand;
 import frc.robot.commands.Autos;
+import frc.robot.commands.Climber.VortexClimberDown;
+import frc.robot.commands.Climber.VortexClimberPIDCommand;
+import frc.robot.commands.Climber.VortexClimberUp;
+import frc.robot.commands.Elevator.VortexElevatorDown;
+import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
+import frc.robot.commands.Intake.GoUntilBeamBreak;
+import frc.robot.commands.Intake.IntakeCommand;
+import frc.robot.commands.Intake.IntakeGo;
+import frc.robot.commands.Shooter.FlywheelSpinCommand;
+import frc.robot.commands.Shooter.PivotCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.VortexClimberSub;
+import frc.robot.subsystems.VortexElevatorSub;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,10 +39,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
  public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final FlywheelSubsystem FLYWHEEL_SUBSYSTEM = new FlywheelSubsystem();
+  private final FlywheelSubsystem m_FlywheelSubsystem = new FlywheelSubsystem();
   // To fix on Monday
   public ShooterPositions position;
-  private final PivotSubsystem PIVOT_SUBSYSTEM = new PivotSubsystem(position);
+  private final PivotSubsystem m_PivotSubsystem= new PivotSubsystem(position);
+  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private final VortexClimberSub m_ClimberSub = new VortexClimberSub();
+  private final VortexElevatorSub m_ElevatorSub = new VortexElevatorSub();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController =
@@ -58,13 +71,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
   private void configureBindings() {
     // Flywheel Bindings
-    driverController.leftTrigger().onTrue(new FlywheelSpinCommand(FLYWHEEL_SUBSYSTEM, 0.2)); // CHANGE LATER!!
-    driverController.rightTrigger().onTrue(new FlywheelSpinCommand(FLYWHEEL_SUBSYSTEM, -0.2));
-    
+    //driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_FlywheelSubsystem, 1000)); // finished
     // Pivot Bindings
-    driverController.leftBumper().onTrue(new PivotCommand(PIVOT_SUBSYSTEM, 0.2));
-    driverController.rightBumper().onTrue(new PivotCommand(PIVOT_SUBSYSTEM, -0.2));
+    //driverController.leftBumper().onTrue(new PivotCommand(m_PivotSubsystem, 100));
 
+    //driverController.a().onTrue(new GoUntilBeamBreak(m_IntakeSubsystem));// finished :)
+    driverController.b().onTrue(new VortexClimberPIDCommand(m_ClimberSub));
+    driverController.x().onTrue(new VortexElevatorPIDCommand(m_ElevatorSub));
+    driverController.a().onTrue(new VortexElevatorDown(m_ElevatorSub));
+    // Climber Bindings
+    //driverController.x().onTrue(new VortexClimberDown(null/*?????*/));
+    //driverController.y().onTrue(new VortexClimberUp(null/*?????*/));
     //driverController.leftBumper().whileTrue(new IntakeCommand(flywheelSubsystem, 0.3));
     //driverController.rightBumper().whileTrue(new IntakeCommand(flywheelSubsystem, -0.3));
     //driver.button(0, new FlywheelSpinCommand(null, driver));

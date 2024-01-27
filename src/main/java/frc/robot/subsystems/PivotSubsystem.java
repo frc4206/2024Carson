@@ -10,10 +10,11 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class PivotSubsystem extends SubsystemBase {
 
-  public CANSparkFlex pivotMotor = new CANSparkFlex(13, MotorType.kBrushless);
+  public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Shooter.ShooterPivotID, MotorType.kBrushless);
   public SparkPIDController pivotController;
 
   public RelativeEncoder relPivotEnc;
@@ -31,6 +32,11 @@ public class PivotSubsystem extends SubsystemBase {
   /** Creates a new PivotSubsystem. */
   public PivotSubsystem(ShooterPositions position) {
     pivotMotor.restoreFactoryDefaults();
+    pivotController = pivotMotor.getPIDController();
+
+
+    relPivotEnc = pivotMotor.getEncoder();
+
 
     pivotController.setFeedbackDevice(relPivotEnc);
     pivotController.setP(0.02);
@@ -42,17 +48,19 @@ public class PivotSubsystem extends SubsystemBase {
     pivotController.setSmartMotionMaxAccel(100, 0);
     pivotController.setSmartMotionAllowedClosedLoopError(5, 0);
 
-    pivotController = pivotMotor.getPIDController();
 
-    relPivotEnc = pivotMotor.getEncoder();
   }
 
   public void motorPivot(double pivotSpeed) {
     // pivotMotor.set(pivotSpeed);
   }
 
-  public void setPos(double xCoordinate, double yCoordinate) {
-    //pivotController.setReference(xCoordinate, yCoordinate, CANSparkFlex.ControlType.kPosition);
+  public void setPos(double xCoordinate) {
+    pivotController.setReference(xCoordinate, CANSparkFlex.ControlType.kPosition);
+  }
+
+  public void runMotor (double speed) {
+    pivotMotor.set(speed);
   }
 
   // Set shooter position relative to field (where am I shooting?)

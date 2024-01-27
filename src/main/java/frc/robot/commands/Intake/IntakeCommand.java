@@ -2,17 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Intake;
-import frc.robot.subsystems.Intake_subsystem;
+package frc.robot.commands.Intake;
+//e
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.FlywheelSubsystem;
 
-public class IntakeOut extends Command {
-  /** Creates a new IntakeOut. */
-  private Intake_subsystem intakeMotor;
-  public IntakeOut(Intake_subsystem m_intakeMotor) {
+public class IntakeCommand extends Command {
+  public FlywheelSubsystem flywheelSubsystem;
+
+  /** Creates a new IntakeCommand. */
+  public IntakeCommand(FlywheelSubsystem flywheelSubsystem, double INTAKEspeed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    intakeMotor = m_intakeMotor; 
-    addRequirements(intakeMotor);
+    this.flywheelSubsystem = flywheelSubsystem;
+    addRequirements(flywheelSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -21,9 +23,7 @@ public class IntakeOut extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    intakeMotor.IntakeGo(-0.5);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

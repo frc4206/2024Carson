@@ -137,6 +137,32 @@ public final class Constants {
 
   }
 
+  public static final class Intake {
+    public static final int IntakeDriveMotorID = 20;
+    public static final int IntkeBeamBreakDIO = 0;
+  }
+
+  public static final class Shooter {
+    public static final int ShooterLeadMotorID = 25;
+    public static final int ShooterFollowerID = 26;
+    public static final int ShooterPivotID = 27;
+    
+    public static final int ShooterBeamBreak = 1;
+  }
+
+  public static final class Elevator {
+    public static final int ElevatorLeaderID = 30;
+    public static final int ElevatorFollowerID = 31;
+    public static final int ElevatorTopLimitSwitch = 2;
+    public static final int ElevatorBottomLimitSwitch = 3;
+  }
+
+  public static final class Climber {
+    public static final int ClimberLeaderMotorID = 35;
+    public static final int ClimberFollowerID = 36;
+    public static final int ClimberLimitSwitch = 4;
+  }
+
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 3;

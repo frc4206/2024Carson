@@ -1,12 +1,13 @@
 package frc.robot.commands.Swerve;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TeleopSwerve extends Command {
+
+public class TeleopSwerve extends CommandBase {
 
     private double rotation;
     private Translation2d translation;
@@ -46,10 +47,8 @@ public class TeleopSwerve extends Command {
         xAxis = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : xAxis;
         rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
 
-        //translation = new Translation2d(yAxis*(s_Swerve.currPercent), xAxis*(s_Swerve.currPercent)).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
-        translation = new Translation2d(yAxis*(s_Swerve.currPercent), xAxis*(s_Swerve.currPercent)).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
-        rotation = rAxis * Constants.Swerve.maxAngularVelocity * s_Swerve.currPercent;
-
+        translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
+        rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
     }
 }

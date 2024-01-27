@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.VortexClimberSubsystem;
 
 public class VortexClimberPIDCommand extends Command {
-
+  
   VortexClimberSubsystem m_vortexClimberSubsystem;
 
   /** The VortexClimberPID command can be called whenever we need to call the motor controller to climb the chain. */

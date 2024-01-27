@@ -15,9 +15,12 @@ import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.IntakeGo;
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
 import frc.robot.commands.Shooter.PivotCommand;
+import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.VortexClimberSubsystem;
 import frc.robot.subsystems.VortexElevatorSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
@@ -46,17 +49,21 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final VortexClimberSubsystem m_climberSub = new VortexClimberSubsystem();
   private final VortexElevatorSubsystem m_elevatorSub = new VortexElevatorSubsystem();
+  private final Limelight m_Limelight = new Limelight();
+  SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_Limelight);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController =
       new CommandXboxController(1);
 
   private final CommandXboxController driver = new CommandXboxController(1);
+  private final Joystick controller = new Joystick(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, controller, 1, 0, 4, true, true));
   }
 
   /**

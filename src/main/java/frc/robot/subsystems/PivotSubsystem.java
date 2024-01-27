@@ -10,10 +10,11 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class PivotSubsystem extends SubsystemBase {
 
-  public CANSparkFlex pivotMotor = new CANSparkFlex(13, MotorType.kBrushless);
+  public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Shooter.ShooterPivotID, MotorType.kBrushless);
   public SparkPIDController pivotController;
 
   public RelativeEncoder relPivotEnc;

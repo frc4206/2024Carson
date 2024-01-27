@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import com.revrobotics.CANSparkFlex;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
@@ -13,13 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake_subsystem extends SubsystemBase {
   /** Creates a new Intake_subsystem. */
-  private CANSparkFlex intakeMotor;
+ 
 
-  public DigitalInput beambreak; 
-  public int dioPort; {
-
-  intakeMotor = new CANSparkFlex(0, null);
-  beambreak = new DigitalInput(dioPort); }
+  CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.IntakeDriveMotorID, null);
+  DigitalInput beambreak = new DigitalInput(Constants.Intake.IntkeBeamBreakDIO); 
 
   public boolean beambreakValue = beambreak.get();
   
@@ -30,10 +29,6 @@ public class Intake_subsystem extends SubsystemBase {
       SmartDashboard.putBoolean("Beambreak Activated: ", beambreakValue); 
       intakeMotor.setInverted(true);
       
-    }
-
-    public int portNum() {
-      return this.dioPort; 
     }
 
     public boolean state() {

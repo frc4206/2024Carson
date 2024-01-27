@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class VortexClimberSub extends SubsystemBase {
+public class VortexClimberSubsystem extends SubsystemBase {
+
+  /* Variables */
   private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.ClimberLeaderMotorID, MotorType.kBrushless);
   //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.ClimberFollowerID, MotorType.kBrushless);
 
@@ -22,7 +24,9 @@ public class VortexClimberSub extends SubsystemBase {
   private RelativeEncoder climbLeadEncoder;
 
   private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.ClimberLimitSwitch);
-  public VortexClimberSub() {
+
+  /* Method Constructor */
+  public VortexClimberSubsystem() {
     climberLeaderMotor.restoreFactoryDefaults();
     //climberFollowerMotor.restoreFactoryDefaults();
     climberLeaderMotor.setInverted(false);

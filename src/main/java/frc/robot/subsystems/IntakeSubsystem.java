@@ -18,29 +18,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class IntakeSubsystem extends SubsystemBase {
-  /** Creates a new Intake_subsystem. */
+
+  /* Variables */
   private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.IntakeDriveMotorID, MotorType.kBrushless);
-  private DigitalInput beambreak = new DigitalInput(Constants.Intake.IntkeBeamBreakDIO); 
+  private DigitalInput beamBreak = new DigitalInput(Constants.Intake.IntkeBeamBreakDIO);
 
-  public boolean beambreakValue = beambreak.get();
-  
+  public boolean beamBreakValue = beamBreak.get();
 
-    @Override
-    public void periodic() {
-      // This method will be called once per scheduler run
-      beambreakValue = !beambreak.get();
-      SmartDashboard.putBoolean("Beambreak Activated", beambreakValue); 
-      intakeMotor.setInverted(true);
-      
-    }
-
+  /** Creates a new IntakeSubsystem. */
+  public IntakeSubsystem() { }
 
     public boolean state() {
-      return beambreak.get(); 
+      return beamBreak.get(); 
     }
 
     public void GoUntilBeamBreak(double setSpeed) {
-      if (beambreakValue == false) {
+      if (beamBreakValue == false) {
         intakeMotor.set(setSpeed); 
       } else {
         intakeMotor.set(0); 
@@ -49,6 +42,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void IntakeGo(double setSpeed) {
       intakeMotor.set(setSpeed);
+    }
+
+    @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
+      beamBreakValue = !beamBreak.get();
+      SmartDashboard.putBoolean("Beambreak Activated", beamBreakValue); 
+      intakeMotor.setInverted(true);
     }
 
 }

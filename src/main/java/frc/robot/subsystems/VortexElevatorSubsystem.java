@@ -14,20 +14,20 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class VortexElevatorSub extends SubsystemBase {
+public class VortexElevatorSubsystem extends SubsystemBase {
+
+  /* Variables */
   private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.ElevatorLeaderID, MotorType.kBrushless);
   private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.ElevatorFollowerID, MotorType.kBrushless);
 
   private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.ElevatorTopLimitSwitch);
   private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.ElevatorBottomLimitSwitch);
   
-
-
   private SparkPIDController elevatorLeadPid;
   private RelativeEncoder elevatorLeadEncoder;
 
-
-  public VortexElevatorSub() {
+  /* Method Constructor */
+  public VortexElevatorSubsystem() {
     elevatorLeader.restoreFactoryDefaults();
     elevatorLeader.setInverted(false);
     elevatorFollower.setInverted(false);

@@ -5,13 +5,14 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.VortexClimberSub;
+import frc.robot.subsystems.VortexClimberSubsystem;
 
 public class VortexClimberDown extends Command {
-  private VortexClimberSub vortexClimberSub;
-  public VortexClimberDown(VortexClimberSub m_VortexClimberSub) {
-    vortexClimberSub = m_VortexClimberSub;    
-    addRequirements(vortexClimberSub);
+  private VortexClimberSubsystem m_vortexClimberSubsystem;
+
+  public VortexClimberDown(VortexClimberSubsystem vortexClimber) {
+    m_vortexClimberSubsystem /*help */ = vortexClimber;    
+    addRequirements(m_vortexClimberSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -21,13 +22,13 @@ public class VortexClimberDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    vortexClimberSub.climbDOWN();
+    m_vortexClimberSubsystem.climbDOWN();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    vortexClimberSub.climbSTOP();
+    m_vortexClimberSubsystem.climbSTOP();
   }
 
   // Returns true when the command should end.

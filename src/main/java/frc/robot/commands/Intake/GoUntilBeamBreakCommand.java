@@ -6,39 +6,41 @@ package frc.robot.commands.Intake;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class GoUntilBeamBreak extends Command {
-  /** Creates a new BeambreakIn. */
-  private IntakeSubsystem intakeMotor; 
-  private boolean fin = false;
-  public GoUntilBeamBreak(IntakeSubsystem m_intakeMotor) {
+public class GoUntilBeamBreakCommand extends Command {
+  
+  private IntakeSubsystem m_intakeSubsystem; 
+  private boolean finished = false;
+
+  /** Intake note until the beam break is triggered. */
+  public GoUntilBeamBreakCommand(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    intakeMotor = m_intakeMotor; 
-    addRequirements(intakeMotor);
+    this.m_intakeSubsystem = intake; 
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    fin = false;
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeMotor.GoUntilBeamBreak(0.5);
-    if (intakeMotor.beambreakValue == true) {
-      fin = true;
+    m_intakeSubsystem.GoUntilBeamBreak(0.5);
+    if (m_intakeSubsystem.beamBreakValue == true) {
+      finished = true;
       isFinished();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) { }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return fin;
+    return finished;
   }
 }

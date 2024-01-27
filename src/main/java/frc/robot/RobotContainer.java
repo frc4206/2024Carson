@@ -7,10 +7,10 @@ package frc.robot;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Climber.VortexClimberDown;
 import frc.robot.commands.Climber.VortexClimberPIDCommand;
-import frc.robot.commands.Climber.VortexClimberUp;
-import frc.robot.commands.Elevator.VortexElevatorDown;
+import frc.robot.commands.Climber.VortexClimberUpCommand;
+import frc.robot.commands.Elevator.VortexElevatorDownCommand;
 import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
-import frc.robot.commands.Intake.GoUntilBeamBreak;
+import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.IntakeGo;
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
@@ -18,8 +18,8 @@ import frc.robot.commands.Shooter.PivotCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
-import frc.robot.subsystems.VortexClimberSub;
-import frc.robot.subsystems.VortexElevatorSub;
+import frc.robot.subsystems.VortexClimberSubsystem;
+import frc.robot.subsystems.VortexElevatorSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,13 +39,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
  public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final FlywheelSubsystem m_FlywheelSubsystem = new FlywheelSubsystem();
+  private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
   // To fix on Monday
   public ShooterPositions position;
-  private final PivotSubsystem m_PivotSubsystem= new PivotSubsystem(position);
-  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
-  private final VortexClimberSub m_ClimberSub = new VortexClimberSub();
-  private final VortexElevatorSub m_ElevatorSub = new VortexElevatorSub();
+  private final PivotSubsystem m_pivotSubsystem= new PivotSubsystem(position);
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final VortexClimberSubsystem m_climberSub = new VortexClimberSubsystem();
+  private final VortexElevatorSubsystem m_elevatorSub = new VortexElevatorSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController =
@@ -71,19 +71,19 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
   private void configureBindings() {
     // Flywheel Bindings
-    driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_FlywheelSubsystem, 1000)); // finished
+    driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 1000)); // finished
     // Pivot Bindings
-    driverController.leftBumper().onTrue(new PivotCommand(m_PivotSubsystem, -100));
+    driverController.leftBumper().onTrue(new PivotCommand(m_pivotSubsystem, -100));
 
-    driverController.a().onTrue(new GoUntilBeamBreak(m_IntakeSubsystem));// finished :)
-    driverController.b().onTrue(new VortexClimberPIDCommand(m_ClimberSub));
-    driverController.x().onTrue(new VortexElevatorPIDCommand(m_ElevatorSub));
-    //driverController.a().onTrue(new VortexElevatorDown(m_ElevatorSub));
+    driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
+    driverController.b().onTrue(new VortexClimberPIDCommand(m_climberSub));
+    driverController.x().onTrue(new VortexElevatorPIDCommand(m_elevatorSub));
+    //driverController.a().onTrue(new VortexElevatorDownCommand(m_ElevatorSub));
     // Climber Bindings
-    //driverController.x().onTrue(new VortexClimberDown(null/*?????*/));
-    //driverController.y().onTrue(new VortexClimberUp(null/*?????*/));
-    //driverController.leftBumper().whileTrue(new IntakeCommand(flywheelSubsystem, 0.3));
-    //driverController.rightBumper().whileTrue(new IntakeCommand(flywheelSubsystem, -0.3));
+    //driverController.x().onTrue(new VortexClimberDownCommand(null/*?????*/));
+    //driverController.y().onTrue(new VortexClimberUpCommand(null/*?????*/));
+    //driverController.leftBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, 0.3));
+    //driverController.rightBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, -0.3));
     //driver.button(0, new FlywheelSpinCommand(null, driver));
   }
 

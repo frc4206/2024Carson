@@ -5,13 +5,15 @@
 package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.VortexElevatorSub;
+import frc.robot.subsystems.VortexElevatorSubsystem;
 
-public class VortexElevatorDown extends Command {
-  private VortexElevatorSub vortexElevatorSub;
-  public VortexElevatorDown(VortexElevatorSub m_VortexElevatorSub) {
-    vortexElevatorSub = m_VortexElevatorSub;
-    addRequirements(vortexElevatorSub);
+public class VortexElevatorDownCommand extends Command {
+  private VortexElevatorSubsystem m_vortexElevatorSubsystem;
+
+  /** The VortexElevatorDown command can be called whenever we need to go down the chain. */
+  public VortexElevatorDownCommand(VortexElevatorSubsystem vortexElevator) {
+    m_vortexElevatorSubsystem = vortexElevator;
+    addRequirements(vortexElevator);
   }
 
   // Called when the command is initially scheduled.
@@ -21,13 +23,13 @@ public class VortexElevatorDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    vortexElevatorSub.elevatorDOWN();
+    m_vortexElevatorSubsystem.elevatorDOWN();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    vortexElevatorSub.elevatorSTOP();
+    m_vortexElevatorSubsystem.elevatorSTOP();
   }
 
   // Returns true when the command should end.

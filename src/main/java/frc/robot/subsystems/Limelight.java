@@ -42,9 +42,9 @@ public class Limelight extends SubsystemBase {
     // This method will be called once per scheduler run
     limelightManger.Update();
 
-      if (!isenabled) {
-        ChangePipelines(0);
-        init= true;
-      }
+      //if (!isenabled) {
+      //  ChangePipelines(0);
+      //  init= true;
+      //}
   } 
 }

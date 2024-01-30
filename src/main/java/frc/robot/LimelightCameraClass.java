@@ -88,7 +88,7 @@ public class LimelightCameraClass {
     if (limelightTable.getEntry("pipeline").getDouble(0) == 2) {
         aprilTagResult = limelightTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
         aprilTagResult[2] *= -1;
-        Fieldresult = limelightTable.getEntry("botpose").getDoubleArray(new double[6]);
+        Fieldresult = limelightTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
     } else if (limelightTable.getEntry("pipeline").getDouble(0) == 1) {
         SmartDashboard.putNumber(limelightName + " ai distance: ", GetDistanceToGamePiece());
 

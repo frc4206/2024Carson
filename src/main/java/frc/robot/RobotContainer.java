@@ -13,9 +13,11 @@ import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
 import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.IntakeGo;
+import frc.robot.commands.LimeLight.ChangePipelineCommand;
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
 import frc.robot.commands.Shooter.PivotCommand;
 import frc.robot.commands.Swerve.TeleopSwerve;
+import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -27,6 +29,7 @@ import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -85,13 +88,18 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
     driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
     driverController.b().onTrue(new VortexClimberPIDCommand(m_climberSub));
     driverController.x().onTrue(new VortexElevatorPIDCommand(m_elevatorSub));
-    //driverController.a().onTrue(new VortexElevatorDownCommand(m_ElevatorSub));
+    //driverController.a().onTrue(new VortexElevatorDownCommand(m_elevatorSub));
     // Climber Bindings
     //driverController.x().onTrue(new VortexClimberDownCommand(null/*?????*/));
     //driverController.y().onTrue(new VortexClimberUpCommand(null/*?????*/));
     //driverController.leftBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, 0.3));
     //driverController.rightBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, -0.3));
     //driver.button(0, new FlywheelSpinCommand(null, driver));
+
+    //driverController.a().onTrue(new ChangePipelineCommand(m_Limelight, 0));
+    //driverController.b().onTrue(new ChangePipelineCommand(m_Limelight, 1));
+    //driverController.y().onTrue(new ChangePipelineCommand(m_Limelight, 2));
+    //driverController.x().onTrue(new ZeroGyroCommand(m_swerveSubsystem));
   }
 
   /**

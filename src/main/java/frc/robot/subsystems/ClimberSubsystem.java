@@ -18,13 +18,10 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
 
   /* Variables */
-<<<<<<< HEAD:src/main/java/frc/robot/subsystems/VortexClimberSubsystem.java
   private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
   //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
-=======
-  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.ClimberLeaderMotorID, MotorType.kBrushless);
+  private CANSparkFlex climberLeadMotor = new CANSparkFlex(Constants.Climber.ClimberLeadMotorID, MotorType.kBrushless);
   private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.ClimberFollowerID, MotorType.kBrushless);
->>>>>>> f6dda752cb7b14df35ba3e61ee0e49004cee7964:src/main/java/frc/robot/subsystems/ClimberSubsystem.java
 
   private SparkPIDController climbLeadPid;
   private RelativeEncoder climbLeadEncoder; /* top encoder */

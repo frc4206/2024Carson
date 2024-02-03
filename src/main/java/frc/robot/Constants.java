@@ -286,6 +286,8 @@ public final class Constants {
     public static final double vortexClimberSubsystemLeadFF = 0.0; 
     //MaxVel, MinVel, and MaxAccel are under autoconstants 
     public static final int vortexClimberSubsystemMaxVelID = 0;
+    public static final int ClimberLeadMotorID = 0;
+    public static final int ClimberFollowerID = 0;
   }
 
 

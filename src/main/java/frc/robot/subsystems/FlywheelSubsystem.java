@@ -8,8 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
+import frc.robot.Constants; 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -22,7 +21,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   //public CANSparkFlex pivotMotor = new CANSparkFlex(3, MotorType.kBrushless);
   //public CANSparkFlex intakeMotor = new CANSparkFlex(4, MotorType.kBrushless);
 
-  public DigitalInput beamBreak = new DigitalInput(Constants.Shooter.ShooterBeamBreak);
+  public DigitalInput shooterBeamBreak = new DigitalInput(Constants.Shooter.ShooterBeamBreak);
 
   public SparkPIDController flyController;
   public SparkPIDController pivotController;
@@ -67,7 +66,6 @@ public class FlywheelSubsystem extends SubsystemBase {
  //   intakeMotor.set(inSpeed);
   }
 
-
   //Name might need to be changed
   public void setVelocity(double setVelocity) {
     flyController.setReference(setVelocity, CANSparkFlex.ControlType.kVelocity);
@@ -80,7 +78,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Beam Break Activated?", beamBreak.get());
+    SmartDashboard.putBoolean("Beam Break Activated?", shooterBeamBreak.get());
   }
 }
  

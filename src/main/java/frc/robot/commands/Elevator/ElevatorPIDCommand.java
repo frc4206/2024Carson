@@ -7,12 +7,9 @@ package frc.robot.commands.Elevator;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.Command;
-<<<<<<< HEAD:src/main/java/frc/robot/commands/Elevator/VortexElevatorPIDCommand.java
 import frc.robot.Constants;
-import frc.robot.subsystems.VortexElevatorSubsystem;
-=======
+//import frc.robot.subsystems.VortexElevatorSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
->>>>>>> f6dda752cb7b14df35ba3e61ee0e49004cee7964:src/main/java/frc/robot/commands/Elevator/ElevatorPIDCommand.java
 
 public class ElevatorPIDCommand extends Command {
   

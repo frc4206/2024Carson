@@ -5,28 +5,31 @@
 package frc.robot;
 
 import frc.robot.commands.Autos;
-import frc.robot.commands.Climber.VortexClimberDown;
-import frc.robot.commands.Climber.VortexClimberPIDCommand;
-import frc.robot.commands.Climber.VortexClimberUpCommand;
-import frc.robot.commands.Elevator.VortexElevatorDownCommand;
-import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
+import frc.robot.commands.Climber.ClimberDownCommand;
+import frc.robot.commands.Climber.ClimberPIDCommand;
+import frc.robot.commands.Climber.ClimberUpCommand;
+import frc.robot.commands.Elevator.ElevatorDownCommand;
+import frc.robot.commands.Elevator.ElevatorPIDCommand;
 import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
 import frc.robot.commands.Intake.IntakeCommand;
-import frc.robot.commands.Intake.IntakeGo;
+import frc.robot.commands.Intake.IntakeGoCommand;
+import frc.robot.commands.LimeLight.ChangePipelineCommand;
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
 import frc.robot.commands.Shooter.PivotCommand;
 import frc.robot.commands.Swerve.TeleopSwerve;
+import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.VortexClimberSubsystem;
-import frc.robot.subsystems.VortexElevatorSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -40,17 +43,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 //Ctrl+F & looking for keywords can help find potential issues in the code or what needs to be changed. ex IDK, Change, etc.
 
 
- public class RobotContainer {
+public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
   // To fix on Monday
   public ShooterPositions position;
   private final PivotSubsystem m_pivotSubsystem= new PivotSubsystem(position);
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final VortexClimberSubsystem m_climberSub = new VortexClimberSubsystem();
-  private final VortexElevatorSubsystem m_elevatorSub = new VortexElevatorSubsystem();
+  private final ClimberSubsystem m_climberSub = new ClimberSubsystem();
+  private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
   private final Limelight m_Limelight = new Limelight();
-  SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_Limelight);
+  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_Limelight);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController =
@@ -83,15 +86,22 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
     driverController.leftBumper().onTrue(new PivotCommand(m_pivotSubsystem, -100));
 
     driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
-    driverController.b().onTrue(new VortexClimberPIDCommand(m_climberSub));
-    driverController.x().onTrue(new VortexElevatorPIDCommand(m_elevatorSub));
-    //driverController.a().onTrue(new VortexElevatorDownCommand(m_ElevatorSub));
+    driverController.b().onTrue(new ClimberPIDCommand(m_climberSub));
+    driverController.x().onTrue(new ElevatorPIDCommand(m_elevatorSub));
+    //driverController.a().onTrue(new ElevatorDownCommand(m_elevatorSub));
     // Climber Bindings
-    //driverController.x().onTrue(new VortexClimberDownCommand(null/*?????*/));
-    //driverController.y().onTrue(new VortexClimberUpCommand(null/*?????*/));
+    //driverController.x().onTrue(new ClimberDownCommand(null/*?????*/));
+    //driverController.y().onTrue(new ClimberUpCommand(null/*?????*/));
     //driverController.leftBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, 0.3));
     //driverController.rightBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, -0.3));
     //driver.button(0, new FlywheelSpinCommand(null, driver));
+
+    //driverController.a().onTrue(new ChangePipelineCommand(m_Limelight, 0));
+    //driverController.b().onTrue(new ChangePipelineCommand(m_Limelight, 1));
+    //driverController.y().onTrue(new ChangePipelineCommand(m_Limelight, 2));
+    //driverController.x().onTrue(new ZeroGyroCommand(m_swerveSubsystem));
+
+    new JoystickButton(controller, 1).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
   }
 
   /**

@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -158,13 +159,12 @@ public class SwerveSubsystem extends SubsystemBase {
         swerveOdometry.update(getYaw(), getModulePositions());
         resetOdometryLLFieldCords();
         
-        double[] OdometryArray = {getPose().getX(), getPose().getY()};
+        double[] OdometryArray = {getPose().getX(), getPose().getY(), getYaw().getDegrees()};
         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
         
         
         SmartDashboard.putNumber("Odometry X: ", OdometryArray[0]);
         SmartDashboard.putNumber("Odometry Y: ", OdometryArray[1]);
-        
         //Game piece positions
         if (limelight.limelightfront.GetPipeline() == 1) {
             limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());

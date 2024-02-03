@@ -4,22 +4,15 @@
 
 package frc.robot.commands.Elevator;
 
-import com.revrobotics.SparkPIDController;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.subsystems.VortexElevatorSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
-public class VortexElevatorPIDCommand extends Command {
-  
-  VortexElevatorSubsystem m_VortexElevatorSubsystem;
+public class ElevatorDownCommand extends Command {
+  private ElevatorSubsystem m_vortexElevatorSubsystem;
 
-  private SparkPIDController elvatorLeadPid;
-
-  /** Oh boy, it's PID time! */
-  public VortexElevatorPIDCommand(VortexElevatorSubsystem vortexElevator) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_VortexElevatorSubsystem = vortexElevator;
+  /** The VortexElevatorDown command can be called whenever we need to go down the chain. */
+  public ElevatorDownCommand(ElevatorSubsystem vortexElevator) {
+    m_vortexElevatorSubsystem = vortexElevator;
     addRequirements(vortexElevator);
   }
 
@@ -30,12 +23,14 @@ public class VortexElevatorPIDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_VortexElevatorSubsystem.GoToSetpoint(Constants.Elevator.ElevatorGoToSetPoint);
+    m_vortexElevatorSubsystem.elevatorDOWN();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_vortexElevatorSubsystem.elevatorSTOP();
+  }
 
   // Returns true when the command should end.
   @Override

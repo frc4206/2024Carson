@@ -11,27 +11,37 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class VortexClimberSubsystem extends SubsystemBase {
+public class ClimberSubsystem extends SubsystemBase {
 
   /* Variables */
+<<<<<<< HEAD:src/main/java/frc/robot/subsystems/VortexClimberSubsystem.java
   private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
   //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
+=======
+  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.ClimberLeaderMotorID, MotorType.kBrushless);
+  private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.ClimberFollowerID, MotorType.kBrushless);
+>>>>>>> f6dda752cb7b14df35ba3e61ee0e49004cee7964:src/main/java/frc/robot/subsystems/ClimberSubsystem.java
 
   private SparkPIDController climbLeadPid;
   private RelativeEncoder climbLeadEncoder; /* top encoder */
   //private RelativeEncoder climbBottomEncoder; /* bottom encoder */
+  PWM servo1 = new PWM(0);
+  PWM servo2 = new PWM(1);
 
   private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
 
   /* Method Constructor */
-  public VortexClimberSubsystem() {
+  public ClimberSubsystem() {
     climberLeaderMotor.restoreFactoryDefaults();
-    //climberFollowerMotor.restoreFactoryDefaults();
+    climberFollowerMotor.restoreFactoryDefaults();
     climberLeaderMotor.setInverted(false);
-    //climberFollowerMotor.setInverted(false);
+    climberFollowerMotor.setInverted(false);
+
+    climberFollowerMotor.follow(climberLeaderMotor);
 
     climbLeadEncoder = climberLeaderMotor.getEncoder();
     climbLeadPid = climberLeaderMotor.getPIDController();
@@ -66,6 +76,11 @@ public class VortexClimberSubsystem extends SubsystemBase {
 
   public void GoToSetpoint(double setpoint) {
     climbLeadPid.setReference(setpoint, ControlType.kPosition, 0);
+  }
+
+  public void setPosition(double pos) {
+    servo1.setPosition(pos);
+    servo2.setPosition(pos);
   }
 
   @Override

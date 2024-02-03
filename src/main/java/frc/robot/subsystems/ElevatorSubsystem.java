@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class VortexElevatorSubsystem extends SubsystemBase {
+public class ElevatorSubsystem extends SubsystemBase {
 
   /* Variables */
   private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.ElevatorLeaderID, MotorType.kBrushless);
@@ -27,7 +27,7 @@ public class VortexElevatorSubsystem extends SubsystemBase {
   private RelativeEncoder elevatorLeadEncoder;
 
   /* Method Constructor */
-  public VortexElevatorSubsystem() {
+  public ElevatorSubsystem() {
     elevatorLeader.restoreFactoryDefaults();
     elevatorLeader.setInverted(false);
     elevatorFollower.setInverted(false);

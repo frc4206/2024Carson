@@ -42,24 +42,26 @@ public class VortexElevatorSubsystem extends SubsystemBase {
     elevatorLeadPid = elevatorLeader.getPIDController();
     
     elevatorLeadPid.setFeedbackDevice(elevatorLeadEncoder);
-    elevatorLeadPid.setP(0.02);
-    elevatorLeadPid.setI(9e-8);
-    elevatorLeadPid.setD(0.0);
+    elevatorLeadPid.setP(Constants.Elevator.elevKP);
+    elevatorLeadPid.setI(Constants.Elevator.elevKI);
+    elevatorLeadPid.setD(Constants.Elevator.elevKD);
 
     elevatorFollower.follow(elevatorLeader);
   }
 
   public void elevatorSTOP() {
-    elevatorLeader.set(0);
+    elevatorFollower.follow(elevatorLeader);
+    elevatorLeader.set(Constants.Elevator.elevStopSpeed);
   }
 
   public void elevatorUP() {
-    elevatorLeader.set(0.8);
+    elevatorFollower.follow(elevatorLeader);
+    elevatorLeader.set(Constants.Elevator.elevUpSpeed);
   }
 
   public void elevatorDOWN() {
     elevatorFollower.follow(elevatorLeader);
-    elevatorLeader.set(-0.8);
+    elevatorLeader.set(Constants.Elevator.elevDownSpeed);
   }
 
   public void GoToSetpoint(double setpoint) {

@@ -7,6 +7,7 @@ package frc.robot.commands.Elevator;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.VortexElevatorSubsystem;
 
 public class VortexElevatorPIDCommand extends Command {
@@ -29,7 +30,7 @@ public class VortexElevatorPIDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_VortexElevatorSubsystem.GoToSetpoint(-100);
+    m_VortexElevatorSubsystem.GoToSetpoint(Constants.Elevator.ElevatorGoToSetPoint);
   }
 
   // Called once the command ends or is interrupted.

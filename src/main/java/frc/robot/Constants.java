@@ -39,6 +39,12 @@ public final class Constants {
     public static final double driveGearRatio = (6.75 / 1.0); //6.86:1
     public static final double angleGearRatio = (12.8 / 1.0); //12.8:1
 
+    public static final double objDetectMaxPosError = 0.02;
+    public static final double objDetectMaxRotationError = 1;
+
+    public static final double disOdometryMaxPosError = 0.2; 
+    public static final double disOdometryMasRotationError = 1;
+
     public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
             new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
@@ -67,6 +73,45 @@ public final class Constants {
     public static final double driveKI = 0.0;
     public static final double driveKD = 0.0;
     public static final double driveKF = 0.0;
+
+    /* Object Detection PID Values */
+    public static final double objDetectxKP = 0.0005;
+    public static final double objDetectxKI = 0.0;
+    public static final double objDetectxKD = 0.0;
+
+    public static final double objDetectyKP = 0.0005;
+    public static final double objDetectyKI = 0.0;
+    public static final double objDetectyKD = 0.0; 
+
+    public static final double objDetectYawKP = 0.0003; 
+    public static final double objDetectYawKI = 0.0;
+    public static final double objDetectYawKD = 0.0; 
+
+    /* Distance Odometry (2) PID Values */
+    public static final double disOdometryxKP = 0.0005; 
+    public static final double disOdometryxKI = 0.0;
+    public static final double disOdometryxKD = 0.0;
+
+    public static final double disOdometryYKP = 0.0005; 
+    public static final double disOdometryYKI = 0.0; 
+    public static final double disOdometryYKD = 0.0; 
+
+    public static final double disOdometryYawKP = 0.0003; 
+    public static final double disOdometryYawKI = 0.0; 
+    public static final double disOdometryYawKD = 0.0; 
+
+    /* PID To Game Piece PID Values */
+    public static final double toGamePiecexKP = 0.0002; 
+    public static final double toGamePiecexKI = 0.0; 
+    public static final double toGamePiecexKD = 0.0; 
+
+    public static final double toGamePieceyKP = 0.0; 
+    public static final double toGamePieceyKI = 0.0; 
+    public static final double toGamePieceyKD = 0.0; 
+
+    public static final double toGamePieceYawKP = 0.0002; 
+    public static final double toGamePieceYawKI = 0.0; 
+    public static final double toGamePieceYawKD = 0.0; 
 
     /* Drive Motor Characterization Values */
     //public static final double driveKS = (0.667 / 12); //divide by 12 to convert from volts to percent output for CTRE
@@ -137,6 +182,23 @@ public final class Constants {
 
   }
 
+   public static final class Limelight {
+    public static final int limelightFrontCamID = 1; 
+    public static final double limelightFrontAngle = 25; 
+    public static final double limelightFrontHeight = 24.5; 
+    public static final double limelightFrontTargetHeight = 0; 
+
+    public static final int limelightLeftCamID = 2;
+    public static final double limelightLeftAngle = 25; 
+    public static final double limelightLeftHeight = 24.5; 
+    public static final double limelightLeftTargetHeight = 0; 
+
+    public static final int limelightRightCamID = 3; 
+    public static final double limelightRightAngle = 25; 
+    public static final double limelightRightHeight = 24.5; 
+    public static final double limelightRightTargetHeight = 0; 
+   }
+
   public static final class Intake {
     public static final int IntakeDriveMotorID = 20;
     public static final int IntkeBeamBreakDIO = 0;
@@ -148,6 +210,50 @@ public final class Constants {
     public static final int ShooterPivotID = 27;
 
     public static final int ShooterBeamBreak = 1;
+    
+    /* Shooter Flywheel Values */
+    public static final double flyWheelIZone = 0.0;
+
+    public static final double flyWheelFF = 0.0; 
+
+    public static final double flyWheelMaxVel = 1; 
+    public static final int flyWheelMaxVelID = 0; 
+
+    public static final double flyWheelMinVel = -1;
+    public static final int flyWheelMinVelID = 0;
+
+    public static final double flyWheelMaxAccel = 100; 
+    public static final int flyWheelMaxAccelID = 0;
+
+    public static final double flyWheelAllowedError = 5; 
+    public static final int flyWheelAllowedErrorID = 0;
+
+    public static final double flyWheelKP = 0.00029; 
+    public static final double flyWheelKI = 7e-7; 
+    public static final double flyWheelKD = 0.0; 
+
+    /* Shooter Pivot Values */
+    public static final double pivotFF = 0.0; 
+
+    public static final double pivotMaxVel = 1; 
+    public static final int pivotMaxVelID = 0; 
+
+    public static final double pivotMinVel = -1; 
+    public static final int pivotMinVelID = 0; 
+
+    public static final double pivotMaxAccel = 100; 
+    public static final int pivotMaxAccelID = 0; 
+
+    public static final double pivotAllowedError = 5; 
+    public static final int pivotAllowedErrorID = 0;
+
+    public static final double pivotCurrLimit = 40; 
+
+    public static final double pivotKP = 0.02; 
+    public static final double pivotKI = 9e-8; 
+    public static final double pivotKD = 0.0; 
+
+
   }
 
   public static final class Elevator {
@@ -155,12 +261,31 @@ public final class Constants {
     public static final int ElevatorFollowerID = 31;   
     public static final int ElevatorTopLimitSwitch = 2;
     public static final int ElevatorBottomLimitSwitch = 3;
+    public static final int ElevatorGoToSetPoint = -100;
+
+    /* Elevator motor PID Values + motor speeds*/
+    public static final double elevKP = 0.02;
+    public static final double elevKI = 9e-8;
+    public static final double elevKD = 0.0;
+
+    public static final double elevStopSpeed = 0.0;
+    public static final double elevUpSpeed = 0.8;
+    public static final double elevDownSpeed = -0.8;
   }
 
   public static final class Climber {
-    public static final int ClimberLeaderMotorID = 35;
-    public static final int ClimberFollowerID = 36;
-    public static final int ClimberLimitSwitch = 4;
+    public static final int climberLeaderMotorID = 35;
+    public static final int climberFollowerID = 36;
+    public static final int climberLimitSwitch = 4;
+    public static final int climberGoToSetPoint = -100;
+
+    public static final double vortexClimberSubsystemLeadKP = 0.02; 
+    public static final double vortexClimberSubsystemLeadKI = 9e-8; 
+    public static final double vortexClimberSubsystemLeadKD = 0.0; 
+
+    public static final double vortexClimberSubsystemLeadFF = 0.0; 
+    //MaxVel, MinVel, and MaxAccel are under autoconstants 
+    public static final int vortexClimberSubsystemMaxVelID = 0;
   }
 
 

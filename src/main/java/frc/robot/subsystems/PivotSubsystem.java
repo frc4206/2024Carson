@@ -19,6 +19,8 @@ public class PivotSubsystem extends SubsystemBase {
 
   public RelativeEncoder relPivotEnc;
 
+  double [][] AngleData = { {0,0}, {1,1} };
+
   // To finish on Monday
   public enum ShooterPositions {
     SUBWOOFER,
@@ -39,16 +41,16 @@ public class PivotSubsystem extends SubsystemBase {
 
 
     pivotController.setFeedbackDevice(relPivotEnc);
-    pivotController.setP(0.02);
-    pivotController.setI(9e-8);
-    pivotController.setD(0.0);
-    pivotController.setFF(0.0);
-    pivotController.setSmartMotionMaxVelocity(1, 0);
-    pivotController.setSmartMotionMinOutputVelocity(-1, 0);
-    pivotController.setSmartMotionMaxAccel(100, 0);
-    pivotController.setSmartMotionAllowedClosedLoopError(5, 0);
-
-
+    pivotController.setP(Constants.Shooter.pivotKP);
+    pivotController.setI(Constants.Shooter.pivotKI);
+    pivotController.setD(Constants.Shooter.pivotKD);
+    pivotController.setFF(Constants.Shooter.pivotFF);
+    pivotController.setSmartMotionMaxVelocity(Constants.Shooter.pivotMaxVel, Constants.Shooter.pivotMaxVelID);
+    pivotController.setSmartMotionMinOutputVelocity(Constants.Shooter.pivotMinVel, Constants.Shooter.pivotMinVelID);
+    pivotController.setSmartMotionMaxAccel(Constants.Shooter.pivotMaxAccel, Constants.Shooter.pivotMaxAccelID);
+    pivotController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.pivotAllowedError, Constants.Shooter.pivotAllowedErrorID);
+ 
+    pivotMotor.setSmartCurrentLimit(40);
   }
 
   public void motorPivot(double pivotSpeed) {

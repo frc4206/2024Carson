@@ -5,6 +5,7 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.VortexClimberSubsystem;
 
 public class VortexClimberPIDCommand extends Command {
@@ -25,7 +26,7 @@ public class VortexClimberPIDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_vortexClimberSubsystem.GoToSetpoint(-100);
+    m_vortexClimberSubsystem.GoToSetpoint(Constants.Climber.climberGoToSetPoint);
   }
 
   // Called once the command ends or is interrupted.

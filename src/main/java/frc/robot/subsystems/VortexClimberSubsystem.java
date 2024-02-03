@@ -17,14 +17,14 @@ import frc.robot.Constants;
 public class VortexClimberSubsystem extends SubsystemBase {
 
   /* Variables */
-  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.ClimberLeaderMotorID, MotorType.kBrushless);
-  //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.ClimberFollowerID, MotorType.kBrushless);
+  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
+  //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
 
   private SparkPIDController climbLeadPid;
   private RelativeEncoder climbLeadEncoder; /* top encoder */
   //private RelativeEncoder climbBottomEncoder; /* bottom encoder */
 
-  private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.ClimberLimitSwitch);
+  private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
 
   /* Method Constructor */
   public VortexClimberSubsystem() {

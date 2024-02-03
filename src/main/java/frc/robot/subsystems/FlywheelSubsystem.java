@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -44,17 +45,16 @@ public class FlywheelSubsystem extends SubsystemBase {
     lowerFlyMotor.follow(upperFlyMotor);
 
     flyController.setFeedbackDevice(relFlyEnc);
-    flyController.setP(0.00029);
-    flyController.setI(7e-7);
-    flyController.setD(0.0);
-    flyController.setIZone(0);
-    flyController.setFF(0.0);
-    flyController.setSmartMotionMaxVelocity(1, 0);
-    flyController.setSmartMotionMinOutputVelocity(-1, 0);
-    flyController.setSmartMotionMaxAccel(100, 0);
-    flyController.setSmartMotionAllowedClosedLoopError(5, 0);
-//
+    flyController.setP(Constants.Shooter.flyWheelKP);
+    flyController.setI(Constants.Shooter.flyWheelKI);
+    flyController.setD(Constants.Shooter.flyWheelKD);
 
+    flyController.setIZone(Constants.Shooter.flyWheelIZone); 
+    flyController.setFF(Constants.Shooter.flyWheelFF); 
+    flyController.setSmartMotionMaxVelocity(Constants.Shooter.flyWheelMaxVel, Constants.Shooter.flyWheelMaxVelID);
+    flyController.setSmartMotionMinOutputVelocity(Constants.Shooter.flyWheelMinVel, Constants.Shooter.flyWheelMinVelID);
+    flyController.setSmartMotionMaxAccel(Constants.Shooter.flyWheelMaxAccel, Constants.Shooter.flyWheelMaxAccelID);
+    flyController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.flyWheelAllowedError, Constants.Shooter.flyWheelAllowedErrorID);
   }
 
   public void motorTurn(double flySpeed) {}

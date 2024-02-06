@@ -28,7 +28,7 @@ public class GoUntilBeamBreakCommand extends Command {
   @Override
   public void execute() {
     m_intakeSubsystem.GoUntilBeamBreak(0.5);
-    if (m_intakeSubsystem.intakeBeamBreakValue == true) {
+    if (m_intakeSubsystem.beamBreakValue == true) {
       finished = true;
       isFinished();
     }

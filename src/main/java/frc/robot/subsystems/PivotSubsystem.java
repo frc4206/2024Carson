@@ -19,6 +19,8 @@ public class PivotSubsystem extends SubsystemBase {
 
   public RelativeEncoder relPivotEnc;
 
+  double [][] AngleData = { {0,0}, {1,1} };
+
   // To finish on Monday
   public enum ShooterPositions {
     SUBWOOFER,
@@ -39,6 +41,7 @@ public class PivotSubsystem extends SubsystemBase {
 
 
     pivotController.setFeedbackDevice(relPivotEnc);
+<<<<<<< HEAD
     pivotController.setP(0.02);
     pivotController.setI(9e-8);
     pivotController.setD(0.0);
@@ -52,6 +55,18 @@ public class PivotSubsystem extends SubsystemBase {
       setPos(0);
     }
 
+=======
+    pivotController.setP(Constants.Shooter.pivotKP);
+    pivotController.setI(Constants.Shooter.pivotKI);
+    pivotController.setD(Constants.Shooter.pivotKD);
+    pivotController.setFF(Constants.Shooter.pivotFF);
+    pivotController.setSmartMotionMaxVelocity(Constants.Shooter.pivotMaxVel, Constants.Shooter.pivotMaxVelID);
+    pivotController.setSmartMotionMinOutputVelocity(Constants.Shooter.pivotMinVel, Constants.Shooter.pivotMinVelID);
+    pivotController.setSmartMotionMaxAccel(Constants.Shooter.pivotMaxAccel, Constants.Shooter.pivotMaxAccelID);
+    pivotController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.pivotAllowedError, Constants.Shooter.pivotAllowedErrorID);
+ 
+    pivotMotor.setSmartCurrentLimit(40);
+>>>>>>> 6546fa63cbe1b0524233a06b260b322e7b4bd9f1
   }
 
   public PivotSubsystem() {

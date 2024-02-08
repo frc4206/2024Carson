@@ -18,7 +18,9 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
 
   /* Variables */
-  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.ClimberLeaderMotorID, MotorType.kBrushless);
+  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
+  //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
+  private CANSparkFlex climberLeadMotor = new CANSparkFlex(Constants.Climber.ClimberLeadMotorID, MotorType.kBrushless);
   private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.ClimberFollowerID, MotorType.kBrushless);
 
   private SparkPIDController climbLeadPid;
@@ -27,7 +29,7 @@ public class ClimberSubsystem extends SubsystemBase {
   PWM servo1 = new PWM(0);
   PWM servo2 = new PWM(1);
 
-  private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.ClimberLimitSwitch);
+  private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
 
   /* Method Constructor */
   public ClimberSubsystem() {

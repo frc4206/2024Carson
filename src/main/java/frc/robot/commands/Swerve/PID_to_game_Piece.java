@@ -4,6 +4,8 @@
 
 package frc.robot.commands.Swerve;
 
+import java.lang.invoke.ConstantCallSite;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
@@ -13,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class PID_to_game_Peice extends Command {
+public class PID_to_game_Piece extends Command {
   /** Creates a new PID_DistanceOdometry2. */
   private double rotation;
   private Translation2d translation;
@@ -31,11 +33,11 @@ public class PID_to_game_Peice extends Command {
   private double current_time;
   private double timeout;
 
-  public PIDController pidx = new PIDController(0.0002, 0, 0);
-  public PIDController pidy = new PIDController(0.000, 0, 0);
-  public PIDController pidyaw = new PIDController(0.0002, 0, 0);
+  public PIDController pidx = new PIDController(Constants.Swerve.toGamePiecexKP, Constants.Swerve.toGamePiecexKI, Constants.Swerve.toGamePiecexKD);
+  public PIDController pidy = new PIDController(Constants.Swerve.toGamePieceyKP, Constants.Swerve.toGamePieceyKI, Constants.Swerve.toGamePieceyKD);
+  public PIDController pidyaw = new PIDController(Constants.Swerve.toGamePieceYawKP, Constants.Swerve.toGamePieceYawKI, Constants.Swerve.toGamePieceYawKD);
 
-  public PID_to_game_Peice(SwerveSubsystem s_Swerve, boolean fieldRelative, boolean openLoop, boolean advanced_setpoints, double timeout) {
+  public PID_to_game_Piece(SwerveSubsystem s_Swerve, boolean fieldRelative, boolean openLoop, boolean advanced_setpoints, double timeout) {
       this.s_Swerve = s_Swerve;
       addRequirements(s_Swerve);
       this.fieldRelative = fieldRelative;
@@ -62,8 +64,8 @@ public class PID_to_game_Peice extends Command {
     double X_Output = 0;
     double Y_Output = 0;
 
-    SmartDashboard.putNumber("x game peice pos", x_set);
-    SmartDashboard.putNumber("y game peice pos", y_set);
+    SmartDashboard.putNumber("x game piece pos", x_set);
+    SmartDashboard.putNumber("y game piece pos", y_set);
 
     if (advanced_setpoints) {
       fieldRelative = true;
@@ -74,7 +76,7 @@ public class PID_to_game_Peice extends Command {
       X_Output = (s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece() == 0) ? X_Output : pidx.calculate(s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
       rotation = pidyaw.calculate(s_Swerve.limelight.limelightfront.limelightTable.getEntry("tx").getDouble(0), 0);
       SmartDashboard.putNumber("angle", s_Swerve.limelight.limelightfront.limelightTable.getEntry("tx").getDouble(0));
-      SmartDashboard.putNumber("distance to game peice in command", s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
+      SmartDashboard.putNumber("distance to game piece in command", s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
     }
     
     SmartDashboard.putNumber("pid output piece ", X_Output);

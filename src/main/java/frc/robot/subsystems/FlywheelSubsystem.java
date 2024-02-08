@@ -4,11 +4,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
+import frc.robot.Constants; 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -21,7 +21,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   //public CANSparkFlex pivotMotor = new CANSparkFlex(3, MotorType.kBrushless);
   //public CANSparkFlex intakeMotor = new CANSparkFlex(4, MotorType.kBrushless);
 
-  public DigitalInput beamBreak = new DigitalInput(Constants.Shooter.ShooterBeamBreak);
+  public DigitalInput shooterBeamBreak = new DigitalInput(Constants.Shooter.ShooterBeamBreak);
 
   public SparkPIDController flyController;
   public SparkPIDController pivotController;
@@ -44,17 +44,16 @@ public class FlywheelSubsystem extends SubsystemBase {
     lowerFlyMotor.follow(upperFlyMotor);
 
     flyController.setFeedbackDevice(relFlyEnc);
-    flyController.setP(0.00029);
-    flyController.setI(7e-7);
-    flyController.setD(0.0);
-    flyController.setIZone(0);
-    flyController.setFF(0.0);
-    flyController.setSmartMotionMaxVelocity(1, 0);
-    flyController.setSmartMotionMinOutputVelocity(-1, 0);
-    flyController.setSmartMotionMaxAccel(100, 0);
-    flyController.setSmartMotionAllowedClosedLoopError(5, 0);
-//
+    flyController.setP(Constants.Shooter.flyWheelKP);
+    flyController.setI(Constants.Shooter.flyWheelKI);
+    flyController.setD(Constants.Shooter.flyWheelKD);
 
+    flyController.setIZone(Constants.Shooter.flyWheelIZone); 
+    flyController.setFF(Constants.Shooter.flyWheelFF); 
+    flyController.setSmartMotionMaxVelocity(Constants.Shooter.flyWheelMaxVel, Constants.Shooter.flyWheelMaxVelID);
+    flyController.setSmartMotionMinOutputVelocity(Constants.Shooter.flyWheelMinVel, Constants.Shooter.flyWheelMinVelID);
+    flyController.setSmartMotionMaxAccel(Constants.Shooter.flyWheelMaxAccel, Constants.Shooter.flyWheelMaxAccelID);
+    flyController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.flyWheelAllowedError, Constants.Shooter.flyWheelAllowedErrorID);
   }
 
   public void motorTurn(double flySpeed) {}
@@ -66,7 +65,6 @@ public class FlywheelSubsystem extends SubsystemBase {
   public void IntakeMotor(double inSpeed) {
  //   intakeMotor.set(inSpeed);
   }
-
 
   //Name might need to be changed
   public void setVelocity(double setVelocity) {
@@ -80,7 +78,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Beam Break Activated?", beamBreak.get());
+    SmartDashboard.putBoolean("Beam Break Activated?", shooterBeamBreak.get());
   }
 }
  

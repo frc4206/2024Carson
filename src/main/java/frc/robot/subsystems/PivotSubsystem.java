@@ -48,7 +48,14 @@ public class PivotSubsystem extends SubsystemBase {
     pivotController.setSmartMotionMaxAccel(100, 0);
     pivotController.setSmartMotionAllowedClosedLoopError(5, 0);
 
+    if(position == null) {
+      setPos(0);
+    }
 
+  }
+
+  public PivotSubsystem() {
+    this(null);
   }
 
   public void motorPivot(double pivotSpeed) {
@@ -59,7 +66,7 @@ public class PivotSubsystem extends SubsystemBase {
     pivotController.setReference(xCoordinate, CANSparkFlex.ControlType.kPosition);
   }
 
-  public void runMotor (double speed) {
+  public void runMotor(double speed) {
     pivotMotor.set(speed);
   }
 
@@ -67,16 +74,16 @@ public class PivotSubsystem extends SubsystemBase {
   public void setFieldRelativePosition(int degrees, ShooterPositions position) {
     switch(position) {
       case SUBWOOFER:
-        pivotController.setReference(0 /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference( Constants.Shooter.SUBWOOFERPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
         break;
       case PODIUM:
-        pivotController.setReference(0 /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference(Constants.Shooter.PODIUMPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
         break;
       case AMPLIFIER:
-        pivotController.setReference(0 /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference(Constants.Shooter.AMPLIFIERPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
         break;
       case WING:
-        pivotController.setReference(0 /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference(Constants.Shooter.WINGPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
         break;
     }
   }

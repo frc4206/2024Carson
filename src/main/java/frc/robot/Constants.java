@@ -148,6 +148,11 @@ public final class Constants {
     public static final int ShooterPivotID = 27;
 
     public static final int ShooterBeamBreak = 1;
+
+    public static final double SUBWOOFERPosition = 0;
+    public static final double PODIUMPosition = 0;
+    public static final double AMPLIFIERPosition = 0;
+    public static final double WINGPosition = 0;
   }
 
   public static final class Elevator {

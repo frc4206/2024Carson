@@ -70,6 +70,9 @@ public class LimelightCameraClass {
   public double[] GetGamePiecePosition(double[] OdometryArray, double angle) {
         double[] gamePiecePos = {0,0};
 
+        angle %= 360;
+        angle = (angle < 0) ? 360 + angle: angle;
+
         gamePiecePos[0] = OdometryArray[0] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.sin(angle - limelightTable.getEntry("tx").getDouble(0));
         gamePiecePos[1] = OdometryArray[1] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.cos(angle - limelightTable.getEntry("tx").getDouble(0)); 
 

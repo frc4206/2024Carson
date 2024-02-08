@@ -73,8 +73,13 @@ public class LimelightCameraClass {
         angle %= 360;
         angle = (angle < 0) ? 360 + angle: angle;
 
-        gamePiecePos[0] = OdometryArray[0] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.sin(angle - limelightTable.getEntry("tx").getDouble(0));
-        gamePiecePos[1] = OdometryArray[1] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.cos(angle - limelightTable.getEntry("tx").getDouble(0)); 
+        double limelightXangle = limelightTable.getEntry("tx").getDouble(0);
+
+        //limelightXangle = (limelightXangle < 0) ? 360 + limelightXangle : limelightXangle;
+        double finalAngle = (angle + limelightXangle) % 360;
+
+        gamePiecePos[0] = OdometryArray[0] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.sin(finalAngle);
+        gamePiecePos[1] = OdometryArray[1] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.cos(finalAngle); 
 
         SmartDashboard.putNumber(limelightName + " game piece X", gamePiecePos[0]);
         SmartDashboard.putNumber(limelightName + " game piece Y", gamePiecePos[1]);

@@ -41,21 +41,6 @@ public class PivotSubsystem extends SubsystemBase {
 
 
     pivotController.setFeedbackDevice(relPivotEnc);
-<<<<<<< HEAD
-    pivotController.setP(0.02);
-    pivotController.setI(9e-8);
-    pivotController.setD(0.0);
-    pivotController.setFF(0.0);
-    pivotController.setSmartMotionMaxVelocity(1, 0);
-    pivotController.setSmartMotionMinOutputVelocity(-1, 0);
-    pivotController.setSmartMotionMaxAccel(100, 0);
-    pivotController.setSmartMotionAllowedClosedLoopError(5, 0);
-
-    if(position == null) {
-      setPos(0);
-    }
-
-=======
     pivotController.setP(Constants.Shooter.pivotKP);
     pivotController.setI(Constants.Shooter.pivotKI);
     pivotController.setD(Constants.Shooter.pivotKD);
@@ -66,7 +51,6 @@ public class PivotSubsystem extends SubsystemBase {
     pivotController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.pivotAllowedError, Constants.Shooter.pivotAllowedErrorID);
  
     pivotMotor.setSmartCurrentLimit(40);
->>>>>>> 6546fa63cbe1b0524233a06b260b322e7b4bd9f1
   }
 
   public PivotSubsystem() {

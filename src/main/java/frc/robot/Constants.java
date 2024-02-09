@@ -276,6 +276,8 @@ public final class Constants {
     public static final double elevStopSpeed = 0.0;
     public static final double elevUpSpeed = 0.8;
     public static final double elevDownSpeed = -0.8;
+
+    public static final double elevResetPosition = 7.5;
   }
 
   public static final class Climber {
@@ -293,6 +295,8 @@ public final class Constants {
     public static final int vortexClimberSubsystemMaxVelID = 0;
     public static final int ClimberLeadMotorID = 0;
     public static final int ClimberFollowerID = 0;
+
+    public static final double climberResetPosition = 7.5;
   }
 
 

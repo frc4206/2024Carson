@@ -29,7 +29,8 @@ public class ClimberSubsystem extends SubsystemBase {
   PWM servo1 = new PWM(0);
   PWM servo2 = new PWM(1);
 
-  private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
+  private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
+  private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
 
   /* Method Constructor */
   public ClimberSubsystem() {
@@ -83,11 +84,11 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if(climberLimitSwitch.get()) {
+    if(TopClimberLimitSwitch.get()) {
       climbLeadEncoder.setPosition(0);
     }
-    /*if(climberBottomSwitch.get()) {
-      climbLeadEncoder.setPosition(7.5);
-    } */
+    if(BottomClimberLimitSwitch.get()) {
+      climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
+    } 
   }
 }

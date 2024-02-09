@@ -78,7 +78,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
     /* Get value from testing!! */
     if(elevatorTopLimitSwitch.get()) {
-      elevatorLeadEncoder.setPosition(7.5);
+      elevatorLeadEncoder.setPosition(Constants.Elevator.elevResetPosition);
     }
   }
 }

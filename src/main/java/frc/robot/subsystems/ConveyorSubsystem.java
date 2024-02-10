@@ -6,12 +6,14 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ConveyorSubsystem extends SubsystemBase {
   /** Creates a new ConveryorSubsystem. */
-  private CANSparkFlex conveyorMotor = new CANSparkFlex(37, MotorType.kBrushless);
+  private CANSparkFlex conveyorMotor = new CANSparkFlex(Constants.Conveyor.conveyorMotorID, MotorType.kBrushless);
 
   public ConveyorSubsystem() {}
 

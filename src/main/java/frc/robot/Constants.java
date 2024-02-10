@@ -300,6 +300,9 @@ public final class Constants {
     public static final double climberResetPosition = 7.5;
   }
 
+  public static final class Conveyor {
+    public static final int conveyorMotorID = 37; // PLACEHOLDER!!!
+  }
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 3;

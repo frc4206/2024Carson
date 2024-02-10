@@ -8,6 +8,8 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.Climber.ClimberDownCommand;
 import frc.robot.commands.Climber.ClimberPIDCommand;
 import frc.robot.commands.Climber.ClimberUpCommand;
+import frc.robot.commands.Conveyor.ConveyorBackCommand;
+import frc.robot.commands.Conveyor.ConveyorForwardCommand;
 import frc.robot.commands.Elevator.ElevatorDownCommand;
 import frc.robot.commands.Elevator.ElevatorPIDCommand;
 import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
@@ -24,6 +26,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import edu.wpi.first.wpilibj.Joystick;
@@ -54,6 +57,7 @@ public class RobotContainer {
   private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
   private final Limelight m_Limelight = new Limelight();
   private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_Limelight);
+  private final ConveyorSubsystem m_conveyorSub = new ConveyorSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController =
@@ -88,6 +92,9 @@ public class RobotContainer {
     driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
     driverController.b().onTrue(new ClimberPIDCommand(m_climberSub));
     driverController.x().onTrue(new ElevatorPIDCommand(m_elevatorSub));
+
+    driverController.pov(0).onTrue(new ConveyorForwardCommand(m_conveyorSub));//PLACEHOLDER BUTTONS
+    driverController.pov(180).onTrue(new ConveyorBackCommand(m_conveyorSub));
     //driverController.a().onTrue(new ElevatorDownCommand(m_elevatorSub));
     // Climber Bindings
     //driverController.x().onTrue(new ClimberDownCommand(null/*?????*/));

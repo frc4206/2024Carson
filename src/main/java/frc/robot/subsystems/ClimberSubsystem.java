@@ -20,8 +20,8 @@ public class ClimberSubsystem extends SubsystemBase {
   /* Variables */
   private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
   //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
-  private CANSparkFlex climberLeadMotor = new CANSparkFlex(Constants.Climber.ClimberLeadMotorID, MotorType.kBrushless);
-  private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.ClimberFollowerID, MotorType.kBrushless);
+  private CANSparkFlex climberLeadMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
+  private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
 
   private SparkPIDController climbLeadPid;
   private RelativeEncoder climbLeadEncoder; /* top encoder */

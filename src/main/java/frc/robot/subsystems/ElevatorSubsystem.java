@@ -17,11 +17,11 @@ import frc.robot.Constants;
 public class ElevatorSubsystem extends SubsystemBase {
 
   /* Variables */
-  private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.ElevatorLeaderID, MotorType.kBrushless);
-  private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.ElevatorFollowerID, MotorType.kBrushless);
+  private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.elevatorLeaderID, MotorType.kBrushless);
+  private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.elevatorFollowerID, MotorType.kBrushless);
 
-  private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.ElevatorTopLimitSwitch);
-  private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.ElevatorBottomLimitSwitch);
+  private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.elevatorTopLimitSwitch);
+  private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.elevatorBottomLimitSwitch);
   
   private SparkPIDController elevatorLeadPid;
   private RelativeEncoder elevatorLeadEncoder;

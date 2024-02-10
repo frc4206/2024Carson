@@ -293,9 +293,9 @@ public final class Constants {
     public static final double vortexClimberSubsystemLeadFF = 0.0; 
     //MaxVel, MinVel, and MaxAccel are under autoconstants 
     public static final int vortexClimberSubsystemMaxVelID = 0;
-    //public static final int climberLeadMotorID = 0;
-    //public static final int climberFollowerID = 0;
-    // these 2 lines ^ are declared twice(look at 285 & 286)
+    public static final int ClimberLeadMotorID = 0;
+    public static final int ClimberFollowerID = 0;
+    // these 2 lines ^ are declared twice(look at 285 & 286) I think they are supposed to be different motors than above
 
     public static final double climberResetPosition = 7.5;
   }

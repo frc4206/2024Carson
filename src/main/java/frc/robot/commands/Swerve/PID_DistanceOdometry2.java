@@ -68,7 +68,7 @@ public class PID_DistanceOdometry2 extends Command {
     double yaw_error = Math.abs(s_Swerve.getYaw().getDegrees()) - (yaw_set);
     SmartDashboard.putNumber("Current time", current_time);
 
-    if ((x_error < Constants.Swerve.disOdometryMaxPosError && y_error < Constants.Swerve.disOdometryMaxPosError && yaw_error < Constants.Swerve.disOdometryMasRotationError)|| current_time > timeout) {
+    if ((x_error < Constants.Swerve.disOdometryMaxPosError && y_error < Constants.Swerve.disOdometryMaxPosError && yaw_error < Constants.Swerve.disOdometryMaxRotationError)|| current_time > timeout) {
       isFinished = true;
       isFinished();
     }

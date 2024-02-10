@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IntakeSubsystem extends SubsystemBase {
 
   /* Variables */
-  private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.IntakeDriveMotorID, MotorType.kBrushless);
-  private DigitalInput beamBreak = new DigitalInput(Constants.Intake.IntkeBeamBreakDIO);
+  private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.intakeDriveMotorID, MotorType.kBrushless);
+  private DigitalInput beamBreak = new DigitalInput(Constants.Intake.intakeBeamBreakDIO);
 
   public boolean beamBreakValue = beamBreak.get();
 

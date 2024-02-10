@@ -32,7 +32,7 @@ public class PID_Distance_Object_Detection extends Command {
   private double timeout;
   
   public PIDController pidx = new PIDController(Constants.Swerve.objDetectxKP, Constants.Swerve.objDetectxKI, Constants.Swerve.objDetectxKD);
-  public PIDController pidy = new PIDController(Constants.Swerve.objDetectyKP, Constants.Swerve.objDetectyKI, Constants.Swerve.objDetectyKD);
+  public PIDController pidy = new PIDController(Constants.Swerve.objDetectYKP, Constants.Swerve.objDetectYKI, Constants.Swerve.objDetectYKD);
   public PIDController pidyaw = new PIDController(Constants.Swerve.objDetectYawKP, Constants.Swerve.objDetectYawKI, Constants.Swerve.objDetectYawKD);
 
   double Go_to_Target_Distance;

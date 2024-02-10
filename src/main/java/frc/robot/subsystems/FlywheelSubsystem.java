@@ -16,12 +16,12 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class FlywheelSubsystem extends SubsystemBase {
 
-  public CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.ShooterLeadMotorID, MotorType.kBrushless); // TMNTBC!
-  public CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.ShooterFollowerID, MotorType.kBrushless);
+  public CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.shooterLeadMotorID, MotorType.kBrushless); // TMNTBC!
+  public CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.shooterFollowerID, MotorType.kBrushless);
   //public CANSparkFlex pivotMotor = new CANSparkFlex(3, MotorType.kBrushless);
   //public CANSparkFlex intakeMotor = new CANSparkFlex(4, MotorType.kBrushless);
 
-  public DigitalInput shooterBeamBreak = new DigitalInput(Constants.Shooter.ShooterBeamBreak);
+  public DigitalInput shooterBeamBreak = new DigitalInput(Constants.Shooter.shooterBeamBreak);
 
   public SparkPIDController flyController;
   public SparkPIDController pivotController;

@@ -34,7 +34,7 @@ public class PID_to_game_Piece extends Command {
   private double timeout;
 
   public PIDController pidx = new PIDController(Constants.Swerve.toGamePiecexKP, Constants.Swerve.toGamePiecexKI, Constants.Swerve.toGamePiecexKD);
-  public PIDController pidy = new PIDController(Constants.Swerve.toGamePieceyKP, Constants.Swerve.toGamePieceyKI, Constants.Swerve.toGamePieceyKD);
+  public PIDController pidy = new PIDController(Constants.Swerve.toGamePieceYKP, Constants.Swerve.toGamePieceYKI, Constants.Swerve.toGamePieceYKD);
   public PIDController pidyaw = new PIDController(Constants.Swerve.toGamePieceYawKP, Constants.Swerve.toGamePieceYawKI, Constants.Swerve.toGamePieceYawKD);
 
   public PID_to_game_Piece(SwerveSubsystem s_Swerve, boolean fieldRelative, boolean openLoop, boolean advanced_setpoints, double timeout) {

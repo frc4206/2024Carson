@@ -14,7 +14,7 @@ import frc.robot.Constants;
 
 public class PivotSubsystem extends SubsystemBase {
 
-  public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Shooter.ShooterPivotID, MotorType.kBrushless);
+  public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Shooter.shooterPivotID, MotorType.kBrushless);
   public SparkPIDController pivotController;
 
   public RelativeEncoder relPivotEnc;

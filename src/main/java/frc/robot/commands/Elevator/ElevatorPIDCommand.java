@@ -31,7 +31,7 @@ public class ElevatorPIDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_VortexElevatorSubsystem.GoToSetpoint(Constants.Elevator.ElevatorGoToSetPoint);
+    m_VortexElevatorSubsystem.GoToSetpoint(Constants.Elevator.elevatorGoToSetPoint);
   }
 
   // Called once the command ends or is interrupted.

@@ -21,12 +21,15 @@ public class IntakeSubsystem extends SubsystemBase {
 
   /* Variables */
   private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.intakeDriveMotorID, MotorType.kBrushless);
+  private CANSparkFlex intakeFollowerMotor = new CANSparkFlex(Constants.Intake.intakeFollowerMotorID, MotorType.kBrushless);
   private DigitalInput beamBreak = new DigitalInput(Constants.Intake.intakeBeamBreakDIO);
 
   public boolean beamBreakValue = beamBreak.get();
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() { }
+  public IntakeSubsystem() { 
+    intakeFollowerMotor.follow(intakeMotor);
+  }
 
     public boolean state() {
       return beamBreak.get(); 

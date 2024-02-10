@@ -201,7 +201,7 @@ public final class Constants {
 
   public static final class Intake {
     public static final int intakeDriveMotorID = 20;
-    public static final int intkeBeamBreakDIO = 0;
+    public static final int intakeBeamBreakDIO = 0;
   }
 
   public static final class Shooter {

@@ -12,14 +12,10 @@ import frc.robot.Constants;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-//THIS SUBSYSTEM CONTAINS THE FLYWHEELS, INTAKE, AND PIVOT
-
 public class FlywheelSubsystem extends SubsystemBase {
 
-  public CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.shooterLeadMotorID, MotorType.kBrushless); // TMNTBC!
+  public CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.shooterLeadMotorID, MotorType.kBrushless); 
   public CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.shooterFollowerID, MotorType.kBrushless);
-  //public CANSparkFlex pivotMotor = new CANSparkFlex(3, MotorType.kBrushless);
-  //public CANSparkFlex intakeMotor = new CANSparkFlex(4, MotorType.kBrushless);
 
   public DigitalInput shooterBeamBreak = new DigitalInput(Constants.Shooter.shooterBeamBreak);
 
@@ -32,10 +28,6 @@ public class FlywheelSubsystem extends SubsystemBase {
   public FlywheelSubsystem() {
     upperFlyMotor.restoreFactoryDefaults();
     lowerFlyMotor.restoreFactoryDefaults();
-    //pivotMotor.restoreFactoryDefaults();
-    //intakeMotor.restoreFactoryDefaults();
-//
-    //pivotMotor.setIdleMode(IdleMode.kBrake);//might be bad IDK
 
     flyController = upperFlyMotor.getPIDController();
 
@@ -81,4 +73,4 @@ public class FlywheelSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Beam Break Activated?", shooterBeamBreak.get());
   }
 }
- 
+//Marco

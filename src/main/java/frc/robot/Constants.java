@@ -43,7 +43,7 @@ public final class Constants {
     public static final double objDetectMaxRotationError = 1;
 
     public static final double disOdometryMaxPosError = 0.2; 
-    public static final double disOdometryMasRotationError = 1;
+    public static final double disOdometryMaxRotationError = 1;
 
     public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
             new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
@@ -79,9 +79,9 @@ public final class Constants {
     public static final double objDetectxKI = 0.0;
     public static final double objDetectxKD = 0.0;
 
-    public static final double objDetectyKP = 0.0005;
-    public static final double objDetectyKI = 0.0;
-    public static final double objDetectyKD = 0.0; 
+    public static final double objDetectYKP = 0.0005;
+    public static final double objDetectYKI = 0.0;
+    public static final double objDetectYKD = 0.0; 
 
     public static final double objDetectYawKP = 0.0003; 
     public static final double objDetectYawKI = 0.0;
@@ -105,9 +105,9 @@ public final class Constants {
     public static final double toGamePiecexKI = 0.0; 
     public static final double toGamePiecexKD = 0.0; 
 
-    public static final double toGamePieceyKP = 0.0; 
-    public static final double toGamePieceyKI = 0.0; 
-    public static final double toGamePieceyKD = 0.0; 
+    public static final double toGamePieceYKP = 0.0; 
+    public static final double toGamePieceYKI = 0.0; 
+    public static final double toGamePieceYKD = 0.0; 
 
     public static final double toGamePieceYawKP = 0.0002; 
     public static final double toGamePieceYawKI = 0.0; 
@@ -142,7 +142,7 @@ public final class Constants {
         public static final int driveMotorID = 7; //3
         public static final int angleMotorID = 8; //4
         public static final int canCoderID = 11; //9
-        public static double angleOffset = 0.849;//314.5 these aren't accurate just refences
+        public static double angleOffset = 0.849;//314.5 these aren't accurate just refrences
         public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
@@ -200,16 +200,16 @@ public final class Constants {
    }
 
   public static final class Intake {
-    public static final int IntakeDriveMotorID = 20;
-    public static final int IntkeBeamBreakDIO = 0;
+    public static final int intakeDriveMotorID = 20;
+    public static final int intkeBeamBreakDIO = 0;
   }
 
   public static final class Shooter {
-    public static final int ShooterLeadMotorID = 25;
-    public static final int ShooterFollowerID = 26;
-    public static final int ShooterPivotID = 27;
+    public static final int shooterLeadMotorID = 25;
+    public static final int shooterFollowerID = 26;
+    public static final int shooterPivotID = 27;
 
-    public static final int ShooterBeamBreak = 1;
+    public static final int shooterBeamBreak = 1;
 
     public static final double SUBWOOFERPosition = 0;
     public static final double PODIUMPosition = 0;
@@ -262,11 +262,11 @@ public final class Constants {
   }
 
   public static final class Elevator {
-    public static final int ElevatorLeaderID = 30;
-    public static final int ElevatorFollowerID = 31;   
-    public static final int ElevatorTopLimitSwitch = 2;
-    public static final int ElevatorBottomLimitSwitch = 3;
-    public static final int ElevatorGoToSetPoint = -100;
+    public static final int elevatorLeaderID = 30;
+    public static final int elevatorFollowerID = 31;   
+    public static final int elevatorTopLimitSwitch = 2;
+    public static final int elevatorBottomLimitSwitch = 3;
+    public static final int elevatorGoToSetPoint = -100;
 
     /* Elevator motor PID Values + motor speeds*/
     public static final double elevKP = 0.02;
@@ -293,8 +293,9 @@ public final class Constants {
     public static final double vortexClimberSubsystemLeadFF = 0.0; 
     //MaxVel, MinVel, and MaxAccel are under autoconstants 
     public static final int vortexClimberSubsystemMaxVelID = 0;
-    public static final int ClimberLeadMotorID = 0;
-    public static final int ClimberFollowerID = 0;
+    //public static final int climberLeadMotorID = 0;
+    //public static final int climberFollowerID = 0;
+    // these 2 lines ^ are declared twice(look at 285 & 286)
 
     public static final double climberResetPosition = 7.5;
   }

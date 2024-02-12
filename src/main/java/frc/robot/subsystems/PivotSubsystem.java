@@ -73,7 +73,7 @@ public class PivotSubsystem extends SubsystemBase {
   public void setFieldRelativePosition(int degrees, ShooterPositions position) {
     switch(position) {
       case SUBWOOFER:
-        pivotController.setReference( Constants.Shooter.SUBWOOFERPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference(Constants.Shooter.SUBWOOFERPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
         break;
       case PODIUM:
         pivotController.setReference(Constants.Shooter.PODIUMPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);

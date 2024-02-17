@@ -20,7 +20,7 @@ public class ClimberSubsystem extends SubsystemBase {
   /* Variables */
   private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
   //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
-  private CANSparkFlex climberLeadMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
+  //private CANSparkFlex climberLeadMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
   private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
 
   private SparkPIDController climbLeadPid;
@@ -29,8 +29,8 @@ public class ClimberSubsystem extends SubsystemBase {
   PWM servo1 = new PWM(0);
   PWM servo2 = new PWM(1);
 
-  private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
-  private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
+  //private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
+  //private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
 
   /* Method Constructor */
   public ClimberSubsystem() {
@@ -84,11 +84,11 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if(TopClimberLimitSwitch.get()) {
-      climbLeadEncoder.setPosition(0);
-    }
-    if(BottomClimberLimitSwitch.get()) {
-      climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
-    } 
+    //if(TopClimberLimitSwitch.get()) {
+    //  climbLeadEncoder.setPosition(0);
+    //}
+    //if(BottomClimberLimitSwitch.get()) {
+    //  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
+    //} 
   }
 }

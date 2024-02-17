@@ -8,16 +8,21 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.Climber.ClimberDownCommand;
 import frc.robot.commands.Climber.ClimberPIDCommand;
 import frc.robot.commands.Climber.ClimberUpCommand;
+import frc.robot.commands.Climber.RunServoCommand;
 import frc.robot.commands.Conveyor.ConveyorBackCommand;
 import frc.robot.commands.Conveyor.ConveyorForwardCommand;
 import frc.robot.commands.Elevator.ElevatorDownCommand;
 import frc.robot.commands.Elevator.ElevatorPIDCommand;
+import frc.robot.commands.Elevator.ElevatorUpCommand;
 import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.IntakeGoCommand;
+import frc.robot.commands.Intake.IntakeOutCommand;
 import frc.robot.commands.LimeLight.ChangePipelineCommand;
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
 import frc.robot.commands.Shooter.PivotCommand;
+import frc.robot.commands.Shooter.PivotUpCommand;
+import frc.robot.commands.Shooter.ShooterIntakeCommand;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
@@ -66,6 +71,10 @@ public class RobotContainer {
   private final CommandXboxController driver = new CommandXboxController(1);
   private final Joystick controller = new Joystick(0);
 
+  private final CommandXboxController driverController2 = 
+      new CommandXboxController(2);
+
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -84,17 +93,37 @@ public class RobotContainer {
    */
 
   private void configureBindings() {
+    //ALL COMMANDS TEST: 
+    driverController.y().onTrue(new ConveyorForwardCommand(m_conveyorSub));
+    driverController.b().onTrue(new ConveyorBackCommand(m_conveyorSub));
+    driverController.a().onTrue(new IntakeOutCommand(m_intakeSubsystem));
+    driverController.x().onTrue(new IntakeGoCommand(m_intakeSubsystem));
+
+    driverController.leftBumper().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));
+    driverController.rightBumper().onTrue(new ElevatorDownCommand(m_elevatorSub));
+    driverController.leftTrigger().onTrue(new ElevatorPIDCommand(m_elevatorSub));
+    driverController.rightTrigger().onTrue(new ElevatorUpCommand(m_elevatorSub));
+
+    driverController2.y().onTrue(new ClimberDownCommand(m_climberSub));
+    driverController2.b().onTrue(new ClimberPIDCommand(m_climberSub));
+    driverController2.a().onTrue(new ClimberUpCommand(m_climberSub));
+
+    driverController2.x().onTrue(new RunServoCommand(m_climberSub, 0));
+    driverController2.leftBumper().onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 0.8));
+    driverController2.rightBumper().onTrue(new PivotCommand(m_pivotSubsystem, 0.8));
+    driverController2.leftTrigger().onTrue(new PivotUpCommand(m_pivotSubsystem));
+
     // Flywheel Bindings
-    driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 1000)); // finished
+    //driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 1000)); // finished
     // Pivot Bindings
-    driverController.leftBumper().onTrue(new PivotCommand(m_pivotSubsystem, -100));
+    //driverController.leftBumper().onTrue(new PivotCommand(m_pivotSubsystem, -100));
 
-    driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
-    driverController.b().onTrue(new ClimberPIDCommand(m_climberSub));
-    driverController.x().onTrue(new ElevatorPIDCommand(m_elevatorSub));
+    //driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
+    //driverController.b().onTrue(new ClimberPIDCommand(m_climberSub));
+    //driverController.x().onTrue(new ElevatorPIDCommand(m_elevatorSub));
 
-    driverController.pov(0).onTrue(new ConveyorForwardCommand(m_conveyorSub));//PLACEHOLDER BUTTONS
-    driverController.pov(180).onTrue(new ConveyorBackCommand(m_conveyorSub));
+    //driverController.pov(0).onTrue(new ConveyorForwardCommand(m_conveyorSub));//PLACEHOLDER BUTTONS
+    //driverController.pov(180).onTrue(new ConveyorBackCommand(m_conveyorSub));
     //driverController.a().onTrue(new ElevatorDownCommand(m_elevatorSub));
     // Climber Bindings
     //driverController.x().onTrue(new ClimberDownCommand(null/*?????*/));
@@ -108,7 +137,7 @@ public class RobotContainer {
     //driverController.y().onTrue(new ChangePipelineCommand(m_Limelight, 2));
     //driverController.x().onTrue(new ZeroGyroCommand(m_swerveSubsystem));
 
-    new JoystickButton(controller, 1).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
+    //new JoystickButton(controller, 1).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
   }
 
   /**

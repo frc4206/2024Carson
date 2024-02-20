@@ -24,10 +24,10 @@ public class ClimberSubsystem extends SubsystemBase {
   private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
 
   private SparkPIDController climbLeadPid;
-  private RelativeEncoder climbLeadEncoder; /* top encoder */
+  public RelativeEncoder climbLeadEncoder; /* top encoder */
   //private RelativeEncoder climbBottomEncoder; /* bottom encoder */
-  PWM servo1 = new PWM(0);
-  PWM servo2 = new PWM(1);
+  PWM servoRight = new PWM(Constants.Climber.servoRightID);
+  PWM servoLeft = new PWM(Constants.Climber.servoLeftID);
 
   //private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
   //private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
@@ -63,12 +63,12 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void climbUP() {
-    climberLeaderMotor.set(0.8);
+    climberLeaderMotor.set(0.3);
     //climberFollowerMotor.set(0.8);
   }
 
   public void climbDOWN() {
-    climberLeaderMotor.set(-0.8);
+    climberLeaderMotor.set(-0.3);
     //climberFollowerMotor.set(-0.8);
   }
 
@@ -77,8 +77,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setPosition(double pos) {
-    servo1.setPosition(pos);
-    servo2.setPosition(pos);
+    servoRight.setPosition(pos);
+    servoLeft.setPosition(pos);
   }
 
   @Override

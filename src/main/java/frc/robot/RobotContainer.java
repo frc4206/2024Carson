@@ -5,6 +5,9 @@
 package frc.robot;
 
 import frc.robot.commands.Shooter.ShooterToSpeaker;
+import frc.robot.commands.Climber.ClimberDownCommand;
+import frc.robot.commands.Climber.ClimberUpCommand;
+import frc.robot.commands.Climber.RunServoCommand;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.commands.Intake.GoUntilNote;
 import frc.robot.commands.Intake.IntakeGoCommand;
@@ -64,7 +67,7 @@ public class RobotContainer {
   private void configureBindings() {
     // new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
     new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
-    new JoystickButton(driver, 2).whileTrue(new IntakeGoCommand(m_intakeSubsystem));
+    //new JoystickButton(driver, 2).whileTrue(new IntakeGoCommand(m_intakeSubsystem));
     new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
     new Trigger(() -> this.getRightTrigger(driver)).onTrue(new ShooterStopCommand(m_flywheelSubsystem));
@@ -73,8 +76,13 @@ public class RobotContainer {
     // new JoystickButton(driver, 7).whileTrue(new ElevatorDownCommand(m_elevatorSub));
     //new JoystickButton(driver, 8).whileTrue(new ElevatorUpCommand(m_elevatorSub));
     new JoystickButton(driver, 7).onTrue(new PivotCommand(m_pivotSubsystem, 2));
-    new JoystickButton(driver, 8).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
-    new JoystickButton(driver, 10).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -1));
+    //new JoystickButton(driver, 8).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
+    //new JoystickButton(driver, 10).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -1));
+    new JoystickButton(driver, 8).onTrue(new ClimberUpCommand(m_climberSub));
+    new JoystickButton(driver, 9).onTrue(new ClimberDownCommand(m_climberSub));
+    new JoystickButton(driver, 10).onTrue(new RunServoCommand(m_climberSub, 0.3)); 
+    new JoystickButton(driver, 2).onTrue(new RunServoCommand(m_climberSub, 0));  
+
   }
 
   

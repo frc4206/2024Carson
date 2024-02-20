@@ -76,24 +76,7 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-<<<<<<< HEAD
-    // Flywheel Bindings
-    driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 1000)); // finished
-    // Pivot Bindings
-    driverController.leftBumper().onTrue(new PivotCommand(m_pivotSubsystem, -100));
 
-    driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
-    driverController.b().onTrue(new VortexClimberPIDCommand(m_climberSub));
-    driverController.x().onTrue(new VortexElevatorPIDCommand(m_elevatorSub));
-    //driverController.a().onTrue(new VortexElevatorDownCommand(m_ElevatorSub));
-    // Climber Bindings
-    //driverController.x().onTrue(new VortexClimberDownCommand(null/*?????*/));
-    //driverController.y().onTrue(new VortexClimberUpCommand(null/*?????*/));
-    //driverController.leftBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, 0.3));
-    //driverController.rightBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, -0.3));
-    //driver.button(0, new FlywheelSpinCommand(null, driver));
-    new JoystickButton(controller, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-=======
     // new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
     new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
     //new JoystickButton(driver, 2).whileTrue(new IntakeGoCommand(m_intakeSubsystem));
@@ -105,7 +88,6 @@ public class RobotContainer {
     // new JoystickButton(driver, 7).whileTrue(new ElevatorDownCommand(m_elevatorSub));
     //new JoystickButton(driver, 8).whileTrue(new ElevatorUpCommand(m_elevatorSub));
     new JoystickButton(driver, 7).onTrue(new PivotCommand(m_pivotSubsystem, 2));
-<<<<<<< HEAD
     //new JoystickButton(driver, 8).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
     //new JoystickButton(driver, 10).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -1));
     new JoystickButton(driver, 8).onTrue(new ClimberUpCommand(m_climberSub));
@@ -113,11 +95,6 @@ public class RobotContainer {
     new JoystickButton(driver, 10).onTrue(new RunServoCommand(m_climberSub, 0.3)); 
     new JoystickButton(driver, 2).onTrue(new RunServoCommand(m_climberSub, 0));  
 
-=======
-    new JoystickButton(driver, 8).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
-    new JoystickButton(driver, 10).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -1));
->>>>>>> 1725b5071bfaf19ae4e1bbf48168f71274ef1f58
->>>>>>> 707b1a7effa91230e00550012748f25820f58f5d
   }
 
   

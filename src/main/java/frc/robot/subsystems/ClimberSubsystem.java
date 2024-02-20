@@ -11,27 +11,35 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class VortexClimberSubsystem extends SubsystemBase {
+public class ClimberSubsystem extends SubsystemBase {
 
   /* Variables */
-  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.ClimberLeaderMotorID, MotorType.kBrushless);
-  //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.ClimberFollowerID, MotorType.kBrushless);
+  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
+  //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
+  //private CANSparkFlex climberLeadMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
+  private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
 
   private SparkPIDController climbLeadPid;
   private RelativeEncoder climbLeadEncoder; /* top encoder */
   //private RelativeEncoder climbBottomEncoder; /* bottom encoder */
+  PWM servo1 = new PWM(0);
+  PWM servo2 = new PWM(1);
 
-  private DigitalInput climberLimitSwitch = new DigitalInput(Constants.Climber.ClimberLimitSwitch);
+  //private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
+  //private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
 
   /* Method Constructor */
-  public VortexClimberSubsystem() {
+  public ClimberSubsystem() {
     climberLeaderMotor.restoreFactoryDefaults();
-    //climberFollowerMotor.restoreFactoryDefaults();
+    climberFollowerMotor.restoreFactoryDefaults();
     climberLeaderMotor.setInverted(false);
-    //climberFollowerMotor.setInverted(false);
+    climberFollowerMotor.setInverted(false);
+
+    climberFollowerMotor.follow(climberLeaderMotor);
 
     climbLeadEncoder = climberLeaderMotor.getEncoder();
     climbLeadPid = climberLeaderMotor.getPIDController();
@@ -68,14 +76,19 @@ public class VortexClimberSubsystem extends SubsystemBase {
     climbLeadPid.setReference(setpoint, ControlType.kPosition, 0);
   }
 
+  public void setPosition(double pos) {
+    servo1.setPosition(pos);
+    servo2.setPosition(pos);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if(climberLimitSwitch.get()) {
-      climbLeadEncoder.setPosition(0);
-    }
-    /*if(climberBottomSwitch.get()) {
-      climbLeadEncoder.setPosition(7.5);
-    } */
+    //if(TopClimberLimitSwitch.get()) {
+    //  climbLeadEncoder.setPosition(0);
+    //}
+    //if(BottomClimberLimitSwitch.get()) {
+    //  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
+    //} 
   }
 }

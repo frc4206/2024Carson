@@ -2,27 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.LimeLight;
+package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class ChangePipelineCommand extends Command {
-  /** Creates a new ChangePipelineCommand. */
-  Limelight m_Limelight;
-  int m_pip;
-  public ChangePipelineCommand(Limelight Limelight, int pip) {
-    m_Limelight = Limelight;
-    m_pip = pip;
-    addRequirements(Limelight);
+public class RunServoCommand extends Command {
+  
+  public ClimberSubsystem m_climber;
+  public double servoPosition;
+  
+  /** Creates a new RunServoCommand. */
+  public RunServoCommand(ClimberSubsystem climber, double servoPos) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_climber = climber;
+    servoPosition = servoPos;
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println(m_pip);
-    m_Limelight.limelightManger.changeAllPipelines(m_pip);
+    m_climber.setPosition(servoPosition);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

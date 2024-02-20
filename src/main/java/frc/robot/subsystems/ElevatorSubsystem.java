@@ -14,52 +14,51 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class VortexElevatorSubsystem extends SubsystemBase {
+public class ElevatorSubsystem extends SubsystemBase {
 
   /* Variables */
-  private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.ElevatorLeaderID, MotorType.kBrushless);
-  private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.ElevatorFollowerID, MotorType.kBrushless);
+  private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.elevatorLeaderID, MotorType.kBrushless);
+  private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.elevatorFollowerID, MotorType.kBrushless);
 
-  private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.ElevatorTopLimitSwitch);
-  private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.ElevatorBottomLimitSwitch);
+  private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.elevatorTopLimitSwitch);
+  private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.elevatorBottomLimitSwitch);
   
   private SparkPIDController elevatorLeadPid;
   private RelativeEncoder elevatorLeadEncoder;
 
   /* Method Constructor */
-  public VortexElevatorSubsystem() {
-    elevatorLeader.restoreFactoryDefaults();
-    elevatorLeader.setInverted(false);
-    elevatorFollower.setInverted(false);
-    
-
+  public ElevatorSubsystem() {
     elevatorLeader.restoreFactoryDefaults();
     elevatorFollower.restoreFactoryDefaults();
-    elevatorLeader.setInverted(false);
+    
+    elevatorLeader.setInverted(true);
     elevatorFollower.setInverted(false);
 
     elevatorLeadEncoder = elevatorLeader.getEncoder();
     elevatorLeadPid = elevatorLeader.getPIDController();
     
     elevatorLeadPid.setFeedbackDevice(elevatorLeadEncoder);
-    elevatorLeadPid.setP(0.02);
-    elevatorLeadPid.setI(9e-8);
-    elevatorLeadPid.setD(0.0);
+    elevatorLeadPid.setP(Constants.Elevator.elevKP);
+    elevatorLeadPid.setI(Constants.Elevator.elevKI);
+    elevatorLeadPid.setD(Constants.Elevator.elevKD);
 
-    elevatorFollower.follow(elevatorLeader);
+    elevatorLeader.burnFlash();
+    elevatorFollower.burnFlash();
   }
 
   public void elevatorSTOP() {
-    elevatorLeader.set(0);
+    elevatorLeader.set(Constants.Elevator.elevStopSpeed);
+    elevatorFollower.set(Constants.Elevator.elevStopSpeed);
   }
 
   public void elevatorUP() {
-    elevatorLeader.set(0.8);
+    elevatorLeader.set(Constants.Elevator.elevUpSpeed);
+    elevatorFollower.set(Constants.Elevator.elevUpSpeed);
   }
 
   public void elevatorDOWN() {
-    elevatorFollower.follow(elevatorLeader);
-    elevatorLeader.set(-0.8);
+    elevatorLeader.set(Constants.Elevator.elevDownSpeed);
+    elevatorFollower.set(Constants.Elevator.elevDownSpeed);
   }
 
   public void GoToSetpoint(double setpoint) {
@@ -76,7 +75,7 @@ public class VortexElevatorSubsystem extends SubsystemBase {
     }
     /* Get value from testing!! */
     if(elevatorTopLimitSwitch.get()) {
-      elevatorLeadEncoder.setPosition(7.5);
+      elevatorLeadEncoder.setPosition(Constants.Elevator.elevResetPosition);
     }
   }
 }

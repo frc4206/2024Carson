@@ -10,17 +10,18 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.LimelightCameraClass;
 import frc.robot.LimelightCameraManagerClass;
 
 public class Limelight extends SubsystemBase {
 /** Creates a new Limelight. */
 
-  public LimelightCameraClass limelightfront = new LimelightCameraClass(1, "limelight-front", 25, 24.5, 0);
-  LimelightCameraClass limelightleft = new LimelightCameraClass(2, "limelight-left", 25, 24.5, 0);
-  LimelightCameraClass limelightright = new LimelightCameraClass(3, "limelight-right", 25, 24.5, 0);
+  public LimelightCameraClass limelightshooter = new LimelightCameraClass(Constants.Limelight.limelightFrontCamID, "limelight-shooter", Constants.Limelight.limelightFrontAngle, Constants.Limelight.limelightFrontHeight, Constants.Limelight.limelightFrontTargetHeight);
+  LimelightCameraClass limelightleft = new LimelightCameraClass(Constants.Limelight.limelightLeftCamID, "limelight-left", Constants.Limelight.limelightLeftAngle, Constants.Limelight.limelightLeftHeight, Constants.Limelight.limelightLeftTargetHeight);
+  LimelightCameraClass limelightright = new LimelightCameraClass(Constants.Limelight.limelightRightCamID, "limelight-right", Constants.Limelight.limelightRightAngle, Constants.Limelight.limelightRightHeight, Constants.Limelight.limelightRightTargetHeight);
 
-  LimelightCameraClass[] limelightList = {limelightfront, limelightleft, limelightright};
+  LimelightCameraClass[] limelightList = {limelightshooter, limelightleft, limelightright};
 
   public LimelightCameraManagerClass limelightManger = new LimelightCameraManagerClass(limelightList);
 
@@ -42,9 +43,9 @@ public class Limelight extends SubsystemBase {
     // This method will be called once per scheduler run
     limelightManger.Update();
 
-      if (!isenabled) {
-        ChangePipelines(0);
-        init= true;
-      }
+      //if (!isenabled) {
+      //  ChangePipelines(0);
+      //  init= true;
+      //}
   } 
 }

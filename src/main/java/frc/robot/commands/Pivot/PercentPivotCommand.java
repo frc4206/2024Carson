@@ -2,19 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Elevator;
+package frc.robot.commands.Pivot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.VortexElevatorSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
 
-public class VortexElevatorUpCommand extends Command {
-
-  private VortexElevatorSubsystem m_VortexElevatorSubsystem;
-
-  /** The VortexElevatorUp command can be called when we need to go up (what it is I'm not exactly sure). */
-  public VortexElevatorUpCommand(VortexElevatorSubsystem vortexElevator) {
-    m_VortexElevatorSubsystem = vortexElevator;
-    addRequirements(vortexElevator);
+public class PercentPivotCommand extends Command {
+  private PivotSubsystem pivot;
+  double percent;
+  public PercentPivotCommand(PivotSubsystem m_pivot, double per) {
+    pivot = m_pivot;
+    percent = per;
+    addRequirements(pivot);
   }
 
   // Called when the command is initially scheduled.
@@ -24,13 +23,13 @@ public class VortexElevatorUpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_VortexElevatorSubsystem.elevatorUP();
+    pivot.runMotor(percent);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_VortexElevatorSubsystem.elevatorSTOP();
+    pivot.runMotor(0);
   }
 
   // Returns true when the command should end.

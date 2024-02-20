@@ -1,9 +1,12 @@
 package frc.robot.subsystems;
 
+import org.opencv.core.Mat;
+
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 import frc.robot.SwerveModule;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -12,6 +15,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -20,13 +24,15 @@ public class SwerveSubsystem extends SubsystemBase {
     //public Limelight m_PhotonVision;
     public Limelight limelight;
     public SwerveDriveOdometry swerveOdometry;
-    public static SwerveModule[] mSwerveMods;
+    public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
     Rotation2d noRotation2d = new Rotation2d(0,0);
     Pose2d noPose2d = new Pose2d(0,0, noRotation2d);
     public double[] convertedCords = {0,0};
     public Pose2d AprilCords = new Pose2d(0,0, noRotation2d);
     public double currPercent = 1;
+
+    
 
 
     public double[] gamePiecePos = {0,0};
@@ -141,10 +147,10 @@ public class SwerveSubsystem extends SubsystemBase {
     //-------------------------------------------------------------------------------------------------------
 
     public void resetOdometryLLFieldCords() {
-        if (limelight.limelightfront.GetPipeline() == 2) {
+        if (limelight.limelightshooter.GetPipeline() == 2) {
             double[] rawcords = limelight.getFieldCordsTEST();
             Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
-            if (limelight.limelightfront.HasTarget() != 0 || limelight.limelightright.HasTarget() != 0 || limelight.limelightleft.HasTarget() != 0) {
+            if (limelight.limelightshooter.HasTarget() != 0 || limelight.limelightright.HasTarget() != 0 || limelight.limelightleft.HasTarget() != 0) {
                 resetOdometry(fieldcords);
             }
         }
@@ -158,15 +164,14 @@ public class SwerveSubsystem extends SubsystemBase {
         swerveOdometry.update(getYaw(), getModulePositions());
         resetOdometryLLFieldCords();
         
-        double[] OdometryArray = {getPose().getX(), getPose().getY()};
+        double[] OdometryArray = {getPose().getX(), getPose().getY(), getYaw().getDegrees()};
         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
         
         
         SmartDashboard.putNumber("Odometry X: ", OdometryArray[0]);
         SmartDashboard.putNumber("Odometry Y: ", OdometryArray[1]);
-        
         //Game piece positions
-        if (limelight.limelightfront.GetPipeline() == 1) {
+        if (limelight.limelightshooter.GetPipeline() == 1) {
             limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
         }
 
@@ -184,5 +189,16 @@ public class SwerveSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Falcon degrees", mod.mAngleMotor.getPosition().getValueAsDouble());
         }
+
+
+        double angle = gyro.getYaw().getValueAsDouble() % 360;
+        angle = (angle < 0) ? 360 + angle: angle;
+
+        double[] flywheelArray = {OdometryArray[0] + Constants.Shooter.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Shooter.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
+
+        GlobalVariables.distanceToSpeaker = Math.sqrt((flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) * (flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) + (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY) * (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY));
+        SmartDashboard.putNumber("Distance to speaker", GlobalVariables.distanceToSpeaker);
+
+        SmartDashboard.putNumber("desired angle", (((66 + (-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75);
     }
 }

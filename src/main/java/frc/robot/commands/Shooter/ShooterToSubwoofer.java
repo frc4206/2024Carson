@@ -2,27 +2,29 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.LimeLight;
+package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Limelight;
+import frc.robot.GlobalVariables;
+import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 
-public class ChangePipelineCommand extends Command {
-  /** Creates a new ChangePipelineCommand. */
-  Limelight m_Limelight;
-  int m_pip;
-  public ChangePipelineCommand(Limelight Limelight, int pip) {
-    m_Limelight = Limelight;
-    m_pip = pip;
-    addRequirements(Limelight);
-    // Use addRequirements() here to declare subsystem dependencies.
+public class ShooterToSubwoofer extends Command {
+  private PivotSubsystem m_pivot;
+  private boolean isFinished = false;
+  public ShooterToSubwoofer(FlywheelSubsystem shooter, PivotSubsystem pivot) {
+    m_pivot = pivot;
+    addRequirements(m_pivot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println(m_pip);
-    m_Limelight.limelightManger.changeAllPipelines(m_pip);
+    GlobalVariables.shooterAutomatic = false;
+    m_pivot.position = ShooterPositions.SUBWOOFER;
+    isFinished = true;
+    isFinished();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +38,6 @@ public class ChangePipelineCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }

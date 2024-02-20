@@ -4,83 +4,74 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
+import frc.robot.Constants; 
 import com.revrobotics.*;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-//THIS SUBSYSTEM CONTAINS THE FLYWHEELS, INTAKE, AND PIVOT
-
 public class FlywheelSubsystem extends SubsystemBase {
-
-  public CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.ShooterLeadMotorID, MotorType.kBrushless); // TMNTBC!
-  public CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.ShooterFollowerID, MotorType.kBrushless);
-  //public CANSparkFlex pivotMotor = new CANSparkFlex(3, MotorType.kBrushless);
-  //public CANSparkFlex intakeMotor = new CANSparkFlex(4, MotorType.kBrushless);
-
-  public DigitalInput beamBreak = new DigitalInput(Constants.Shooter.ShooterBeamBreak);
-
-  public SparkPIDController flyController;
-  public SparkPIDController pivotController;
-
-  public RelativeEncoder relFlyEnc;
+  private CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.shooterLeadMotorID, MotorType.kBrushless); 
+  private CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.shooterFollowerID, MotorType.kBrushless);
+  private RelativeEncoder upperFlyEncoder = upperFlyMotor.getEncoder();
+  private RelativeEncoder lowerFlyEncoder = lowerFlyMotor.getEncoder();
+  private SparkPIDController upperFlyController = upperFlyMotor.getPIDController();
+  private SparkPIDController lowerFlyController = lowerFlyMotor.getPIDController();
 
   /** Creates a new FlywheelSubsystem. */
   public FlywheelSubsystem() {
     upperFlyMotor.restoreFactoryDefaults();
     lowerFlyMotor.restoreFactoryDefaults();
-    //pivotMotor.restoreFactoryDefaults();
-    //intakeMotor.restoreFactoryDefaults();
-//
-    //pivotMotor.setIdleMode(IdleMode.kBrake);//might be bad IDK
+    
+    upperFlyMotor.setInverted(true);
+    lowerFlyMotor.setInverted(true);
+    upperFlyMotor.setIdleMode(IdleMode.kCoast);
+    lowerFlyMotor.setIdleMode(IdleMode.kCoast);
 
-    flyController = upperFlyMotor.getPIDController();
+    upperFlyController.setFeedbackDevice(upperFlyEncoder);
+    upperFlyController.setP(Constants.Shooter.flyWheelKP);
+    upperFlyController.setI(Constants.Shooter.flyWheelKI);
+    upperFlyController.setD(Constants.Shooter.flyWheelKD);
+    upperFlyController.setIZone(Constants.Shooter.flyWheelIZone); 
+    upperFlyController.setFF(Constants.Shooter.flyWheelFF); 
+    upperFlyController.setOutputRange(-1, 1, 0);
+    upperFlyController.setSmartMotionMaxVelocity(Constants.Shooter.flyWheelMaxVel, Constants.Shooter.flyWheelMaxVelID);
+    upperFlyController.setSmartMotionMaxAccel(Constants.Shooter.flyWheelMaxAccel, Constants.Shooter.flyWheelMaxAccelID);
+    upperFlyController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.flyWheelAllowedError, Constants.Shooter.flyWheelAllowedErrorID);
 
-    relFlyEnc = upperFlyMotor.getEncoder();
-
-    lowerFlyMotor.follow(upperFlyMotor);
-
-    flyController.setFeedbackDevice(relFlyEnc);
-    flyController.setP(0.00029);
-    flyController.setI(7e-7);
-    flyController.setD(0.0);
-    flyController.setIZone(0);
-    flyController.setFF(0.0);
-    flyController.setSmartMotionMaxVelocity(1, 0);
-    flyController.setSmartMotionMinOutputVelocity(-1, 0);
-    flyController.setSmartMotionMaxAccel(100, 0);
-    flyController.setSmartMotionAllowedClosedLoopError(5, 0);
-//
-
+    lowerFlyController.setFeedbackDevice(lowerFlyEncoder);
+    lowerFlyController.setP(Constants.Shooter.flyWheelKP);
+    lowerFlyController.setI(Constants.Shooter.flyWheelKI);
+    lowerFlyController.setD(Constants.Shooter.flyWheelKD);
+    lowerFlyController.setIZone(Constants.Shooter.flyWheelIZone); 
+    lowerFlyController.setFF(Constants.Shooter.flyWheelFF); 
+    lowerFlyController.setOutputRange(-1, 1, 0);
+    lowerFlyController.setSmartMotionMaxVelocity(Constants.Shooter.flyWheelMaxVel, Constants.Shooter.flyWheelMaxVelID);
+    lowerFlyController.setSmartMotionMaxAccel(Constants.Shooter.flyWheelMaxAccel, Constants.Shooter.flyWheelMaxAccelID);
+    lowerFlyController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.flyWheelAllowedError, Constants.Shooter.flyWheelAllowedErrorID);
   }
 
-  public void motorTurn(double flySpeed) {}
-
-  public void motorPivot(double pivotSpeed) {
-   // pivotMotor.set(pivotSpeed);
-  }
-
-  public void IntakeMotor(double inSpeed) {
- //   intakeMotor.set(inSpeed);
+  public void motorTurn(double flySpeed) {
+    upperFlyMotor.set(flySpeed);
+    lowerFlyMotor.set(flySpeed);
   }
 
 
   //Name might need to be changed
   public void setVelocity(double setVelocity) {
-    flyController.setReference(setVelocity, CANSparkFlex.ControlType.kVelocity);
+    upperFlyController.setReference(setVelocity, CANSparkFlex.ControlType.kVelocity);
+    lowerFlyController.setReference(setVelocity, CANSparkFlex.ControlType.kVelocity);
   }
 
-  /*public void goToPos(double setPos) {
-    flyController.setReference(setPos, CANSparkFlex.ControlType.kPosition);
-  }*/
+  public void percentShooter(double percent) {
+    upperFlyMotor.set(percent);
+    lowerFlyMotor.set(percent);
+  }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Beam Break Activated?", beamBreak.get());
+    SmartDashboard.putNumber("topVelo", upperFlyEncoder.getVelocity());
+    SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
   }
 }
- 

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+<<<<<<< HEAD
 import frc.robot.commands.Autos;
 import frc.robot.commands.Climber.VortexClimberDown;
 import frc.robot.commands.Climber.VortexClimberPIDCommand;
@@ -14,20 +15,35 @@ import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.IntakeGo;
 import frc.robot.commands.LimeLight.ChangePipelineCommand;
+=======
+import frc.robot.commands.Shooter.ShooterToSpeaker;
+import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
+import frc.robot.commands.Intake.GoUntilNote;
+import frc.robot.commands.Intake.IntakeGoCommand;
+import frc.robot.commands.Intake.IntakeToSpeedCommand;
+import frc.robot.commands.Pivot.PercentPivotCommand;
+import frc.robot.commands.Pivot.PivotCommand;
+import frc.robot.commands.Shooter.ShooterStopCommand;
+>>>>>>> 1725b5071bfaf19ae4e1bbf48168f71274ef1f58
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
-import frc.robot.commands.Shooter.PivotCommand;
 import frc.robot.commands.Swerve.TeleopSwerve;
+import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.VortexClimberSubsystem;
-import frc.robot.subsystems.VortexElevatorSubsystem;
-import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+=======
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+>>>>>>> 1725b5071bfaf19ae4e1bbf48168f71274ef1f58
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -37,48 +53,33 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-
-
-//Ctrl+F & looking for keywords can help find potential issues in the code or what needs to be changed. ex IDK, Change, etc.
-
-
- public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+public class RobotContainer {
   private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
-  // To fix on Monday
-  public ShooterPositions position;
-  private final PivotSubsystem m_pivotSubsystem= new PivotSubsystem(position);
+  private final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final VortexClimberSubsystem m_climberSub = new VortexClimberSubsystem();
-  private final VortexElevatorSubsystem m_elevatorSub = new VortexElevatorSubsystem();
+  private final ClimberSubsystem m_climberSub = new ClimberSubsystem();
+  private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
   private final Limelight m_Limelight = new Limelight();
-  SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_Limelight);
+  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_Limelight);
+  private final ConveyorSubsystem m_conveyorSub = new ConveyorSubsystem();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController driverController =
-      new CommandXboxController(1);
+  private final XboxController driver = new XboxController(0);
 
-  private final CommandXboxController driver = new CommandXboxController(1);
-  private final Joystick controller = new Joystick(0);
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
+    m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driver, 1, 0, 4, true, true));
     configureBindings();
-    m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, controller, 1, 0, 4, true, true));
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
+  private boolean getLeftTrigger(XboxController controller){
+    return controller.getLeftTriggerAxis() > 0.05;
+  }
 
+  private boolean getRightTrigger(XboxController controller){
+    return controller.getRightTriggerAxis() > 0.05;
+  }
+  
   private void configureBindings() {
+<<<<<<< HEAD
     // Flywheel Bindings
     driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 1000)); // finished
     // Pivot Bindings
@@ -95,14 +96,25 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
     //driverController.rightBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, -0.3));
     //driver.button(0, new FlywheelSpinCommand(null, driver));
     new JoystickButton(controller, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
+=======
+    // new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
+    new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
+    new JoystickButton(driver, 2).whileTrue(new IntakeGoCommand(m_intakeSubsystem));
+    new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
+    new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
+    new Trigger(() -> this.getRightTrigger(driver)).onTrue(new ShooterStopCommand(m_flywheelSubsystem));
+    new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
+    new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -1), new ConveyerToSpeedCommand(m_conveyorSub, 1)));
+    // new JoystickButton(driver, 7).whileTrue(new ElevatorDownCommand(m_elevatorSub));
+    //new JoystickButton(driver, 8).whileTrue(new ElevatorUpCommand(m_elevatorSub));
+    new JoystickButton(driver, 7).onTrue(new PivotCommand(m_pivotSubsystem, 2));
+    new JoystickButton(driver, 8).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
+    new JoystickButton(driver, 10).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -1));
+>>>>>>> 1725b5071bfaf19ae4e1bbf48168f71274ef1f58
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
+  
   public Command getAutonomousCommand() {
-    return null; // CHANGE LATER!!
+    return new InstantCommand();
   }
 }

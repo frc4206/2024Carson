@@ -33,12 +33,9 @@ public class PID_DistanceOdometry2 extends Command {
   private double current_time;
   private double timeout;
 
-  private double max_pos_error = .2;
-  private double max_rotation_error = 1;
-  //0.0005
-  public PIDController pidx = new PIDController(0.0005, 0, 0);
-  public PIDController pidy = new PIDController(0.0005, 0, 0);
-  public PIDController pidyaw = new PIDController(0.0003, 0, 0);
+  public PIDController pidx = new PIDController(Constants.Swerve.disOdometryxKP, Constants.Swerve.disOdometryxKI, Constants.Swerve.disOdometryxKD);
+  public PIDController pidy = new PIDController(Constants.Swerve.disOdometryYKP, Constants.Swerve.disOdometryYKI, Constants.Swerve.disOdometryYKD);
+  public PIDController pidyaw = new PIDController(Constants.Swerve.disOdometryYawKP, Constants.Swerve.disOdometryYawKI, Constants.Swerve.disOdometryYawKD);
 
   public PID_DistanceOdometry2(SwerveSubsystem s_Swerve, boolean fieldRelative, boolean openLoop, double x_set, double y_set, double yaw_set, double timeout) {
       this.s_Swerve = s_Swerve;
@@ -71,7 +68,7 @@ public class PID_DistanceOdometry2 extends Command {
     double yaw_error = Math.abs(s_Swerve.getYaw().getDegrees()) - (yaw_set);
     SmartDashboard.putNumber("Current time", current_time);
 
-    if ((x_error < max_pos_error && y_error < max_pos_error && yaw_error < max_rotation_error)|| current_time > timeout) {
+    if ((x_error < Constants.Swerve.disOdometryMaxPosError && y_error < Constants.Swerve.disOdometryMaxPosError && yaw_error < Constants.Swerve.disOdometryMaxRotationError)|| current_time > timeout) {
       isFinished = true;
       isFinished();
     }

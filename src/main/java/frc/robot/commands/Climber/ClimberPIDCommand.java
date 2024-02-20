@@ -5,33 +5,34 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.VortexClimberSubsystem;
+import frc.robot.Constants;
+//import frc.robot.subsystems.VortexClimberSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class VortexClimberUpCommand extends Command {
+public class ClimberPIDCommand extends Command {
+  
+  public ClimberSubsystem m_vortexClimberSubsystem;
 
-  private VortexClimberSubsystem m_vortexClimberSubsystem;
-
-  /** The VortexClimberUp command can be called whenever we need to go up the chain. */
-  public VortexClimberUpCommand(VortexClimberSubsystem vortexClimber) {
+  /** The VortexClimberPID command can be called whenever we need to call the motor controller to climb the chain. */
+  public ClimberPIDCommand(ClimberSubsystem vortexClimber) {
+    // Use addRequirements() here to declare subsystem dependencies.
     m_vortexClimberSubsystem = vortexClimber;
     addRequirements(vortexClimber);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() { }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_vortexClimberSubsystem.climbUP();
+    m_vortexClimberSubsystem.GoToSetpoint(Constants.Climber.climberGoToSetPoint);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_vortexClimberSubsystem.climbSTOP();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

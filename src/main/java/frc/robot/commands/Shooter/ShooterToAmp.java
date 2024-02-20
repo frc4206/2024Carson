@@ -3,35 +3,32 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Shooter;
-//e
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.GlobalVariables;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 
-public class PivotCommand extends Command {
-  public PivotSubsystem PivotSubsystem;
-  public double pivotSpeed;
-  public ShooterPositions positon;
-
-  /** Creates a new PivotCommand. */
-  public PivotCommand(PivotSubsystem pivotSubsystem, double PIVOTspeed) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.PivotSubsystem = pivotSubsystem;
-    pivotSpeed = PIVOTspeed;
-    addRequirements(PivotSubsystem);
+public class ShooterToAmp extends Command {
+  private PivotSubsystem m_pivot;
+  private boolean isFinished = false;
+  public ShooterToAmp(PivotSubsystem pivot) {
+    m_pivot = pivot;
+    addRequirements(m_pivot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Which one do we use and when?
+    GlobalVariables.shooterAutomatic = false;
+    m_pivot.position = ShooterPositions.AMPLIFIER;
+    isFinished = true;
+    isFinished();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    PivotSubsystem.setPos(pivotSpeed);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -40,6 +37,6 @@ public class PivotCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }

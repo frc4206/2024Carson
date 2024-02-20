@@ -4,18 +4,16 @@
 
 package frc.robot;
 
-<<<<<<< HEAD
-import frc.robot.commands.Autos;
-import frc.robot.commands.Climber.VortexClimberDown;
-import frc.robot.commands.Climber.VortexClimberPIDCommand;
-import frc.robot.commands.Climber.VortexClimberUpCommand;
-import frc.robot.commands.Elevator.VortexElevatorDownCommand;
-import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
-import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
+//import frc.robot.commands.Autos;
+//import frc.robot.commands.Climber.VortexClimberDown;
+//import frc.robot.commands.Climber.VortexClimberPIDCommand;
+//import frc.robot.commands.Climber.VortexClimberUpCommand;
+//import frc.robot.commands.Elevator.VortexElevatorDownCommand;
+//import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
+//import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
 import frc.robot.commands.Intake.IntakeCommand;
-import frc.robot.commands.Intake.IntakeGo;
+//import frc.robot.commands.Intake.IntakeGo;
 import frc.robot.commands.LimeLight.ChangePipelineCommand;
-=======
 import frc.robot.commands.Shooter.ShooterToSpeaker;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.commands.Intake.GoUntilNote;
@@ -24,7 +22,6 @@ import frc.robot.commands.Intake.IntakeToSpeedCommand;
 import frc.robot.commands.Pivot.PercentPivotCommand;
 import frc.robot.commands.Pivot.PivotCommand;
 import frc.robot.commands.Shooter.ShooterStopCommand;
->>>>>>> 1725b5071bfaf19ae4e1bbf48168f71274ef1f58
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
@@ -38,12 +35,9 @@ import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-<<<<<<< HEAD
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-=======
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
->>>>>>> 1725b5071bfaf19ae4e1bbf48168f71274ef1f58
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 

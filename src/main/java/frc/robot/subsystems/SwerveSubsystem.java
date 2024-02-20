@@ -194,7 +194,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double angle = gyro.getYaw().getValueAsDouble() % 360;
         angle = (angle < 0) ? 360 + angle: angle;
 
-        double[] flywheelArray = {OdometryArray[0] + Constants.Shooter.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Shooter.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
+        double[] flywheelArray = {OdometryArray[0] + Constants.Pivot.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Pivot.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
 
         GlobalVariables.distanceToSpeaker = Math.sqrt((flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) * (flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) + (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY) * (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY));
         SmartDashboard.putNumber("Distance to speaker", GlobalVariables.distanceToSpeaker);

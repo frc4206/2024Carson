@@ -208,21 +208,15 @@ public final class Constants {
   }
 
   public static final class Shooter {
+    //shooter motor CAN IDs
     public static final int shooterLeadMotorID = 25;
     public static final int shooterFollowerID = 26;
-    public static final int shooterPivotID = 27;
-
+  
     public static final int shooterBeamBreak = 1;
 
+    //subwoofer field position?
     public static final double SUBWOOFERPositionX = 0;
     public static final double SUBWOOFERPositionY = 5.51;
-
-
-
-    public static final double AngleSUBWOOFERPosition = 0.92;
-    public static final double AnglePODIUMPosition = 0;
-    public static final double AngleAMPLIFIERPosition = 0;
-    public static final double AngleWINGPosition = 0;
     
     /* Shooter Flywheel Values */
     public static final double flyWheelIZone = 0.0;
@@ -245,7 +239,17 @@ public final class Constants {
     public static final double flyWheelKI = 0.00001; 
     public static final double flyWheelKD = 0.0; 
 
-    /* Shooter Pivot Values */
+  }
+
+  public static final class Pivot {
+    public static final int pivotMotorID = 27;
+
+    public static final double AngleSUBWOOFERPosition = 0.92;
+    public static final double AnglePODIUMPosition = 0;
+    public static final double AngleAMPLIFIERPosition = 0;
+    public static final double AngleWINGPosition = 0;
+    
+        /* Shooter Pivot Values */
     public static final double pivotFF = 0.002; 
 
     public static final double pivotMaxVel = 2000; 
@@ -268,8 +272,6 @@ public final class Constants {
 
 
     public static final double pivotDistanceToRobotCenter = 3.25;
-
-
   }
 
   public static final class Elevator {

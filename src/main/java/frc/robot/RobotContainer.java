@@ -13,6 +13,7 @@ import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
 import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.IntakeGo;
+import frc.robot.commands.LimeLight.ChangePipelineCommand;
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
 import frc.robot.commands.Shooter.PivotCommand;
 import frc.robot.commands.Swerve.TeleopSwerve;
@@ -27,6 +28,7 @@ import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -92,6 +94,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
     //driverController.leftBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, 0.3));
     //driverController.rightBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, -0.3));
     //driver.button(0, new FlywheelSpinCommand(null, driver));
+    new JoystickButton(controller, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
   }
 
   /**

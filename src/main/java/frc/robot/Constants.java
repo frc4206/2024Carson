@@ -23,20 +23,20 @@ public final class Constants {
   public static final String Canivore1 = "Canivore1";
 
   public static final class Swerve {
-    public static final int pigeonID = 20; //30
+    public static final int pigeonID = 55; //30
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
     /* Drivetrain Constants */
-    public static final double trackWidth = Units.inchesToMeters(21.5);
-    public static final double wheelBase = Units.inchesToMeters(23.75);
-    public static final double wheelDiameter = Units.inchesToMeters(3.94);//change to 3.7ish for MK4s when sure 
+    public static final double trackWidth = Units.inchesToMeters(20.6);
+    public static final double wheelBase = Units.inchesToMeters(18.74);
+    public static final double wheelDiameter = Units.inchesToMeters(4);//change to 3.7ish for MK4s when sure 
     public static final double wheelCircumference = wheelDiameter * Math.PI;
 
 
     public static final double openLoopRamp = 0.25;
     public static final double closedLoopRamp = 0.0;
 
-    public static final double driveGearRatio = (6.75 / 1.0); //6.86:1
+    public static final double driveGearRatio = (5.14 / 1.0); //6.86:1
     public static final double angleGearRatio = (12.8 / 1.0); //12.8:1
 
     public static final double objDetectMaxPosError = 0.02;
@@ -63,7 +63,7 @@ public final class Constants {
     public static final boolean driveEnableCurrentLimit = true;
 
     /* Angle Motor PID Values */
-    public static final double angleKP = 1.2;
+    public static final double angleKP = 1.1;
     public static final double angleKI = 0.0;
     public static final double angleKD = 0.0;
     public static final double angleKF = 0.0;
@@ -122,8 +122,8 @@ public final class Constants {
     public static final double driveKA = (0);
 
     /* Swerve Profiling Values */
-    public static final double maxSpeed = 4.5; //meters per second
-    public static final double maxAngularVelocity = 11.5;
+    public static final double maxSpeed = 6; //meters per second
+    public static final double maxAngularVelocity = 7;
 
     /* Neutral Modes */
     public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
@@ -139,10 +139,10 @@ public final class Constants {
     /* Module Specific Constants */
     /* Front Left Module - Module 0 */
     public static final class Mod0 {
-        public static final int driveMotorID = 7; //3
-        public static final int angleMotorID = 8; //4
-        public static final int canCoderID = 11; //9
-        public static double angleOffset = 0.849;//314.5 these aren't accurate just refrences
+        public static final int driveMotorID = 1; //3
+        public static final int angleMotorID = 2; //4
+        public static final int canCoderID = 3; //9
+        public static double angleOffset = (10.28)/360;//314.5 these aren't accurate just refrences
         public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
@@ -150,10 +150,10 @@ public final class Constants {
 
     /* Front Right Module - Module 1 */
     public static final class Mod1 {
-        public static final int driveMotorID = 18; //7
-        public static final int angleMotorID = 6; //8
-        public static final int canCoderID = 10; //11
-        public static double angleOffset = 0.2615;//246.7
+        public static final int driveMotorID = 4; //7
+        public static final int angleMotorID = 5; //8
+        public static final int canCoderID = 6; //11
+        public static double angleOffset = (32.61)/360;//246.7
         public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
@@ -161,10 +161,10 @@ public final class Constants {
 
     /* Back Left Module - Module 2 */
     public static final class Mod2 {
-        public static final int driveMotorID = 3; //3
-        public static final int angleMotorID = 4; //4
+        public static final int driveMotorID = 7; //3
+        public static final int angleMotorID = 8; //4
         public static final int canCoderID = 9; //9
-        public static double angleOffset = 0.695;//.47
+        public static double angleOffset = (360-95.72)/360;//.47
         public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
@@ -172,10 +172,10 @@ public final class Constants {
 
     /* Back Right Module - Module 3 */
     public static final class Mod3 {
-        public static final int driveMotorID = 13; //13
-        public static final int angleMotorID = 2; //2
+        public static final int driveMotorID = 10; //13
+        public static final int angleMotorID = 11; //2
         public static final int canCoderID = 12; //12
-        public static double angleOffset = 0.492;//257.95
+        public static double angleOffset = (160.40)/360;//257.95
         public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
@@ -202,7 +202,9 @@ public final class Constants {
   public static final class Intake {
     public static final int intakeDriveMotorID = 20;
     public static final int intakeFollowerMotorID = 21;
-    public static final int intakeBeamBreakDIO = 0;
+
+    public static final boolean driverInverted = true;
+    public static final boolean followerInverted = true;
   }
 
   public static final class Shooter {
@@ -212,17 +214,22 @@ public final class Constants {
 
     public static final int shooterBeamBreak = 1;
 
-    public static final double SUBWOOFERPosition = 0;
-    public static final double PODIUMPosition = 0;
-    public static final double AMPLIFIERPosition = 0;
-    public static final double WINGPosition = 0;
+    public static final double SUBWOOFERPositionX = 0;
+    public static final double SUBWOOFERPositionY = 5.51;
+
+
+
+    public static final double AngleSUBWOOFERPosition = 0.92;
+    public static final double AnglePODIUMPosition = 0;
+    public static final double AngleAMPLIFIERPosition = 0;
+    public static final double AngleWINGPosition = 0;
     
     /* Shooter Flywheel Values */
     public static final double flyWheelIZone = 0.0;
 
     public static final double flyWheelFF = 0.0; 
 
-    public static final double flyWheelMaxVel = 1; 
+    public static final double flyWheelMaxVel = 6500; 
     public static final int flyWheelMaxVelID = 0; 
 
     public static final double flyWheelMinVel = -1;
@@ -234,30 +241,33 @@ public final class Constants {
     public static final double flyWheelAllowedError = 5; 
     public static final int flyWheelAllowedErrorID = 0;
 
-    public static final double flyWheelKP = 0.00029; 
-    public static final double flyWheelKI = 7e-7; 
+    public static final double flyWheelKP = 0.0001; 
+    public static final double flyWheelKI = 0.00001; 
     public static final double flyWheelKD = 0.0; 
 
     /* Shooter Pivot Values */
-    public static final double pivotFF = 0.0; 
+    public static final double pivotFF = 0.002; 
 
-    public static final double pivotMaxVel = 1; 
+    public static final double pivotMaxVel = 2000; 
     public static final int pivotMaxVelID = 0; 
 
-    public static final double pivotMinVel = -1; 
+    public static final double pivotMinVel = -2000; 
     public static final int pivotMinVelID = 0; 
 
-    public static final double pivotMaxAccel = 100; 
+    public static final double pivotMaxAccel = 4000; 
     public static final int pivotMaxAccelID = 0; 
 
-    public static final double pivotAllowedError = 5; 
+    public static final double pivotAllowedError = 0.01; 
     public static final int pivotAllowedErrorID = 0;
 
-    public static final double pivotCurrLimit = 40; 
+    public static final double pivotCurrLimit = 35; 
 
-    public static final double pivotKP = 0.02; 
-    public static final double pivotKI = 9e-8; 
-    public static final double pivotKD = 0.0; 
+    public static final double pivotKP = 0.04; 
+    public static final double pivotKI = 0.0; 
+    public static final double pivotKD = 0.0;
+
+
+    public static final double pivotDistanceToRobotCenter = 3.25;
 
 
   }
@@ -275,8 +285,8 @@ public final class Constants {
     public static final double elevKD = 0.0;
 
     public static final double elevStopSpeed = 0.0;
-    public static final double elevUpSpeed = 0.8;
-    public static final double elevDownSpeed = -0.8;
+    public static final double elevUpSpeed = 0.3;
+    public static final double elevDownSpeed = -0.3;
 
     public static final double elevResetPosition = 7.5;
   }
@@ -302,7 +312,9 @@ public final class Constants {
   }
 
   public static final class Conveyor {
-    public static final int conveyorMotorID = 37; // PLACEHOLDER!!!
+    public static final int conveyorMotorID = 29;
+    public static final int conveyerBeamBreakID = 0;
+    public static final boolean conveyorInverted = true;
   }
 
   public static final class AutoConstants {

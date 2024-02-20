@@ -56,7 +56,7 @@ public class PID_to_game_Piece extends Command {
     current_time = Timer.getFPGATimestamp() - init_time;
     double[] OdometryArray = {s_Swerve.getPose().getX(), s_Swerve.getPose().getY()};
 
-    double[] gamePiecePos = s_Swerve.limelight.limelightfront.GetGamePiecePosition(OdometryArray, s_Swerve.getYaw().getDegrees());
+    double[] gamePiecePos = s_Swerve.limelight.limelightshooter.GetGamePiecePosition(OdometryArray, s_Swerve.getYaw().getDegrees());
     x_set = gamePiecePos[0];
     y_set = gamePiecePos[1];
     rotation = 0;
@@ -74,8 +74,8 @@ public class PID_to_game_Piece extends Command {
     } else {
       //fieldRelative = false;
       X_Output = (s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece() == 0) ? X_Output : pidx.calculate(s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
-      rotation = pidyaw.calculate(s_Swerve.limelight.limelightfront.limelightTable.getEntry("tx").getDouble(0), 0);
-      SmartDashboard.putNumber("angle", s_Swerve.limelight.limelightfront.limelightTable.getEntry("tx").getDouble(0));
+      rotation = pidyaw.calculate(s_Swerve.limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0), 0);
+      SmartDashboard.putNumber("angle", s_Swerve.limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0));
       SmartDashboard.putNumber("distance to game piece in command", s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
     }
     

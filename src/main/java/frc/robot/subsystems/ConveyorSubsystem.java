@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -12,17 +13,23 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ConveyorSubsystem extends SubsystemBase {
-  /** Creates a new ConveryorSubsystem. */
   private CANSparkFlex conveyorMotor = new CANSparkFlex(Constants.Conveyor.conveyorMotorID, MotorType.kBrushless);
+  private DigitalInput conveyorBeamBreak = new DigitalInput(Constants.Conveyor.conveyerBeamBreakID);
 
-  public ConveyorSubsystem() {}
+  public ConveyorSubsystem() {
+    conveyorMotor.setInverted(Constants.Conveyor.conveyorInverted);
+  }
 
   public void conveyorTurn(double conveyorSpeed) {
     conveyorMotor.set(conveyorSpeed);
-  }  
+  }
+
+  public boolean hasNote() {
+    return !conveyorBeamBreak.get();
+  }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("hasNote", hasNote());
   }
 }

@@ -2,45 +2,46 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Intake;
-import frc.robot.subsystems.IntakeSubsystem;
+package frc.robot.commands.Pivot;
+//e
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 
-public class GoUntilBeamBreakCommand extends Command {
-  
-  private IntakeSubsystem m_intakeSubsystem; 
-  private boolean finished = false;
+public class PivotAngleCommand extends Command {
+  public PivotSubsystem PivotSubsystem;
+  public double pivotSpeed;
+  public ShooterPositions positon;
 
-  /** Intake note until the beam break is triggered. */
-  public GoUntilBeamBreakCommand(IntakeSubsystem intake) {
+  /** Creates a new PivotCommand. */
+  public PivotAngleCommand(PivotSubsystem pivotSubsystem, double PIVOTspeed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_intakeSubsystem = intake; 
-    addRequirements(intake);
+    this.PivotSubsystem = pivotSubsystem;
+    pivotSpeed = PIVOTspeed;
+    addRequirements(PivotSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    finished = false;
+    // Which one do we use and when?
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.GoUntilBeamBreak(0.5);
-    if (m_intakeSubsystem.beamBreakValue == true) {
-      finished = true;
-      isFinished();
-    }
+    PivotSubsystem.setPos(pivotSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) { }
+  public void end(boolean interrupted) {
+    
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished;
+    return false;
   }
 }

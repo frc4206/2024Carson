@@ -17,11 +17,11 @@ import frc.robot.LimelightCameraManagerClass;
 public class Limelight extends SubsystemBase {
 /** Creates a new Limelight. */
 
-  public LimelightCameraClass limelightfront = new LimelightCameraClass(Constants.Limelight.limelightFrontCamID, "limelight-front", Constants.Limelight.limelightFrontAngle, Constants.Limelight.limelightFrontHeight, Constants.Limelight.limelightFrontTargetHeight);
+  public LimelightCameraClass limelightshooter = new LimelightCameraClass(Constants.Limelight.limelightFrontCamID, "limelight-shooter", Constants.Limelight.limelightFrontAngle, Constants.Limelight.limelightFrontHeight, Constants.Limelight.limelightFrontTargetHeight);
   LimelightCameraClass limelightleft = new LimelightCameraClass(Constants.Limelight.limelightLeftCamID, "limelight-left", Constants.Limelight.limelightLeftAngle, Constants.Limelight.limelightLeftHeight, Constants.Limelight.limelightLeftTargetHeight);
   LimelightCameraClass limelightright = new LimelightCameraClass(Constants.Limelight.limelightRightCamID, "limelight-right", Constants.Limelight.limelightRightAngle, Constants.Limelight.limelightRightHeight, Constants.Limelight.limelightRightTargetHeight);
 
-  LimelightCameraClass[] limelightList = {limelightfront, limelightleft, limelightright};
+  LimelightCameraClass[] limelightList = {limelightshooter, limelightleft, limelightright};
 
   public LimelightCameraManagerClass limelightManger = new LimelightCameraManagerClass(limelightList);
 

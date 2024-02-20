@@ -29,13 +29,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   /* Method Constructor */
   public ElevatorSubsystem() {
     elevatorLeader.restoreFactoryDefaults();
-    elevatorLeader.setInverted(false);
-    elevatorFollower.setInverted(false);
-    
-
-    elevatorLeader.restoreFactoryDefaults();
     elevatorFollower.restoreFactoryDefaults();
-    elevatorLeader.setInverted(false);
+    
+    elevatorLeader.setInverted(true);
     elevatorFollower.setInverted(false);
 
     elevatorLeadEncoder = elevatorLeader.getEncoder();
@@ -46,22 +42,23 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorLeadPid.setI(Constants.Elevator.elevKI);
     elevatorLeadPid.setD(Constants.Elevator.elevKD);
 
-    elevatorFollower.follow(elevatorLeader);
+    elevatorLeader.burnFlash();
+    elevatorFollower.burnFlash();
   }
 
   public void elevatorSTOP() {
-    elevatorFollower.follow(elevatorLeader);
     elevatorLeader.set(Constants.Elevator.elevStopSpeed);
+    elevatorFollower.set(Constants.Elevator.elevStopSpeed);
   }
 
   public void elevatorUP() {
-    elevatorFollower.follow(elevatorLeader);
     elevatorLeader.set(Constants.Elevator.elevUpSpeed);
+    elevatorFollower.set(Constants.Elevator.elevUpSpeed);
   }
 
   public void elevatorDOWN() {
-    elevatorFollower.follow(elevatorLeader);
     elevatorLeader.set(Constants.Elevator.elevDownSpeed);
+    elevatorFollower.set(Constants.Elevator.elevDownSpeed);
   }
 
   public void GoToSetpoint(double setpoint) {

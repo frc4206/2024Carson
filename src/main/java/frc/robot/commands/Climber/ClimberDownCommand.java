@@ -11,7 +11,7 @@ public class ClimberDownCommand extends Command {
   private ClimberSubsystem m_vortexClimberSubsystem;
 
   public ClimberDownCommand(ClimberSubsystem vortexClimber) {
-    m_vortexClimberSubsystem /*help */ = vortexClimber;    
+    m_vortexClimberSubsystem /*help*/ = vortexClimber;    
     addRequirements(m_vortexClimberSubsystem);
   }
 

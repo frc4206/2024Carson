@@ -222,7 +222,7 @@ public class SwerveSubsystem extends SubsystemBase {
     
     public void resetOdometryLLFieldCords() {
         if (Limelight.limelightshooter.GetPipeline() == 2) {
-            double[] rawcords = Limelight.getFieldCordsTEST();
+            double[] rawcords = Limelight.limelightshooter.Fieldresult;
             Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
             if (Limelight.limelightshooter.HasTarget() != 0 || Limelight.limelightright.HasTarget() != 0 || Limelight.limelightleft.HasTarget() != 0) {
                 resetOdometry(fieldcords);
@@ -239,17 +239,17 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());
-        // resetOdometryLLFieldCords();
+         resetOdometryLLFieldCords();
         
-        // double[] OdometryArray = {getPose().getX(), getPose().getY(), getYaw().getDegrees()};
-        // SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
+         double[] OdometryArray = {getPose().getX(), getPose().getY(), getYaw().getDegrees()};
+         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
         
         // SmartDashboard.putNumber("Odometry X: ", OdometryArray[0]);
         // SmartDashboard.putNumber("Odometry Y: ", OdometryArray[1]);
         //Game piece positions
-        // if (Limelight.limelightshooter.GetPipeline() == 1) {
-        //     Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
-        // }
+         if (Limelight.limelightshooter.GetPipeline() == 1) {
+             Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
+         }
 
         double[] ypr = new double[3];
         ypr[0] = gyro.getYaw().getValueAsDouble();
@@ -265,14 +265,17 @@ public class SwerveSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Falcon degrees", mod.mAngleMotor.getPosition().getValueAsDouble());
         }
 
-        // double angle = gyro.getYaw().getValueAsDouble() % 360;
-        // angle = (angle < 0) ? 360 + angle : angle;
+         double angle = gyro.getYaw().getValueAsDouble() % 360;
+         angle = (angle < 0) ? 360 + angle : angle;
 
         // double[] flywheelArray = {OdometryArray[0] + Constants.Shooter.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Shooter.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
 
-        // GlobalVariables.distanceToSpeaker = Math.sqrt((flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) * (flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) + (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY) * (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY));
-        // SmartDashboard.putNumber("Distance to speaker", GlobalVariables.distanceToSpeaker);
+        double[] flywheelArray = {OdometryArray[0] + Constants.Pivot.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Pivot.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
 
-        // SmartDashboard.putNumber("desired angle", (((66 + (-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75);
+        GlobalVariables.distanceToSpeaker = Math.sqrt((flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) * (flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) + (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY) * (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY));
+        SmartDashboard.putNumber("Distance to speaker", GlobalVariables.distanceToSpeaker);
+
+        SmartDashboard.putNumber("desired angle", ((((-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) * 75 - 4.17);
+        SmartDashboard.putNumber("desired velo", ((0.9621 * GlobalVariables.distanceToSpeaker + 24.4843) * (180/Math.PI)));
     }
 }

@@ -4,7 +4,21 @@
 
 package frc.robot;
 
+//import frc.robot.commands.Autos;
+//import frc.robot.commands.Climber.VortexClimberDown;
+//import frc.robot.commands.Climber.VortexClimberPIDCommand;
+//import frc.robot.commands.Climber.VortexClimberUpCommand;
+//import frc.robot.commands.Elevator.VortexElevatorDownCommand;
+//import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
+//import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
+import frc.robot.commands.Intake.IntakeCommand;
+//import frc.robot.commands.Intake.IntakeGo;
+import frc.robot.commands.LimeLight.ChangePipelineCommand;
 import frc.robot.commands.Shooter.ShooterToSpeaker;
+import frc.robot.commands.Climber.ClimberDownCommand;
+import frc.robot.commands.Climber.ClimberToggleUpCommand;
+import frc.robot.commands.Climber.ClimberUpCommand;
+import frc.robot.commands.Climber.RunServoCommand;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.commands.Elevator.ElevatorDownCommand;
 import frc.robot.commands.Elevator.ElevatorUpCommand;
@@ -32,7 +46,9 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -71,10 +87,13 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
+    //new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
+    new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
     
-    new JoystickButton(driver, 2).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -0.8));
+    //new JoystickButton(driver, 2).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -0.8));
+    new JoystickButton(driver, 2).onTrue(new PivotCommand(m_pivotSubsystem, 0));
     new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
+
     
     // new JoystickButton(driver, 4).toggleOnTrue(new ClimbToTopCommand(climber));
     // new JoystickButton(driver, 4).toggleOnFalse(new ClimbToBottomCommand(climber));
@@ -85,7 +104,8 @@ public class RobotContainer {
     // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(new CarriageToAmp());
     // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(new ElevatorToBottom());
     
-    new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
+    //new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
+    new JoystickButton(driver, 5).onTrue(new ResetPivotCommand(m_pivotSubsystem));
     new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -1), new ConveyerToSpeedCommand(m_conveyorSub, 1)));
     // new JoystickButton(driver, 7).whileTrue(new ElevatorDownCommand(m_elevatorSub));
     // new JoystickButton(driver, 8).whileTrue(new ElevatorUpCommand(m_elevatorSub));

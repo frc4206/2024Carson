@@ -11,6 +11,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,9 +20,10 @@ public class ClimberSubsystem extends SubsystemBase {
   private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
 
   private SparkPIDController climbLeadPid;
-  private RelativeEncoder climbLeadEncoder;
-  PWM servo1 = new PWM(0);
-  PWM servo2 = new PWM(1);
+  public RelativeEncoder climbLeadEncoder; /* top encoder */
+  //private RelativeEncoder climbBottomEncoder; /* bottom encoder */
+  PWM servoRight = new PWM(0);
+  PWM servoLeft = new PWM(1);
 
   //private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
   //private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
@@ -54,10 +56,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void climbUP() {
     climberLeaderMotor.set(0.8);
+    //climberFollowerMotor.set(0.8);
   }
 
   public void climbDOWN() {
     climberLeaderMotor.set(-0.8);
+    //climberFollowerMotor.set(-0.8);
   }
 
   public void GoToSetpoint(double setpoint) {
@@ -65,8 +69,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setPosition(double pos) {
-    servo1.setPosition(pos);
-    servo2.setPosition(pos);
+    servoRight.setPosition(pos);
+    servoLeft.setPosition(pos);
   }
 
   @Override
@@ -77,6 +81,7 @@ public class ClimberSubsystem extends SubsystemBase {
     //}
     //if(BottomClimberLimitSwitch.get()) {
     //  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
-    //} 
+    //}
+    SmartDashboard.putNumber("Climber position", climbLeadEncoder.getPosition());
   }
 }

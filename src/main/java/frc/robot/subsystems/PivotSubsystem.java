@@ -19,7 +19,7 @@ public class PivotSubsystem extends SubsystemBase {
 
   public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Shooter.shooterPivotID, MotorType.kBrushless);
   public RelativeEncoder pivotEncoder;
-  public SparkPIDController pivotPIDController;
+  public SparkPIDController pivotController;
 
   double[][] angleData = {{4.65, 1.03}, {4.04, 1.86}, {3.89, 1.69}, {3.12, 2.77}, {2.90, 3.21}, {2.49, 4.07}, {2.18, 5.00}};
   InterpolatingTreeTableSubsystem angleTree;
@@ -38,19 +38,19 @@ public class PivotSubsystem extends SubsystemBase {
 
     pivotMotor.restoreFactoryDefaults();
     pivotEncoder = pivotMotor.getEncoder();
-    pivotPIDController = pivotMotor.getPIDController();
+    pivotController = pivotMotor.getPIDController();
     pivotMotor.setIdleMode(IdleMode.kBrake);
     pivotMotor.setClosedLoopRampRate(0.25);
     pivotMotor.setSmartCurrentLimit(40);
-    pivotPIDController.setFeedbackDevice(pivotEncoder);
-    pivotPIDController.setP(Constants.Shooter.pivotKP);
-    pivotPIDController.setI(Constants.Shooter.pivotKI);
-    pivotPIDController.setIZone(Constants.Shooter.pivotKIZone);
-    pivotPIDController.setD(Constants.Shooter.pivotKD);
-    pivotPIDController.setSmartMotionMaxVelocity(Constants.Shooter.pivotMaxVel, 0);
-    pivotPIDController.setSmartMotionMinOutputVelocity(Constants.Shooter.pivotMinVel, 0);
-    pivotPIDController.setSmartMotionMaxAccel(Constants.Shooter.pivotMaxAccel, 0);
-    pivotPIDController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.pivotAllowedError, 0);
+    pivotController.setFeedbackDevice(pivotEncoder);
+    pivotController.setP(Constants.Pivot.pivotkP);
+    pivotController.setI(Constants.Pivot.pivotkI);
+    pivotController.setD(Constants.Pivot.pivotkD);
+    pivotController.setFF(Constants.Pivot.pivotFF);
+    pivotController.setSmartMotionMaxVelocity(Constants.Pivot.pivotMaxVel, Constants.Pivot.pivotMaxVelID);
+    pivotController.setSmartMotionMinOutputVelocity(Constants.Pivot.pivotMinVel, Constants.Pivot.pivotMinVelID);
+    pivotController.setSmartMotionMaxAccel(Constants.Pivot.pivotMaxAccel, Constants.Pivot.pivotMaxAccelID);
+    pivotController.setSmartMotionAllowedClosedLoopError(Constants.Pivot.pivotAllowedError, Constants.Pivot.pivotAllowedErrorID);
   }
 
   public void resetPivot(){
@@ -62,7 +62,7 @@ public class PivotSubsystem extends SubsystemBase {
   }
   
   public void setPosition(double angle) {
-    pivotPIDController.setReference(angle, CANSparkFlex.ControlType.kPosition);
+    pivotController.setReference(angle, CANSparkFlex.ControlType.kPosition);
   }
 
   public void autoAdjust(double distFromSpeaker){
@@ -74,16 +74,16 @@ public class PivotSubsystem extends SubsystemBase {
   public void setFieldRelativePosition() {
     switch(position) {
       case SUBWOOFER:
-        pivotPIDController.setReference(Constants.Shooter.AngleSUBWOOFERPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference(Constants.Pivot.AngleSUBWOOFERPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
         break;
       case PODIUM:
-        pivotPIDController.setReference(Constants.Shooter.AnglePODIUMPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference(Constants.Pivot.AnglePODIUMPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
         break;
       case AMPLIFIER:
-        pivotPIDController.setReference(Constants.Shooter.AngleAMPLIFIERPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference(Constants.Pivot.AngleAMPLIFIERPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
         break;
       case WING:
-        pivotPIDController.setReference(Constants.Shooter.AngleWINGPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference(Constants.Pivot.AngleWINGPosition /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
         break;
     }
   }

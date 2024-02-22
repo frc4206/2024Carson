@@ -5,9 +5,10 @@
 package frc.robot;
 
 import frc.robot.commands.Autos;
-import frc.robot.commands.Climber.ClimberDownCommand;
+import frc.robot.commands.Climber.ClimberDownRightCommand;
 import frc.robot.commands.Climber.ClimberPIDCommand;
-import frc.robot.commands.Climber.ClimberUpCommand;
+import frc.robot.commands.Climber.ClimberUpRightCommand;
+import frc.robot.commands.Climber.RunServoRightCommand;
 import frc.robot.commands.Elevator.ElevatorDownCommand;
 import frc.robot.commands.Elevator.ElevatorPIDCommand;
 import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
@@ -56,10 +57,9 @@ public class RobotContainer {
   private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_Limelight);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController driverController =
-      new CommandXboxController(1);
+  private final CommandXboxController driverController = new CommandXboxController(1);
 
-  private final CommandXboxController driver = new CommandXboxController(1);
+  private final CommandXboxController operatorController = new CommandXboxController(2);
   private final Joystick controller = new Joystick(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -81,28 +81,26 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Flywheel Bindings
-    driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 1000)); // finished
-    // Pivot Bindings
-    driverController.leftBumper().onTrue(new PivotCommand(m_pivotSubsystem, -100));
+    // driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 1000)); // finished
+    // // Pivot Bindings
+    // driverController.leftBumper().onTrue(new PivotCommand(m_pivotSubsystem, -100));
 
-    driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
-    driverController.b().onTrue(new ClimberPIDCommand(m_climberSub));
-    driverController.x().onTrue(new ElevatorPIDCommand(m_elevatorSub));
-    //driverController.a().onTrue(new ElevatorDownCommand(m_elevatorSub));
-    // Climber Bindings
-    //driverController.x().onTrue(new ClimberDownCommand(null/*?????*/));
-    //driverController.y().onTrue(new ClimberUpCommand(null/*?????*/));
-    //driverController.leftBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, 0.3));
-    //driverController.rightBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, -0.3));
-    //driver.button(0, new FlywheelSpinCommand(null, driver));
+    // driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
+    // driverController.b().onTrue(new ClimberPIDCommand(m_climberSub));
+    // driverController.x().onTrue(new ElevatorPIDCommand(m_elevatorSub));
 
-    //driverController.a().onTrue(new ChangePipelineCommand(m_Limelight, 0));
-    //driverController.b().onTrue(new ChangePipelineCommand(m_Limelight, 1));
-    //driverController.y().onTrue(new ChangePipelineCommand(m_Limelight, 2));
-    //driverController.x().onTrue(new ZeroGyroCommand(m_swerveSubsystem));
+
+    driverController.back().onTrue(new RunServoRightCommand(m_climberSub, 0.3));
+    driverController.start().onTrue(new RunServoRightCommand(m_climberSub, 0.6));
+    driverController.a().onTrue(new RunServoRightCommand(m_climberSub, 0));
+    driverController.b().onTrue(new RunServoRightCommand(m_climberSub, 1));
+    driverController.leftBumper().whileTrue(new ClimberDownRightCommand(m_climberSub));
+    driverController.rightBumper().whileTrue(new ClimberUpRightCommand(m_climberSub));
+
 
     new JoystickButton(controller, 1).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -7,13 +7,13 @@ package frc.robot.commands.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class RunServoCommand extends Command {
+public class RunServoRightCommand extends Command {
   
   public ClimberSubsystem m_climber;
   public double servoPosition;
   
   /** Creates a new RunServoCommand. */
-  public RunServoCommand(ClimberSubsystem climber, double servoPos) {
+  public RunServoRightCommand(ClimberSubsystem climber, double servoPos) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_climber = climber;
     servoPosition = servoPos;
@@ -23,7 +23,7 @@ public class RunServoCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.setPosition(servoPosition);
+    m_climber.setPositionRight(servoPosition);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

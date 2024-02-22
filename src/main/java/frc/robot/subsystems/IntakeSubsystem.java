@@ -21,19 +21,19 @@ public class IntakeSubsystem extends SubsystemBase {
 
   /* Variables */
   private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.IntakeDriveMotorID, MotorType.kBrushless);
-  private DigitalInput beamBreak = new DigitalInput(Constants.Intake.IntkeBeamBreakDIO);
+  private DigitalInput intakeBeamBreak = new DigitalInput(Constants.Intake.IntkeBeamBreakDIO);
 
-  public boolean beamBreakValue = beamBreak.get();
+  public boolean intakeBeamBreakValue = intakeBeamBreak.get();
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() { }
 
     public boolean state() {
-      return beamBreak.get(); 
+      return intakeBeamBreak.get(); 
     }
 
     public void GoUntilBeamBreak(double setSpeed) {
-      if (beamBreakValue == false) {
+      if (intakeBeamBreakValue == false) {
         intakeMotor.set(setSpeed); 
       } else {
         intakeMotor.set(0); 
@@ -47,8 +47,8 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
-      beamBreakValue = !beamBreak.get();
-      SmartDashboard.putBoolean("Beambreak Activated", beamBreakValue); 
+      intakeBeamBreakValue = !intakeBeamBreak.get();
+      SmartDashboard.putBoolean("Beambreak Activated", intakeBeamBreakValue); 
       intakeMotor.setInverted(true);
     }
 

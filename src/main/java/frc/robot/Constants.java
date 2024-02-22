@@ -274,8 +274,8 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int climberLeaderMotorID = 35;
-    public static final int climberFollowerID = 36;
+    public static final int climberLeftLeadID = 33;
+    public static final int climberRightFollowID = 36;
     public static final int climberLimitSwitch = 4;
     public static final int climberGoToSetPoint = -100;
 
@@ -286,8 +286,6 @@ public final class Constants {
     public static final double vortexClimberSubsystemLeadFF = 0.0; 
     //MaxVel, MinVel, and MaxAccel are under autoconstants 
     public static final int vortexClimberSubsystemMaxVelID = 0;
-    public static final int ClimberLeadMotorID = 0;
-    public static final int ClimberFollowerID = 0;
   }
 
 

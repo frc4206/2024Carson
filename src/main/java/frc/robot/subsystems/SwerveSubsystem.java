@@ -200,6 +200,12 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Distance to speaker", GlobalVariables.distanceToSpeaker);
 
         SmartDashboard.putNumber("desired angle", (((66 + (-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75 - 4.17);
-        SmartDashboard.putNumber("desired velo", ((0.9621 * GlobalVariables.distanceToSpeaker + 24.4843) * (180/Math.PI)));
+        double desiredvelo;
+        if (GlobalVariables.distanceToSpeaker < 6) {
+            desiredvelo = 30 * 91.7;
+        } else {
+            desiredvelo = (0.9621 * GlobalVariables.distanceToSpeaker + 24.4843) * (288/Math.PI);
+        }
+        SmartDashboard.putNumber("desired velo", desiredvelo);
     }
 }

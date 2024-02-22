@@ -14,10 +14,9 @@ public class PivotCommand extends Command {
   public ShooterPositions positon;
 
   /** Creates a new PivotCommand. */
-  public PivotCommand(PivotSubsystem pivotSubsystem, double PIVOTspeed) {
+  public PivotCommand(PivotSubsystem pivotSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.PivotSubsystem = pivotSubsystem;
-    pivotSpeed = PIVOTspeed;
     addRequirements(PivotSubsystem);
   }
 

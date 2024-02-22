@@ -15,32 +15,24 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
-
-  /* Variables */
   private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.elevatorLeaderID, MotorType.kBrushless);
+  private RelativeEncoder elevatorLeaderEncoder = elevatorLeader.getEncoder();
+  private SparkPIDController elevatorLeaderPIDController = elevatorLeader.getPIDController();
   private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.elevatorFollowerID, MotorType.kBrushless);
 
   private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.elevatorTopLimitSwitch);
   private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.elevatorBottomLimitSwitch);
-  
-  private SparkPIDController elevatorLeadPid;
-  private RelativeEncoder elevatorLeadEncoder;
 
-  /* Method Constructor */
   public ElevatorSubsystem() {
     elevatorLeader.restoreFactoryDefaults();
     elevatorFollower.restoreFactoryDefaults();
+    elevatorLeader.setInverted(Constants.Elevator.elevatorLeaderisInverted);
+    elevatorFollower.setInverted(Constants.Elevator.elevatorFollowisInverted);
     
-    elevatorLeader.setInverted(true);
-    elevatorFollower.setInverted(false);
-
-    elevatorLeadEncoder = elevatorLeader.getEncoder();
-    elevatorLeadPid = elevatorLeader.getPIDController();
-    
-    elevatorLeadPid.setFeedbackDevice(elevatorLeadEncoder);
-    elevatorLeadPid.setP(Constants.Elevator.elevKP);
-    elevatorLeadPid.setI(Constants.Elevator.elevKI);
-    elevatorLeadPid.setD(Constants.Elevator.elevKD);
+    elevatorLeaderPIDController.setFeedbackDevice(elevatorLeaderEncoder);
+    elevatorLeaderPIDController.setP(Constants.Elevator.elevKP);
+    elevatorLeaderPIDController.setI(Constants.Elevator.elevKI);
+    elevatorLeaderPIDController.setD(Constants.Elevator.elevKD);
 
     elevatorLeader.burnFlash();
     elevatorFollower.burnFlash();
@@ -62,20 +54,17 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void GoToSetpoint(double setpoint) {
-    elevatorLeadPid.setReference(setpoint, ControlType.kPosition, 0);
+    elevatorLeaderPIDController.setReference(setpoint, ControlType.kPosition, 0);
   }
-
 
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    if(elevatorBottomLimitSwitch.get()) {
-      elevatorLeadEncoder.setPosition(0);
+    if(!elevatorBottomLimitSwitch.get()) {
+      elevatorLeaderEncoder.setPosition(0);
     }
-    /* Get value from testing!! */
-    if(elevatorTopLimitSwitch.get()) {
-      elevatorLeadEncoder.setPosition(Constants.Elevator.elevResetPosition);
+    if(!elevatorTopLimitSwitch.get()) {
+      elevatorLeaderEncoder.setPosition(Constants.Elevator.elevResetPosition);
     }
   }
 }

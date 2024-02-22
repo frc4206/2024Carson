@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class PID_to_game_Piece extends Command {
@@ -56,7 +57,7 @@ public class PID_to_game_Piece extends Command {
     current_time = Timer.getFPGATimestamp() - init_time;
     double[] OdometryArray = {s_Swerve.getPose().getX(), s_Swerve.getPose().getY()};
 
-    double[] gamePiecePos = s_Swerve.limelight.limelightshooter.GetGamePiecePosition(OdometryArray, s_Swerve.getYaw().getDegrees());
+    double[] gamePiecePos = Limelight.limelightshooter.GetGamePiecePosition(OdometryArray, s_Swerve.getYaw().getDegrees());
     x_set = gamePiecePos[0];
     y_set = gamePiecePos[1];
     rotation = 0;
@@ -73,10 +74,10 @@ public class PID_to_game_Piece extends Command {
       Y_Output = pidy.calculate(s_Swerve.swerveOdometry.getPoseMeters().getY(), y_set);
     } else {
       //fieldRelative = false;
-      X_Output = (s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece() == 0) ? X_Output : pidx.calculate(s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
-      rotation = pidyaw.calculate(s_Swerve.limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0), 0);
-      SmartDashboard.putNumber("angle", s_Swerve.limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0));
-      SmartDashboard.putNumber("distance to game piece in command", s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
+      X_Output = (Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece() == 0) ? X_Output : pidx.calculate(Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
+      rotation = pidyaw.calculate(Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0), 0);
+      SmartDashboard.putNumber("angle", Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0));
+      SmartDashboard.putNumber("distance to game piece in command", Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
     }
     
     SmartDashboard.putNumber("pid output piece ", X_Output);

@@ -9,10 +9,10 @@ import frc.robot.subsystems.PivotSubsystem;
 
 public class PercentPivotCommand extends Command {
   private PivotSubsystem pivot;
-  double percent;
-  public PercentPivotCommand(PivotSubsystem m_pivot, double per) {
+  private double m_percent;
+  public PercentPivotCommand(PivotSubsystem m_pivot, double percent) {
     pivot = m_pivot;
-    percent = per;
+    m_percent = percent;
     addRequirements(pivot);
   }
 
@@ -23,13 +23,13 @@ public class PercentPivotCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pivot.runMotor(percent);
+    pivot.runPivot(m_percent);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    pivot.runMotor(0);
+    pivot.runPivot(0);
   }
 
   // Returns true when the command should end.

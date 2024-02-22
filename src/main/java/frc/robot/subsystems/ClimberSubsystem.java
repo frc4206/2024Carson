@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -89,6 +90,7 @@ public class ClimberSubsystem extends SubsystemBase {
     //}
     //if(BottomClimberLimitSwitch.get()) {
     //  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
-    //} 
+    //}
+    SmartDashboard.putNumber("Climber position", climbLeadEncoder.getPosition());
   }
 }

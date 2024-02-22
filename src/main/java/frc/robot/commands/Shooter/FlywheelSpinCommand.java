@@ -10,25 +10,21 @@ import frc.robot.subsystems.FlywheelSubsystem;
 public class FlywheelSpinCommand extends Command {
   public FlywheelSubsystem flywheelSubsystem;
   private double flySpeed;
-
-  /** Creates a new FlywheelSpinCommand. */
   public FlywheelSpinCommand(FlywheelSubsystem flywheelSubsystem, double FLYspeed) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.flywheelSubsystem = flywheelSubsystem;
     flySpeed = FLYspeed;
-
     addRequirements(flywheelSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    flywheelSubsystem.setVelocity(flySpeed);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    flywheelSubsystem.setVelocity(flySpeed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -21,7 +21,7 @@ public class TestAutoCommand extends SequentialCommandGroup {
     addCommands(
      new PID_DistanceOdometry2(s_Swerve, true, false, -6.6, -1, 0, 5),
      new PID_DistanceOdometry2(s_Swerve, true, false, -5, -5, 0, 10),
-     new ChangePipelineCommand(s_Swerve.limelight, 1),
+    //  new ChangePipelineCommand(s_Swerve.limelight, 1),
      new PID_to_game_Piece(s_Swerve, false, openLoop, false,5)
      );
   }

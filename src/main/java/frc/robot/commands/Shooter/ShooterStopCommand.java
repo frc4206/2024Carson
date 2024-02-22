@@ -18,7 +18,7 @@ public class ShooterStopCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.motorTurn(0);
+    shooter.percentShooter(0);
     isFinished = true;
     isFinished();
   }

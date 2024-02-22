@@ -96,7 +96,7 @@ public class RobotContainer {
 
     // new JoystickButton(driver, 2).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -0.8));
     new JoystickButton(driver, 2).onTrue(new ResetPivotCommand(m_pivotSubsystem));
-    // new JoystickButton(driver, 2).onTrue(new PivotCommand(m_pivotSubsystem, 0));
+    // new JoystickButton(driver, 2).onTrue(new PivotCommand(m_pivotSubsystem));
     
     new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     

@@ -16,6 +16,7 @@ import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.LimeLight.ChangePipelineCommand;
 import frc.robot.commands.Shooter.ShooterToSpeaker;
 import frc.robot.commands.Climber.ClimberDownCommand;
+import frc.robot.commands.Climber.ClimberToggleUpCommand;
 import frc.robot.commands.Climber.ClimberUpCommand;
 import frc.robot.commands.Climber.RunServoCommand;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
@@ -90,10 +91,10 @@ public class RobotContainer {
     new JoystickButton(driver, 7).onTrue(new PivotCommand(m_pivotSubsystem, 2));
     //new JoystickButton(driver, 8).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
     //new JoystickButton(driver, 10).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -1));
-    new JoystickButton(driver, 8).onTrue(new ClimberUpCommand(m_climberSub));
-    new JoystickButton(driver, 9).onTrue(new ClimberDownCommand(m_climberSub));
+    new JoystickButton(driver, 8).whileTrue(new ClimberUpCommand(m_climberSub));
+    new JoystickButton(driver, 2).whileTrue(new ClimberToggleUpCommand(m_climberSub));
     new JoystickButton(driver, 10).onTrue(new RunServoCommand(m_climberSub, 0.3)); 
-    new JoystickButton(driver, 2).onTrue(new RunServoCommand(m_climberSub, 0));  
+    //new JoystickButton(driver, 2).onTrue(new RunServoCommand(m_climberSub, 0.6));  
 
   }
 

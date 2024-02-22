@@ -199,6 +199,7 @@ public class SwerveSubsystem extends SubsystemBase {
         GlobalVariables.distanceToSpeaker = Math.sqrt((flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) * (flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) + (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY) * (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY));
         SmartDashboard.putNumber("Distance to speaker", GlobalVariables.distanceToSpeaker);
 
-        SmartDashboard.putNumber("desired angle", (((66 + (-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75);
+        SmartDashboard.putNumber("desired angle", (((66 + (-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75 - 4.17);
+        SmartDashboard.putNumber("desired velo", ((0.9621 * GlobalVariables.distanceToSpeaker + 24.4843) * (180/Math.PI)));
     }
 }

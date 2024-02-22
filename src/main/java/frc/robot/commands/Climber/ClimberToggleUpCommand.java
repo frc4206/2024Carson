@@ -23,6 +23,7 @@ public class ClimberToggleUpCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    isfin = false; 
     m_climberSubsystem.setPosition(0.3);
     if (m_climberSubsystem.climbLeadEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
       state = "up";

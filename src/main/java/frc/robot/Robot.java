@@ -44,8 +44,6 @@ public class Robot extends TimedRobot {
     Mod1.angleOffset = m_swerve.mSwerveMods[1].getCanCoder().getDegrees();
     Mod2.angleOffset = m_swerve.mSwerveMods[2].getCanCoder().getDegrees();
     Mod3.angleOffset = m_swerve.mSwerveMods[3].getCanCoder().getDegrees();
-
-    CommandScheduler.getInstance().schedule(new ChangePipelineCommand(m_limelight, 2));
   }
 
   /**
@@ -95,6 +93,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    CommandScheduler.getInstance().schedule(new ChangePipelineCommand(m_limelight, 2));
   }
 
   /** This function is called periodically during operator control. */

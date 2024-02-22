@@ -59,31 +59,31 @@ public class SwerveSubsystem extends SubsystemBase {
         
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
         
-        AutoBuilder.configureHolonomic(
-            this::getPose, // Robot pose supplier
-            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-            this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            this::setModuleSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD), // Translation PID constants
-                    new PIDConstants(Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD), // Rotation PID constants
-                    Constants.Swerve.maxSpeed, // Max module speed, in m/s
-                    Constants.Swerve.driveBase, // Drive base radius in meters. Distance from robot center to furthest module.
-                    new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
-            ),
-            () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
-              // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+    //     AutoBuilder.configureHolonomic(
+    //         this::getPose, // Robot pose supplier
+    //         this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+    //         this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+    //         this::setModuleSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+    //         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+    //                 new PIDConstants(Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD), // Translation PID constants
+    //                 new PIDConstants(Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD), // Rotation PID constants
+    //                 Constants.Swerve.maxSpeed, // Max module speed, in m/s
+    //                 Constants.Swerve.driveBase, // Drive base radius in meters. Distance from robot center to furthest module.
+    //                 new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
+    //         ),
+    //         () -> {
+    //           // Boolean supplier that controls when the path will be mirrored for the red alliance
+    //           // This will flip the path being followed to the red side of the field.
+    //           // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
-            },
-            this // Reference to this subsystem to set requirements
-    );
+    //           var alliance = DriverStation.getAlliance();
+    //           if (alliance.isPresent()) {
+    //             return alliance.get() == DriverStation.Alliance.Red;
+    //           }
+    //           return false;
+    //         },
+    //         this // Reference to this subsystem to set requirements
+    // );
     }
     
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -143,8 +143,8 @@ public class SwerveSubsystem extends SubsystemBase {
     public void changeHeadingState(){
         if (headingState == HeadingState.PICKUP){
             // headingState = HeadingState.AIMED;
-            headingState = HeadingState.BACKWARD;
-        } else if (headingState == HeadingState.BACKWARD){
+            headingState = HeadingState.AIMED;
+        } else if (headingState == HeadingState.AIMED){
             headingState = HeadingState.FREE;
         } else if (headingState == HeadingState.FREE){
             headingState = HeadingState.PICKUP;

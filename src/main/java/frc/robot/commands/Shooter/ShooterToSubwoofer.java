@@ -21,8 +21,8 @@ public class ShooterToSubwoofer extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    GlobalVariables.shooterAutomatic = false;
-    m_pivot.position = ShooterPositions.SUBWOOFER;
+    // GlobalVariables.shooterAutomatic = false;
+    // m_pivot.position = ShooterPositions.SUBWOOFER;
     isFinished = true;
     isFinished();
   }

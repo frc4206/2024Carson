@@ -20,7 +20,7 @@ public class ShooterToPodium extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    GlobalVariables.shooterAutomatic = false;
+    // GlobalVariables.shooterAutomatic = false;
     m_pivot.position = ShooterPositions.PODIUM;
     isFinished = true;
     isFinished();    

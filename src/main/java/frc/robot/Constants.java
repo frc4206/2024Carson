@@ -253,33 +253,24 @@ public final class Constants {
   public static final class Pivot {
     public static final int pivotMotorID = 27;
 
-    public static final double AngleSUBWOOFERPosition = 0.92;
-    public static final double AnglePODIUMPosition = 0;
-    public static final double AngleAMPLIFIERPosition = 0;
-    public static final double AngleWINGPosition = 0;
-    
-        /* Shooter Pivot Values */
-    public static final double pivotFF = 0.002; 
+    public static final double closePosition = 5;
+    public static final double podiumPosition = 3.5;
+    public static final double underPosition = 2.13;
+    public static final double stagePosition = 1.73;
+    public static final double wingPosition = 1.0;
 
-    public static final double pivotMaxVel = 2000; 
-    public static final int pivotMaxVelID = 0; 
-
-    public static final double pivotMinVel = -2000; 
-    public static final int pivotMinVelID = 0; 
-
-    public static final double pivotMaxAccel = 4000; 
-    public static final int pivotMaxAccelID = 0; 
-
-    public static final double pivotAllowedError = 0.01; 
-    public static final int pivotAllowedErrorID = 0;
-
+    /* Shooter Pivot Values */
+    public static final double pivotKP = 0.15; 
+    public static final double pivotKI = 0.00125; 
+    public static final double pivotKIZone = 0.1;
+    public static final double pivotKD = 0.0;
+    public static final double pivotMaxVel = 4000; 
+    public static final double pivotMinVel = -4000; 
+    public static final double pivotMaxAccel = 4000;
+    public static final double pivotAllowedError = 0.001; 
     public static final double pivotCurrLimit = 35; 
 
     public static final double pivotDistanceToRobotCenter = 3.25;
-
-    public static final double pivotkP = 0.07;
-    public static final double pivotkI = 0;
-    public static final double pivotkD = 0;
   }
 
   public static final class Elevator {

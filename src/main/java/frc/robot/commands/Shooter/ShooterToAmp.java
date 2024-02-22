@@ -20,7 +20,7 @@ public class ShooterToAmp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    GlobalVariables.shooterAutomatic = false;
+    // GlobalVariables.shooterAutomatic = false;
     m_pivot.position = ShooterPositions.AMPLIFIER;
     isFinished = true;
     isFinished();

@@ -74,90 +74,70 @@ public class TeleopSwerve extends Command {
                         yawSet = -390; //makes robot overshoot and go to else statement
                     }
                 }
-                break;
-            case AIMED:
-                yawSet= Math.toDegrees(
-                            Math.atan(
-                                (s_Swerve.getPose().getY()-5.52)/
-                                (s_Swerve.getPose().getX()-0)
-                            )
-                        );
-                break;
-            case BACKWARD:
-                if (botYaw > 0 && botYaw < 180){
-                        yawSet = 0; //makes robot overshoot and go to else statement
-                    } else {
-                        yawSet = 360;
-                    }
-                break;
-            case FREE:
-                yawSet = 0;
-                break;
-            default: 
-                yawSet = 0;
-                break;
-        }
-
-        // if (yawSet < 0){
-        //     errorYaw = botYaw + yawSet;
-        // } else {
-        //     errorYaw = botYaw - yawSet;
-        // }
-        if (s_Swerve.headingState == HeadingState.AIMED){
-            if (yawSet < 0){
-                errorYaw = botYaw - (360 + yawSet);
                 if (Math.abs(errorYaw) > 1.5) { 
-                    outputYaw = pidyaw.calculate(botYaw, 360 + yawSet);
-                } else {
-                    outputYaw = pidyawi.calculate(botYaw, 360 + yawSet);
-                }
-            } else {
-                errorYaw = botYaw - yawSet;
-                if (Math.abs(errorYaw) > 1.5) {
                     outputYaw = pidyaw.calculate(botYaw, yawSet);
                 } else {
                     outputYaw = pidyawi.calculate(botYaw, yawSet);
                 }
-            }
-        } else {
-            if (Math.abs(errorYaw) > 1.5) { 
-                outputYaw = pidyaw.calculate(botYaw, 360 + yawSet);
-            } else {
-                outputYaw = pidyawi.calculate(botYaw, 360 + yawSet);
-            }
+                rAxis = outputYaw;
+                break;
+            case AIMED:
+                yawSet= Math.toDegrees(
+                            Math.atan(
+                                (s_Swerve.getPose().getY()-5.72)/
+                                (s_Swerve.getPose().getX()-0)
+                            )
+                        );
+                if (yawSet < 0){
+                    errorYaw = botYaw - (360 + yawSet);
+                    if (Math.abs(errorYaw) > 1.5) { 
+                        outputYaw = pidyaw.calculate(botYaw, 360 + yawSet);
+                    } else {
+                        outputYaw = pidyawi.calculate(botYaw, 360 + yawSet);
+                    }
+                } else {
+                    errorYaw = botYaw - yawSet;
+                    if (Math.abs(errorYaw) > 1.5) {
+                        outputYaw = pidyaw.calculate(botYaw, yawSet);
+                    } else {
+                        outputYaw = pidyawi.calculate(botYaw, yawSet);
+                    }
+                }
+                rAxis = outputYaw;
+                break;
+            case BACKWARD:
+                if (botYaw > 0 && botYaw < 180){
+                        yawSet = 0;
+                    } else {
+                        yawSet = 360;
+                    }
+                if (Math.abs(errorYaw) > 1.5) { 
+                    outputYaw = pidyaw.calculate(botYaw, yawSet);
+                } else {
+                    outputYaw = pidyawi.calculate(botYaw, yawSet);
+                }
+                rAxis = outputYaw;
+                break;
+            case FREE:
+                yawSet = 0;
+                rAxis = -controller.getRawAxis(rotationAxis)*Constants.Swerve.rotationMultiplier;
+                break;
+            default: 
+                yawSet = 0;
+                rAxis = -controller.getRawAxis(rotationAxis)*Constants.Swerve.rotationMultiplier;
+                break;
         }
+        
 
         double yAxisDeadzoned;
         double xAxisDeadzoned;
         double yAxis = (-controller.getRawAxis(translationAxis)*Constants.Swerve.translationMultiplier);
         double xAxis = (-controller.getRawAxis(strafeAxis)*Constants.Swerve.translationMultiplier);
 
-        switch (s_Swerve.headingState){
-            case PICKUP:
-                rAxis = outputYaw;
-                break;
-            case AIMED:
-                rAxis = outputYaw;
-                break;
-            case BACKWARD:
-                rAxis = outputYaw;
-            case FREE:
-                rAxis = -controller.getRawAxis(rotationAxis)*Constants.Swerve.rotationMultiplier;
-                break;
-            default:
-                rAxis = -controller.getRawAxis(rotationAxis)*Constants.Swerve.rotationMultiplier;
-                break;
-        }
-        
-        // double[] newCoords = s_Swerve.apply_deadzone(xAxis, yAxis, Constants.stickDeadband);
-        // xAxisDeadzoned = newCoords[0];
-        // yAxisDeadzoned = newCoords[1];
-
         yAxisDeadzoned = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(yAxis), Constants.stickDeadband, 1.0, 0.0, 1.0);
         yAxisDeadzoned = yAxis >= 0.0 ? yAxisDeadzoned : -yAxisDeadzoned;
         xAxisDeadzoned = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(xAxis), Constants.stickDeadband, 1.0, 0.0, 1.0);
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
-        
         yAxisDeadzoned = yAxisDeadzoned * yAxisDeadzoned; //(Math.cos(Math.PI*(yAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;
         yAxisDeadzoned = yAxis >= 0.0 ? yAxisDeadzoned : -yAxisDeadzoned; 
         xAxisDeadzoned = xAxisDeadzoned * xAxisDeadzoned; //(Math.cos(Math.PI*(xAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;

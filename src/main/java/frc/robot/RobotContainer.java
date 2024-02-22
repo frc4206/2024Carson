@@ -26,11 +26,13 @@ import frc.robot.commands.Intake.GoUntilNote;
 import frc.robot.commands.Intake.IntakeGoCommand;
 import frc.robot.commands.Intake.IntakeToSpeedCommand;
 import frc.robot.commands.LimeLight.ChangePipelineCommand;
+import frc.robot.commands.Pivot.CyclePivotPositionCommand;
 import frc.robot.commands.Pivot.PercentPivotCommand;
 import frc.robot.commands.Pivot.PivotCommand;
 import frc.robot.commands.Pivot.ResetPivotCommand;
 import frc.robot.commands.Shooter.ShooterStopCommand;
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
+import frc.robot.commands.Shooter.PercentShooterCommand;
 import frc.robot.commands.Swerve.SetHeadingState;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
@@ -87,35 +89,36 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    //new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
-    new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-    
-    //new JoystickButton(driver, 2).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -0.8));
-    new JoystickButton(driver, 2).onTrue(new PivotCommand(m_pivotSubsystem, 0));
-    new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
+    // new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
+    new JoystickButton(driver, 1).onTrue(new CyclePivotPositionCommand(m_pivotSubsystem));
+    // new JoystickButton(driver, 1).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
+    // new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
 
+    // new JoystickButton(driver, 2).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -0.8));
+    new JoystickButton(driver, 2).onTrue(new ResetPivotCommand(m_pivotSubsystem));
+    // new JoystickButton(driver, 2).onTrue(new PivotCommand(m_pivotSubsystem, 0));
+    
+    new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     
     // new JoystickButton(driver, 4).toggleOnTrue(new ClimbToTopCommand(climber));
     // new JoystickButton(driver, 4).toggleOnFalse(new ClimbToBottomCommand(climber));
+    // new JoystickButton(driver, 4).onTrue(new ResetPivotCommand(m_pivotSubsystem));
+    new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
     
-    new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6200));
+    // new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
+    new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new PercentShooterCommand(m_flywheelSubsystem, 1));
+
     new Trigger(() -> this.getRightTrigger(driver)).onTrue(new ShooterStopCommand(m_flywheelSubsystem));
-    
     // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(new CarriageToAmp());
     // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(new ElevatorToBottom());
     
-    //new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
-    new JoystickButton(driver, 5).onTrue(new ResetPivotCommand(m_pivotSubsystem));
+    new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
     new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -1), new ConveyerToSpeedCommand(m_conveyorSub, 1)));
-    // new JoystickButton(driver, 7).whileTrue(new ElevatorDownCommand(m_elevatorSub));
-    // new JoystickButton(driver, 8).whileTrue(new ElevatorUpCommand(m_elevatorSub));
-    // new JoystickButton(driver, 7).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-    // new JoystickButton(driver, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
 
-    // new JoystickButton(driver, 5).onTrue(new ResetPivotCommand(m_pivotSubsystem));
-    // new JoystickButton(driver, 6).onTrue(new PivotCommand(m_pivotSubsystem, 6));
-    new JoystickButton(driver, 7).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
-    new JoystickButton(driver, 8).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
+    // new JoystickButton(driver, 7).whileTrue(new ElevatorDownCommand(m_elevatorSub));
+    // new JoystickButton(driver, 7).onTrue(new ChangePipelineCommand(m_Limelight, 2));
+    // new JoystickButton(driver, 8).whileTrue(new ElevatorUpCommand(m_elevatorSub));
+    new JoystickButton(driver, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
   }
 
   

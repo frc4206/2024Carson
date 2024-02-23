@@ -19,7 +19,7 @@ public class ClimberDownLeftCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosDisEngage);
+    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +32,7 @@ public class ClimberDownLeftCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_vortexClimberSubsystem.climbSTOP();
-    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosEngage);
+    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
 
   }
 

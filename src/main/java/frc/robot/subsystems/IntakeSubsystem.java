@@ -6,50 +6,23 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import java.lang.invoke.ConstantBootstraps;
-
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
-
-
-
 public class IntakeSubsystem extends SubsystemBase {
+  private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.intakeDriveMotorID, MotorType.kBrushless);
+  private CANSparkFlex intakeFollowerMotor = new CANSparkFlex(Constants.Intake.intakeFollowerMotorID, MotorType.kBrushless);
 
-  /* Variables */
-  private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.IntakeDriveMotorID, MotorType.kBrushless);
-  private DigitalInput intakeBeamBreak = new DigitalInput(Constants.Intake.IntkeBeamBreakDIO);
+  public IntakeSubsystem() { 
+    intakeFollowerMotor.follow(intakeMotor);
+  }
 
-  public boolean intakeBeamBreakValue = intakeBeamBreak.get();
+  public void IntakeGo(double setSpeed) {
+    intakeMotor.set(setSpeed);
+  }
 
-  /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() { }
+  @Override
+  public void periodic() {
 
-    public boolean state() {
-      return intakeBeamBreak.get(); 
-    }
-
-    public void GoUntilBeamBreak(double setSpeed) {
-      if (intakeBeamBreakValue == false) {
-        intakeMotor.set(setSpeed); 
-      } else {
-        intakeMotor.set(0); 
-      }
-    }
-
-    public void IntakeGo(double setSpeed) {
-      intakeMotor.set(setSpeed);
-    }
-
-    @Override
-    public void periodic() {
-      // This method will be called once per scheduler run
-      intakeBeamBreakValue = !intakeBeamBreak.get();
-      SmartDashboard.putBoolean("Beambreak Activated", intakeBeamBreakValue); 
-      intakeMotor.setInverted(true);
-    }
-
+  }
 }

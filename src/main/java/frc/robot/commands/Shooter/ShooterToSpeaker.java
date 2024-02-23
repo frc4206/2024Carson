@@ -5,25 +5,30 @@
 package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.GlobalVariables;
 import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
 
-public class FlywheelSpinCommand extends Command {
-  public FlywheelSubsystem flywheelSubsystem;
-  private double flySpeed;
-  public FlywheelSpinCommand(FlywheelSubsystem flywheelSubsystem, double FLYspeed) {
-    this.flywheelSubsystem = flywheelSubsystem;
-    flySpeed = FLYspeed;
-    addRequirements(flywheelSubsystem);
+public class ShooterToSpeaker extends Command {
+  private FlywheelSubsystem m_shooter;
+  private PivotSubsystem m_pivot;
+  public ShooterToSpeaker(FlywheelSubsystem shooter, PivotSubsystem pivot) {
+    m_shooter = shooter;
+    m_pivot = pivot;
+    addRequirements(m_shooter, m_pivot);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    // GlobalVariables.shooterAutomatic = true;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flywheelSubsystem.setVelocity(flySpeed);
+    // m_shooter.setVelocity(6500);
+    m_pivot.autoAdjust(GlobalVariables.distanceToSpeaker);
   }
 
   // Called once the command ends or is interrupted.
@@ -33,6 +38,6 @@ public class FlywheelSpinCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

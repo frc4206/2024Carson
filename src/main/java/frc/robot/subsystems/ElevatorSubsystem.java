@@ -15,70 +15,56 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
+  private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.elevatorLeaderID, MotorType.kBrushless);
+  private RelativeEncoder elevatorLeaderEncoder = elevatorLeader.getEncoder();
+  private SparkPIDController elevatorLeaderPIDController = elevatorLeader.getPIDController();
+  private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.elevatorFollowerID, MotorType.kBrushless);
 
-  /* Variables */
-  private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.ElevatorLeaderID, MotorType.kBrushless);
-  private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.ElevatorFollowerID, MotorType.kBrushless);
+  private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.elevatorTopLimitSwitch);
+  private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.elevatorBottomLimitSwitch);
 
-  private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.ElevatorTopLimitSwitch);
-  private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.ElevatorBottomLimitSwitch);
-  
-  private SparkPIDController elevatorLeadPid;
-  private RelativeEncoder elevatorLeadEncoder;
-
-  /* Method Constructor */
   public ElevatorSubsystem() {
     elevatorLeader.restoreFactoryDefaults();
-    elevatorLeader.setInverted(false);
-    elevatorFollower.setInverted(false);
-    
-
-    elevatorLeader.restoreFactoryDefaults();
     elevatorFollower.restoreFactoryDefaults();
-    elevatorLeader.setInverted(false);
-    elevatorFollower.setInverted(false);
-
-    elevatorLeadEncoder = elevatorLeader.getEncoder();
-    elevatorLeadPid = elevatorLeader.getPIDController();
+    elevatorLeader.setInverted(Constants.Elevator.elevatorLeaderisInverted);
+    elevatorFollower.setInverted(Constants.Elevator.elevatorFollowisInverted);
     
-    elevatorLeadPid.setFeedbackDevice(elevatorLeadEncoder);
-    elevatorLeadPid.setP(Constants.Elevator.elevKP);
-    elevatorLeadPid.setI(Constants.Elevator.elevKI);
-    elevatorLeadPid.setD(Constants.Elevator.elevKD);
+    elevatorLeaderPIDController.setFeedbackDevice(elevatorLeaderEncoder);
+    elevatorLeaderPIDController.setP(Constants.Elevator.elevKP);
+    elevatorLeaderPIDController.setI(Constants.Elevator.elevKI);
+    elevatorLeaderPIDController.setD(Constants.Elevator.elevKD);
 
-    elevatorFollower.follow(elevatorLeader);
+    elevatorLeader.burnFlash();
+    elevatorFollower.burnFlash();
   }
 
   public void elevatorSTOP() {
-    elevatorFollower.follow(elevatorLeader);
     elevatorLeader.set(Constants.Elevator.elevStopSpeed);
+    elevatorFollower.set(Constants.Elevator.elevStopSpeed);
   }
 
   public void elevatorUP() {
-    elevatorFollower.follow(elevatorLeader);
     elevatorLeader.set(Constants.Elevator.elevUpSpeed);
+    elevatorFollower.set(Constants.Elevator.elevUpSpeed);
   }
 
   public void elevatorDOWN() {
-    elevatorFollower.follow(elevatorLeader);
     elevatorLeader.set(Constants.Elevator.elevDownSpeed);
+    elevatorFollower.set(Constants.Elevator.elevDownSpeed);
   }
 
   public void GoToSetpoint(double setpoint) {
-    elevatorLeadPid.setReference(setpoint, ControlType.kPosition, 0);
+    elevatorLeaderPIDController.setReference(setpoint, ControlType.kPosition, 0);
   }
-
 
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    if(elevatorBottomLimitSwitch.get()) {
-      elevatorLeadEncoder.setPosition(0);
+    if(!elevatorBottomLimitSwitch.get()) {
+      elevatorLeaderEncoder.setPosition(0);
     }
-    /* Get value from testing!! */
-    if(elevatorTopLimitSwitch.get()) {
-      elevatorLeadEncoder.setPosition(7.5);
+    if(!elevatorTopLimitSwitch.get()) {
+      elevatorLeaderEncoder.setPosition(Constants.Elevator.elevResetPosition);
     }
   }
 }

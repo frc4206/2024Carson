@@ -13,26 +13,29 @@ public class RunServoRightCommand extends Command {
   public double servoPosition;
   
   /** Creates a new RunServoCommand. */
-  public RunServoRightCommand(ClimberSubsystem climber, double servoPos) {
+  public RunServoRightCommand(ClimberSubsystem climber, double pos) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_climber = climber;
-    servoPosition = servoPos;
+    servoPosition = pos;
     addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.setPositionRight(servoPosition);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_climber.setPositionRight(servoPosition);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

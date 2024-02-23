@@ -4,29 +4,28 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.LimelightCameraClass;
 import frc.robot.LimelightCameraManagerClass;
 
 public class Limelight extends SubsystemBase {
-/** Creates a new Limelight. */
+  public static LimelightCameraClass limelightshooter = new LimelightCameraClass(Constants.Limelight.limelightFrontCamID, "limelight-shooter", Constants.Limelight.limelightFrontAngle, Constants.Limelight.limelightFrontHeight, Constants.Limelight.limelightFrontTargetHeight);
+  static LimelightCameraClass limelightleft = new LimelightCameraClass(Constants.Limelight.limelightLeftCamID, "limelight-left", Constants.Limelight.limelightLeftAngle, Constants.Limelight.limelightLeftHeight, Constants.Limelight.limelightLeftTargetHeight);
+  static LimelightCameraClass limelightright = new LimelightCameraClass(Constants.Limelight.limelightRightCamID, "limelight-right", Constants.Limelight.limelightRightAngle, Constants.Limelight.limelightRightHeight, Constants.Limelight.limelightRightTargetHeight);
 
-  public LimelightCameraClass limelightfront = new LimelightCameraClass(Constants.Limelight.limelightFrontCamID, "limelight-front", Constants.Limelight.limelightFrontAngle, Constants.Limelight.limelightFrontHeight, Constants.Limelight.limelightFrontTargetHeight);
-  LimelightCameraClass limelightleft = new LimelightCameraClass(Constants.Limelight.limelightLeftCamID, "limelight-left", Constants.Limelight.limelightLeftAngle, Constants.Limelight.limelightLeftHeight, Constants.Limelight.limelightLeftTargetHeight);
-  LimelightCameraClass limelightright = new LimelightCameraClass(Constants.Limelight.limelightRightCamID, "limelight-right", Constants.Limelight.limelightRightAngle, Constants.Limelight.limelightRightHeight, Constants.Limelight.limelightRightTargetHeight);
+  static LimelightCameraClass[] limelightList = {limelightshooter, limelightleft, limelightright};
 
-  LimelightCameraClass[] limelightList = {limelightfront, limelightleft, limelightright};
+  public static LimelightCameraManagerClass limelightManger = new LimelightCameraManagerClass(limelightList);
 
-  public LimelightCameraManagerClass limelightManger = new LimelightCameraManagerClass(limelightList);
+  static SwerveSubsystem swerve = new SwerveSubsystem();
 
   public static boolean isenabled = false;
   boolean init = false;
+
+  static int ctr;
+  static double[] rawbotpose;
+  static double[] botpose;
 
   public Limelight() {}
 
@@ -34,18 +33,12 @@ public class Limelight extends SubsystemBase {
     limelightManger.changeAllPipelines(pipeline);
   }
 
-  public double[] getFieldCordsTEST() {
+  public static double[] getFieldCordsTEST() {
     return limelightManger.pose;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
     limelightManger.Update();
-
-      //if (!isenabled) {
-      //  ChangePipelines(0);
-      //  init= true;
-      //}
   } 
 }

@@ -4,9 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.Swerve.Mod0;
+import frc.robot.Constants.Swerve.Mod1;
+import frc.robot.Constants.Swerve.Mod2;
+import frc.robot.Constants.Swerve.Mod3;
+import frc.robot.commands.LimeLight.ChangePipelineCommand;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SwerveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,8 +24,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
+  private SwerveSubsystem m_swerve;
+  private Limelight m_limelight;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -27,7 +36,14 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    GlobalVariables.alliance = DriverStation.getAlliance().get();
     m_robotContainer = new RobotContainer();
+    m_swerve = new SwerveSubsystem();
+    m_limelight = new Limelight();
+    Mod0.angleOffset = m_swerve.mSwerveMods[0].getCanCoder().getDegrees();
+    Mod1.angleOffset = m_swerve.mSwerveMods[1].getCanCoder().getDegrees();
+    Mod2.angleOffset = m_swerve.mSwerveMods[2].getCanCoder().getDegrees();
+    Mod3.angleOffset = m_swerve.mSwerveMods[3].getCanCoder().getDegrees();
   }
 
   /**
@@ -77,6 +93,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    CommandScheduler.getInstance().schedule(new ChangePipelineCommand(m_limelight, 2));
   }
 
   /** This function is called periodically during operator control. */

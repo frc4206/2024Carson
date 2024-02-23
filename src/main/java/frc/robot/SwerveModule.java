@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.lib.math.Conversions;
-import frc.lib.util.CTREModuleState;
 import frc.lib.util.SwerveModuleConstants;
 
 import com.ctre.phoenix6.controls.PositionDutyCycle;
@@ -52,10 +51,7 @@ public class SwerveModule {
         configDriveMotor();
 
         lastAngle = getState().angle.getDegrees();
-      }
-  
-
-
+    }
 
 
 
@@ -79,59 +75,56 @@ public class SwerveModule {
   
 
 
-      public void literallyJustTurnBro(){
-        double velocity = 0.6;
-        mAngleMotor.set(velocity);
-      }
+    public void literallyJustTurnBro(){
+      double velocity = 0.6;
+      mAngleMotor.set(velocity);
+    }
 
-      private void resetToAbsolute(){
-          double absolutePosition = getCanCoder().getRotations() - angleOffset;
-          mAngleMotor.setPosition(absolutePosition);
-      }
-  
-      private void configAngleEncoder(){    
-          // angleEncoder.configFactoryDefault();
-          angleEncoder.getConfigurator().apply(ctreConfigs.swerveCanCoderConfig);  
-      }
-  
-      private void configAngleMotor(){
-          // mAngleMotor.configFactoryDefault();
-          mAngleMotor.getConfigurator().apply(ctreConfigs.swerveAngleFXConfig);
-          mAngleMotor.setInverted(Constants.Swerve.angleMotorInvert);
-          mAngleMotor.setNeutralMode(NeutralModeValue.Brake);
-          resetToAbsolute();
-      }
-  
-      private Rotation2d getAngle(){
-          return Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
-      }
-  
-      private void configDriveMotor(){        
-          // mDriveMotor.configFactoryDefault();
-          mDriveMotor.getConfigurator().apply(ctreConfigs.swerveDriveFXConfig);
-          mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
-          mDriveMotor.setNeutralMode(NeutralModeValue.Brake);
-          mDriveMotor.setPosition(0);
-      }
-  
-      public void configMotorNeutralModes(){
-          mAngleMotor.setNeutralMode(NeutralModeValue.Brake);
-          mDriveMotor.setNeutralMode(NeutralModeValue.Brake);
-      }
-  
-      public Rotation2d getCanCoder(){
-          return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValueAsDouble());
-      }
-  
-      public SwerveModuleState getState(){
-          double velocity = Conversions.RPSToMPS(mDriveMotor.getVelocity().getValueAsDouble(), Constants.Swerve.wheelCircumference);
-          Rotation2d angle = Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
-          return new SwerveModuleState(velocity, angle);
-      }
-  
-      public SwerveModulePosition getPosition() {
-          return new SwerveModulePosition(Conversions.rotationsToMeters(mDriveMotor.getPosition().getValueAsDouble(), Constants.Swerve.wheelCircumference),
-          getAngle());
-      }
+    private void resetToAbsolute(){
+        double absolutePosition = getCanCoder().getRotations() - angleOffset;
+        mAngleMotor.setPosition(absolutePosition);
+    }
+
+    private void configAngleEncoder(){    
+        angleEncoder.getConfigurator().apply(ctreConfigs.swerveCanCoderConfig);  
+    }
+
+    private void configAngleMotor(){
+        mAngleMotor.getConfigurator().apply(ctreConfigs.swerveAngleFXConfig);
+        mAngleMotor.setInverted(Constants.Swerve.angleMotorInvert);
+        mAngleMotor.setNeutralMode(NeutralModeValue.Brake);
+        resetToAbsolute();
+    }
+
+    private Rotation2d getAngle(){
+        return Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
+    }
+
+    private void configDriveMotor(){        
+        mDriveMotor.getConfigurator().apply(ctreConfigs.swerveDriveFXConfig);
+        mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
+        mDriveMotor.setNeutralMode(NeutralModeValue.Brake);
+        mDriveMotor.setPosition(0);
+    }
+
+    public void configMotorNeutralModes(){
+        mAngleMotor.setNeutralMode(NeutralModeValue.Brake);
+        mDriveMotor.setNeutralMode(NeutralModeValue.Brake);
+    }
+
+    public Rotation2d getCanCoder(){
+        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValueAsDouble());
+    }
+
+    public SwerveModuleState getState(){
+        double velocity = Conversions.RPSToMPS(mDriveMotor.getVelocity().getValueAsDouble(), Constants.Swerve.wheelCircumference);
+        Rotation2d angle = Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
+        return new SwerveModuleState(velocity, angle);
+    }
+
+    public SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(Conversions.rotationsToMeters(mDriveMotor.getPosition().getValueAsDouble(), Constants.Swerve.wheelCircumference),
+        getAngle());
+    }
       
   }

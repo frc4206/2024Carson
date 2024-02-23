@@ -7,84 +7,119 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class PivotSubsystem extends SubsystemBase {
 
-  public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Shooter.ShooterPivotID, MotorType.kBrushless);
+  public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Shooter.shooterPivotID, MotorType.kBrushless);
+  public RelativeEncoder pivotEncoder;
   public SparkPIDController pivotController;
 
-  public RelativeEncoder relPivotEnc;
+  // double[][] angleData = {{4.65, 1.03}, {4.04, 1.86}, {3.89, 1.69}, {3.12, 2.77}, {2.90, 3.21}, {2.49, 4.07}, {2.18, 5.00}};
+  double[][] angleData = {{0, 0},{1, 0.5}};
+  InterpolatingTreeTableSubsystem angleTree;
 
-  double [][] AngleData = { {0,0}, {1,1} };
-
-  // To finish on Monday
   public enum ShooterPositions {
-    SUBWOOFER,
+    CLOSE,
     PODIUM,
-    AMPLIFIER,
-    WING;
+    UNDER,
+    STAGE,
+    WING,
+    AMPLIFIER
   }
 
-  private ShooterPositions position;
+  public ShooterPositions position = ShooterPositions.WING;
 
-  /** Creates a new PivotSubsystem. */
-  public PivotSubsystem(ShooterPositions position) {
+  public PivotSubsystem() {
+    angleTree = new InterpolatingTreeTableSubsystem(angleData);
+
     pivotMotor.restoreFactoryDefaults();
+    pivotEncoder = pivotMotor.getEncoder();
     pivotController = pivotMotor.getPIDController();
-
-
-    relPivotEnc = pivotMotor.getEncoder();
-
-
-    pivotController.setFeedbackDevice(relPivotEnc);
-    pivotController.setP(Constants.Shooter.pivotKP);
-    pivotController.setI(Constants.Shooter.pivotKI);
-    pivotController.setD(Constants.Shooter.pivotKD);
-    pivotController.setFF(Constants.Shooter.pivotFF);
-    pivotController.setSmartMotionMaxVelocity(Constants.Shooter.pivotMaxVel, Constants.Shooter.pivotMaxVelID);
-    pivotController.setSmartMotionMinOutputVelocity(Constants.Shooter.pivotMinVel, Constants.Shooter.pivotMinVelID);
-    pivotController.setSmartMotionMaxAccel(Constants.Shooter.pivotMaxAccel, Constants.Shooter.pivotMaxAccelID);
-    pivotController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.pivotAllowedError, Constants.Shooter.pivotAllowedErrorID);
- 
+    pivotMotor.setIdleMode(IdleMode.kBrake);
+    pivotMotor.setClosedLoopRampRate(0.25);
     pivotMotor.setSmartCurrentLimit(40);
+    pivotController.setFeedbackDevice(pivotEncoder);
+    pivotController.setP(Constants.Pivot.pivotKP);
+    pivotController.setI(Constants.Pivot.pivotKI);
+    pivotController.setIZone(Constants.Pivot.pivotKIZone);
+    pivotController.setD(Constants.Pivot.pivotKD);
+    pivotController.setSmartMotionMaxVelocity(Constants.Pivot.pivotMaxVel, 0);
+    pivotController.setSmartMotionMinOutputVelocity(Constants.Pivot.pivotMinVel, 0);
+    pivotController.setSmartMotionMaxAccel(Constants.Pivot.pivotMaxAccel, 0);
+    pivotController.setSmartMotionAllowedClosedLoopError(Constants.Pivot.pivotAllowedError, 0);
   }
 
-  public void motorPivot(double pivotSpeed) {
-    // pivotMotor.set(pivotSpeed);
+  public void resetPivot(){
+    pivotEncoder.setPosition(0);
   }
 
-  public void setPos(double xCoordinate) {
-    pivotController.setReference(xCoordinate, CANSparkFlex.ControlType.kPosition);
-  }
-
-  public void runMotor (double speed) {
+  public void runPivot(double speed) {
     pivotMotor.set(speed);
   }
+  
+  public void setPosition(double angle) {
+    pivotController.setReference(angle, CANSparkFlex.ControlType.kPosition);
+  }
 
-  // Set shooter position relative to field (where am I shooting?)
-  public void setFieldRelativePosition(int degrees, ShooterPositions position) {
-    switch(position) {
-      case SUBWOOFER:
-        pivotController.setReference(0 /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+  public void autoAdjust(double distFromSpeaker){
+    double newAngle = angleTree.getInterpolatedValue(distFromSpeaker);
+    setPosition(newAngle);
+  }
+
+  public void cycleRelativePosition(){
+    switch (position){
+      case WING:
+        position = ShooterPositions.STAGE;
+        break;
+      case STAGE:
+        position = ShooterPositions.UNDER;
+        break;
+      case UNDER:
+        position = ShooterPositions.PODIUM;
         break;
       case PODIUM:
-        pivotController.setReference(0 /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        position = ShooterPositions.CLOSE;
         break;
-      case AMPLIFIER:
-        pivotController.setReference(0 /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+      case CLOSE:
+        position = ShooterPositions.WING;
         break;
+      default:
+        position = ShooterPositions.WING;
+        break;
+    }
+  }
+
+  public void setFieldRelativePosition() {
+    switch (position){
       case WING:
-        pivotController.setReference(0 /*PLACEHOLDER!*/, CANSparkFlex.ControlType.kPosition);
+        pivotController.setReference(Constants.Pivot.wingPosition, CANSparkFlex.ControlType.kPosition); 
+        break;
+      case STAGE:
+        pivotController.setReference(Constants.Pivot.stagePosition, CANSparkFlex.ControlType.kPosition); 
+        break;
+      case UNDER:
+        pivotController.setReference(Constants.Pivot.underPosition, CANSparkFlex.ControlType.kPosition); 
+        break;
+      case PODIUM:
+        pivotController.setReference(Constants.Pivot.podiumPosition, CANSparkFlex.ControlType.kPosition); 
+        break;
+      case CLOSE:
+        pivotController.setReference(Constants.Pivot.closePosition, CANSparkFlex.ControlType.kPosition); 
+        break;
+      default:
         break;
     }
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
+    setFieldRelativePosition();
   }
 }

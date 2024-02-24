@@ -7,7 +7,6 @@ package frc.robot.commands.Climber;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimberToggleUpCommand extends Command {
@@ -26,7 +25,7 @@ public class ClimberToggleUpCommand extends Command {
   public void initialize() {
     isfin = false; 
     m_climberSubsystem.setPositionRight(0.35);
-    if (m_climberSubsystem.climbLeadEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
+    if (m_climberSubsystem.climbRightLeadEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
       state = "up";
     } else {
       state = "down";
@@ -40,7 +39,7 @@ public class ClimberToggleUpCommand extends Command {
     if (state == "down") {
       m_climberSubsystem.climbUPRight();
       m_climberSubsystem.climbUPLeft();
-      if (m_climberSubsystem.climbLeadEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
+      if (m_climberSubsystem.climbRightLeadEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
         state = "up";
         isfin = true;
         isFinished();
@@ -48,7 +47,7 @@ public class ClimberToggleUpCommand extends Command {
     }else {
       m_climberSubsystem.climbDOWNRight();
       m_climberSubsystem.climbDOWNLeft();
-      if (m_climberSubsystem.climbLeadEncoder.getPosition() < Constants.Climber.climberBottomSetpoint) {
+      if (m_climberSubsystem.climbRightLeadEncoder.getPosition() < Constants.Climber.climberBottomSetpoint) {
         state = "down";
         isfin = true;
         isFinished();

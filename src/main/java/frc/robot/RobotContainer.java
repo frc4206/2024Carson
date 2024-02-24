@@ -22,6 +22,7 @@ import frc.robot.commands.Climber.ClimberDownRightCommand;
 import frc.robot.commands.Climber.ClimberToggleUpCommand;
 import frc.robot.commands.Climber.ClimberUpLeftCommand;
 import frc.robot.commands.Climber.ClimberUpRightCommand;
+import frc.robot.commands.Climber.RunServoLeftCommand;
 import frc.robot.commands.Climber.RunServoRightCommand;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.commands.Elevator.ElevatorDownCommand;
@@ -132,8 +133,10 @@ public class RobotContainer {
     new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, 0.55));
     new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberSub));
     new JoystickButton(operator, 4).whileTrue(new ClimberUpLeftCommand(m_climberSub));
-    new JoystickButton(operator, 5).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
-    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, 0.55));    
+    new JoystickButton(operator, 5).whileTrue(new RunServoLeftCommand(m_climberSub, 0.45));
+    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoLeftCommand(m_climberSub, 0.55));  
+    
+    //new JoystickButton(operator, 7).whileTrue(new )
 
     new JoystickButton(operator, 8).whileTrue(new ClimberToggleUpCommand(m_climberSub));//start
 

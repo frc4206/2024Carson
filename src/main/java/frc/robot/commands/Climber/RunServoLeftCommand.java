@@ -5,35 +5,36 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class ClimberDownLeftCommand extends Command {
-  private ClimberSubsystem m_vortexClimberSubsystem;
-
-  public ClimberDownLeftCommand(ClimberSubsystem vortexClimber) {
-    m_vortexClimberSubsystem /*help */ = vortexClimber;    
-    addRequirements(m_vortexClimberSubsystem);
+public class RunServoLeftCommand extends Command {
+  
+  public ClimberSubsystem m_climber;
+  public double servoPosition;
+  
+  /** Creates a new RunServoCommand. */
+  public RunServoLeftCommand(ClimberSubsystem climber, double pos) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    m_climber = climber;
+    servoPosition = pos;
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_vortexClimberSubsystem.setPositionLeft(Constants.Climber.servoPosRightDisEngage);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_vortexClimberSubsystem.climbDOWNLeft();
+    m_climber.setPositionLeft(servoPosition);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_vortexClimberSubsystem.climbSTOP();
-    //m_vortexClimberSubsystem.setPosition(Constants.Climber.servoPosRightDisEngage);
-
   }
 
   // Returns true when the command should end.

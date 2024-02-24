@@ -36,7 +36,7 @@ public class ClimberSubsystem extends SubsystemBase {
     climberRightLead.setInverted(false);
     climberLeftFollow.setInverted(false);
 
-    //climberLeftFollow.follow(climberRightLead);
+    climberLeftFollow.follow(climberRightLead);
 
     climbRightLeadEncoder = climberRightLead.getEncoder();
     climbLeftFollowEncoder = climberLeftFollow.getEncoder();
@@ -59,19 +59,20 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void climbUPRight() {
-    climberRightLead.set(0.2);
+    climberRightLead.set(.2);
   }
 
   public void climbDOWNRight() {
-    climberRightLead.set(-0.2);
+    climberRightLead.set(-.2);
   }
 
     public void climbUPLeft() {
-    climberLeftFollow.set(0.2);
+    climberLeftFollow.set(.2);
   }
 
   public void climbDOWNLeft() {
-    climberLeftFollow.set(-0.2);
+    climberLeftFollow.set(-.2);
+
   }
 
   public void GoToSetpoint(double setpoint) {

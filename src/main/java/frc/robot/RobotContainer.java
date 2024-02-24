@@ -127,20 +127,6 @@ public class RobotContainer {
     
     // new JoystickButton(driver, 4).toggleOnTrue(new ClimbToTopCommand(climber));
     // new JoystickButton(driver, 4).toggleOnFalse(new ClimbToBottomCommand(climber));
-    new JoystickButton(operator, 1).whileTrue(new ClimberDownRightCommand(m_climberSub));
-    new JoystickButton(operator, 2).whileTrue(new ClimberUpRightCommand(m_climberSub));
-    new JoystickButton(operator, 6).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
-    new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, 0.55));
-    new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberSub));
-    new JoystickButton(operator, 4).whileTrue(new ClimberUpLeftCommand(m_climberSub));
-    new JoystickButton(operator, 5).whileTrue(new RunServoLeftCommand(m_climberSub, 0.45));
-    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoLeftCommand(m_climberSub, 0.55));  
-    
-    //new JoystickButton(operator, 7).whileTrue(new )
-
-    new JoystickButton(operator, 8).whileTrue(new ClimberToggleUpCommand(m_climberSub));//start
-
-
     // new JoystickButton(driver, 4).onTrue(new ResetPivotCommand(m_pivotSubsystem));
     //new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
     
@@ -160,12 +146,18 @@ public class RobotContainer {
     new JoystickButton(driver, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
 
     
-    new JoystickButton(operator, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));
-    new JoystickButton(operator, 2).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.PODIUM)));
-    new JoystickButton(operator, 4).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.UNDER)));
-    new JoystickButton(operator, 6).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.STAGE)));
-    new Trigger(() -> this.getRightTrigger(operator)).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.WING)));
+    new JoystickButton(operator, 1).whileTrue(new ClimberDownRightCommand(m_climberSub));
+    new JoystickButton(operator, 2).whileTrue(new ClimberUpRightCommand(m_climberSub));
+    new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberSub));
+    new JoystickButton(operator, 4).whileTrue(new ClimberUpLeftCommand(m_climberSub));
+    new JoystickButton(operator, 5).whileTrue(new RunServoLeftCommand(m_climberSub, 0.45));
+    new JoystickButton(operator, 6).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
+    new JoystickButton(operator, 8).whileTrue(new ClimberToggleUpCommand(m_climberSub));//start
+    new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, 0.55));
+    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoLeftCommand(m_climberSub, 0.55));  
 
+
+    
 
     new JoystickButton(operator2, 1).onTrue(new SystemCheck(m_climberSub, m_conveyorSub, m_elevatorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operator2));
 

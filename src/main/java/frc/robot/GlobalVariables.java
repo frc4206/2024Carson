@@ -9,4 +9,6 @@ public class GlobalVariables {
     public static boolean intakingPiece = false;
     public static boolean pieceReady = false;
     public static boolean ampReady = false;
+
+    public static boolean isEnabled = false;
 }

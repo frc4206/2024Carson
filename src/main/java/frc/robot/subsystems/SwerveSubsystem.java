@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.mechanisms.DifferentialMechanism.DisabledReason;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -13,11 +14,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -35,6 +38,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double nomYaw = 0;
     double realYaw = 0;
     double rotations = 0;
+    public SwerveDrivePoseEstimator poseEstimator;
 
     public enum HeadingState {
         PICKUP,
@@ -84,6 +88,7 @@ public class SwerveSubsystem extends SubsystemBase {
     //         },
     //         this // Reference to this subsystem to set requirements
     // );
+    poseEstimator = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions(), getPose());
     }
     
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -221,11 +226,13 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     public void resetOdometryLLFieldCords() {
-        if (Limelight.limelightshooter.GetPipeline() == 2 && Math.abs(Limelight.limelightshooter.aprilTagResult[0]) < 2) {
+        if (Limelight.limelightshooter.GetPipeline() == 2 && Math.abs(Limelight.limelightshooter.aprilTagResult[2]) < 3.5) {
             double[] rawcords = Limelight.limelightshooter.Fieldresult;
             Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
+            AprilCords = fieldcords;
             if (Limelight.limelightshooter.HasTarget() != 0 || Limelight.limelightright.HasTarget() != 0 || Limelight.limelightleft.HasTarget() != 0) {
                 resetOdometry(fieldcords);
+                poseEstimator.addVisionMeasurement(fieldcords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
             }
         }
     }
@@ -239,6 +246,7 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());
+        poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
         resetOdometryLLFieldCords();
     
         double[] OdometryArray = {getPose().getX(), getPose().getY(), getYaw().getDegrees()};
@@ -246,10 +254,20 @@ public class SwerveSubsystem extends SubsystemBase {
         
         // SmartDashboard.putNumber("Odometry X: ", OdometryArray[0]);
         // SmartDashboard.putNumber("Odometry Y: ", OdometryArray[1]);
+
+        double[] poseEstimatorPos = {poseEstimator.getEstimatedPosition().getX(), poseEstimator.getEstimatedPosition().getY(), poseEstimator.getEstimatedPosition().getRotation().getDegrees()};
+        SmartDashboard.putNumberArray("pose estimator array", poseEstimatorPos);
+
+        if (GlobalVariables.isEnabled == false) {
+            poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+        }
+
         //Game piece positions
         if (Limelight.limelightshooter.GetPipeline() == 1) {
         Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
         }
+
+        
 
         double[] ypr = new double[3];
         ypr[0] = gyro.getYaw().getValueAsDouble();

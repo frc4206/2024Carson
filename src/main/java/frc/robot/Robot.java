@@ -17,6 +17,7 @@ import frc.robot.Constants.Swerve.Mod3;
 import frc.robot.commands.LimeLight.ChangePipelineCommand;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.GlobalVariables;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -64,7 +65,9 @@ public class Robot extends LoggedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    GlobalVariables.isEnabled = false;
+  }
 
   @Override
   public void disabledPeriodic() {
@@ -75,7 +78,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    GlobalVariables.isEnabled = true;
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -96,6 +99,7 @@ public class Robot extends LoggedRobot {
       m_autonomousCommand.cancel();
     }
     CommandScheduler.getInstance().schedule(new ChangePipelineCommand(m_limelight, 2));
+    GlobalVariables.isEnabled = true;
   }
 
   /** This function is called periodically during operator control. */

@@ -8,22 +8,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlywheelSubsystem;
 
 public class FlywheelSpinCommand extends Command {
-  public FlywheelSubsystem flywheelSubsystem;
+  public FlywheelSubsystem m_flywheelSubsystem;
   private double flySpeed;
 
   /** Creates a new FlywheelSpinCommand. */
-  public FlywheelSpinCommand(FlywheelSubsystem flywheelSubsystem, double FLYspeed) {
+  public FlywheelSpinCommand(FlywheelSubsystem flywheelSubsystem, double flySpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.flywheelSubsystem = flywheelSubsystem;
-    flySpeed = FLYspeed;
+    m_flywheelSubsystem = flywheelSubsystem;
+    this.flySpeed = flySpeed;
 
-    addRequirements(flywheelSubsystem);
+    addRequirements(m_flywheelSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    flywheelSubsystem.setVelocity(flySpeed);
+    m_flywheelSubsystem.setVelocity(flySpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -9,16 +9,16 @@ import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 
 public class PivotAngleCommand extends Command {
-  public PivotSubsystem PivotSubsystem;
+  public PivotSubsystem m_pivotSubsystem;
   public double pivotSpeed;
   public ShooterPositions positon;
 
   /** Creates a new PivotCommand. */
-  public PivotAngleCommand(PivotSubsystem pivotSubsystem, double PIVOTspeed) {
+  public PivotAngleCommand(PivotSubsystem pivotSubsystem, double pivSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.PivotSubsystem = pivotSubsystem;
-    pivotSpeed = PIVOTspeed;
-    addRequirements(PivotSubsystem);
+    m_pivotSubsystem = pivotSubsystem;
+    pivotSpeed = pivSpeed;
+    addRequirements(m_pivotSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +30,7 @@ public class PivotAngleCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    PivotSubsystem.setPos(pivotSpeed);
+    m_pivotSubsystem.setPos(pivotSpeed);
   }
 
   // Called once the command ends or is interrupted.

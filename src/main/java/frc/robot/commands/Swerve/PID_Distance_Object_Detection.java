@@ -70,12 +70,12 @@ public class PID_Distance_Object_Detection extends Command {
     double y_error = Math.abs(s_Swerve.swerveOdometry.getPoseMeters().getY()) - Math.abs(y_set);
     double yaw_error = Math.abs(s_Swerve.getYaw().getDegrees()) - (yaw_set);
     SmartDashboard.putNumber("Current time", current_time);
-    double distnaceToGamePiece = (s_Swerve.limelight.limelightshooter.HasTarget() == 1) ? s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece() : 0;
+    double distanceToGamePiece = (s_Swerve.limelight.limelightshooter.HasTarget() == 1) ? s_Swerve.limelight.limelightManger.cameraList[1].GetDistanceToGamePiece() : 0;
 
-    SmartDashboard.putNumber("distance x", distnaceToGamePiece * Math.sin(s_Swerve.getYaw().getDegrees() + s_Swerve.limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0))); 
-    SmartDashboard.putNumber("distance y", distnaceToGamePiece * Math.cos(s_Swerve.getYaw().getDegrees() + s_Swerve.limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0)));
+    SmartDashboard.putNumber("distance x", distanceToGamePiece * Math.sin(s_Swerve.getYaw().getDegrees() + s_Swerve.limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0))); 
+    SmartDashboard.putNumber("distance y", distanceToGamePiece * Math.cos(s_Swerve.getYaw().getDegrees() + s_Swerve.limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0)));
 
-    if (distnaceToGamePiece < Go_to_Target_Distance && distnaceToGamePiece != 0) {
+    if (distanceToGamePiece < Go_to_Target_Distance && distanceToGamePiece != 0) {
 
 
       rotation = pidyaw.calculate(s_Swerve.limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0), 0);

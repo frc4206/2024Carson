@@ -48,67 +48,54 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
-  private final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final ClimberSubsystem m_climberSub = new ClimberSubsystem();
-  private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
-  private final Limelight m_Limelight = new Limelight();
-  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_Limelight);
-  private final ConveyorSubsystem m_conveyorSub = new ConveyorSubsystem();
+	private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
+	private final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
+	private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+	private final ClimberSubsystem m_climberSub = new ClimberSubsystem();
+	private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
+	private final Limelight m_Limelight = new Limelight();
+	private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_Limelight);
+	private final ConveyorSubsystem m_conveyorSub = new ConveyorSubsystem();
 
-  private final XboxController driver = new XboxController(0);
+	private final XboxController driver = new XboxController(0);
 
-  public RobotContainer() {
-    m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driver, 1, 0, 4, true, true));
-    configureBindings();
-  }
+	public RobotContainer() {
+		m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driver, 1, 0, 4, true, true));
+		configureBindings();
+	}
 
-  private boolean getLeftTrigger(XboxController controller){
-    return controller.getLeftTriggerAxis() > 0.05;
-  }
+	private boolean getLeftTrigger(XboxController controller) {
+		return controller.getLeftTriggerAxis() > 0.05;
+	}
 
-  private boolean getRightTrigger(XboxController controller){
-    return controller.getRightTriggerAxis() > 0.05;
-  }
-  
-  private void configureBindings() {
-<<<<<<< HEAD
-    // Flywheel Bindings
-    driverController.rightBumper().onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 1000)); // finished
-    // Pivot Bindings
-    driverController.leftBumper().onTrue(new PivotCommand(m_pivotSubsystem, -100));
+	private boolean getRightTrigger(XboxController controller) {
+		return controller.getRightTriggerAxis() > 0.05;
+	}
+	
+	private void configureBindings() {
+		//driverController.x().onTrue(new VortexClimberDownCommand(null/*?????*/));
+		//driverController.y().onTrue(new VortexClimberUpCommand(null/*?????*/));
+		//driverController.leftBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, 0.3));
+		//driverController.rightBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, -0.3));
+		//driver.button(0, new FlywheelSpinCommand(null, driver));
+		new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
+		// new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
+		new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
+		new JoystickButton(driver, 2).whileTrue(new IntakeGoCommand(m_intakeSubsystem));
+		new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
+		new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
+		new Trigger(() -> this.getRightTrigger(driver)).onTrue(new ShooterStopCommand(m_flywheelSubsystem));
+		new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
+		new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -1), new ConveyerToSpeedCommand(m_conveyorSub, 1)));
+		// new JoystickButton(driver, 7).whileTrue(new ElevatorDownCommand(m_elevatorSub));
+		//new JoystickButton(driver, 8).whileTrue(new ElevatorUpCommand(m_elevatorSub));
+		new JoystickButton(driver, 7).onTrue(new PivotCommand(m_pivotSubsystem, 2));
+		new JoystickButton(driver, 8).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
+		new JoystickButton(driver, 10).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -1));
+	}
 
-    driverController.a().onTrue(new GoUntilBeamBreakCommand(m_intakeSubsystem));// finished :)
-    driverController.b().onTrue(new VortexClimberPIDCommand(m_climberSub));
-    driverController.x().onTrue(new VortexElevatorPIDCommand(m_elevatorSub));
-    //driverController.a().onTrue(new VortexElevatorDownCommand(m_ElevatorSub));
-    // Climber Bindings
-    //driverController.x().onTrue(new VortexClimberDownCommand(null/*?????*/));
-    //driverController.y().onTrue(new VortexClimberUpCommand(null/*?????*/));
-    //driverController.leftBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, 0.3));
-    //driverController.rightBumper().whileTrue(new IntakeCommand(m_flywheelSubsystem, -0.3));
-    //driver.button(0, new FlywheelSpinCommand(null, driver));
-    new JoystickButton(controller, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-=======
-    // new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-    new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
-    new JoystickButton(driver, 2).whileTrue(new IntakeGoCommand(m_intakeSubsystem));
-    new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
-    new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
-    new Trigger(() -> this.getRightTrigger(driver)).onTrue(new ShooterStopCommand(m_flywheelSubsystem));
-    new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
-    new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -1), new ConveyerToSpeedCommand(m_conveyorSub, 1)));
-    // new JoystickButton(driver, 7).whileTrue(new ElevatorDownCommand(m_elevatorSub));
-    //new JoystickButton(driver, 8).whileTrue(new ElevatorUpCommand(m_elevatorSub));
-    new JoystickButton(driver, 7).onTrue(new PivotCommand(m_pivotSubsystem, 2));
-    new JoystickButton(driver, 8).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
-    new JoystickButton(driver, 10).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -1));
->>>>>>> 1725b5071bfaf19ae4e1bbf48168f71274ef1f58
-  }
-
-  
-  public Command getAutonomousCommand() {
-    return new InstantCommand();
-  }
+	
+	public Command getAutonomousCommand() {
+		return new InstantCommand();
+	}
 }

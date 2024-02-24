@@ -11,18 +11,19 @@ import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 
 public class ShooterToSubwoofer extends Command {
-  private PivotSubsystem m_pivot;
+  private PivotSubsystem m_pivotSubsystem;
   private boolean isFinished = false;
+
   public ShooterToSubwoofer(FlywheelSubsystem shooter, PivotSubsystem pivot) {
-    m_pivot = pivot;
-    addRequirements(m_pivot);
+    m_pivotSubsystem = pivot;
+    addRequirements(m_pivotSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     GlobalVariables.shooterAutomatic = false;
-    m_pivot.position = ShooterPositions.SUBWOOFER;
+    m_pivotSubsystem.position = ShooterPositions.SUBWOOFER;
     isFinished = true;
     isFinished();
   }

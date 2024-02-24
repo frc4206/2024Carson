@@ -13,23 +13,23 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ConveyorSubsystem extends SubsystemBase {
-  private CANSparkFlex conveyorMotor = new CANSparkFlex(Constants.Conveyor.conveyorMotorID, MotorType.kBrushless);
-  private DigitalInput conveyorBeamBreak = new DigitalInput(Constants.Conveyor.conveyerBeamBreakID);
+  	private CANSparkFlex conveyorMotor = new CANSparkFlex(Constants.Conveyor.conveyorMotorID, MotorType.kBrushless);
+  	private DigitalInput conveyorBeamBreak = new DigitalInput(Constants.Conveyor.conveyerBeamBreakID);
 
-  public ConveyorSubsystem() {
-    conveyorMotor.setInverted(Constants.Conveyor.conveyorInverted);
-  }
+  	public ConveyorSubsystem() {
+    	conveyorMotor.setInverted(Constants.Conveyor.conveyorInverted);
+  	}
 
-  public void conveyorTurn(double conveyorSpeed) {
-    conveyorMotor.set(conveyorSpeed);
-  }
+  	public void conveyorTurn(double conveyorSpeed) {
+    	conveyorMotor.set(conveyorSpeed);
+  	}
 
-  public boolean hasNote() {
-    return !conveyorBeamBreak.get();
-  }
+  	public boolean hasNote() {
+    	return !conveyorBeamBreak.get();
+  	}
 
-  @Override
-  public void periodic() {
-    SmartDashboard.putBoolean("hasNote", hasNote());
-  }
+  	@Override
+  	public void periodic() {
+    	SmartDashboard.putBoolean("hasNote", hasNote());
+  	}
 }

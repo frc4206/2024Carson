@@ -2,16 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Pivot;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.GlobalVariables;
-import frc.robot.subsystems.PivotSubsystem;
+package frc.robot.commands.Shooter;
 
-public class AutoPivotCommand extends Command {
-  private PivotSubsystem m_pivotSubsystem;
-  public AutoPivotCommand(PivotSubsystem pivotSubsystem) {
-    m_pivotSubsystem = pivotSubsystem;
-    addRequirements(m_pivotSubsystem);
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.FlywheelSubsystem;
+
+public class ShootAmpCommand extends Command {
+  private FlywheelSubsystem m_flywheel;
+  public ShootAmpCommand(FlywheelSubsystem flywheel) {
+    m_flywheel = flywheel;
+    addRequirements(m_flywheel);
   }
 
   // Called when the command is initially scheduled.
@@ -21,12 +21,14 @@ public class AutoPivotCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_pivotSubsystem.autoAdjust(GlobalVariables.distanceToSpeaker);
+    m_flywheel.shootAmp();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_flywheel.percentShooter(0);
+  }
 
   // Returns true when the command should end.
   @Override

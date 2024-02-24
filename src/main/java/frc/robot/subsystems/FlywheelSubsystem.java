@@ -53,6 +53,11 @@ public class FlywheelSubsystem extends SubsystemBase {
     lowerFlyMotor.burnFlash();
   }
 
+  public void shootAmp(){
+    upperFlyMotor.set(1);
+    lowerFlyMotor.set(-1);
+  }
+
   public boolean shooterAtVelocity(double setVelocity){
     return (
       (Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < 100) &&

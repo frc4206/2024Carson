@@ -58,8 +58,8 @@ public final class Constants {
     public static final boolean angleEnableStatorLimit = true;
     public static final boolean angleEnableSupplyLimit = true; 
 
-    public static final int driveStatorCurrentLimit = 60;
-    public static final int driveSupplyCurrentLimit = 50;
+    public static final int driveStatorCurrentLimit = 55;
+    public static final int driveSupplyCurrentLimit = 65;
     public static final boolean driveEnableStatorLimit = true;
     public static final boolean driveEnableSupplyLimit = true;
 
@@ -273,8 +273,9 @@ public final class Constants {
     public static final int elevatorTopLimitSwitch = 2;
     public static final int elevatorBottomLimitSwitch = 3;
 
-    public static final double elevKP = 0.02;
-    public static final double elevKI = 9e-8;
+    public static final double elevKP = 0.03;
+    public static final double elevKI = 0.00005;
+    public static final double elevKIZone = 10;
     public static final double elevKD = 0.0;
 
     public static final double elevStopSpeed = 0.0;
@@ -292,22 +293,18 @@ public final class Constants {
     public static final int climberLeftFollowID = 36;
     public static final int servoRightID = 1;
     public static final int servoLeftID = 2;
+    public static final int climberLimitSwitchID = 4;
 
-    public static final int climberLimitSwitch = 4;
+    public static final double climberkP = 0.002;
+    public static final double climberkI = 0.00002;
+    public static final double climberkIZone = 0.1;
+    public static final double climberkD = 0;
+    public static final double climberAllowedError = 1;
+    public static final double climberMaxVelo = 4000;
+    public static final double climberMaxAcc = 4000;
 
-    public static final double servoPosRightEngage = 0.55;
-    public static final double servoPosRightDisEngage = 0.3;
-    public static final double servoPosLeftEngage = 0.55;
-    public static final double servoPosLeftDisEngage = 0.3;
-
-    public static final double vortexClimberSubsystemLeadKP = 0.02; 
-    public static final double vortexClimberSubsystemLeadKI = 9e-8; 
-    public static final double vortexClimberSubsystemLeadKD = 0.0; 
- 
-    public static final double vortexClimberSubsystemLeadFF = 0.0; 
-    public static final int vortexClimberSubsystemMaxVelID = 0;
-
-    public static final double climberResetPosition = 7.5;
+    public static final double servoPosEngage = 0.55;
+    public static final double servoPosDisEngage = 0.3;
 
     public static final double climberTopSetpoint = 15;
     public static final double climberBottomSetpoint = 0;
@@ -320,8 +317,8 @@ public final class Constants {
   }
 
   public static final class LEDS{
-    public static final int candleID = 40;
-    public static final int numLEDs = 25;
+    public static final int candleID = 60;
+    public static final int numLEDs = 37;
     public static final int ledStartOffset = 0;
   }
 

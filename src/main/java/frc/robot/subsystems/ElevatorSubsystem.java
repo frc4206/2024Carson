@@ -10,20 +10,18 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.elevatorLeaderID, MotorType.kBrushless);
   private RelativeEncoder elevatorLeaderEncoder = elevatorLeader.getEncoder();
+  private double elevatorPosition = 0;
   private SparkPIDController elevatorLeaderPIDController = elevatorLeader.getPIDController();
   private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.elevatorFollowerID, MotorType.kBrushless);
   private RelativeEncoder elevatorFollowEncoder = elevatorFollower.getEncoder();
   private SparkPIDController elevatorFollowerPIDController = elevatorFollower.getPIDController();
-
-  private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.elevatorTopLimitSwitch);
-  private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.elevatorBottomLimitSwitch);
 
   public ElevatorSubsystem() {
     elevatorLeader.restoreFactoryDefaults();
@@ -34,15 +32,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorLeaderPIDController.setFeedbackDevice(elevatorLeaderEncoder);
     elevatorLeaderPIDController.setP(Constants.Elevator.elevKP);
     elevatorLeaderPIDController.setI(Constants.Elevator.elevKI);
+    elevatorLeaderPIDController.setIZone(Constants.Elevator.elevKIZone);
     elevatorLeaderPIDController.setD(Constants.Elevator.elevKD);
 
     elevatorFollowerPIDController.setFeedbackDevice(elevatorFollowEncoder);
     elevatorFollowerPIDController.setP(Constants.Elevator.elevKP);
     elevatorFollowerPIDController.setI(Constants.Elevator.elevKI);
+    elevatorFollowerPIDController.setIZone(Constants.Elevator.elevKIZone);
     elevatorFollowerPIDController.setD(Constants.Elevator.elevKD);
-
-    elevatorLeader.burnFlash();
-    elevatorFollower.burnFlash();
   }
 
   public void resetElevator(){
@@ -78,13 +75,15 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(!elevatorBottomLimitSwitch.get()) {
-      elevatorLeaderEncoder.setPosition(0);
-      elevatorFollowEncoder.setPosition(0);
-    }
-    if(!elevatorTopLimitSwitch.get()) {
-      elevatorLeaderEncoder.setPosition(Constants.Elevator.elevResetPosition);
-      elevatorFollowEncoder.setPosition(Constants.Elevator.elevResetPosition);
-    }
+    elevatorPosition = elevatorLeaderEncoder.getPosition();
+    SmartDashboard.putNumber("elevPosition", elevatorPosition);
+    // if(!elevatorBottomLimitSwitch.get()) {
+    //   elevatorLeaderEncoder.setPosition(0);
+    //   elevatorFollowEncoder.setPosition(0);
+    // }
+    // if(!elevatorTopLimitSwitch.get()) {
+    //   elevatorLeaderEncoder.setPosition(Constants.Elevator.elevResetPosition);
+    //   elevatorFollowEncoder.setPosition(Constants.Elevator.elevResetPosition);
+    // }
   }
 }

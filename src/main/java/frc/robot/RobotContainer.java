@@ -15,6 +15,7 @@ import frc.robot.autos.SixPieceTakeoverRed;
 //import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
 //import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
 import frc.robot.commands.Intake.IntakeCommand;
+import frc.robot.commands.Intake.IntakeGoCommand;
 //import frc.robot.commands.Intake.IntakeGo;
 import frc.robot.commands.LimeLight.ChangePipelineCommand;
 import frc.robot.commands.Climber.ClimberDownLeftCommand;
@@ -34,15 +35,19 @@ import frc.robot.commands.Intake.GoUntilNote;
 import frc.robot.commands.Intake.IntakeToSpeedCommand;
 import frc.robot.commands.Pivot.CyclePivotPositionCommand;
 import frc.robot.commands.Pivot.PercentPivotCommand;
+import frc.robot.commands.Pivot.PivotCommand;
 import frc.robot.commands.Pivot.ResetPivotCommand;
 import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterStopCommand;
+import frc.robot.commands.Shooter.FlywheelSpinCommand;
 import frc.robot.commands.Shooter.PercentShooterCommand;
+import frc.robot.commands.Shooter.ShootAmpCommand;
 import frc.robot.commands.Swerve.SetHeadingState;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -72,6 +77,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ClimberSubsystem m_climberSub = new ClimberSubsystem();
   private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
+  private final LEDSubsystem m_leds = new LEDSubsystem();
   private final Limelight m_Limelight = new Limelight();
   private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
   private final ConveyorSubsystem m_conveyorSub = new ConveyorSubsystem();
@@ -102,6 +108,10 @@ public class RobotContainer {
     configureBindings();
   }
 
+  private double getLeftStick(XboxController controller){
+    return -controller.getRawAxis(XboxController.Axis.kLeftY.value);
+  }
+
   private boolean getLeftTrigger(XboxController controller){
     return controller.getLeftTriggerAxis() > 0.05;
   }
@@ -111,12 +121,10 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    // new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
-    new JoystickButton(driver, 1).onTrue(new CyclePivotPositionCommand(m_pivotSubsystem));
+    // new JoystickButton(driver, 1).onTrue(new CyclePivotPositionCommand(m_pivotSubsystem));
     // new JoystickButton(driver, 1).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
     // new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
     new JoystickButton(driver, 1).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
-    // new JoystickButton(driver, 1).onTrue(new CyclePivotPositionCommand(m_pivotSubsystem));
     // new JoystickButton(driver, 1).toggleOnTrue(Commands.startEnd(() -> m_pivotSubsystem.changePosition(ShooterPositions.NONE), () -> m_pivotSubsystem.changePosition(ShooterPositions.WING), m_pivotSubsystem));
 
     // new JoystickButton(driver, 2).onTrue(new PivotCommand(m_pivotSubsystem));
@@ -128,7 +136,7 @@ public class RobotContainer {
     // new JoystickButton(driver, 4).toggleOnTrue(new ClimbToTopCommand(climber));
     // new JoystickButton(driver, 4).toggleOnFalse(new ClimbToBottomCommand(climber));
     // new JoystickButton(driver, 4).onTrue(new ResetPivotCommand(m_pivotSubsystem));
-    //new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
+    new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
     
     new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
     new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -1), new ConveyerToSpeedCommand(m_conveyorSub, 1)));
@@ -140,23 +148,32 @@ public class RobotContainer {
     // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(new CarriageToAmp());
     // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(new ElevatorToBottom());
 
-    // new JoystickButton(driver, 7).whileTrue(new ElevatorDownCommand(m_elevatorSub));
+    new JoystickButton(driver, 7).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, 0.8), new ConveyerToSpeedCommand(m_conveyorSub, -0.9)));
+
     // new JoystickButton(driver, 7).onTrue(new ChangePipelineCommand(m_Limelight, 2));
     // new JoystickButton(driver, 8).whileTrue(new ElevatorUpCommand(m_elevatorSub));
     new JoystickButton(driver, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
 
-    
-    new JoystickButton(operator, 1).whileTrue(new ClimberDownRightCommand(m_climberSub));
-    new JoystickButton(operator, 2).whileTrue(new ClimberUpRightCommand(m_climberSub));
-    new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberSub));
-    new JoystickButton(operator, 4).whileTrue(new ClimberUpLeftCommand(m_climberSub));
-    new JoystickButton(operator, 5).whileTrue(new RunServoLeftCommand(m_climberSub, 0.45));
-    new JoystickButton(operator, 6).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
-    new JoystickButton(operator, 8).whileTrue(new ClimberToggleUpCommand(m_climberSub));//start
-    new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, 0.55));
-    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoLeftCommand(m_climberSub, 0.55));  
 
 
+    new JoystickButton(operator, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));
+    new JoystickButton(operator, 2).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.PODIUM)));
+    new JoystickButton(operator, 3).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.UNDER)));
+    new JoystickButton(operator, 4).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.STAGE)));
+    new JoystickButton(operator, 5).whileTrue(new ElevatorDownCommand(m_elevatorSub));
+    new JoystickButton(operator, 6).whileTrue(new ElevatorUpCommand(m_elevatorSub));
+    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new ClimberDownLeftCommand(m_climberSub));
+    new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new ClimberUpLeftCommand(m_climberSub));
+    new Trigger(() -> (this.getLeftStick(operator) > 0.1 || this.getLeftStick(operator) < -0.1)).whileTrue(new PercentPivotCommand(m_pivotSubsystem, this.getLeftStick(operator)));
+    // new JoystickButton(operator, 1).whileTrue(new ClimberDownRightCommand(m_climberSub));
+    // new JoystickButton(operator, 2).whileTrue(new ClimberUpRightCommand(m_climberSub));
+    // new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberSub));
+    // new JoystickButton(operator, 4).whileTrue(new ClimberUpLeftCommand(m_climberSub));
+    // new JoystickButton(operator, 5).whileTrue(new RunServoLeftCommand(m_climberSub, 0.45));
+    // new JoystickButton(operator, 6).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
+    // new JoystickButton(operator, 8).whileTrue(new ClimberToggleUpCommand(m_climberSub));
+    // new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoLeftCommand(m_climberSub, Constants.Climber.servoPosEngage));  
+    // new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, Constants.Climber.servoPosEngage));
     
 
     new JoystickButton(operator2, 1).onTrue(new SystemCheck(m_climberSub, m_conveyorSub, m_elevatorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operator2));
@@ -164,23 +181,23 @@ public class RobotContainer {
 
 
     
-    // new JoystickButton(shootertesta, 1).whileTrue(new InstantCommand());
+    new JoystickButton(shootertesta, 1).onTrue(new ShooterStopCommand(m_flywheelSubsystem));
     // new JoystickButton(shootertesta, 2).whileTrue(new InstantCommand());
     // new JoystickButton(shootertesta, 3).whileTrue(new InstantCommand());
-    // new JoystickButton(shootertesta, 4).whileTrue(new InstantCommand());
+    new JoystickButton(shootertesta, 4).whileTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6400));
     // new JoystickButton(shootertesta, 5).whileTrue(new InstantCommand());
-    // new JoystickButton(shootertesta, 6).whileTrue(new InstantCommand());
-    // new JoystickButton(shootertesta, 7).whileTrue(new InstantCommand());
-    // new JoystickButton(shootertesta, 8).whileTrue(new InstantCommand());
+    new JoystickButton(shootertesta, 6).whileTrue(new PercentShooterCommand(m_flywheelSubsystem, 1));
+
 
     new JoystickButton(elevatortesta, 1).whileTrue(new PercentElevatorCommand(m_elevatorSub, -0.05));
     new JoystickButton(elevatortesta, 2).whileTrue(new ResetElevatorCommand(m_elevatorSub));
-    new JoystickButton(elevatortesta, 3);
+    // new JoystickButton(elevatortesta, 3);
     new JoystickButton(elevatortesta, 4).whileTrue(new PercentElevatorCommand(m_elevatorSub, 0.05));
     new JoystickButton(elevatortesta, 5).whileTrue(new ElevatorDownCommand(m_elevatorSub));
     new JoystickButton(elevatortesta, 6).whileTrue(new ElevatorUpCommand(m_elevatorSub));
-    new JoystickButton(elevatortesta, 7).whileTrue(new ElevatorPIDCommand(m_elevatorSub, 0));
-    new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorPIDCommand(m_elevatorSub, Constants.Elevator.elevHighPosition));
+    new JoystickButton(elevatortesta, 7).whileTrue(new ElevatorPIDCommand(m_elevatorSub, 5));
+    new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorPIDCommand(m_elevatorSub, Constants.Elevator.elevTrapPosition+5));
+
 
     // new JoystickButton(climbertesta, 1).whileTrue(new InstantCommand());
     // new JoystickButton(climbertesta, 2).whileTrue(new InstantCommand());

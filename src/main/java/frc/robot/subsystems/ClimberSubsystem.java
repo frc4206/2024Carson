@@ -19,10 +19,10 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
   private CANSparkFlex climberRightLead = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
   private CANSparkFlex climberLeftFollow = new CANSparkFlex(Constants.Climber.climberLeftFollowID, MotorType.kBrushless);
-
   private SparkPIDController climbLeadPid;
-  public RelativeEncoder climbRightLeadEncoder; /* top encoder */
-  private RelativeEncoder climbLeftFollowEncoder; /* bottom encoder */
+  public RelativeEncoder climbRightLeadEncoder;
+  private RelativeEncoder climbLeftFollowEncoder;
+
   PWM servoRight = new PWM(1);
   PWM servoLeft = new PWM(2);
 
@@ -43,14 +43,14 @@ public class ClimberSubsystem extends SubsystemBase {
     climbLeadPid = climberRightLead.getPIDController();
     
     climbLeadPid.setFeedbackDevice(climbRightLeadEncoder);
-    climbLeadPid.setP(0.02);
-    climbLeadPid.setI(9e-8);
-    climbLeadPid.setD(0.0);
-    climbLeadPid.setFF(0.0);
-    climbLeadPid.setSmartMotionMaxVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecondfast, 0);
-    climbLeadPid.setSmartMotionMinOutputVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecond, 0);
-    climbLeadPid.setSmartMotionMaxAccel(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared, 0);
-    climbLeadPid.setSmartMotionAllowedClosedLoopError(5, 0);
+    climbLeadPid.setP(Constants.Climber.climberkP);
+    climbLeadPid.setI(Constants.Climber.climberkI);
+    climbLeadPid.setIZone(Constants.Climber.climberkIZone);
+    climbLeadPid.setD(Constants.Climber.climberkD);
+    climbLeadPid.setSmartMotionMaxVelocity(Constants.Climber.climberMaxVelo, 0);
+    climbLeadPid.setSmartMotionMinOutputVelocity(-Constants.Climber.climberMaxVelo, 0);
+    climbLeadPid.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
+    climbLeadPid.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
   }
 
   public void climbSTOP() {

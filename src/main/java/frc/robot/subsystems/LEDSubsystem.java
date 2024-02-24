@@ -23,7 +23,7 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   protected final CANdle candle;
-  private State state;
+  private State state = State.NOTALIGNED;
 
   public LEDSubsystem() {
     candle = new CANdle(Constants.LEDS.candleID, Constants.Canivore1);
@@ -35,15 +35,14 @@ public class LEDSubsystem extends SubsystemBase {
     config.vBatOutputMode = CANdle.VBatOutputMode.Off;
 
     candle.configAllSettings(config);
-    state = State.NOTALIGNED;
   }
       
   private StrobeAnimation solidLEDS(int red, int green, int blue, int white){
-    return new StrobeAnimation(red, green, blue, white, 0, Constants.LEDS.numLEDs, Constants.LEDS.ledStartOffset);
+    return new StrobeAnimation(red, green, blue, white, 1, Constants.LEDS.numLEDs, Constants.LEDS.ledStartOffset);
   }
   
   private StrobeAnimation flashLEDS(int red, int green, int blue, int white){
-    return new StrobeAnimation(red, green, blue, white, 0.5, Constants.LEDS.numLEDs, Constants.LEDS.ledStartOffset);
+    return new StrobeAnimation(red, green, blue, white, 0.25, Constants.LEDS.numLEDs, Constants.LEDS.ledStartOffset);
   }
 
   private void halfGreen(){

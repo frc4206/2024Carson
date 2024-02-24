@@ -125,12 +125,6 @@ public class SwerveSubsystem extends SubsystemBase {
             i += 1;
         }
     }
-    
-    public void justTurn(){
-        for (SwerveModule mod : mSwerveMods){
-            mod.literallyJustTurnBro();
-        }
-    }
 
     public void changePercent(){
         if (currPercent == 1){
@@ -221,7 +215,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     public void resetOdometryLLFieldCords() {
-        if (Limelight.limelightshooter.GetPipeline() == 2 && Limelight.limelightshooter.aprilTagResult[0] < 2) {
+        if (Limelight.limelightshooter.GetPipeline() == 2 && Math.abs(Limelight.limelightshooter.aprilTagResult[2]) < 5.5) {
             double[] rawcords = Limelight.limelightshooter.Fieldresult;
             Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
             if (Limelight.limelightshooter.HasTarget() != 0 || Limelight.limelightright.HasTarget() != 0 || Limelight.limelightleft.HasTarget() != 0) {
@@ -248,7 +242,7 @@ public class SwerveSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("Odometry Y: ", OdometryArray[1]);
         //Game piece positions
         if (Limelight.limelightshooter.GetPipeline() == 1) {
-        Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
+            Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
         }
 
         double[] ypr = new double[3];

@@ -7,7 +7,6 @@ package frc.robot.commands.SYSTEMCHECK;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.commands.Climber.ClimberPIDCommand;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.commands.Elevator.ElevatorPIDCommand;
 import frc.robot.commands.Intake.IntakeToSpeedCommand;
@@ -37,8 +36,6 @@ public class SystemCheck extends SequentialCommandGroup {
       new PivotCommand(pivot, 0.5).withTimeout(1),
       new ElevatorPIDCommand(elevator, Constants.Elevator.elevHighPosition).withTimeout(2),
       new ElevatorPIDCommand(elevator, 1).withTimeout(2),
-      new ClimberPIDCommand(climber, 100).withTimeout(2),
-      new ClimberPIDCommand(climber, 1).withTimeout(2),
       new TeleopSwerve(swerve, controller, 1, 0, 4, true, true).withTimeout(5)
     );
   }

@@ -7,6 +7,22 @@ package frc.robot;
 import frc.robot.autos.FourPieceMiddleRightBlue;
 import frc.robot.autos.SixPieceTakeoverBlue;
 import frc.robot.autos.SixPieceTakeoverRed;
+//import frc.robot.commands.Autos;
+//import frc.robot.commands.Climber.VortexClimberDown;
+//import frc.robot.commands.Climber.VortexClimberPIDCommand;
+//import frc.robot.commands.Climber.VortexClimberUpCommand;
+//import frc.robot.commands.Elevator.VortexElevatorDownCommand;
+//import frc.robot.commands.Elevator.VortexElevatorPIDCommand;
+//import frc.robot.commands.Intake.GoUntilBeamBreakCommand;
+import frc.robot.commands.Intake.IntakeCommand;
+//import frc.robot.commands.Intake.IntakeGo;
+import frc.robot.commands.LimeLight.ChangePipelineCommand;
+import frc.robot.commands.Climber.ClimberDownLeftCommand;
+import frc.robot.commands.Climber.ClimberDownRightCommand;
+import frc.robot.commands.Climber.ClimberToggleUpCommand;
+import frc.robot.commands.Climber.ClimberUpLeftCommand;
+import frc.robot.commands.Climber.ClimberUpRightCommand;
+import frc.robot.commands.Climber.RunServoRightCommand;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.commands.Elevator.ElevatorDownCommand;
 import frc.robot.commands.Elevator.ElevatorPIDCommand;
@@ -71,7 +87,7 @@ public class RobotContainer {
   private final XboxController climbertesta = new XboxController(5);
   
   final static SendableChooser<String> autoChooser = new SendableChooser<String>();
-  private final XboxController operator = new XboxController(0);
+
   public RobotContainer() {
     // m_flywheelSubsystem.setDefaultCommand(new PercentShooterCommand(m_flywheelSubsystem, 0.15));
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driver, translationAxis, strafeAxis, rotationAxis, true, true));
@@ -94,6 +110,9 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
+    // new JoystickButton(driver, 1).toggleOnTrue(new ShooterToSpeaker(m_flywheelSubsystem, m_pivotSubsystem));
+    new JoystickButton(driver, 1).onTrue(new CyclePivotPositionCommand(m_pivotSubsystem));
+    // new JoystickButton(driver, 1).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
     // new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
     new JoystickButton(driver, 1).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
     // new JoystickButton(driver, 1).onTrue(new CyclePivotPositionCommand(m_pivotSubsystem));
@@ -120,7 +139,7 @@ public class RobotContainer {
 
 
     // new JoystickButton(driver, 4).onTrue(new ResetPivotCommand(m_pivotSubsystem));
-    new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
+    //new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
     
     new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
     new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -1), new ConveyerToSpeedCommand(m_conveyorSub, 1)));

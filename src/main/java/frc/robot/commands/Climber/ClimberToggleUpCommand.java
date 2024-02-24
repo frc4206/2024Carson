@@ -7,6 +7,7 @@ package frc.robot.commands.Climber;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimberToggleUpCommand extends Command {
@@ -24,7 +25,7 @@ public class ClimberToggleUpCommand extends Command {
   @Override
   public void initialize() {
     isfin = false; 
-    m_climberSubsystem.setPosition(0.3);
+    m_climberSubsystem.setPositionRight(0.35);
     if (m_climberSubsystem.climbLeadEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
       state = "up";
     } else {
@@ -37,14 +38,16 @@ public class ClimberToggleUpCommand extends Command {
   public void execute() {
 
     if (state == "down") {
-      m_climberSubsystem.climbUP();
+      m_climberSubsystem.climbUPRight();
+      m_climberSubsystem.climbUPLeft();
       if (m_climberSubsystem.climbLeadEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
         state = "up";
         isfin = true;
         isFinished();
       }
     }else {
-      m_climberSubsystem.climbDOWN();
+      m_climberSubsystem.climbDOWNRight();
+      m_climberSubsystem.climbDOWNLeft();
       if (m_climberSubsystem.climbLeadEncoder.getPosition() < Constants.Climber.climberBottomSetpoint) {
         state = "down";
         isfin = true;
@@ -57,8 +60,9 @@ public class ClimberToggleUpCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    
     m_climberSubsystem.climbSTOP();
-    m_climberSubsystem.setPosition(0.6);
+    m_climberSubsystem.setPositionRight(0.55);
   }
 
   // Returns true when the command should end.

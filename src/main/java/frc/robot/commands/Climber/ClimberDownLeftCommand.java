@@ -5,34 +5,36 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class RunServoCommand extends Command {
-  
-  public ClimberSubsystem m_climber;
-  public double servoPosition;
-  
-  /** Creates a new RunServoCommand. */
-  public RunServoCommand(ClimberSubsystem climber, double servoPos) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = climber;
-    servoPosition = servoPos;
-    addRequirements(climber);
+public class ClimberDownLeftCommand extends Command {
+  private ClimberSubsystem m_vortexClimberSubsystem;
+
+  public ClimberDownLeftCommand(ClimberSubsystem vortexClimber) {
+    m_vortexClimberSubsystem /*help */ = vortexClimber;    
+    addRequirements(m_vortexClimberSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.setPosition(servoPosition);
+    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_vortexClimberSubsystem.climbDOWNLeft();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_vortexClimberSubsystem.climbSTOP();
+    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
+
+  }
 
   // Returns true when the command should end.
   @Override

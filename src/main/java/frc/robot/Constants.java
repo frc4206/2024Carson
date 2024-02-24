@@ -288,14 +288,17 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int climberLeaderMotorID = 35;
-    public static final int climberFollowerID = 36;
+    public static final int climberRightLeadID = 35;
+    public static final int climberLeftFollowID = 36;
     public static final int servoRightID = 0;
     public static final int servoLeftID = 1;
 
     public static final int climberLimitSwitch = 4;
-    public static final double servoPosEngage = 0.3;
-    public static final double servoPosDisEngage = 0.6;
+
+    public static final double servoPosRightEngage = 0.55;
+    public static final double servoPosRightDisEngage = 0.3;
+    public static final double servoPosLeftEngage = 0.55;
+    public static final double servoPosLeftDisEngage = 0.3;
 
     public static final double vortexClimberSubsystemLeadKP = 0.02; 
     public static final double vortexClimberSubsystemLeadKI = 9e-8; 

@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
-  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
-  private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
+
+  /* Variables */
+  private CANSparkFlex climberRightLead = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
+  private CANSparkFlex climberLeftFollow = new CANSparkFlex(Constants.Climber.climberLeftFollowID, MotorType.kBrushless);
 
   private SparkPIDController climbLeadPid;
   public RelativeEncoder climbLeadEncoder; /* top encoder */
@@ -29,15 +31,15 @@ public class ClimberSubsystem extends SubsystemBase {
   //private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
 
   public ClimberSubsystem() {
-    climberLeaderMotor.restoreFactoryDefaults();
-    climberFollowerMotor.restoreFactoryDefaults();
-    climberLeaderMotor.setInverted(false);
-    climberFollowerMotor.setInverted(false);
+    climberLeftFollow.restoreFactoryDefaults();
+    climberRightLead.restoreFactoryDefaults();
+    climberLeftFollow.setInverted(false);
+    climberRightLead.setInverted(false);
 
-    climberFollowerMotor.follow(climberLeaderMotor);
+    //climberRightLead.follow(climberLeftFollow);
 
-    climbLeadEncoder = climberLeaderMotor.getEncoder();
-    climbLeadPid = climberLeaderMotor.getPIDController();
+    climbLeadEncoder = climberRightLead.getEncoder();
+    climbLeadPid = climberRightLead.getPIDController();
     
     climbLeadPid.setFeedbackDevice(climbLeadEncoder);
     climbLeadPid.setP(0.02);
@@ -51,26 +53,40 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void climbSTOP() {
-    climberLeaderMotor.set(0);
+    climberLeftFollow.set(0);
+    climberRightLead.set(0);
   }
 
-  public void climbUP() {
-    climberLeaderMotor.set(0.8);
-    //climberFollowerMotor.set(0.8);
+  public void climbUPRight() {
+    climberRightLead.set(0.2);
   }
 
-  public void climbDOWN() {
-    climberLeaderMotor.set(-0.8);
-    //climberFollowerMotor.set(-0.8);
+  public void climbDOWNRight() {
+    climberRightLead.set(-0.2);
+  }
+
+  public void climbUPLeft() {
+    climberLeftFollow.set(0.2);
+  }
+
+  public void climbDOWNLeft() {
+    climberLeftFollow.set(-0.2);
   }
 
   public void GoToSetpoint(double setpoint) {
     climbLeadPid.setReference(setpoint, ControlType.kPosition, 0);
   }
 
-  public void setPosition(double pos) {
+  public void setPositionRight(double pos) {
     servoRight.setPosition(pos);
+  }
+
+  public void setPositionLeft(double pos) {
     servoLeft.setPosition(pos);
+  }
+
+  public void runServoLeft(double speed) {
+    servoLeft.setSpeed(speed);
   }
 
   @Override
@@ -82,6 +98,9 @@ public class ClimberSubsystem extends SubsystemBase {
     //if(BottomClimberLimitSwitch.get()) {
     //  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
     //}
-    SmartDashboard.putNumber("Climber position", climbLeadEncoder.getPosition());
+    SmartDashboard.putNumber("Climber Right Position", climbLeadEncoder.getPosition());
+    SmartDashboard.putNumber("Climber Left Position", climberLeftFollow.getEncoder().getPosition());
+    SmartDashboard.putNumber("Servo Right Position", servoRight.getPosition());
+    SmartDashboard.putNumber("Servo Left Position", servoLeft.getPosition());
   }
 }

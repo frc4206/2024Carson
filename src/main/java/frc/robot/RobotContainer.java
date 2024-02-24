@@ -71,7 +71,7 @@ public class RobotContainer {
   private final XboxController climbertesta = new XboxController(5);
   
   final static SendableChooser<String> autoChooser = new SendableChooser<String>();
-
+  private final XboxController operator = new XboxController(0);
   public RobotContainer() {
     // m_flywheelSubsystem.setDefaultCommand(new PercentShooterCommand(m_flywheelSubsystem, 0.15));
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driver, translationAxis, strafeAxis, rotationAxis, true, true));
@@ -107,6 +107,18 @@ public class RobotContainer {
     
     // new JoystickButton(driver, 4).toggleOnTrue(new ClimbToTopCommand(climber));
     // new JoystickButton(driver, 4).toggleOnFalse(new ClimbToBottomCommand(climber));
+    new JoystickButton(operator, 1).whileTrue(new ClimberDownRightCommand(m_climberSub));
+    new JoystickButton(operator, 2).whileTrue(new ClimberUpRightCommand(m_climberSub));
+    new JoystickButton(operator, 6).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
+    new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, 0.55));
+    new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberSub));
+    new JoystickButton(operator, 4).whileTrue(new ClimberUpLeftCommand(m_climberSub));
+    new JoystickButton(operator, 5).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
+    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, 0.55));    
+
+    new JoystickButton(operator, 8).whileTrue(new ClimberToggleUpCommand(m_climberSub));//start
+
+
     // new JoystickButton(driver, 4).onTrue(new ResetPivotCommand(m_pivotSubsystem));
     new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
     

@@ -98,7 +98,8 @@ public class ClimberSubsystem extends SubsystemBase {
     //if(BottomClimberLimitSwitch.get()) {
     //  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
     //}
-    SmartDashboard.putNumber("Climber position", climbLeadEncoder.getPosition());
+    SmartDashboard.putNumber("Climber Right Position", climbLeadEncoder.getPosition());
+    SmartDashboard.putNumber("Climber Left Position", climberLeftFollow.getEncoder().getPosition());
     SmartDashboard.putNumber("Servo Right Position", servoRight.getPosition());
     SmartDashboard.putNumber("Servo Left Position", servoLeft.getPosition());
   }

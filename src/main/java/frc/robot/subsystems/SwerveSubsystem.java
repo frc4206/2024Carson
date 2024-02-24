@@ -221,7 +221,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     public void resetOdometryLLFieldCords() {
-        if (Limelight.limelightshooter.GetPipeline() == 2 && Limelight.limelightshooter.aprilTagResult[0] < 2) {
+        if (Limelight.limelightshooter.GetPipeline() == 2 && Math.abs(Limelight.limelightshooter.aprilTagResult[0]) < 2) {
             double[] rawcords = Limelight.limelightshooter.Fieldresult;
             Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
             if (Limelight.limelightshooter.HasTarget() != 0 || Limelight.limelightright.HasTarget() != 0 || Limelight.limelightleft.HasTarget() != 0) {

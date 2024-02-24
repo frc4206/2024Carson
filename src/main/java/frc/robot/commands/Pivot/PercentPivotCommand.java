@@ -8,33 +8,34 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.PivotSubsystem;
 
 public class PercentPivotCommand extends Command {
-  private PivotSubsystem pivot;
-  double percent;
-  public PercentPivotCommand(PivotSubsystem m_pivot, double per) {
-    pivot = m_pivot;
-    percent = per;
-    addRequirements(pivot);
-  }
+	private PivotSubsystem pivot;
+	private double m_percent;
+	
+	public PercentPivotCommand(PivotSubsystem m_pivot, double percent) {
+		pivot = m_pivot;
+		m_percent = percent;
+		addRequirements(pivot);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    pivot.runMotor(percent);
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		pivot.runPivot(m_percent);
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    pivot.runMotor(0);
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		pivot.runPivot(0);
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

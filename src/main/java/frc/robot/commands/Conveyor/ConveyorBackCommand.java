@@ -24,7 +24,7 @@ public class ConveyorBackCommand extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		conveyorMotor.conveyorTurn(Constants.Conveyor.CONVEYOR_BACKWARD_SPEED);
+		conveyorMotor.conveyorTurn(-0.2);
 	}
 
 	// Called once the command ends or is interrupted.

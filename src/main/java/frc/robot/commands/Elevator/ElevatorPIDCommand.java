@@ -4,43 +4,37 @@
 
 package frc.robot.commands.Elevator;
 
-import com.revrobotics.SparkPIDController;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 //import frc.robot.subsystems.VortexElevatorSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 public class ElevatorPIDCommand extends Command {
-  
-  ElevatorSubsystem m_vortexElevatorSubsystem;
+	private ElevatorSubsystem m_VortexElevatorSubsystem;
+	private double m_setpoint;
+	
+	public ElevatorPIDCommand(ElevatorSubsystem vortexElevator, double setpoint) {
+		m_VortexElevatorSubsystem = vortexElevator;
+		m_setpoint = setpoint;
+		addRequirements(vortexElevator);
+	}
 
-  private SparkPIDController elvatorLeadPid;
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  /** Oh boy, it's PID time! */
-  public ElevatorPIDCommand(ElevatorSubsystem vortexElevator) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_vortexElevatorSubsystem = vortexElevator;
-    addRequirements(vortexElevator);
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		m_VortexElevatorSubsystem.GoToSetpoint(m_setpoint);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_vortexElevatorSubsystem.GoToSetpoint(Constants.Elevator.elevatorGoToSetPoint);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+  	}
 }

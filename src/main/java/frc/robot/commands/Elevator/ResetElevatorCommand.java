@@ -2,28 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Shooter;
+package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.GlobalVariables;
-import frc.robot.subsystems.FlywheelSubsystem;
-import frc.robot.subsystems.PivotSubsystem;
-import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
+import frc.robot.subsystems.ElevatorSubsystem;
 
-public class ShooterToSubwoofer extends Command {
-	private PivotSubsystem m_pivotSubsystem;
+public class ResetElevatorCommand extends Command {
+	private ElevatorSubsystem m_elevator;
 	private boolean isFinished = false;
-
-	public ShooterToSubwoofer(FlywheelSubsystem shooter, PivotSubsystem pivot) {
-		m_pivotSubsystem = pivot;
-		addRequirements(m_pivotSubsystem);
+	public ResetElevatorCommand(ElevatorSubsystem elevator) {
+		m_elevator = elevator;
+		addRequirements(m_elevator);
 	}
 
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		GlobalVariables.shooterAutomatic = false;
-		m_pivotSubsystem.position = ShooterPositions.SUBWOOFER;
+		m_elevator.resetElevator();
 		isFinished = true;
 		isFinished();
 	}

@@ -1,12 +1,19 @@
 package frc.robot.commands.Swerve;
 
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
+import frc.robot.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.subsystems.SwerveSubsystem.HeadingState;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
 public class TeleopSwerve extends Command {
@@ -22,6 +29,14 @@ public class TeleopSwerve extends Command {
     private int strafeAxis;
     private int rotationAxis;
 
+    private double botYaw;
+    private double yawSet;
+    private double errorYaw;
+    private double outputYaw;
+    private PIDController pidyaw = new PIDController(0.01, 0, 0);
+    private PIDController pidyawi = new PIDController(0.005, 0, 0);
+    private double rAxis;
+
     /**
      * Driver control
      */
@@ -35,22 +50,113 @@ public class TeleopSwerve extends Command {
         this.rotationAxis = rotationAxis;
         this.fieldRelative = fieldRelative;
         this.openLoop = openLoop;
+        for(SwerveModule mod : s_Swerve.mSwerveMods) {
+            mod.mDriveMotor.setNeutralMode(NeutralModeValue.Coast);
+        }
     }
 
     @Override
     public void execute() {
-        /*sets the axis to the controller sticks*/
-        double yAxis = -controller.getRawAxis(translationAxis)*0.75;
-        double xAxis = -controller.getRawAxis(strafeAxis)*0.75;
-        double rAxis = -controller.getRawAxis(rotationAxis)*0.75;
-        
-        /* Deadbands */
-        yAxis = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : yAxis;
-        xAxis = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : xAxis;
-        rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
+        botYaw = s_Swerve.getNominalYaw();
 
-        translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
+        switch (s_Swerve.headingState){
+            case PICKUP:
+                if (GlobalVariables.alliance == Alliance.Blue) {
+                    if (botYaw > 0 && botYaw < 180) {
+                        yawSet = -30; //makes robot overshoot and go to else statement
+                    } else {
+                        yawSet = 300;
+                    }
+                } else if (GlobalVariables.alliance == Alliance.Red) {
+                    if (botYaw > 0 && botYaw < 180) {
+                        yawSet = 60;
+                    } else {
+                        yawSet = -390; //makes robot overshoot and go to else statement
+                    }
+                }
+                if (Math.abs(errorYaw) > 1.5) { 
+                    outputYaw = pidyaw.calculate(botYaw, yawSet);
+                } else {
+                    outputYaw = pidyawi.calculate(botYaw, yawSet);
+                }
+                rAxis = outputYaw;
+                break;
+            case AIMED:
+                yawSet= Math.toDegrees(
+                    Math.atan(
+                        (s_Swerve.getPose().getY()-5.72)/
+                        (s_Swerve.getPose().getX()-0)
+                    )
+                );
+                if (yawSet < 0) {
+                    errorYaw = botYaw - (360 + yawSet);
+                    if(Math.abs(errorYaw) > 1.5) { 
+                        outputYaw = pidyaw.calculate(botYaw, 360 + yawSet);
+                    } else {
+                        outputYaw = pidyawi.calculate(botYaw, 360 + yawSet);
+                    }
+                } else {
+                    errorYaw = botYaw - yawSet;
+                    if(Math.abs(errorYaw) > 1.5) {
+                        outputYaw = pidyaw.calculate(botYaw, yawSet);
+                    } else {
+                        outputYaw = pidyawi.calculate(botYaw, yawSet);
+                    }
+                }
+                rAxis = outputYaw;
+                break;
+            case BACKWARD:
+                if(botYaw > 0 && botYaw < 180) {
+                        yawSet = 0;
+                    } else {
+                        yawSet = 360;
+                    }
+                if (Math.abs(errorYaw) > 1.5) { 
+                    outputYaw = pidyaw.calculate(botYaw, yawSet);
+                } else {
+                    outputYaw = pidyawi.calculate(botYaw, yawSet);
+                }
+                rAxis = outputYaw;
+                break;
+            case FREE:
+                yawSet = 0;
+                rAxis = -controller.getRawAxis(rotationAxis)*Constants.Swerve.rotationMultiplier;
+                break;
+            default: 
+                yawSet = 0;
+                rAxis = -controller.getRawAxis(rotationAxis)*Constants.Swerve.rotationMultiplier;
+                break;
+        }
+        
+
+        double yAxisDeadzoned;
+        double xAxisDeadzoned;
+        double yAxis = (-controller.getRawAxis(translationAxis)*Constants.Swerve.translationMultiplier);
+        double xAxis = (-controller.getRawAxis(strafeAxis)*Constants.Swerve.translationMultiplier);
+
+        yAxisDeadzoned = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(yAxis), Constants.stickDeadband, 1.0, 0.0, 1.0);
+        yAxisDeadzoned = yAxis >= 0.0 ? yAxisDeadzoned : -yAxisDeadzoned;
+        xAxisDeadzoned = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(xAxis), Constants.stickDeadband, 1.0, 0.0, 1.0);
+        xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
+        yAxisDeadzoned = yAxisDeadzoned * yAxisDeadzoned; //(Math.cos(Math.PI*(yAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;
+        yAxisDeadzoned = yAxis >= 0.0 ? yAxisDeadzoned : -yAxisDeadzoned; 
+        xAxisDeadzoned = xAxisDeadzoned * xAxisDeadzoned; //(Math.cos(Math.PI*(xAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;
+        xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
+
+
+        if(s_Swerve.headingState == HeadingState.FREE) {
+            rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
+        } else if(s_Swerve.headingState == HeadingState.AIMED) {
+            // rAxis = -rAxis;
+        }
+
+        translation = new Translation2d(yAxisDeadzoned, xAxisDeadzoned).times(Constants.Swerve.maxSpeed);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
+
+        SmartDashboard.putNumber("yawNominal", botYaw);
+        SmartDashboard.putNumber("yawSet", yawSet);
+        SmartDashboard.putNumber("yawOutput", outputYaw);
+        SmartDashboard.putNumber("yawError", errorYaw);
     }
 }

@@ -59,8 +59,8 @@ public class PID_DistanceOdometry2 extends Command {
 	@Override
 	public void execute() {
 		current_time = Timer.getFPGATimestamp() - init_time;
-		double X_Output = pidx.calculate(s_Swerve.swerveOdometry.getPoseMeters().getX(), x_set);
-		double Y_Output = pidy.calculate(s_Swerve.swerveOdometry.getPoseMeters().getY(), y_set);
+		double X_Output = pidx.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getX(), x_set);
+		double Y_Output = pidy.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getY(), y_set);
 
 		if (yaw_set == 0) {
 			if (s_Swerve.getNominalYaw() > 0 && s_Swerve.getNominalYaw() < 180) {
@@ -78,8 +78,8 @@ public class PID_DistanceOdometry2 extends Command {
 			Yaw_Output = pidyaw.calculate(s_Swerve.getNominalYaw(), yaw_set);
 		}
 		
-		double x_error = Math.abs(s_Swerve.swerveOdometry.getPoseMeters().getX() - Math.abs(x_set));
-		double y_error = Math.abs(s_Swerve.swerveOdometry.getPoseMeters().getY() - Math.abs(y_set));
+		double x_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getX() - Math.abs(x_set));
+		double y_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getY() - Math.abs(y_set));
 		double yaw_error = Math.abs(s_Swerve.getNominalYaw()) - (yaw_set);
 
 		if ((x_error < Constants.Swerve.disOdometryMaxPosError && y_error < Constants.Swerve.disOdometryMaxPosError && yaw_error < Constants.Swerve.disOdometryMaxRotationError) || current_time > timeout){

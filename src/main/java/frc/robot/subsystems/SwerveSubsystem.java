@@ -249,7 +249,7 @@ public class SwerveSubsystem extends SubsystemBase {
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
         resetOdometryLLFieldCords();
     
-        double[] OdometryArray = {getPose().getX(), getPose().getY(), getYaw().getDegrees()};
+        double[] OdometryArray = {poseEstimator.getEstimatedPosition().getX(), poseEstimator.getEstimatedPosition().getY(), getYaw().getDegrees()};
         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
         
         // SmartDashboard.putNumber("Odometry X: ", OdometryArray[0]);

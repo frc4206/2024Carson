@@ -55,7 +55,7 @@ public class PID_to_game_Piece extends Command {
 	@Override
 	public void execute() {
 		current_time = Timer.getFPGATimestamp() - init_time;
-		double[] OdometryArray = {s_Swerve.getPose().getX(), s_Swerve.getPose().getY()};
+		double[] OdometryArray = {s_Swerve.poseEstimator.getEstimatedPosition().getX(), s_Swerve.poseEstimator.getEstimatedPosition().getY()};
 
 		double[] gamePiecePos = Limelight.limelightshooter.GetGamePiecePosition(OdometryArray, s_Swerve.getYaw().getDegrees());
 		x_set = gamePiecePos[0];

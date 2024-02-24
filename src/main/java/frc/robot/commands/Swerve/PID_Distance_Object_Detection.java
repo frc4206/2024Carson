@@ -67,8 +67,8 @@ public class PID_Distance_Object_Detection extends Command {
         double Y_Output = 0;
         double Yaw_Output = 0;
 
-        double x_error = Math.abs(s_Swerve.swerveOdometry.getPoseMeters().getX()) - Math.abs(x_set);
-        double y_error = Math.abs(s_Swerve.swerveOdometry.getPoseMeters().getY()) - Math.abs(y_set);
+        double x_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getX()) - Math.abs(x_set);
+        double y_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getX()) - Math.abs(y_set);
         double yaw_error = Math.abs(s_Swerve.getYaw().getDegrees()) - (yaw_set);
         SmartDashboard.putNumber("Current time", current_time);
         double distanceToGamePiece = (Limelight.limelightshooter.HasTarget() == 1) ? Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece() : 0;
@@ -81,8 +81,8 @@ public class PID_Distance_Object_Detection extends Command {
             SmartDashboard.putNumber("angle", Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0));
             SmartDashboard.putNumber("distance to game piece in command", Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
         } else {
-            X_Output = pidx.calculate(s_Swerve.swerveOdometry.getPoseMeters().getX(), x_set);
-            Y_Output = pidy.calculate(s_Swerve.swerveOdometry.getPoseMeters().getY(), y_set);
+            X_Output = pidx.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getX(), x_set);
+            Y_Output = pidy.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getY(), y_set);
             Yaw_Output = pidyaw.calculate(s_Swerve.getYaw().getDegrees(), yaw_set);
         }
 

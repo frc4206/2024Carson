@@ -296,8 +296,8 @@ public final class Constants {
   public static final class Climber {
     public static final int climberRightLeadID = 35;
     public static final int climberLeftFollowID = 36;
-    public static final int servoRightID = 0;
-    public static final int servoLeftID = 1;
+    public static final int servoRightID = 1;
+    public static final int servoLeftID = 2;
 
     public static final int climberLimitSwitch = 4;
     public static final int climberGoToSetPoint = -100;

@@ -25,7 +25,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   	}
 
 	public boolean hasNote() {
-		if (!conveyorBeamBreak.get()){
+		if (!conveyorBeamBreak.get()) {
 			GlobalVariables.pieceReady = true;
 		}
 		return !conveyorBeamBreak.get();

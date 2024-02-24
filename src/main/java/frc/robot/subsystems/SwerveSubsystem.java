@@ -140,7 +140,7 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-    public void changeHeadingState(){
+    public void changeHeadingState() {
         if (headingState == HeadingState.PICKUP){
             // headingState = HeadingState.AIMED;
             headingState = HeadingState.AIMED;
@@ -151,11 +151,11 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-    public void freeHeadingState(){
+    public void freeHeadingState() {
         headingState = HeadingState.FREE;
     }
 
-    public Pose2d getPose(){
+    public Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
     }
     
@@ -163,7 +163,7 @@ public class SwerveSubsystem extends SubsystemBase {
         swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
     }
 
-    public double getNominalYaw(){
+    public double getNominalYaw() {
         realYaw = getYaw().getDegrees();
         rotations = Math.round((realYaw/360));
         if (realYaw < 0){
@@ -192,7 +192,7 @@ public class SwerveSubsystem extends SubsystemBase {
         return states;
     }
 
-    public ChassisSpeeds getChassisSpeeds(){
+    public ChassisSpeeds getChassisSpeeds() {
         SwerveModuleState[] states = getStates();
         ChassisSpeeds chassisSpeeds = Constants.Swerve.swerveKinematics.toChassisSpeeds(
             states[0], states[1], states[2], states[3]
@@ -200,7 +200,7 @@ public class SwerveSubsystem extends SubsystemBase {
         return chassisSpeeds;
     }
     
-    public SwerveModulePosition[] getModulePositions(){
+    public SwerveModulePosition[] getModulePositions() {
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for (SwerveModule mod : mSwerveMods){
             positions[mod.moduleNumber] = mod.getPosition();
@@ -208,11 +208,11 @@ public class SwerveSubsystem extends SubsystemBase {
         return positions;
     }
     
-    public void zeroGyro(){
+    public void zeroGyro() {
         gyro.setYaw(0);
     }
     
-    public void setGyro(double degrees){
+    public void setGyro(double degrees) {
         gyro.setYaw(degrees);
     }
 
@@ -221,7 +221,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     public void resetOdometryLLFieldCords() {
-        if(Limelight.limelightshooter.GetPipeline() == 2 && Limelight.limelightshooter.aprilTagResult[0] < 2) {
+        if (Limelight.limelightshooter.GetPipeline() == 2 && Math.abs(Limelight.limelightshooter.aprilTagResult[0]) < 2) {
             double[] rawcords = Limelight.limelightshooter.fieldResult;
             Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
             if(Limelight.limelightshooter.HasTarget() != 0 || Limelight.limelightright.HasTarget() != 0 || Limelight.limelightleft.HasTarget() != 0) {

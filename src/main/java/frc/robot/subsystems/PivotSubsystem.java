@@ -80,54 +80,54 @@ public class PivotSubsystem extends SubsystemBase {
 	}
 
 	public void cycleRelativePosition(){
-		switch (position){
-		case WING:
-			position = ShooterPositions.STAGE;
-			break;
-		case STAGE:
-			position = ShooterPositions.UNDER;
-			break;
-		case UNDER:
-			position = ShooterPositions.PODIUM;
-			break;
-		case PODIUM:
-			position = ShooterPositions.CLOSE;
-			break;
-		case CLOSE:
-			position = ShooterPositions.WING;
-			break;
-		default:
-			position = ShooterPositions.WING;
-			break;
-		}
+		switch (position) {
+			case WING:
+				position = ShooterPositions.STAGE;
+				break;
+			case STAGE:
+				position = ShooterPositions.UNDER;
+				break;
+			case UNDER:
+				position = ShooterPositions.PODIUM;
+				break;
+			case PODIUM:
+				position = ShooterPositions.CLOSE;
+				break;
+			case CLOSE:
+				position = ShooterPositions.WING;
+				break;
+			default:
+				position = ShooterPositions.WING;
+				break;
+			}
 	}
 
 	public void setFieldRelativePosition() {
 		switch (position){
-		case WING:
-			pivotController.setReference(Constants.Pivot.wingPosition, CANSparkFlex.ControlType.kPosition); 
-			break;
-		case STAGE:
-			pivotController.setReference(Constants.Pivot.stagePosition, CANSparkFlex.ControlType.kPosition); 
-			break;
-		case UNDER:
-			pivotController.setReference(Constants.Pivot.underPosition, CANSparkFlex.ControlType.kPosition); 
-			break;
-		case PODIUM:
-			pivotController.setReference(Constants.Pivot.podiumPosition, CANSparkFlex.ControlType.kPosition); 
-			break;
-		case CLOSE:
-			pivotController.setReference(Constants.Pivot.closePosition, CANSparkFlex.ControlType.kPosition); 
-			break;
-		default:
-			break;
-		}
+			case WING:
+				pivotController.setReference(Constants.Pivot.wingPosition, CANSparkFlex.ControlType.kPosition); 
+				break;
+			case STAGE:
+				pivotController.setReference(Constants.Pivot.stagePosition, CANSparkFlex.ControlType.kPosition); 
+				break;
+			case UNDER:
+				pivotController.setReference(Constants.Pivot.underPosition, CANSparkFlex.ControlType.kPosition); 
+				break;
+			case PODIUM:
+				pivotController.setReference(Constants.Pivot.podiumPosition, CANSparkFlex.ControlType.kPosition); 
+				break;
+			case CLOSE:
+				pivotController.setReference(Constants.Pivot.closePosition, CANSparkFlex.ControlType.kPosition); 
+				break;
+			default:
+				break;
+			}
 	}
 
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
-		if (position != ShooterPositions.NONE){
+		if(position != ShooterPositions.NONE) {
 			setFieldRelativePosition();
 		} else {
 			// autoAdjust(GlobalVariables.distanceToSpeaker);

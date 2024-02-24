@@ -26,10 +26,10 @@ public class InterpolatingTreeTableSubsystem extends SubsystemBase {
 		private boolean initialized = false;
 	
 		public InterpolatingTreeTableSubsystem(double[][] data) {
-			build_table(data);
+			buildTable(data);
 		}
 
-	private void build_table(double[][] data) {
+	private void buildTable(double[][] data) {
 		int rows = data.length;
 		if(rows < 1) {
 			System.out.println("ERROR: linearInterpolator needs at least one data point.");

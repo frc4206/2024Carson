@@ -17,78 +17,78 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
 
-  /* Variables */
-  private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
-  //private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
-  //private CANSparkFlex climberLeadMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
-  private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
+	/* Variables */
+	private CANSparkFlex climberLeaderMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
+	//private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
+	//private CANSparkFlex climberLeadMotor = new CANSparkFlex(Constants.Climber.climberLeaderMotorID, MotorType.kBrushless);
+	private CANSparkFlex climberFollowerMotor = new CANSparkFlex(Constants.Climber.climberFollowerID, MotorType.kBrushless);
 
-  private SparkPIDController climbLeadPid;
-  private RelativeEncoder climbLeadEncoder; /* top encoder */
-  //private RelativeEncoder climbBottomEncoder; /* bottom encoder */
-  PWM servo1 = new PWM(0);
-  PWM servo2 = new PWM(1);
+	private SparkPIDController climbLeadPid;
+	private RelativeEncoder climbLeadEncoder; /* top encoder */
+	//private RelativeEncoder climbBottomEncoder; /* bottom encoder */
+	PWM servo1 = new PWM(Constants.Climber.SERVO_ONE_CHANNEL);
+	PWM servo2 = new PWM(Constants.Climber.SERVO_TWO_CHANNEL);
 
-  //private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
-  //private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
+	//private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
+	//private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
 
-  /* Method Constructor */
-  public ClimberSubsystem() {
-    climberLeaderMotor.restoreFactoryDefaults();
-    climberFollowerMotor.restoreFactoryDefaults();
-    climberLeaderMotor.setInverted(false);
-    climberFollowerMotor.setInverted(false);
+	/* Method Constructor */
+	public ClimberSubsystem() {
+		climberLeaderMotor.restoreFactoryDefaults();
+		climberFollowerMotor.restoreFactoryDefaults();
+		climberLeaderMotor.setInverted(false);
+		climberFollowerMotor.setInverted(false);
 
-    climberFollowerMotor.follow(climberLeaderMotor);
+		climberFollowerMotor.follow(climberLeaderMotor);
 
-    climbLeadEncoder = climberLeaderMotor.getEncoder();
-    climbLeadPid = climberLeaderMotor.getPIDController();
-    
-    climbLeadPid.setFeedbackDevice(climbLeadEncoder);
-    climbLeadPid.setP(0.02);
-    climbLeadPid.setI(9e-8);
-    climbLeadPid.setD(0.0);
-    //climbLeadPid.setFF(0.0);
-    //climbLeadPid.setSmartMotionMaxVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecondfast, 0);
-    //climbLeadPid.setSmartMotionMinOutputVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecond, 0);
-    //climbLeadPid.setSmartMotionMaxAccel(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared, 0);
-    //climbLeadPid.setSmartMotionAllowedClosedLoopError(5, 0);
+		climbLeadEncoder = climberLeaderMotor.getEncoder();
+		climbLeadPid = climberLeaderMotor.getPIDController();
+		
+		climbLeadPid.setFeedbackDevice(climbLeadEncoder);
+		climbLeadPid.setP(Constants.Climber.vortexClimberLeadKP);
+		climbLeadPid.setI(Constants.Climber.vortexClimberLeadKI);
+		climbLeadPid.setD(Constants.Climber.vortexClimberLeadKD);
+		//climbLeadPid.setFF(Constants.Climber.vortexClimberLeadFF);
+		//climbLeadPid.setSmartMotionMaxVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecondfast, 0);
+		//climbLeadPid.setSmartMotionMinOutputVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecond, 0);
+		//climbLeadPid.setSmartMotionMaxAccel(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared, 0);
+		//climbLeadPid.setSmartMotionAllowedClosedLoopError(5, 0);
 
-    
-  }
+		
+	}
 
-  public void climbSTOP() {
-    climberLeaderMotor.set(0);
-    //climberFollowerMotor.set(0);
-  }
+	public void climbSTOP() {
+		climberLeaderMotor.set(0);
+		//climberFollowerMotor.set(0);
+	}
 
-  public void climbUP() {
-    climberLeaderMotor.set(0.8);
-    //climberFollowerMotor.set(0.8);
-  }
+	public void climbUP() {
+		climberLeaderMotor.set(0.8);
+		//climberFollowerMotor.set(0.8);
+	}
 
-  public void climbDOWN() {
-    climberLeaderMotor.set(-0.8);
-    //climberFollowerMotor.set(-0.8);
-  }
+	public void climbDOWN() {
+		climberLeaderMotor.set(-0.8);
+		//climberFollowerMotor.set(-0.8);
+	}
 
-  public void GoToSetpoint(double setpoint) {
-    climbLeadPid.setReference(setpoint, ControlType.kPosition, 0);
-  }
+	public void GoToSetpoint(double setpoint) {
+		climbLeadPid.setReference(setpoint, ControlType.kPosition, 0);
+	}
 
-  public void setPosition(double pos) {
-    servo1.setPosition(pos);
-    servo2.setPosition(pos);
-  }
+	public void setPosition(double pos) {
+		servo1.setPosition(pos);
+		servo2.setPosition(pos);
+	}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    //if(TopClimberLimitSwitch.get()) {
-    //  climbLeadEncoder.setPosition(0);
-    //}
-    //if(BottomClimberLimitSwitch.get()) {
-    //  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
-    //} 
-  }
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+		//if(TopClimberLimitSwitch.get()) {
+		//  climbLeadEncoder.setPosition(0);
+		//}
+		//if(BottomClimberLimitSwitch.get()) {
+		//  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
+		//} 
+	}
 }

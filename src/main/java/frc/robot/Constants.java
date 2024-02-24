@@ -237,7 +237,11 @@ public final class Constants {
 
 		public static final double flyWheelKP = 0.0001; 
 		public static final double flyWheelKI = 0.00001; 
-		public static final double flyWheelKD = 0.0; 
+		public static final double flyWheelKD = 0.0;
+
+		public static final double MIN_OUTPUT_RANGE = -1;
+		public static final double MAX_OUTPUT_RANGE = 1;
+		public static final int SLOT_ID_GAIN = 0; /* Between 0 and 3 */
 
 	}
 
@@ -294,18 +298,21 @@ public final class Constants {
 	}
 
 	public static final class Climber {
+		public static final int SERVO_ONE_CHANNEL = 0;
+		public static final int SERVO_TWO_CHANNEL = 1;
+
 		public static final int climberLeaderMotorID = 35;
 		public static final int climberFollowerID = 36;
 		public static final int climberLimitSwitch = 4;
 		public static final int climberGoToSetPoint = -100;
 
-		public static final double vortexClimberSubsystemLeadKP = 0.02; 
-		public static final double vortexClimberSubsystemLeadKI = 9e-8; 
-		public static final double vortexClimberSubsystemLeadKD = 0.0; 
+		public static final double vortexClimberLeadKP = 0.02; 
+		public static final double vortexClimberLeadKI = 9e-8; 
+		public static final double vortexClimberLeadKD = 0.0;
 
-		public static final double vortexClimberSubsystemLeadFF = 0.0; 
+		public static final double vortexClimberLeadFF = 0.0; 
 		//MaxVel, MinVel, and MaxAccel are under autoconstants 
-		public static final int vortexClimberSubsystemMaxVelID = 0;
+		public static final int vortexClimberMaxVelID = 0;
 		public static final int ClimberLeadMotorID = 0;
 		public static final int ClimberFollowerID = 0;
 		// these 2 lines ^ are declared twice(look at 285 & 286) I think they are supposed to be different motors than above
@@ -317,6 +324,9 @@ public final class Constants {
 		public static final int conveyorMotorID = 29;
 		public static final int conveyerBeamBreakID = 0;
 		public static final boolean conveyorInverted = true;
+
+		public static final double CONVEYOR_FORWARD_SPEED = 0.2;
+		public static final double CONVEYOR_BACKWARD_SPEED = -0.2;
 	}
 
 	public static final class AutoConstants {

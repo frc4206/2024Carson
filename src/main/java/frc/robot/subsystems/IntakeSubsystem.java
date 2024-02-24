@@ -17,7 +17,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeFollowerMotor.follow(intakeMotor);
   }
 
-  public void IntakeGo(double setSpeed) {
+  public void intakeGo(double setSpeed) {
     intakeMotor.set(setSpeed);
   }
 

@@ -19,37 +19,42 @@ public class FlywheelSubsystem extends SubsystemBase {
 	private SparkPIDController upperFlyController = upperFlyMotor.getPIDController();
 	private SparkPIDController lowerFlyController = lowerFlyMotor.getPIDController();
 
-  /** Creates a new FlywheelSubsystem. */
-  public FlywheelSubsystem() {
+  	/** Creates a new FlywheelSubsystem. */
+  	public FlywheelSubsystem() {
 		upperFlyMotor.restoreFactoryDefaults();
 		lowerFlyMotor.restoreFactoryDefaults();
 		
 		upperFlyMotor.setInverted(true);
 		lowerFlyMotor.setInverted(true);
+
 		upperFlyMotor.setIdleMode(IdleMode.kCoast);
 		lowerFlyMotor.setIdleMode(IdleMode.kCoast);
 
+		/* Set upper flywheel PID controller values */
 		upperFlyController.setFeedbackDevice(upperFlyEncoder);
 		upperFlyController.setP(Constants.Shooter.flyWheelKP);
 		upperFlyController.setI(Constants.Shooter.flyWheelKI);
 		upperFlyController.setD(Constants.Shooter.flyWheelKD);
 		upperFlyController.setIZone(Constants.Shooter.flyWheelIZone); 
 		upperFlyController.setFF(Constants.Shooter.flyWheelFF); 
-		upperFlyController.setOutputRange(-1, 1, 0);
+		upperFlyController.setOutputRange(Constants.Shooter.MIN_OUTPUT_RANGE, Constants.Shooter.MAX_OUTPUT_RANGE, Constants.Shooter.SLOT_ID_GAIN);
 		upperFlyController.setSmartMotionMaxVelocity(Constants.Shooter.flyWheelMaxVel, Constants.Shooter.flyWheelMaxVelID);
 		upperFlyController.setSmartMotionMaxAccel(Constants.Shooter.flyWheelMaxAccel, Constants.Shooter.flyWheelMaxAccelID);
 		upperFlyController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.flyWheelAllowedError, Constants.Shooter.flyWheelAllowedErrorID);
 
+		/* Set lower flywheel PID controller values */
 		lowerFlyController.setFeedbackDevice(lowerFlyEncoder);
 		lowerFlyController.setP(Constants.Shooter.flyWheelKP);
 		lowerFlyController.setI(Constants.Shooter.flyWheelKI);
 		lowerFlyController.setD(Constants.Shooter.flyWheelKD);
 		lowerFlyController.setIZone(Constants.Shooter.flyWheelIZone); 
 		lowerFlyController.setFF(Constants.Shooter.flyWheelFF); 
-		lowerFlyController.setOutputRange(-1, 1, 0);
+		lowerFlyController.setOutputRange(Constants.Shooter.MIN_OUTPUT_RANGE, Constants.Shooter.MAX_OUTPUT_RANGE, Constants.Shooter.SLOT_ID_GAIN);
 		lowerFlyController.setSmartMotionMaxVelocity(Constants.Shooter.flyWheelMaxVel, Constants.Shooter.flyWheelMaxVelID);
 		lowerFlyController.setSmartMotionMaxAccel(Constants.Shooter.flyWheelMaxAccel, Constants.Shooter.flyWheelMaxAccelID);
 		lowerFlyController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.flyWheelAllowedError, Constants.Shooter.flyWheelAllowedErrorID);
+		
+		/* this looks like such a mess */
 	}
 
 	public void motorTurn(double flySpeed) {

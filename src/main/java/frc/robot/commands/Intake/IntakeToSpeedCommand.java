@@ -23,13 +23,13 @@ public class IntakeToSpeedCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.IntakeGo(m_intakeSpeed);
+    m_intake.intakeGo(m_intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.IntakeGo(0);
+    m_intake.intakeGo(0);
   }
 
   // Returns true when the command should end.

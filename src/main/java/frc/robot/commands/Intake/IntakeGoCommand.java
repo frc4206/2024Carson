@@ -22,7 +22,7 @@ public class IntakeGoCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeMotor.IntakeGo(0.5);
+    intakeMotor.intakeGo(0.5);
   }
 
   // Called once the command ends or is interrupted.

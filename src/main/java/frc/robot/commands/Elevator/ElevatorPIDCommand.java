@@ -13,14 +13,14 @@ import frc.robot.subsystems.ElevatorSubsystem;
 
 public class ElevatorPIDCommand extends Command {
   
-  ElevatorSubsystem m_VortexElevatorSubsystem;
+  ElevatorSubsystem m_vortexElevatorSubsystem;
 
   private SparkPIDController elvatorLeadPid;
 
   /** Oh boy, it's PID time! */
   public ElevatorPIDCommand(ElevatorSubsystem vortexElevator) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_VortexElevatorSubsystem = vortexElevator;
+    m_vortexElevatorSubsystem = vortexElevator;
     addRequirements(vortexElevator);
   }
 
@@ -31,7 +31,7 @@ public class ElevatorPIDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_VortexElevatorSubsystem.GoToSetpoint(Constants.Elevator.elevatorGoToSetPoint);
+    m_vortexElevatorSubsystem.GoToSetpoint(Constants.Elevator.elevatorGoToSetPoint);
   }
 
   // Called once the command ends or is interrupted.

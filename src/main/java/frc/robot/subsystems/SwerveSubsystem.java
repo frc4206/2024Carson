@@ -94,20 +94,20 @@ public class SwerveSubsystem extends SubsystemBase {
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
         Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-                fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    translation.getX(), 
-                    translation.getY(), 
-                    rotation, 
-                    getYaw()
-                    )
-                    : new ChassisSpeeds(
-                        translation.getX(), 
-                        translation.getY(), 
-                        rotation)
-                        );
-                        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
-                        
-                                    for(SwerveModule mod : mSwerveMods){
+            fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                translation.getX(), 
+                translation.getY(), 
+                rotation, 
+                getYaw()
+            )
+            : new ChassisSpeeds(
+                translation.getX(), 
+                translation.getY(), 
+                rotation)
+        );
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
+            
+        for(SwerveModule mod : mSwerveMods) {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
     } 
@@ -145,7 +145,7 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-    public void changeHeadingState(){
+    public void changeHeadingState() {
         if (headingState == HeadingState.PICKUP){
             // headingState = HeadingState.AIMED;
             headingState = HeadingState.AIMED;
@@ -156,11 +156,11 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-    public void freeHeadingState(){
+    public void freeHeadingState() {
         headingState = HeadingState.FREE;
     }
 
-    public Pose2d getPose(){
+    public Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
     }
     
@@ -168,7 +168,7 @@ public class SwerveSubsystem extends SubsystemBase {
         swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
     }
 
-    public double getNominalYaw(){
+    public double getNominalYaw() {
         realYaw = getYaw().getDegrees();
         rotations = Math.round((realYaw/360));
         if (realYaw < 0){
@@ -189,15 +189,15 @@ public class SwerveSubsystem extends SubsystemBase {
         return nomYaw;
     }
     
-    public SwerveModuleState[] getStates(){
+    public SwerveModuleState[] getStates() {
         SwerveModuleState[] states = new SwerveModuleState[4];
-        for(SwerveModule mod : mSwerveMods){
+        for(SwerveModule mod : mSwerveMods) {
             states[mod.moduleNumber] = mod.getState();
         }
         return states;
     }
 
-    public ChassisSpeeds getChassisSpeeds(){
+    public ChassisSpeeds getChassisSpeeds() {
         SwerveModuleState[] states = getStates();
         ChassisSpeeds chassisSpeeds = Constants.Swerve.swerveKinematics.toChassisSpeeds(
             states[0], states[1], states[2], states[3]
@@ -205,7 +205,7 @@ public class SwerveSubsystem extends SubsystemBase {
         return chassisSpeeds;
     }
     
-    public SwerveModulePosition[] getModulePositions(){
+    public SwerveModulePosition[] getModulePositions() {
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for (SwerveModule mod : mSwerveMods){
             positions[mod.moduleNumber] = mod.getPosition();
@@ -213,11 +213,11 @@ public class SwerveSubsystem extends SubsystemBase {
         return positions;
     }
     
-    public void zeroGyro(){
+    public void zeroGyro() {
         gyro.setYaw(0);
     }
     
-    public void setGyro(double degrees){
+    public void setGyro(double degrees) {
         gyro.setYaw(degrees);
     }
 
@@ -227,7 +227,7 @@ public class SwerveSubsystem extends SubsystemBase {
     
     public void resetOdometryLLFieldCords() {
         if (Limelight.limelightshooter.GetPipeline() == 2 && Math.abs(Limelight.limelightshooter.aprilTagResult[2]) < 3.5) {
-            double[] rawcords = Limelight.limelightshooter.Fieldresult;
+            double[] rawcords = Limelight.limelightshooter.fieldResult;
             Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
             AprilCords = fieldcords;
             if (Limelight.limelightshooter.HasTarget() != 0 || Limelight.limelightright.HasTarget() != 0 || Limelight.limelightleft.HasTarget() != 0) {
@@ -237,14 +237,14 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-    public double map(double val, double inMin, double inMax, double outMin, double outMax){
+    public double map(double val, double inMin, double inMax, double outMin, double outMax) {
         return ((val-inMin)*(outMax-outMin)
-                /(inMax-inMin))
-                +outMin;
+            /(inMax-inMin))
+            +outMin;
     }
 
     @Override
-    public void periodic(){
+    public void periodic() {
         swerveOdometry.update(getYaw(), getModulePositions());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
         resetOdometryLLFieldCords();
@@ -264,7 +264,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
         //Game piece positions
         if (Limelight.limelightshooter.GetPipeline() == 1) {
-        Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
+            Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
         }
 
         

@@ -26,53 +26,53 @@ import frc.robot.GlobalVariables;
  * project.
  */
 public class Robot extends LoggedRobot {
-  private Command m_autonomousCommand;
-  private RobotContainer m_robotContainer;
-  private SwerveSubsystem m_swerve;
-  private Limelight m_limelight;
+	private Command m_autonomousCommand;
+	private RobotContainer m_robotContainer;
+	private SwerveSubsystem m_swerve;
+	private Limelight m_limelight;
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
-  @Override
-  public void robotInit() {
-    setUseTiming(false);
-    Logger.start(); 
-    m_robotContainer = new RobotContainer();
-    m_swerve = new SwerveSubsystem();
-    m_limelight = new Limelight();
-    Mod0.angleOffset = m_swerve.mSwerveMods[0].getCanCoder().getDegrees();
-    Mod1.angleOffset = m_swerve.mSwerveMods[1].getCanCoder().getDegrees();
-    Mod2.angleOffset = m_swerve.mSwerveMods[2].getCanCoder().getDegrees();
-    Mod3.angleOffset = m_swerve.mSwerveMods[3].getCanCoder().getDegrees();
-  }
+	/**
+	 * This function is run when the robot is first started up and should be used for any
+	 * initialization code.
+	 */
+	@Override
+	public void robotInit() {
+		setUseTiming(false);
+		Logger.start(); 
+		m_robotContainer = new RobotContainer();
+		m_swerve = new SwerveSubsystem();
+		m_limelight = new Limelight();
+		Mod0.angleOffset = m_swerve.mSwerveMods[0].getCanCoder().getDegrees();
+		Mod1.angleOffset = m_swerve.mSwerveMods[1].getCanCoder().getDegrees();
+		Mod2.angleOffset = m_swerve.mSwerveMods[2].getCanCoder().getDegrees();
+		Mod3.angleOffset = m_swerve.mSwerveMods[3].getCanCoder().getDegrees();
+	}
 
-  /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
-   * that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-   * SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
-  }
+	/**
+	 * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
+	 * that you want ran during disabled, autonomous, teleoperated and test.
+	 *
+	 * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+	 * SmartDashboard integrated updating.
+	 */
+	@Override
+	public void robotPeriodic() {
+		// Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+		// commands, running already-scheduled commands, removing finished or interrupted commands,
+		// and running subsystem periodic() methods.  This must be called from the robot's periodic
+		// block in order for anything in the Command-based framework to work.
+		CommandScheduler.getInstance().run();
+	}
 
   @Override
   public void disabledInit() {
     GlobalVariables.isEnabled = false;
   }
 
-  @Override
-  public void disabledPeriodic() {
-    GlobalVariables.alliance = DriverStation.getAlliance().get();
-  }
+	@Override
+	public void disabledPeriodic() {
+		GlobalVariables.alliance = DriverStation.getAlliance().get();
+	}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -85,9 +85,9 @@ public class Robot extends LoggedRobot {
     }
   }
 
-  /** This function is called periodically during autonomous. */
-  @Override
-  public void autonomousPeriodic() {}
+	/** This function is called periodically during autonomous. */
+	@Override
+	public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
@@ -102,25 +102,25 @@ public class Robot extends LoggedRobot {
     GlobalVariables.isEnabled = true;
   }
 
-  /** This function is called periodically during operator control. */
-  @Override
-  public void teleopPeriodic() {}
+	/** This function is called periodically during operator control. */
+	@Override
+	public void teleopPeriodic() {}
 
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-  }
+	@Override
+	public void testInit() {
+		// Cancels all running commands at the start of test mode.
+		CommandScheduler.getInstance().cancelAll();
+	}
 
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {}
+	/** This function is called periodically during test mode. */
+	@Override
+	public void testPeriodic() {}
 
-  /** This function is called once when the robot is first started up. */
-  @Override
-  public void simulationInit() {}
+	/** This function is called once when the robot is first started up. */
+	@Override
+	public void simulationInit() {}
 
-  /** This function is called periodically whilst in simulation. */
-  @Override
-  public void simulationPeriodic() {}
+	/** This function is called periodically whilst in simulation. */
+	@Override
+	public void simulationPeriodic() {}
 }

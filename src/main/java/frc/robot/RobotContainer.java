@@ -102,9 +102,9 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private boolean getLeftTrigger(XboxController controller){
-    return controller.getLeftTriggerAxis() > 0.05;
-  }
+	private boolean getLeftTrigger(XboxController controller) {
+		return controller.getLeftTriggerAxis() > 0.05;
+	}
 
   private boolean getRightTrigger(XboxController controller){
     return controller.getRightTriggerAxis() > 0.05;

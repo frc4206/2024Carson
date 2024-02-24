@@ -26,20 +26,20 @@ import frc.robot.subsystems.SwerveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SystemCheck extends SequentialCommandGroup {
-  public SystemCheck(ClimberSubsystem climber, ConveyorSubsystem conveyor, ElevatorSubsystem elevator, FlywheelSubsystem flywheel, IntakeSubsystem intake, PivotSubsystem pivot, SwerveSubsystem swerve, XboxController controller) {
-    addCommands(
-      new IntakeToSpeedCommand(intake, -1).withTimeout(0.25),
-      new IntakeToSpeedCommand(intake, 1).withTimeout(0.25),
-      new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.25),
-      new ConveyerToSpeedCommand(conveyor, -1).withTimeout(0.25),
-      new PercentShooterCommand(flywheel, 1).until(() -> flywheel.shooterAtVelocity(6000)),
-      new PivotCommand(pivot, 4).withTimeout(1),
-      new PivotCommand(pivot, 0.5).withTimeout(1),
-      new ElevatorPIDCommand(elevator, Constants.Elevator.elevHighPosition).withTimeout(2),
-      new ElevatorPIDCommand(elevator, 1).withTimeout(2),
-      new ClimberPIDCommand(climber, 100).withTimeout(2),
-      new ClimberPIDCommand(climber, 1).withTimeout(2),
-      new TeleopSwerve(swerve, controller, 1, 0, 4, true, true).withTimeout(5)
-    );
-  }
+	public SystemCheck(ClimberSubsystem climber, ConveyorSubsystem conveyor, ElevatorSubsystem elevator, FlywheelSubsystem flywheel, IntakeSubsystem intake, PivotSubsystem pivot, SwerveSubsystem swerve, XboxController controller) {
+		addCommands(
+			new IntakeToSpeedCommand(intake, -1).withTimeout(0.25),
+			new IntakeToSpeedCommand(intake, 1).withTimeout(0.25),
+			new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.25),
+			new ConveyerToSpeedCommand(conveyor, -1).withTimeout(0.25),
+			new PercentShooterCommand(flywheel, 1).until(() -> flywheel.shooterAtVelocity(6000)),
+			new PivotCommand(pivot, 4).withTimeout(1),
+			new PivotCommand(pivot, 0.5).withTimeout(1),
+			new ElevatorPIDCommand(elevator, Constants.Elevator.elevHighPosition).withTimeout(2),
+			new ElevatorPIDCommand(elevator, 1).withTimeout(2),
+			new ClimberPIDCommand(climber, 100).withTimeout(2),
+			new ClimberPIDCommand(climber, 1).withTimeout(2),
+			new TeleopSwerve(swerve, controller, 1, 0, 4, true, true).withTimeout(5)
+		);
+	}
 }

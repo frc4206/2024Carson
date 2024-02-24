@@ -50,7 +50,7 @@ public class TeleopSwerve extends Command {
         this.rotationAxis = rotationAxis;
         this.fieldRelative = fieldRelative;
         this.openLoop = openLoop;
-        for (SwerveModule mod : s_Swerve.mSwerveMods){
+        for(SwerveModule mod : s_Swerve.mSwerveMods) {
             mod.mDriveMotor.setNeutralMode(NeutralModeValue.Coast);
         }
     }
@@ -61,14 +61,14 @@ public class TeleopSwerve extends Command {
 
         switch (s_Swerve.headingState){
             case PICKUP:
-                if (GlobalVariables.alliance == Alliance.Blue){
-                    if (botYaw > 0 && botYaw < 180){
+                if (GlobalVariables.alliance == Alliance.Blue) {
+                    if (botYaw > 0 && botYaw < 180) {
                         yawSet = -30; //makes robot overshoot and go to else statement
                     } else {
                         yawSet = 300;
                     }
-                } else if (GlobalVariables.alliance == Alliance.Red){
-                    if (botYaw > 0 && botYaw < 180){
+                } else if (GlobalVariables.alliance == Alliance.Red) {
+                    if (botYaw > 0 && botYaw < 180) {
                         yawSet = 60;
                     } else {
                         yawSet = -390; //makes robot overshoot and go to else statement
@@ -83,21 +83,21 @@ public class TeleopSwerve extends Command {
                 break;
             case AIMED:
                 yawSet= Math.toDegrees(
-                            Math.atan(
-                                (s_Swerve.getPose().getY()-5.72)/
-                                (s_Swerve.getPose().getX()-0)
-                            )
-                        );
-                if (yawSet < 0){
+                    Math.atan(
+                        (s_Swerve.getPose().getY()-5.72)/
+                        (s_Swerve.getPose().getX()-0)
+                    )
+                );
+                if (yawSet < 0) {
                     errorYaw = botYaw - (360 + yawSet);
-                    if (Math.abs(errorYaw) > 1.5) { 
+                    if(Math.abs(errorYaw) > 1.5) { 
                         outputYaw = pidyaw.calculate(botYaw, 360 + yawSet);
                     } else {
                         outputYaw = pidyawi.calculate(botYaw, 360 + yawSet);
                     }
                 } else {
                     errorYaw = botYaw - yawSet;
-                    if (Math.abs(errorYaw) > 1.5) {
+                    if(Math.abs(errorYaw) > 1.5) {
                         outputYaw = pidyaw.calculate(botYaw, yawSet);
                     } else {
                         outputYaw = pidyawi.calculate(botYaw, yawSet);
@@ -106,7 +106,7 @@ public class TeleopSwerve extends Command {
                 rAxis = outputYaw;
                 break;
             case BACKWARD:
-                if (botYaw > 0 && botYaw < 180){
+                if(botYaw > 0 && botYaw < 180) {
                         yawSet = 0;
                     } else {
                         yawSet = 360;
@@ -144,9 +144,9 @@ public class TeleopSwerve extends Command {
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
 
 
-        if (s_Swerve.headingState == HeadingState.FREE){
+        if(s_Swerve.headingState == HeadingState.FREE) {
             rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
-        } else if (s_Swerve.headingState == HeadingState.AIMED){
+        } else if(s_Swerve.headingState == HeadingState.AIMED) {
             // rAxis = -rAxis;
         }
 

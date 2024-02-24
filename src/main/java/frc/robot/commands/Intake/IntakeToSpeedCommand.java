@@ -8,33 +8,38 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeToSpeedCommand extends Command {
-  private IntakeSubsystem m_intake;
-  private double m_intakeSpeed;
-  public IntakeToSpeedCommand(IntakeSubsystem intake, double intakeSpeed) {
-    m_intake = intake; 
-    addRequirements(m_intake);
-    m_intakeSpeed = intakeSpeed;
-  }
+	private IntakeSubsystem m_intake;
+	private double m_intakeSpeed;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	/** Creates a new IntakeToSpeedCommand.
+	 *  @param intakeSubsystem To do the whole intake thing
+	 *  @param intakeSpeed How fast the intake motor should go
+	*/
+	public IntakeToSpeedCommand(IntakeSubsystem intake, double intakeSpeed) {
+		m_intake = intake; 
+		addRequirements(m_intake);
+		m_intakeSpeed = intakeSpeed;
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_intake.IntakeGo(m_intakeSpeed);
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_intake.IntakeGo(0);
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		m_intake.intakeGo(m_intakeSpeed);
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		m_intake.intakeGo(0);
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

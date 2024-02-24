@@ -19,6 +19,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   private RelativeEncoder elevatorLeaderEncoder = elevatorLeader.getEncoder();
   private SparkPIDController elevatorLeaderPIDController = elevatorLeader.getPIDController();
   private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.elevatorFollowerID, MotorType.kBrushless);
+  private RelativeEncoder elevatorFollowEncoder = elevatorFollower.getEncoder();
+  private SparkPIDController elevatorFollowerPIDController = elevatorFollower.getPIDController();
 
   private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.elevatorTopLimitSwitch);
   private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.elevatorBottomLimitSwitch);
@@ -34,8 +36,18 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorLeaderPIDController.setI(Constants.Elevator.elevKI);
     elevatorLeaderPIDController.setD(Constants.Elevator.elevKD);
 
+    elevatorFollowerPIDController.setFeedbackDevice(elevatorFollowEncoder);
+    elevatorFollowerPIDController.setP(Constants.Elevator.elevKP);
+    elevatorFollowerPIDController.setI(Constants.Elevator.elevKI);
+    elevatorFollowerPIDController.setD(Constants.Elevator.elevKD);
+
     elevatorLeader.burnFlash();
     elevatorFollower.burnFlash();
+  }
+
+  public void resetElevator(){
+    elevatorLeaderEncoder.setPosition(0);
+    elevatorFollowEncoder.setPosition(0);
   }
 
   public void elevatorSTOP() {
@@ -53,8 +65,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorFollower.set(Constants.Elevator.elevDownSpeed);
   }
 
+  public void elevatorToPercent(double percent){
+    elevatorLeader.set(percent);
+    elevatorFollower.set(percent);
+  }
+
   public void GoToSetpoint(double setpoint) {
     elevatorLeaderPIDController.setReference(setpoint, ControlType.kPosition, 0);
+    elevatorFollowerPIDController.setReference(setpoint, ControlType.kPosition, 0);
   }
 
 
@@ -62,9 +80,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void periodic() {
     if(!elevatorBottomLimitSwitch.get()) {
       elevatorLeaderEncoder.setPosition(0);
+      elevatorFollowEncoder.setPosition(0);
     }
     if(!elevatorTopLimitSwitch.get()) {
       elevatorLeaderEncoder.setPosition(Constants.Elevator.elevResetPosition);
+      elevatorFollowEncoder.setPosition(Constants.Elevator.elevResetPosition);
     }
   }
 }

@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimelightCameraClass {
@@ -11,6 +12,9 @@ public class LimelightCameraClass {
     public String limelightName;
     public NetworkTable limelightTable;
     public int camID;
+    public boolean init = false;
+    public double startTime;
+    public double currTime;
 
 
     //April tag variables
@@ -95,10 +99,25 @@ public class LimelightCameraClass {
 
   public void UpdateResults() {
     //Updates the current pipleines calcuations
+    
     if (limelightTable.getEntry("pipeline").getDouble(0) == 2) {
-        aprilTagResult = limelightTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
-        aprilTagResult[2] *= -1;
-        Fieldresult = limelightTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+      if (HasTarget() == 1) {
+        if (!init) {
+          startTime = Timer.getFPGATimestamp();
+          init = true;
+        } else if (init) {
+          currTime = Timer.getFPGATimestamp();
+        }
+        if (currTime > 1) {
+          aprilTagResult = limelightTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
+          aprilTagResult[2] *= -1;
+          Fieldresult = limelightTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+        }
+        
+      } else {
+        init = false;
+      }
+        
     } else if (limelightTable.getEntry("pipeline").getDouble(0) == 1) {
         SmartDashboard.putNumber(limelightName + " ai distance: ", GetDistanceToGamePiece());
 

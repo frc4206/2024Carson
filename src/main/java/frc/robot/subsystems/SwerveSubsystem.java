@@ -221,7 +221,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     public void resetOdometryLLFieldCords() {
-        if (Limelight.limelightshooter.GetPipeline() == 2) {
+        if (Limelight.limelightshooter.GetPipeline() == 2 && Limelight.limelightshooter.aprilTagResult[0] < 2) {
             double[] rawcords = Limelight.limelightshooter.Fieldresult;
             Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
             if (Limelight.limelightshooter.HasTarget() != 0 || Limelight.limelightright.HasTarget() != 0 || Limelight.limelightleft.HasTarget() != 0) {
@@ -239,17 +239,17 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());
-         resetOdometryLLFieldCords();
-        
-         double[] OdometryArray = {getPose().getX(), getPose().getY(), getYaw().getDegrees()};
-         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
+        resetOdometryLLFieldCords();
+    
+        double[] OdometryArray = {getPose().getX(), getPose().getY(), getYaw().getDegrees()};
+        SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
         
         // SmartDashboard.putNumber("Odometry X: ", OdometryArray[0]);
         // SmartDashboard.putNumber("Odometry Y: ", OdometryArray[1]);
         //Game piece positions
-         if (Limelight.limelightshooter.GetPipeline() == 1) {
-             Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
-         }
+        if (Limelight.limelightshooter.GetPipeline() == 1) {
+        Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
+        }
 
         double[] ypr = new double[3];
         ypr[0] = gyro.getYaw().getValueAsDouble();
@@ -265,8 +265,8 @@ public class SwerveSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Falcon degrees", mod.mAngleMotor.getPosition().getValueAsDouble());
         }
 
-         double angle = gyro.getYaw().getValueAsDouble() % 360;
-         angle = (angle < 0) ? 360 + angle : angle;
+        double angle = gyro.getYaw().getValueAsDouble() % 360;
+        angle = (angle < 0) ? 360 + angle : angle;
 
         // double[] flywheelArray = {OdometryArray[0] + Constants.Shooter.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Shooter.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
 

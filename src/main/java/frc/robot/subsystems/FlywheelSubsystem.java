@@ -55,7 +55,7 @@ public class FlywheelSubsystem extends SubsystemBase {
 
   public boolean shooterAtVelocity(double setVelocity){
     return (
-      (Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < 50) &&
+      (Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < 100) &&
       (Math.abs(lowerFlyEncoder.getVelocity() - setVelocity) < 50)
     );
   }

@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 
 public class PivotSubsystem extends SubsystemBase {
 
@@ -20,11 +21,11 @@ public class PivotSubsystem extends SubsystemBase {
   public RelativeEncoder pivotEncoder;
   public SparkPIDController pivotController;
 
-  // double[][] angleData = {{4.65, 1.03}, {4.04, 1.86}, {3.89, 1.69}, {3.12, 2.77}, {2.90, 3.21}, {2.49, 4.07}, {2.18, 5.00}};
-  double[][] angleData = {{0, 0},{1, 0.5}};
+  double[][] angleData = {{4.65, 1.03}, {4.04, 1.86}, {3.89, 1.69}, {3.12, 2.77}, {2.90, 3.21}, {2.49, 4.07}, {2.18, 5.00}};
   InterpolatingTreeTableSubsystem angleTree;
 
   public enum ShooterPositions {
+    NONE,
     CLOSE,
     PODIUM,
     UNDER,
@@ -33,7 +34,7 @@ public class PivotSubsystem extends SubsystemBase {
     AMPLIFIER
   }
 
-  public ShooterPositions position = ShooterPositions.WING;
+  public ShooterPositions position = ShooterPositions.NONE;
 
   public PivotSubsystem() {
     angleTree = new InterpolatingTreeTableSubsystem(angleData);
@@ -54,11 +55,11 @@ public class PivotSubsystem extends SubsystemBase {
     pivotController.setSmartMotionMaxAccel(Constants.Pivot.pivotMaxAccel, 0);
     pivotController.setSmartMotionAllowedClosedLoopError(Constants.Pivot.pivotAllowedError, 0);
   }
-
+  
   public void resetPivot(){
     pivotEncoder.setPosition(0);
   }
-
+  
   public void runPivot(double speed) {
     pivotMotor.set(speed);
   }
@@ -66,10 +67,14 @@ public class PivotSubsystem extends SubsystemBase {
   public void setPosition(double angle) {
     pivotController.setReference(angle, CANSparkFlex.ControlType.kPosition);
   }
-
+  
   public void autoAdjust(double distFromSpeaker){
     double newAngle = angleTree.getInterpolatedValue(distFromSpeaker);
     setPosition(newAngle);
+  }
+  
+  public void changePosition(ShooterPositions newPosition){
+    position = newPosition;
   }
 
   public void cycleRelativePosition(){
@@ -120,6 +125,10 @@ public class PivotSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
-    setFieldRelativePosition();
+    if (position != ShooterPositions.NONE){
+      setFieldRelativePosition();
+    } else {
+      // autoAdjust(GlobalVariables.distanceToSpeaker);
+    }
   }
 }

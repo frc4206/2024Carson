@@ -2,33 +2,29 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Shooter;
+package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.GlobalVariables;
-import frc.robot.subsystems.PivotSubsystem;
-import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
+import frc.robot.subsystems.ElevatorSubsystem;
 
-public class ShooterToAmp extends Command {
-  private PivotSubsystem m_pivot;
-  private boolean isFinished = false;
-  public ShooterToAmp(PivotSubsystem pivot) {
-    m_pivot = pivot;
-    addRequirements(m_pivot);
+public class PercentElevatorCommand extends Command {
+  private ElevatorSubsystem m_elevator;
+  private double m_percent;
+  public PercentElevatorCommand(ElevatorSubsystem elevator, double percent) {
+    m_elevator = elevator;
+    addRequirements(m_elevator);
+    m_percent = percent;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    // GlobalVariables.shooterAutomatic = false;
-    m_pivot.position = ShooterPositions.AMPLIFIER;
-    isFinished = true;
-    isFinished();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_elevator.elevatorToPercent(m_percent);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -37,6 +33,6 @@ public class ShooterToAmp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished;
+    return false;
   }
 }

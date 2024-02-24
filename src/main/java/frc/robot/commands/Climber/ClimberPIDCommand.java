@@ -5,18 +5,15 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 //import frc.robot.subsystems.VortexClimberSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimberPIDCommand extends Command {
-  
-  public ClimberSubsystem m_vortexClimberSubsystem;
-
-  /** The VortexClimberPID command can be called whenever we need to call the motor controller to climb the chain. */
-  public ClimberPIDCommand(ClimberSubsystem vortexClimber) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private ClimberSubsystem m_vortexClimberSubsystem;
+  private double m_setpoint;
+  public ClimberPIDCommand(ClimberSubsystem vortexClimber, double setpoint) {
     m_vortexClimberSubsystem = vortexClimber;
+    m_setpoint = setpoint;
     addRequirements(vortexClimber);
   }
 
@@ -27,7 +24,7 @@ public class ClimberPIDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_vortexClimberSubsystem.GoToSetpoint(Constants.Climber.climberGoToSetPoint);
+    m_vortexClimberSubsystem.GoToSetpoint(m_setpoint);
   }
 
   // Called once the command ends or is interrupted.

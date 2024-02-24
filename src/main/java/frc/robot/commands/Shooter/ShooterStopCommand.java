@@ -9,7 +9,6 @@ import frc.robot.subsystems.FlywheelSubsystem;
 
 public class ShooterStopCommand extends Command {
   private FlywheelSubsystem shooter;
-  private boolean isFinished = false;
   public ShooterStopCommand(FlywheelSubsystem m_shooter) {
     shooter = m_shooter;
     addRequirements(shooter);
@@ -17,15 +16,13 @@ public class ShooterStopCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    shooter.percentShooter(0);
-    isFinished = true;
-    isFinished();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    shooter.percentShooter(0);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -34,6 +31,6 @@ public class ShooterStopCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished;
+    return false;
   }
 }

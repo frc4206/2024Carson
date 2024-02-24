@@ -11,44 +11,43 @@ import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class GoUntilNoteCommand extends Command {
-  private ConveyorSubsystem m_conveyor; 
-  private IntakeSubsystem m_intake;
-  public GoUntilNoteCommand(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
-    m_conveyor = conveyor;
-    m_intake = intake;
-    addRequirements(m_conveyor, m_intake);
-  }
+	private ConveyorSubsystem m_conveyor; 
+	private IntakeSubsystem m_intake;
+	public GoUntilNoteCommand(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
+		m_conveyor = conveyor;
+		m_intake = intake;
+		addRequirements(m_conveyor, m_intake);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    GlobalVariables.intakingPiece = true;
-    GlobalVariables.pieceReady = false;
-    GlobalVariables.ampReady = false;
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		GlobalVariables.intakingPiece = true;
+		GlobalVariables.pieceReady = false;
+		GlobalVariables.ampReady = false;
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (!(m_conveyor.hasNote())){
-      m_intake.IntakeGo(-0.7);
-      m_conveyor.conveyorTurn(0.4);
-      SmartDashboard.putBoolean("GOTIT", true);
-    }
-    else{
-      m_intake.IntakeGo(0);
-      m_conveyor.conveyorTurn(0);
-      SmartDashboard.putBoolean("GOTIT", false);
-    }
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if(!m_conveyor.hasNote()) {
+			m_intake.intakeGo(-0.7);
+			m_conveyor.conveyorTurn(0.4);
+			SmartDashboard.putBoolean("GOTIT", true);
+		} else {
+			m_intake.intakeGo(0);
+			m_conveyor.conveyorTurn(0);
+			SmartDashboard.putBoolean("GOTIT", false);
+		}
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

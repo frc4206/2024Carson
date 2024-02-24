@@ -9,12 +9,12 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimberDownLeftCommand extends Command {
-  private ClimberSubsystem m_vortexClimberSubsystem;
+	private ClimberSubsystem m_vortexClimberSubsystem;
 
-  public ClimberDownLeftCommand(ClimberSubsystem vortexClimber) {
-    m_vortexClimberSubsystem /*help */ = vortexClimber;    
-    addRequirements(m_vortexClimberSubsystem);
-  }
+	public ClimberDownLeftCommand(ClimberSubsystem vortexClimber) {
+		m_vortexClimberSubsystem /*help */ = vortexClimber;    
+		addRequirements(m_vortexClimberSubsystem);
+	}
 
   // Called when the command is initially scheduled.
   @Override
@@ -22,23 +22,23 @@ public class ClimberDownLeftCommand extends Command {
     m_vortexClimberSubsystem.setPositionLeft(Constants.Climber.servoPosDisEngage);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_vortexClimberSubsystem.climbDOWNLeft();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		m_vortexClimberSubsystem.climbDOWNLeft();
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_vortexClimberSubsystem.climbSTOP();
-    //m_vortexClimberSubsystem.setPosition(Constants.Climber.servoPosRightDisEngage);
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		m_vortexClimberSubsystem.climbSTOP();
+		//m_vortexClimberSubsystem.setPosition(Constants.Climber.servoPosRightDisEngage);
 
-  }
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

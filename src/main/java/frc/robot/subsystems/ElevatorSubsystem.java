@@ -42,35 +42,35 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorFollowerPIDController.setD(Constants.Elevator.elevKD);
   }
 
-  public void resetElevator(){
-    elevatorLeaderEncoder.setPosition(0);
-    elevatorFollowEncoder.setPosition(0);
-  }
+	public void resetElevator(){
+		elevatorLeaderEncoder.setPosition(0);
+		elevatorFollowEncoder.setPosition(0);
+	}
 
-  public void elevatorSTOP() {
-    elevatorLeader.set(Constants.Elevator.elevStopSpeed);
-    elevatorFollower.set(Constants.Elevator.elevStopSpeed);
-  }
+	public void elevatorSTOP() {
+		elevatorLeader.set(Constants.Elevator.elevStopSpeed);
+		elevatorFollower.set(Constants.Elevator.elevStopSpeed);
+	}
 
-  public void elevatorUP() {
-    elevatorLeader.set(Constants.Elevator.elevUpSpeed);
-    elevatorFollower.set(Constants.Elevator.elevUpSpeed);
-  }
+	public void elevatorUP() {
+		elevatorLeader.set(Constants.Elevator.elevUpSpeed);
+		elevatorFollower.set(Constants.Elevator.elevUpSpeed);
+	}
 
-  public void elevatorDOWN() {
-    elevatorLeader.set(Constants.Elevator.elevDownSpeed);
-    elevatorFollower.set(Constants.Elevator.elevDownSpeed);
-  }
+	public void elevatorDOWN() {
+		elevatorLeader.set(Constants.Elevator.elevDownSpeed);
+		elevatorFollower.set(Constants.Elevator.elevDownSpeed);
+	}
 
-  public void elevatorToPercent(double percent){
-    elevatorLeader.set(percent);
-    elevatorFollower.set(percent);
-  }
+	public void elevatorToPercent(double percent){
+		elevatorLeader.set(percent);
+		elevatorFollower.set(percent);
+	}
 
-  public void GoToSetpoint(double setpoint) {
-    elevatorLeaderPIDController.setReference(setpoint, ControlType.kPosition, 0);
-    elevatorFollowerPIDController.setReference(setpoint, ControlType.kPosition, 0);
-  }
+	public void GoToSetpoint(double setpoint) {
+		elevatorLeaderPIDController.setReference(setpoint, ControlType.kPosition, 0);
+		elevatorFollowerPIDController.setReference(setpoint, ControlType.kPosition, 0);
+	}
 
 
   @Override

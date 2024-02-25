@@ -4,8 +4,8 @@
 
 package frc.robot.commands.Shooter;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.GlobalVariables;
 import frc.robot.subsystems.FlywheelSubsystem;
 
 public class DistanceVelocityCommand extends Command {
@@ -24,15 +24,8 @@ public class DistanceVelocityCommand extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		m_flywheelSubsystem.setVelocity(SmartDashboard.getNumber("desired velo", 0));
+		m_flywheelSubsystem.setVelocity(GlobalVariables.desiredVelo);
 	}
-
-	/*// Called every time the scheduler runs while the command is scheduled.
-	@Override
-	public void execute() {
-		m_shooter.setVelocity(6500);
-		m_pivot.autoAdjust(GlobalVariables.distanceToSpeaker);
-	}*/
 
 	// Called once the command ends or is interrupted.
 	@Override

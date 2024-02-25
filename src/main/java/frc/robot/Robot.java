@@ -14,10 +14,7 @@ import frc.robot.Constants.Swerve.Mod0;
 import frc.robot.Constants.Swerve.Mod1;
 import frc.robot.Constants.Swerve.Mod2;
 import frc.robot.Constants.Swerve.Mod3;
-import frc.robot.commands.LimeLight.ChangePipelineCommand;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.GlobalVariables;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -29,7 +26,6 @@ public class Robot extends LoggedRobot {
 	private Command m_autonomousCommand;
 	private RobotContainer m_robotContainer;
 	private SwerveSubsystem m_swerve;
-	private Limelight m_limelight;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -41,11 +37,11 @@ public class Robot extends LoggedRobot {
 		Logger.start(); 
 		m_robotContainer = new RobotContainer();
 		m_swerve = new SwerveSubsystem();
-		m_limelight = new Limelight();
 		Mod0.angleOffset = m_swerve.mSwerveMods[0].getCanCoder().getDegrees();
 		Mod1.angleOffset = m_swerve.mSwerveMods[1].getCanCoder().getDegrees();
 		Mod2.angleOffset = m_swerve.mSwerveMods[2].getCanCoder().getDegrees();
 		Mod3.angleOffset = m_swerve.mSwerveMods[3].getCanCoder().getDegrees();
+		m_robotContainer.m_Limelight.ChangePipelines(2);
 	}
 
 	/**
@@ -98,7 +94,6 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    CommandScheduler.getInstance().schedule(new ChangePipelineCommand(m_limelight, 2));
     GlobalVariables.isEnabled = true;
   }
 

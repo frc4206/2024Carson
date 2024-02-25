@@ -249,9 +249,11 @@ public final class Constants {
 		public static final int pivotMotorID = 27;
 
 		public static final double ampPosition = 8;
-		public static final double closePosition = 5;
-		public static final double podiumPosition = 3.5;
-		public static final double underPosition = 2.13;
+		public static final double closePosition = 4.828;
+		public static final double spikePosition = 4.450;
+		public static final double podiumPosition = 3.900;
+		public static final double underPosition = 2.6;
+
 		public static final double stagePosition = 1.73;
 		public static final double wingPosition = 1.0;
 
@@ -277,16 +279,16 @@ public final class Constants {
 		public static final int elevatorTopLimitSwitch = 2;
 		public static final int elevatorBottomLimitSwitch = 3;
     
-    public static final double elevKP = 0.03;
-    public static final double elevKI = 0.00005;
-    public static final double elevKIZone = 10;
-    public static final double elevKD = 0.0;
+		public static final double elevKP = 0.00025;
+		public static final double elevKI = 0.000005;
+		public static final double elevKIZone = 30;
+		public static final double elevKD = 0.0;
 
 		public static final double elevStopSpeed = 0.0;
 		public static final double elevUpSpeed = 0.35;
 		public static final double elevDownSpeed = -0.35;
 
-    public static final double elevResetPosition = 7.5;
+		public static final double elevResetPosition = 7.5;
 		public static final double elevHighPosition = 100;
 		public static final double elevTrapPosition = 90;
 		public static final double elevAmpPosition = 80;

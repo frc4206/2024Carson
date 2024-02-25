@@ -4,7 +4,6 @@
 
 package frc.robot.commands.Intake;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.GlobalVariables;
 import frc.robot.subsystems.ConveyorSubsystem;
@@ -33,11 +32,9 @@ public class GoUntilNoteCommand extends Command {
 		if(!m_conveyor.hasNote()) {
 			m_intake.intakeGo(-0.7);
 			m_conveyor.conveyorTurn(0.4);
-			SmartDashboard.putBoolean("GOTIT", true);
 		} else {
 			m_intake.intakeGo(0);
 			m_conveyor.conveyorTurn(0);
-			SmartDashboard.putBoolean("GOTIT", false);
 		}
 	}
 

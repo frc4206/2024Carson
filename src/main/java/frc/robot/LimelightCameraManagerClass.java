@@ -30,10 +30,7 @@ public class LimelightCameraManagerClass {
                 if (cameraList[i].GetDistanceToGamePiece() < cameraList[i + 1].GetDistanceToGamePiece()) {
                     camID = cameraList[i].camID;
                 }
-            } catch (Exception e) {
-                // TODO: handle exception
-                //chill out
-            }
+            } catch (Exception e) {}
             
         }
         return camID;
@@ -87,10 +84,7 @@ public class LimelightCameraManagerClass {
                             Y = cameraList[ii].fieldResult[1];
                             Z = cameraList[ii].fieldResult[2];
                         }
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                        //chill out
-                    }
+                    } catch (Exception e) {}
                     if (ii > 1) {
                         if (cameraList[ii].aprilTagResult[2] < cameraList[ii - 1].aprilTagResult[2] && cameraList[ii - 1].GetPipeline() == 2) {
                             X = cameraList[ii].fieldResult[0];

@@ -7,7 +7,6 @@ package frc.robot.commands.Swerve;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -87,7 +86,6 @@ public class PID_DistanceOdometry2 extends Command {
 			isFinished();
 		}
 
-		SmartDashboard.putNumber("pid output", X_Output);
 
 		translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed);
 		rotation = Yaw_Output;

@@ -4,7 +4,6 @@
 
 package frc.robot.commands.Climber;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -53,7 +52,7 @@ public class ClimberToggleUpCommand extends Command {
 				isFinished();
 			}
 		}
-		SmartDashboard.putString("state", state);
+		// SmartDashboard.putString("state", state);
 	}
 
 	// Called once the command ends or is interrupted.

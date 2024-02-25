@@ -10,7 +10,6 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,12 +18,13 @@ public class PivotSubsystem extends SubsystemBase {
   public RelativeEncoder pivotEncoder;
   public SparkPIDController pivotController;
 
-	double[][] angleData = {{4.65, 1.03}, {4.04, 1.86}, {3.89, 1.69}, {3.12, 2.77}, {2.90, 3.21}, {2.49, 4.07}, {2.18, 5.00}};
+	double[][] angleData = {{4.65, 1.03}, {4.04, 1.86}, {3.89, 1.69}, {3.12, 2.77}, {2.90, 3.21}, {2.49, 4.07}, {2.515, 4.85}};
 	InterpolatingTreeTableSubsystem angleTree;
 
 	public enum ShooterPositions {
 		NONE,
 		CLOSE,
+		SPIKE,
 		PODIUM,
 		UNDER,
 		STAGE,
@@ -69,6 +69,9 @@ public class PivotSubsystem extends SubsystemBase {
 	}
 	
 	public void autoAdjust(double distFromSpeaker){
+		if (distFromSpeaker > 6.0){
+			setPosition(1);
+		}
 		double newAngle = angleTree.getInterpolatedValue(distFromSpeaker);
 		setPosition(newAngle);
 	}
@@ -79,35 +82,38 @@ public class PivotSubsystem extends SubsystemBase {
 
 	public void cycleRelativePosition(){
 		switch (position) {
-			case WING:
-				position = ShooterPositions.STAGE;
-				break;
-			case STAGE:
-				position = ShooterPositions.UNDER;
-				break;
+			// case WING:
+			// 	position = ShooterPositions.STAGE;
+			// 	break;
+			// case STAGE:
+			// 	position = ShooterPositions.UNDER;
+			// 	break;
 			case UNDER:
 				position = ShooterPositions.PODIUM;
 				break;
 			case PODIUM:
+				position = ShooterPositions.SPIKE;
+				break;
+			case SPIKE:
 				position = ShooterPositions.CLOSE;
 				break;
 			case CLOSE:
 				position = ShooterPositions.WING;
 				break;
 			default:
-				position = ShooterPositions.WING;
+				position = ShooterPositions.UNDER;
 				break;
 			}
 	}
 
 	public void setFieldRelativePosition() {
 		switch (position){
-			case WING:
-				pivotController.setReference(Constants.Pivot.wingPosition, CANSparkFlex.ControlType.kPosition); 
-				break;
-			case STAGE:
-				pivotController.setReference(Constants.Pivot.stagePosition, CANSparkFlex.ControlType.kPosition); 
-				break;
+			// case WING:
+			// 	pivotController.setReference(Constants.Pivot.wingPosition, CANSparkFlex.ControlType.kPosition); 
+			// 	break;
+			// case STAGE:
+			// 	pivotController.setReference(Constants.Pivot.stagePosition, CANSparkFlex.ControlType.kPosition); 
+			// 	break;
 			case UNDER:
 				pivotController.setReference(Constants.Pivot.underPosition, CANSparkFlex.ControlType.kPosition); 
 				break;
@@ -124,7 +130,9 @@ public class PivotSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
+		// SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
+
+
 		if(position != ShooterPositions.NONE) {
 			setFieldRelativePosition();
 		} else {

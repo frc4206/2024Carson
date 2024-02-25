@@ -34,6 +34,8 @@ public class SwerveSubsystem extends SubsystemBase {
     double rotations = 0;
     public SwerveDrivePoseEstimator poseEstimator;
 
+    double desiredVelo;
+
     public enum HeadingState {
         PICKUP,
         BACKWARD,
@@ -261,15 +263,15 @@ public class SwerveSubsystem extends SubsystemBase {
         ypr[0] = gyro.getYaw().getValueAsDouble();
         ypr[1] = gyro.getPitch().getValueAsDouble();
         ypr[2] = gyro.getRoll().getValueAsDouble();
-        SmartDashboard.putNumber("yaw", ypr[0]);
-        SmartDashboard.putNumber("gyro angle", ypr[1]);
-        SmartDashboard.putNumber("roll", ypr[2]);
-        SmartDashboard.putNumber("currPercent", currPercent);
+        // SmartDashboard.putNumber("yaw", ypr[0]);
+        // SmartDashboard.putNumber("gyro angle", ypr[1]);
+        // SmartDashboard.putNumber("roll", ypr[2]);
+        // SmartDashboard.putNumber("currPercent", currPercent);
 
-        for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Falcon degrees", mod.mAngleMotor.getPosition().getValueAsDouble());
-        }
+        // for(SwerveModule mod : mSwerveMods){
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Falcon degrees", mod.mAngleMotor.getPosition().getValueAsDouble());
+        // }
 
         double angle = gyro.getYaw().getValueAsDouble() % 360;
         angle = (angle < 0) ? 360 + angle : angle;
@@ -279,15 +281,15 @@ public class SwerveSubsystem extends SubsystemBase {
         double[] flywheelArray = {OdometryArray[0] + Constants.Pivot.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Pivot.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
 
         GlobalVariables.distanceToSpeaker = Math.sqrt((flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) * (flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) + (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY) * (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY));
-        SmartDashboard.putNumber("Distance to speaker", GlobalVariables.distanceToSpeaker);
+        // SmartDashboard.putNumber("Distance to speaker", GlobalVariables.distanceToSpeaker);
 
-        SmartDashboard.putNumber("desired angle", ((((-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75 - 4.17);
-        double desiredvelo;
+        GlobalVariables.desiredAngle = ((((-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75 - 4.17;
+
         if (GlobalVariables.distanceToSpeaker < 6) {
-            desiredvelo = 30 * 91.7;
+            desiredVelo = 30 * 91.7;
         } else {
-            desiredvelo = (0.9621 * GlobalVariables.distanceToSpeaker + 24.4843) * (288/Math.PI);
+            desiredVelo = (0.9621 * GlobalVariables.distanceToSpeaker + 24.4843) * (288/Math.PI);
         }
-        SmartDashboard.putNumber("desired velo", desiredvelo);
+        GlobalVariables.desiredVelo = desiredVelo;
     }
 }

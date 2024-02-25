@@ -7,7 +7,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.HeadingState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -154,9 +153,9 @@ public class TeleopSwerve extends Command {
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
 
-        SmartDashboard.putNumber("yawNominal", botYaw);
-        SmartDashboard.putNumber("yawSet", yawSet);
-        SmartDashboard.putNumber("yawOutput", outputYaw);
-        SmartDashboard.putNumber("yawError", errorYaw);
+        // SmartDashboard.putNumber("yawNominal", botYaw);
+        // SmartDashboard.putNumber("yawSet", yawSet);
+        // SmartDashboard.putNumber("yawOutput", outputYaw);
+        // SmartDashboard.putNumber("yawError", errorYaw);
     }
 }

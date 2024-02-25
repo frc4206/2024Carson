@@ -10,14 +10,12 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.elevatorLeaderID, MotorType.kBrushless);
   private RelativeEncoder elevatorLeaderEncoder = elevatorLeader.getEncoder();
-  private double elevatorPosition = 0;
   private SparkPIDController elevatorLeaderPIDController = elevatorLeader.getPIDController();
   private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.elevatorFollowerID, MotorType.kBrushless);
   private RelativeEncoder elevatorFollowEncoder = elevatorFollower.getEncoder();
@@ -40,6 +38,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorFollowerPIDController.setI(Constants.Elevator.elevKI);
     elevatorFollowerPIDController.setIZone(Constants.Elevator.elevKIZone);
     elevatorFollowerPIDController.setD(Constants.Elevator.elevKD);
+
+    // elevatorLeader.burnFlash();
+    elevatorFollower.burnFlash();
   }
 
 	public void resetElevator(){
@@ -75,8 +76,9 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    elevatorPosition = elevatorLeaderEncoder.getPosition();
-    SmartDashboard.putNumber("elevPosition", elevatorPosition);
+    // SmartDashboard.putNumber("elevPosition", elevatorLeaderEncoder.getPosition());
+
+
     // if(!elevatorBottomLimitSwitch.get()) {
     //   elevatorLeaderEncoder.setPosition(0);
     //   elevatorFollowEncoder.setPosition(0);

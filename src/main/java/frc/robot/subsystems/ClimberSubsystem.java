@@ -12,19 +12,17 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
-  private CANSparkFlex climberRightLead = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
-  private CANSparkFlex climberLeftFollow = new CANSparkFlex(Constants.Climber.climberLeftFollowID, MotorType.kBrushless);
-  private SparkPIDController climbLeadPid;
-  public RelativeEncoder climbRightLeadEncoder;
-  private RelativeEncoder climbLeftFollowEncoder;
+	private CANSparkFlex climberRightLead = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
+	private CANSparkFlex climberLeftFollow = new CANSparkFlex(Constants.Climber.climberLeftFollowID, MotorType.kBrushless);
+	private SparkPIDController climbLeadPid;
+	public RelativeEncoder climbRightLeadEncoder;
 
-  PWM servoRight = new PWM(1);
-  PWM servoLeft = new PWM(2);
+	PWM servoRight = new PWM(1);
+	PWM servoLeft = new PWM(2);
 
 	//private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
 	//private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
@@ -38,20 +36,19 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		climberLeftFollow.follow(climberRightLead);
 
-    climbRightLeadEncoder = climberRightLead.getEncoder();
-    climbLeftFollowEncoder = climberLeftFollow.getEncoder();
-    climbLeadPid = climberRightLead.getPIDController();
-    
-    climbLeadPid.setFeedbackDevice(climbRightLeadEncoder);
-    climbLeadPid.setP(Constants.Climber.climberkP);
-    climbLeadPid.setI(Constants.Climber.climberkI);
-    climbLeadPid.setIZone(Constants.Climber.climberkIZone);
-    climbLeadPid.setD(Constants.Climber.climberkD);
-    climbLeadPid.setSmartMotionMaxVelocity(Constants.Climber.climberMaxVelo, 0);
-    climbLeadPid.setSmartMotionMinOutputVelocity(-Constants.Climber.climberMaxVelo, 0);
-    climbLeadPid.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
-    climbLeadPid.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
-  }
+		climbRightLeadEncoder = climberRightLead.getEncoder();
+		climbLeadPid = climberRightLead.getPIDController();
+		
+		climbLeadPid.setFeedbackDevice(climbRightLeadEncoder);
+		climbLeadPid.setP(Constants.Climber.climberkP);
+		climbLeadPid.setI(Constants.Climber.climberkI);
+		climbLeadPid.setIZone(Constants.Climber.climberkIZone);
+		climbLeadPid.setD(Constants.Climber.climberkD);
+		climbLeadPid.setSmartMotionMaxVelocity(Constants.Climber.climberMaxVelo, 0);
+		climbLeadPid.setSmartMotionMinOutputVelocity(-Constants.Climber.climberMaxVelo, 0);
+		climbLeadPid.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
+		climbLeadPid.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
+  	}
 
 	public void climbSTOP() {
 		climberRightLead.set(0);
@@ -76,18 +73,19 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// This method will be called once per scheduler run
 		//if(TopClimberLimitSwitch.get()) {
 		//  climbLeadEncoder.setPosition(0);
 		//}
 		//if(BottomClimberLimitSwitch.get()) {
 		//  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
 		//}
-		SmartDashboard.putNumber("Climber Right Position", climbRightLeadEncoder.getPosition());
-		SmartDashboard.putNumber("Climber Left Position", climbLeftFollowEncoder.getPosition());
 
-		SmartDashboard.putNumber("servo Right", servoRight.getPosition());
-		SmartDashboard.putNumber("servo Left", servoLeft.getPosition());
 
+
+		// SmartDashboard.putNumber("Climber Right Position", climbRightLeadEncoder.getPosition());
+		// SmartDashboard.putNumber("Climber Left Position", climbLeftFollowEncoder.getPosition());
+
+		// SmartDashboard.putNumber("servo Right", servoRight.getPosition());
+		// SmartDashboard.putNumber("servo Left", servoLeft.getPosition());
 	}
 }

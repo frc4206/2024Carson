@@ -23,7 +23,7 @@ public class ChangePipelineCommand extends Command {
 	@Override
 	public void initialize() {
 		System.out.println(m_pip);
-		m_Limelight.limelightManger.changeAllPipelines(m_pip);
+		Limelight.limelightManger.changeAllPipelines(m_pip);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.

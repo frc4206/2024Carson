@@ -32,8 +32,10 @@ public class SystemCheck extends SequentialCommandGroup {
       new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.25),
       new ConveyerToSpeedCommand(conveyor, -1).withTimeout(0.25),
       new PercentShooterCommand(flywheel, 1).until(() -> flywheel.shooterAtVelocity(6000)),
-      new PivotCommand(pivot, 4).withTimeout(1),
-      new PivotCommand(pivot, 0.5).withTimeout(1),
+      new PivotCommand(pivot, Constants.Pivot.underPosition).withTimeout(0.5),
+      new PivotCommand(pivot, Constants.Pivot.podiumPosition).withTimeout(0.25),
+      new PivotCommand(pivot, Constants.Pivot.spikePosition).withTimeout(0.125),
+      new PivotCommand(pivot, Constants.Pivot.closePosition).withTimeout(0.125),
       new ElevatorPIDCommand(elevator, Constants.Elevator.elevHighPosition).withTimeout(2),
       new ElevatorPIDCommand(elevator, 1).withTimeout(2),
       new TeleopSwerve(swerve, controller, 1, 0, 4, true, true).withTimeout(5)

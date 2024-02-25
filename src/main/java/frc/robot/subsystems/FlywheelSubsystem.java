@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants; 
 import com.revrobotics.*;
@@ -77,7 +76,7 @@ public class FlywheelSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("topVelo", upperFlyEncoder.getVelocity());
-		SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
+		// SmartDashboard.putNumber("topVelo", upperFlyEncoder.getVelocity());
+		// SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
 	}
 }

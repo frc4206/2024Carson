@@ -8,15 +8,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlywheelSubsystem;
 
 public class PercentShooterCommand extends Command {
-	FlywheelSubsystem m_flywheelSubsystem;
-	double percent;
-
-	/** Creates a new ShooterIntakeCommand.
-	 *  @param flywheelSubsystem To do the whole shooter thing.
-	 *  @param percent How much out of 100 the motor should turn.
-	*/
+	private FlywheelSubsystem m_flywheelSubsystem;
+	private double percent;
 	public PercentShooterCommand(FlywheelSubsystem flywheelSubsystem, double per) {
-		// Use addRequirements() here to declare subsystem dependencies.
 		m_flywheelSubsystem = flywheelSubsystem;
 		percent = per;
 		addRequirements(flywheelSubsystem);

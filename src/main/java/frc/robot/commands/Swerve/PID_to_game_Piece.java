@@ -4,11 +4,8 @@
 
 package frc.robot.commands.Swerve;
 
-import java.lang.invoke.ConstantCallSite;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,8 +28,8 @@ public class PID_to_game_Piece extends Command {
 	private boolean advanced_setpoints;
 
 	private double init_time;
-	private double current_time;
-	private double timeout;
+	double current_time;
+	double timeout;
 
 	public PIDController pidx = new PIDController(Constants.Swerve.toGamePiecexKP, Constants.Swerve.toGamePiecexKI, Constants.Swerve.toGamePiecexKD);
 	public PIDController pidy = new PIDController(Constants.Swerve.toGamePieceYKP, Constants.Swerve.toGamePieceYKI, Constants.Swerve.toGamePieceYKD);

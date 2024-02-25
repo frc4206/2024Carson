@@ -6,9 +6,7 @@ package frc.robot.commands.Swerve;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
@@ -70,16 +68,10 @@ public class PID_Distance_Object_Detection extends Command {
         double x_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getX()) - Math.abs(x_set);
         double y_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getX()) - Math.abs(y_set);
         double yaw_error = Math.abs(s_Swerve.getYaw().getDegrees()) - (yaw_set);
-        SmartDashboard.putNumber("Current time", current_time);
         double distanceToGamePiece = (Limelight.limelightshooter.HasTarget() == 1) ? Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece() : 0;
-
-        SmartDashboard.putNumber("distance x", distanceToGamePiece * Math.sin(s_Swerve.getYaw().getDegrees() + Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0))); 
-        SmartDashboard.putNumber("distance y", distanceToGamePiece * Math.cos(s_Swerve.getYaw().getDegrees() + Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0)));
 
         if(distanceToGamePiece < Go_to_Target_Distance && distanceToGamePiece != 0) {
             rotation = pidyaw.calculate(Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0), 0);
-            SmartDashboard.putNumber("angle", Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0));
-            SmartDashboard.putNumber("distance to game piece in command", Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
         } else {
             X_Output = pidx.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getX(), x_set);
             Y_Output = pidy.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getY(), y_set);
@@ -96,8 +88,6 @@ public class PID_Distance_Object_Detection extends Command {
             isFinished = true;
             isFinished();
         }
-
-        SmartDashboard.putNumber("pid output", X_Output);
 
         translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
         rotation = Yaw_Output;

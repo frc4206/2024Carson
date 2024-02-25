@@ -6,12 +6,12 @@ package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ClimberRightSubsystem;
 
 public class ClimberDownRightCommand extends Command {
-  private ClimberSubsystem m_vortexClimberSubsystem;
+  private ClimberRightSubsystem m_vortexClimberSubsystem;
 
-  public ClimberDownRightCommand(ClimberSubsystem vortexClimber) {
+  public ClimberDownRightCommand(ClimberRightSubsystem vortexClimber) {
     m_vortexClimberSubsystem /*help */ = vortexClimber;    
     addRequirements(m_vortexClimberSubsystem);
   }

@@ -5,19 +5,23 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ClimberLeftSubsystem;
+import frc.robot.subsystems.ClimberRightSubsystem;
 
 public class RunServoRightCommand extends Command {
   
-  public ClimberSubsystem m_climber;
+  public ClimberLeftSubsystem m_leftClimber;
+  public ClimberRightSubsystem m_rightClimber;
   public double servoPosition;
   
   /** Creates a new RunServoCommand. */
-  public RunServoRightCommand(ClimberSubsystem climber, double pos) {
+  public RunServoRightCommand(ClimberLeftSubsystem leftClimber, ClimberRightSubsystem rightClimber, double pos) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = climber;
+    m_leftClimber = leftClimber;
+    m_rightClimber = rightClimber;
     servoPosition = pos;
-    addRequirements(climber);
+    addRequirements(leftClimber);
+    addRequirements(rightClimber);
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +33,7 @@ public class RunServoRightCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.setPositionRight(servoPosition);
+    m_rightClimber.setPositionRight(servoPosition);
   }
 
   // Called once the command ends or is interrupted.

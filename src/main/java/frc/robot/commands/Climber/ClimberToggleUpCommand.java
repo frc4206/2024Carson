@@ -8,25 +8,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ClimberLeftSubsystem;
+import frc.robot.subsystems.ClimberRightSubsystem;
 
 public class ClimberToggleUpCommand extends Command {
   /** Creates a new ClimberToggleUpCommand. */
-  ClimberSubsystem m_climberSubsystem;
+  ClimberLeftSubsystem m_climberLeftSubsystem;
+  ClimberRightSubsystem m_climberRightSubsystem;
   String state = "down";
   boolean isfin = false;
-  public ClimberToggleUpCommand(ClimberSubsystem climberSubsystem) {
+  public ClimberToggleUpCommand(ClimberLeftSubsystem climberLeftSubsystem, ClimberRightSubsystem climberRightSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climberSubsystem = climberSubsystem;
-    addRequirements(climberSubsystem);
+    m_climberLeftSubsystem = climberLeftSubsystem;
+    m_climberRightSubsystem = climberRightSubsystem;
+    addRequirements(climberLeftSubsystem);
+    addRequirements(climberRightSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     isfin = false; 
-    m_climberSubsystem.setPositionRight(0.35);
-    if (m_climberSubsystem.climbLeadEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
+    m_climberRightSubsystem.setPositionRight(0.35);
+    if (m_climberRightSubsystem.climbRightEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
       state = "up";
     } else {
       state = "down";
@@ -38,17 +42,17 @@ public class ClimberToggleUpCommand extends Command {
   public void execute() {
 
     if (state == "down") {
-      m_climberSubsystem.climbUPRight();
-      m_climberSubsystem.climbUPLeft();
-      if (m_climberSubsystem.climbLeadEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
+      m_climberRightSubsystem.climbUPRight();
+      m_climberLeftSubsystem.climbUPLeft();
+      if (m_climberRightSubsystem.climbRightEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
         state = "up";
         isfin = true;
         isFinished();
       }
     }else {
-      m_climberSubsystem.climbDOWNRight();
-      m_climberSubsystem.climbDOWNLeft();
-      if (m_climberSubsystem.climbLeadEncoder.getPosition() < Constants.Climber.climberBottomSetpoint) {
+      m_climberRightSubsystem.climbDOWNRight();
+      m_climberLeftSubsystem.climbDOWNLeft();
+      if (m_climberRightSubsystem.climbRightEncoder.getPosition() < Constants.Climber.climberBottomSetpoint) {
         state = "down";
         isfin = true;
         isFinished();
@@ -61,8 +65,9 @@ public class ClimberToggleUpCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     
-    m_climberSubsystem.climbSTOP();
-    m_climberSubsystem.setPositionRight(0.55);
+    m_climberRightSubsystem.climbSTOP();
+    m_climberLeftSubsystem.climbSTOP();
+    m_climberRightSubsystem.setPositionRight(0.55);
   }
 
   // Returns true when the command should end.

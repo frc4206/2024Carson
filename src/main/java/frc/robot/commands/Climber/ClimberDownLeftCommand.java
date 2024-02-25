@@ -6,20 +6,20 @@ package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ClimberLeftSubsystem;
 
 public class ClimberDownLeftCommand extends Command {
-  private ClimberSubsystem m_vortexClimberSubsystem;
+  private ClimberLeftSubsystem m_vortexClimberSubsystem;
 
-  public ClimberDownLeftCommand(ClimberSubsystem vortexClimber) {
-    m_vortexClimberSubsystem /*help */ = vortexClimber;    
+  public ClimberDownLeftCommand(ClimberLeftSubsystem vortexClimber) {
+    m_vortexClimberSubsystem = vortexClimber;    
     addRequirements(m_vortexClimberSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
+    m_vortexClimberSubsystem.setPositionLeft(Constants.Climber.servoPosRightDisEngage);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +32,7 @@ public class ClimberDownLeftCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_vortexClimberSubsystem.climbSTOP();
-    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
+    m_vortexClimberSubsystem.setPositionLeft(Constants.Climber.servoPosRightDisEngage);
 
   }
 

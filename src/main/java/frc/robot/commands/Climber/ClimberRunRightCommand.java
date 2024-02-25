@@ -3,23 +3,18 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Climber;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-//import frc.robot.subsystems.VortexClimberSubsystem;
 import frc.robot.subsystems.ClimberLeftSubsystem;
 import frc.robot.subsystems.ClimberRightSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class ClimberPIDCommand extends Command {
-  
-  public ClimberLeftSubsystem m_vortexClimberLeftSubsystem;
-  public ClimberRightSubsystem m_vortexClimberRightSubsystem;
+public class ClimberRunRightCommand extends Command {
+  /** Creates a new ClimberRunRightCommand. */
+  ClimberRightSubsystem m_ClimberRightSubsystem; 
 
-  /** The VortexClimberPID command can be called whenever we need to call the motor controller to climb the chain. */
-  public ClimberPIDCommand(ClimberRightSubsystem vortexClimber) {
+  public ClimberRunRightCommand(ClimberRightSubsystem climberRightSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_vortexClimberRightSubsystem = vortexClimber;
-    addRequirements(vortexClimber);
+    m_ClimberRightSubsystem = climberRightSubsystem; 
+    addRequirements(climberRightSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +24,7 @@ public class ClimberPIDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_vortexClimberRightSubsystem.GoToSetpoint(Constants.Climber.climberGoToSetPoint);
+    m_ClimberRightSubsystem.RunRight();
   }
 
   // Called once the command ends or is interrupted.

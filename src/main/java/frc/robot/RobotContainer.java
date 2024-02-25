@@ -15,8 +15,13 @@ import frc.robot.commands.Intake.IntakeCommand;
 //import frc.robot.commands.Intake.IntakeGo;
 import frc.robot.commands.LimeLight.ChangePipelineCommand;
 import frc.robot.commands.Shooter.ShooterToSpeaker;
+import frc.robot.commands.Climber.ClimberAllMethodsCommand;
 import frc.robot.commands.Climber.ClimberDownLeftCommand;
 import frc.robot.commands.Climber.ClimberDownRightCommand;
+import frc.robot.commands.Climber.ClimberRunBothDownCommand;
+import frc.robot.commands.Climber.ClimberRunBothUpCommand;
+import frc.robot.commands.Climber.ClimberRunLeftCommand;
+import frc.robot.commands.Climber.ClimberRunRightCommand;
 import frc.robot.commands.Climber.ClimberToggleUpCommand;
 import frc.robot.commands.Climber.ClimberUpLeftCommand;
 import frc.robot.commands.Climber.ClimberUpRightCommand;
@@ -43,7 +48,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ClimberLeftSubsystem;
+import frc.robot.subsystems.ClimberRightSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -66,20 +72,23 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private final XboxController operator = new XboxController(2);
   private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
   private final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final ClimberSubsystem m_climberSub = new ClimberSubsystem();
+  private final ClimberLeftSubsystem m_climberLeftSub = new ClimberLeftSubsystem(operator);
+  private final ClimberRightSubsystem m_climberRightSub = new ClimberRightSubsystem(operator);
   private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
   private final Limelight m_Limelight = new Limelight();
   private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
   private final ConveyorSubsystem m_conveyorSub = new ConveyorSubsystem();
 
   private final XboxController driver = new XboxController(0);
-  private final XboxController operator = new XboxController(0);
   public RobotContainer() {
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driver, 1, 0, 4, true, true));
     configureBindings();
+
+    m_climberLeftSub.setDefaultCommand(new ClimberAllMethodsCommand(m_climberLeftSub, m_climberRightSub, operator));
   }
 
   private boolean getLeftTrigger(XboxController controller){
@@ -101,19 +110,28 @@ public class RobotContainer {
     // new JoystickButton(driver, 2).onTrue(new PivotCommand(m_pivotSubsystem));
     
     new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
+
+    new JoystickButton(operator, 2).onTrue(new ClimberRunBothUpCommand(m_climberLeftSub));
+    new JoystickButton(operator, 3).onTrue(new ClimberRunBothDownCommand(m_climberLeftSub));
+    new JoystickButton(operator, 5).onTrue(new ClimberRunRightCommand(m_climberRightSub));
+    new JoystickButton(operator, 1).onTrue(new ClimberRunLeftCommand(m_climberLeftSub)); 
+    
     
     // new JoystickButton(driver, 4).toggleOnTrue(new ClimbToTopCommand(climber));
     // new JoystickButton(driver, 4).toggleOnFalse(new ClimbToBottomCommand(climber));
-    new JoystickButton(operator, 1).whileTrue(new ClimberDownRightCommand(m_climberSub));
-    new JoystickButton(operator, 2).whileTrue(new ClimberUpRightCommand(m_climberSub));
-    new JoystickButton(operator, 6).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
-    new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, 0.55));
-    new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberSub));
-    new JoystickButton(operator, 4).whileTrue(new ClimberUpLeftCommand(m_climberSub));
-    new JoystickButton(operator, 5).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
-    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, 0.55));    
-
-    new JoystickButton(operator, 8).whileTrue(new ClimberToggleUpCommand(m_climberSub));//start
+    
+    //new JoystickButton(operator, 1).whileTrue(new ClimberDownRightCommand(m_climberLeftSub));
+    //new JoystickButton(operator, 2).whileTrue(new ClimberUpRightCommand(m_climberLeftSub));
+    //new JoystickButton(operator, 6).whileTrue(new RunServoRightCommand(m_climberLeftSub, 0.45));
+    //new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberLeftSub, 0.55));
+    //new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberLeftSub));
+    //new JoystickButton(operator, 4).whileTrue(new ClimberUpLeftCommand(m_climberLeftSub));
+    //new JoystickButton(operator, 5).whileTrue(new RunServoRightCommand(m_climberLeftSub, 0.45));
+    //new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberLeftSub, 0.55));    
+//
+    //
+//
+    //new JoystickButton(operator, 8).whileTrue(new ClimberToggleUpCommand(m_climberLeftSub));//start
 
 
     // new JoystickButton(driver, 4).onTrue(new ResetPivotCommand(m_pivotSubsystem));

@@ -6,35 +6,39 @@ package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ClimberLeftSubsystem;
+import frc.robot.subsystems.ClimberRightSubsystem;
 
 public class ClimberUpLeftCommand extends Command {
 
-  private ClimberSubsystem m_vortexClimberSubsystem;
+  private ClimberLeftSubsystem m_vortexClimberLeftSubsystem;
+  private ClimberRightSubsystem m_vortexClimberRightSubsystem;
 
   /** The VortexClimberUp command can be called whenever we need to go up the chain. */
-  public ClimberUpLeftCommand(ClimberSubsystem vortexClimber) {
-    m_vortexClimberSubsystem = vortexClimber;
-    addRequirements(vortexClimber);
+  public ClimberUpLeftCommand(ClimberLeftSubsystem vortexLeftClimber, ClimberRightSubsystem vortexRightClimber) {
+    m_vortexClimberLeftSubsystem = vortexLeftClimber;
+    m_vortexClimberRightSubsystem = vortexRightClimber;
+    addRequirements(vortexLeftClimber);
+    addRequirements(vortexRightClimber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
+    m_vortexClimberRightSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_vortexClimberSubsystem.climbUPLeft();
+    m_vortexClimberLeftSubsystem.climbUPLeft();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_vortexClimberSubsystem.climbSTOP();
-    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
+    m_vortexClimberLeftSubsystem.climbSTOP();
+    m_vortexClimberRightSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
   }
 
   // Returns true when the command should end.

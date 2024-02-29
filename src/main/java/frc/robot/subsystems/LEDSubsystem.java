@@ -9,6 +9,7 @@ import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.StrobeAnimation;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
@@ -34,16 +35,18 @@ public class LEDSubsystem extends SubsystemBase {
 		config.statusLedOffWhenActive = false;
 		config.vBatOutputMode = CANdle.VBatOutputMode.Off;
 
-	candle.configAllSettings(config);
+		candle.configAllSettings(config);
+
+		SmartDashboard.putBoolean("PIECEREADY", false);
  	}
       
-  private StrobeAnimation solidLEDS(int red, int green, int blue, int white){
-    return new StrobeAnimation(red, green, blue, white, 1, Constants.LEDS.numLEDs, Constants.LEDS.ledStartOffset);
-  }
-  
-  private StrobeAnimation flashLEDS(int red, int green, int blue, int white){
-    return new StrobeAnimation(red, green, blue, white, 0.25, Constants.LEDS.numLEDs, Constants.LEDS.ledStartOffset);
-  }
+	private StrobeAnimation solidLEDS(int red, int green, int blue, int white){
+		return new StrobeAnimation(red, green, blue, white, 1, Constants.LEDS.numLEDs, Constants.LEDS.ledStartOffset);
+	}
+	
+	private StrobeAnimation flashLEDS(int red, int green, int blue, int white){
+		return new StrobeAnimation(red, green, blue, white, 0.25, Constants.LEDS.numLEDs, Constants.LEDS.ledStartOffset);
+	}
 
 	private void halfGreen(){
 		candle.animate(new StrobeAnimation(0, 255, 0, 0, 0, Constants.LEDS.numLEDs/2, Constants.LEDS.ledStartOffset));
@@ -106,8 +109,10 @@ public class LEDSubsystem extends SubsystemBase {
 				halfAlliance();
 			case INTAKING:
 				intaking();
+				SmartDashboard.putBoolean("PIECEREADY", false);
 			case READY:
 				ready();
+				SmartDashboard.putBoolean("PIECEREADY", true);
 			case AMPREADY:
 				ampReady();
 			default:

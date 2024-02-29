@@ -7,8 +7,10 @@ package frc.robot.commands.Swerve;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class PID_DistanceOdometry2 extends Command {
@@ -86,6 +88,10 @@ public class PID_DistanceOdometry2 extends Command {
 			isFinished();
 		}
 
+		if (GlobalVariables.alliance == Alliance.Red){
+			X_Output = -X_Output;
+			
+		}
 
 		translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed);
 		rotation = Yaw_Output;

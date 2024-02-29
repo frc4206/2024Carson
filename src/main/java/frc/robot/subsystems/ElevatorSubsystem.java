@@ -39,7 +39,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorFollowerPIDController.setIZone(Constants.Elevator.elevKIZone);
     elevatorFollowerPIDController.setD(Constants.Elevator.elevKD);
 
-    // elevatorLeader.burnFlash();
+    elevatorLeader.burnFlash();
     elevatorFollower.burnFlash();
   }
 

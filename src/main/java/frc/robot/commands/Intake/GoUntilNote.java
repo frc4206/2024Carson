@@ -20,7 +20,7 @@ public class GoUntilNote extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new ConveyerToSpeedCommand(conveyor, 0.2),
         new IntakeToSpeedCommand(intake, -0.1)
-      ).withTimeout(0.675)
+      ).withTimeout(0.5)
     );
   }
 }

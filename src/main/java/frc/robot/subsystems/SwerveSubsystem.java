@@ -254,8 +254,8 @@ public class SwerveSubsystem extends SubsystemBase {
             poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
             OdometryArray[2] = getYaw().getDegrees();
         } else if (GlobalVariables.alliance == Alliance.Red){
-            swerveOdometry.update(getYawInverted(), getModulePositionsInverted());
-            poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
+            swerveOdometry.update(getYawInverted(), getModulePositions());
+            poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositions());
             OdometryArray[2] = getYawInverted().getDegrees();
         }
         resetOdometryLLFieldCords();

@@ -129,8 +129,8 @@ public final class Constants {
 		public static final double driveKA = (0);
 
 		/* Swerve Profiling Values */
-		public static final double maxSpeed = 6; //meters per second
-		public static final double maxAngularVelocity = 7;
+		public static final double maxSpeed = 5.25; //meters per second
+		public static final double maxAngularVelocity = 4.875;
 
 		/* Neutral Modes */
 		public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
@@ -273,7 +273,7 @@ public final class Constants {
 
 	public static final class Elevator {
     public static final int elevatorLeaderID = 30;
-		public static final int elevatorFollowerID = 31;   
+		public static final int elevatorFollowerID = 31;
 		public static final boolean elevatorLeaderisInverted = true;
 		public static final boolean elevatorFollowisInverted = false;
 		public static final int elevatorTopLimitSwitch = 2;

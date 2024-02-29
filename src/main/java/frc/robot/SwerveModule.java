@@ -97,7 +97,7 @@ public class SwerveModule {
         return Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble()-0.5);
     }
 
-    private void configDriveMotor(){   
+    private void configDriveMotor(){
         mDriveMotor.getConfigurator().apply(new TalonFXConfiguration());     
         mDriveMotor.getConfigurator().apply(ctreConfigs.swerveDriveFXConfig);
         mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);

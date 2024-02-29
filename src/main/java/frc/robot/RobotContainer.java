@@ -12,8 +12,15 @@ import frc.robot.autos.SixPieceTakeoverBlue;
 import frc.robot.autos.SixPieceTakeoverRed;
 import frc.robot.autos.ThreePieceRightBlue;
 import frc.robot.autos.ThreePieceRightRed;
+import frc.robot.autos.TwoPieceMiddleBlue;
+import frc.robot.autos.TwoPieceMiddleRed;
+import frc.robot.commands.Climber.ClimberDownCommand;
 import frc.robot.commands.Climber.ClimberDownLeftCommand;
+import frc.robot.commands.Climber.ClimberDownRightCommand;
+import frc.robot.commands.Climber.ClimberUpCommand;
 import frc.robot.commands.Climber.ClimberUpLeftCommand;
+import frc.robot.commands.Climber.ClimberUpRightCommand;
+import frc.robot.commands.Climber.RunServosCommand;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.commands.Elevator.ElevatorDownCommand;
 import frc.robot.commands.Elevator.ElevatorPIDCommand;
@@ -90,6 +97,8 @@ public class RobotContainer {
     autoChooser.addOption("FourPieceLeftBlue", "FourPieceLeftBlue");
     autoChooser.addOption("FourPieceMiddleRed", "FourPieceMiddleRed");
     autoChooser.addOption("FourPieceMiddleBlue", "FourPieceMiddleBlue");
+    autoChooser.addOption("TwoPieceMiddleRed", "TwoPieceMiddleRed");
+    autoChooser.addOption("TwoPieceMiddleBlue", "TwoPieceMiddleBlue");
     autoChooser.addOption("ThreePieceRightRed", "ThreePieceRightRed");
     autoChooser.addOption("ThreePieceRightBlue", "ThreePieceRightBlue");
     autoChooser.addOption("SixPieceRed", "SixPieceRed");
@@ -100,8 +109,12 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private double getLeftStick(XboxController controller){
+  private double getLeftStickY(XboxController controller){
     return -controller.getRawAxis(XboxController.Axis.kLeftY.value);
+  }
+
+  private double getRightStickY(XboxController controller){
+    return -controller.getRawAxis(XboxController.Axis.kRightY.value);
   }
 
 	private boolean getLeftTrigger(XboxController controller) {
@@ -135,13 +148,13 @@ public class RobotContainer {
     // new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
     new Trigger(() -> this.getLeftTrigger(driver)).whileTrue(new PercentShooterCommand(m_flywheelSubsystem, 1));
 
-    new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(Commands.startEnd(() -> m_elevatorSub.GoToSetpoint(Constants.Elevator.elevTrapPosition), () -> m_elevatorSub.GoToSetpoint(5), m_elevatorSub));
+    // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(Commands.startEnd(() -> m_elevatorSub.GoToSetpoint(Constants.Elevator.elevTrapPosition), () -> m_elevatorSub.GoToSetpoint(5), m_elevatorSub));
     // new Trigger(() -> this.getRightTrigger(driver)).whileTrue(new ShooterStopCommand(m_flywheelSubsystem));
 
     // new JoystickButton(driver, 7).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-    new JoystickButton(driver, 7).onTrue(new SetHeadingState(m_swerveSubsystem));
+    new JoystickButton(driver, 7).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, 0.8), new ConveyerToSpeedCommand(m_conveyorSub, -0.675)));
     
-    new JoystickButton(driver, 8).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, 0.8), new ConveyerToSpeedCommand(m_conveyorSub, -0.675)));
+    new JoystickButton(driver, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
 
 
 
@@ -149,11 +162,11 @@ public class RobotContainer {
     new JoystickButton(operator, 2).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.PODIUM)));
     new JoystickButton(operator, 3).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.UNDER)));
     new JoystickButton(operator, 4).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.STAGE)));
-    new JoystickButton(operator, 5).whileTrue(new ElevatorDownCommand(m_elevatorSub));
-    new JoystickButton(operator, 6).whileTrue(new ElevatorUpCommand(m_elevatorSub));
-    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new ClimberDownLeftCommand(m_climberSub));
-    new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new ClimberUpLeftCommand(m_climberSub));
-    new Trigger(() -> (this.getLeftStick(operator) > 0.1 || this.getLeftStick(operator) < -0.1)).whileTrue(new PercentPivotCommand(m_pivotSubsystem, this.getLeftStick(operator)));
+    new JoystickButton(operator, 5).whileTrue(new ClimberDownCommand(m_climberSub));
+    new JoystickButton(operator, 6).whileTrue(new ClimberUpCommand(m_climberSub));
+    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new ElevatorDownCommand(m_elevatorSub));
+    new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new ElevatorUpCommand(m_elevatorSub));
+    new Trigger(() -> (this.getLeftStickY(operator) > 0.1 || this.getLeftStickY(operator) < -0.1)).whileTrue(new PercentPivotCommand(m_pivotSubsystem, this.getLeftStickY(operator)));
     // new JoystickButton(operator, 1).whileTrue(new ClimberDownRightCommand(m_climberSub));
     // new JoystickButton(operator, 2).whileTrue(new ClimberUpRightCommand(m_climberSub));
     // new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberSub));
@@ -188,14 +201,16 @@ public class RobotContainer {
     new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorPIDCommand(m_elevatorSub, Constants.Elevator.elevTrapPosition+5));
 
 
-    new JoystickButton(climbertesta, 1).whileTrue(new InstantCommand());
-    // new JoystickButton(climbertesta, 2).whileTrue(new InstantCommand());
-    // new JoystickButton(climbertesta, 3).whileTrue(new InstantCommand());
-    // new JoystickButton(climbertesta, 4).whileTrue(new InstantCommand());
-    // new JoystickButton(climbertesta, 5).whileTrue(new InstantCommand());
-    // new JoystickButton(climbertesta, 6).whileTrue(new InstantCommand());
-    // new JoystickButton(climbertesta, 7).whileTrue(new InstantCommand());
-    // new JoystickButton(climbertesta, 8).whileTrue(new InstantCommand());
+    new JoystickButton(climbertesta, 1).whileTrue(new ClimberDownCommand(m_climberSub));
+    new JoystickButton(climbertesta, 2).whileTrue(new RunServosCommand(m_climberSub, Constants.Climber.servoPosEngage));
+    new JoystickButton(climbertesta, 3).whileTrue(new RunServosCommand(m_climberSub, Constants.Climber.servoPosDisEngage));
+    new JoystickButton(climbertesta, 4).whileTrue(new ClimberUpCommand(m_climberSub));
+    new JoystickButton(climbertesta, 5).whileTrue(new ClimberDownLeftCommand(m_climberSub));
+    new JoystickButton(climbertesta, 6).whileTrue(new ClimberDownRightCommand(m_climberSub));
+    new Trigger(() -> this.getLeftTrigger(climbertesta)).whileTrue(new ClimberUpLeftCommand(m_climberSub));
+    new Trigger(() -> this.getRightTrigger(climbertesta)).whileTrue(new ClimberUpRightCommand(m_climberSub));
+    new JoystickButton(climbertesta, 7).whileTrue(new InstantCommand());
+    new JoystickButton(climbertesta, 8).whileTrue(new InstantCommand());
   }
 
   
@@ -213,6 +228,12 @@ public class RobotContainer {
     }
     else if (selectedAuto == "FourPieceMiddleBlue"){
       return new FourPieceMiddleBlue(m_conveyorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    }
+    else if (selectedAuto == "TwoPieceMiddleRed"){
+      return new TwoPieceMiddleRed(m_conveyorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    }
+    else if (selectedAuto == "TwoPieceMiddleBlue"){
+      return new TwoPieceMiddleBlue(m_conveyorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
     }
     else if (selectedAuto == "FourPieceLeftRed"){
       return new FourPieceLeftRed(m_conveyorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);

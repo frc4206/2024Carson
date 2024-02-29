@@ -55,21 +55,48 @@ public class ClimberSubsystem extends SubsystemBase {
 		climberLeftFollow.set(0);
 	}
 
-	public void climbUPRight() { climberRightLead.set(0.2); }
+	public void climberUP(){
+		climberRightLead.set(0.2);
+		climberLeftFollow.set(0.2);
+	}
 
-	public void climbDOWNRight() { climberRightLead.set(-0.2); }
+	public void climbUPRight() { 
+		climberRightLead.set(0.2); 
+	}
 
-	public void climbUPLeft() { climberLeftFollow.set(0.2); }
+	public void climbUPLeft() { 
+		climberLeftFollow.set(0.2); 
+	}
 
-	public void climbDOWNLeft() { climberLeftFollow.set(-0.2); }
+	public void climbDOWN(){
+		climberRightLead.set(-0.2);
+		climberLeftFollow.set(-0.2);
+	}
 
-	public void GoToSetpoint(double setpoint) { climbLeadPid.setReference(setpoint, ControlType.kPosition, 0); }
+	public void climbDOWNRight() { 
+		climberRightLead.set(-0.2); 
+	}
 
-	public void setPositionRight(double pos) { servoRight.setPosition(pos); }
+	public void climbDOWNLeft() { 
+		climberLeftFollow.set(-0.2); 
+	}
 
-	public void setPositionLeft(double pos) { servoLeft.setPosition(pos); }
+	public void GoToSetpoint(double setpoint) { 
+		climbLeadPid.setReference(setpoint, ControlType.kPosition, 0); 
+	}
 
-	public void runServoLeft(double speed) { servoLeft.setSpeed(speed); }
+	public void setPosition(double pos){
+		servoLeft.setPosition(pos);
+		servoRight.setPosition(pos);
+	}
+
+	public void setPositionRight(double pos) { 
+		servoRight.setPosition(pos); 
+	}
+
+	public void setPositionLeft(double pos) { 
+		servoLeft.setPosition(pos); 
+	}
 
 	@Override
 	public void periodic() {
@@ -79,8 +106,6 @@ public class ClimberSubsystem extends SubsystemBase {
 		//if(BottomClimberLimitSwitch.get()) {
 		//  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
 		//}
-
-
 
 		// SmartDashboard.putNumber("Climber Right Position", climbRightLeadEncoder.getPosition());
 		// SmartDashboard.putNumber("Climber Left Position", climbLeftFollowEncoder.getPosition());

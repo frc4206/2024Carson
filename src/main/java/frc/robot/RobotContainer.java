@@ -10,6 +10,8 @@ import frc.robot.autos.FourPieceMiddleBlue;
 import frc.robot.autos.FourPieceMiddleRed;
 import frc.robot.autos.SixPieceTakeoverBlue;
 import frc.robot.autos.SixPieceTakeoverRed;
+import frc.robot.autos.ThreePieceRightBlue;
+import frc.robot.autos.ThreePieceRightRed;
 import frc.robot.commands.Climber.ClimberDownLeftCommand;
 import frc.robot.commands.Climber.ClimberUpLeftCommand;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
@@ -88,6 +90,8 @@ public class RobotContainer {
     autoChooser.addOption("FourPieceLeftBlue", "FourPieceLeftBlue");
     autoChooser.addOption("FourPieceMiddleRed", "FourPieceMiddleRed");
     autoChooser.addOption("FourPieceMiddleBlue", "FourPieceMiddleBlue");
+    autoChooser.addOption("ThreePieceRightRed", "ThreePieceRightRed");
+    autoChooser.addOption("ThreePieceRightBlue", "ThreePieceRightBlue");
     autoChooser.addOption("SixPieceRed", "SixPieceRed");
     autoChooser.addOption("SixPieceBlue", "SixPieceBlue");
     autoChooser.setDefaultOption("Nothing", "Nothing");
@@ -126,7 +130,7 @@ public class RobotContainer {
     new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
     
     new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
-    new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -1), new ConveyerToSpeedCommand(m_conveyorSub, 1)));
+    new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -0.5), new ConveyerToSpeedCommand(m_conveyorSub, 0.5)));
     
     // new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
     new Trigger(() -> this.getLeftTrigger(driver)).whileTrue(new PercentShooterCommand(m_flywheelSubsystem, 1));
@@ -215,6 +219,12 @@ public class RobotContainer {
     }
     else if (selectedAuto == "FourPieceLeftBlue"){
       return new FourPieceLeftBlue(m_conveyorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    }
+    else if (selectedAuto == "ThreePieceRightRed"){
+      return new ThreePieceRightRed(m_conveyorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    }
+    else if (selectedAuto == "ThreePieceRightBlue"){
+      return new ThreePieceRightBlue(m_conveyorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
     }
     else {
       return new InstantCommand();

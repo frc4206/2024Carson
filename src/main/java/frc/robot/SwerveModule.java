@@ -93,6 +93,10 @@ public class SwerveModule {
         return Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
     }
 
+    private Rotation2d getAngleInverted(){
+        return Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble()-0.5);
+    }
+
     private void configDriveMotor(){   
         mDriveMotor.getConfigurator().apply(new TalonFXConfiguration());     
         mDriveMotor.getConfigurator().apply(ctreConfigs.swerveDriveFXConfig);
@@ -120,5 +124,9 @@ public class SwerveModule {
         return new SwerveModulePosition(Conversions.rotationsToMeters(mDriveMotor.getPosition().getValueAsDouble(), Constants.Swerve.wheelCircumference),
         getAngle());
     }
-      
-  }
+    
+    public SwerveModulePosition getPositionInverted(){
+        return new SwerveModulePosition(Conversions.rotationsToMeters(-mDriveMotor.getPosition().getValueAsDouble(), Constants.Swerve.wheelCircumference),
+        getAngleInverted());
+    }
+}

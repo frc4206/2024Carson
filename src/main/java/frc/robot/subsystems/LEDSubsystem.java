@@ -34,8 +34,8 @@ public class LEDSubsystem extends SubsystemBase {
 		config.statusLedOffWhenActive = false;
 		config.vBatOutputMode = CANdle.VBatOutputMode.Off;
 
-    candle.configAllSettings(config);
-  }
+	candle.configAllSettings(config);
+ 	}
       
   private StrobeAnimation solidLEDS(int red, int green, int blue, int white){
     return new StrobeAnimation(red, green, blue, white, 1, Constants.LEDS.numLEDs, Constants.LEDS.ledStartOffset);
@@ -49,8 +49,8 @@ public class LEDSubsystem extends SubsystemBase {
 		candle.animate(new StrobeAnimation(0, 255, 0, 0, 0, Constants.LEDS.numLEDs/2, Constants.LEDS.ledStartOffset));
 	}
 
-	private void halfAmber(){
-		candle.animate(new StrobeAnimation(255, 191, 0, 0, 0, Constants.LEDS.numLEDs/2, Constants.LEDS.ledStartOffset));
+	private void halfRed(){
+		candle.animate(new StrobeAnimation(255, 0, 0, 0, 0, Constants.LEDS.numLEDs/2, Constants.LEDS.ledStartOffset));
 	}
 
 	private void halfAlliance(){
@@ -58,19 +58,15 @@ public class LEDSubsystem extends SubsystemBase {
 	}
 
 	private void intaking(){
-		candle.animate(flashLEDS(0, 0, 0, 255));
+		candle.animate(solidLEDS(0, 0, 0, 255));
 	}
 
 	private void ready(){
-		candle.animate(solidLEDS(0, 255, 0, 0));
+		candle.animate(flashLEDS(0, 255, 0, 0));
 	}
 
 	private void ampReady(){
-		if (GlobalVariables.alliance == DriverStation.Alliance.Red){
-			candle.animate(flashLEDS(255, 0, 0, 0));
-		} else if (GlobalVariables.alliance == DriverStation.Alliance.Blue){
-			candle.animate(flashLEDS(0, 0, 255, 0));
-		}
+		candle.animate(flashLEDS(255, 191, 0, 0));
 	}
 
 	private void alliance() {
@@ -106,7 +102,7 @@ public class LEDSubsystem extends SubsystemBase {
 				halfGreen();
 				halfAlliance();
 			case NOTALIGNED:
-				halfAmber();
+				halfRed();
 				halfAlliance();
 			case INTAKING:
 				intaking();

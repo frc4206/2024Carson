@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -33,6 +34,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double realYaw = 0;
     double rotations = 0;
     public SwerveDrivePoseEstimator poseEstimator;
+    double[] OdometryArray = new double[3];
 
     double desiredVelo;
 
@@ -203,6 +205,14 @@ public class SwerveSubsystem extends SubsystemBase {
         return positions;
     }
     
+    public SwerveModulePosition[] getModulePositionsInverted(){
+        SwerveModulePosition[] positions = new SwerveModulePosition[4];
+        for (SwerveModule mod : mSwerveMods){
+            positions[mod.moduleNumber] = mod.getPositionInverted();
+        }
+        return positions;
+    }
+
     public void zeroGyro() {
         gyro.setYaw(0);
     }
@@ -215,6 +225,10 @@ public class SwerveSubsystem extends SubsystemBase {
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw().getValueAsDouble()) : Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble());
     }
     
+    public Rotation2d getYawInverted(){
+        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw().getValueAsDouble()) : Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble() - 180);
+    }
+
     public void resetOdometryLLFieldCords() {
         if (Limelight.limelightshooter.GetPipeline() == 2 && Math.abs(Limelight.limelightshooter.aprilTagResult[2]) < 3.5) {
             double[] rawcords = Limelight.limelightshooter.fieldResult;
@@ -235,22 +249,30 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        swerveOdometry.update(getYaw(), getModulePositions());
-        poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
+        if (GlobalVariables.alliance == Alliance.Blue){
+            swerveOdometry.update(getYaw(), getModulePositions());
+            poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
+            OdometryArray[2] = getYaw().getDegrees();
+        } else if (GlobalVariables.alliance == Alliance.Red){
+            swerveOdometry.update(getYawInverted(), getModulePositionsInverted());
+            poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
+            OdometryArray[2] = getYawInverted().getDegrees();
+        }
         resetOdometryLLFieldCords();
     
-        double[] OdometryArray = {poseEstimator.getEstimatedPosition().getX(), poseEstimator.getEstimatedPosition().getY(), getYaw().getDegrees()};
+        OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
+        OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
         
         // SmartDashboard.putNumber("Odometry X: ", OdometryArray[0]);
         // SmartDashboard.putNumber("Odometry Y: ", OdometryArray[1]);
 
+        if (Limelight.limelightshooter.HasTarget() != 0){
+            poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+        }
         double[] poseEstimatorPos = {poseEstimator.getEstimatedPosition().getX(), poseEstimator.getEstimatedPosition().getY(), poseEstimator.getEstimatedPosition().getRotation().getDegrees()};
         SmartDashboard.putNumberArray("pose estimator array", poseEstimatorPos);
 
-        if (GlobalVariables.isEnabled == false) {
-            poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
-        }
 
         //Game piece positions
         if (Limelight.limelightshooter.GetPipeline() == 1) {

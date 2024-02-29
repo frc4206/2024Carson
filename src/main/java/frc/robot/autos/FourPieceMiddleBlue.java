@@ -31,7 +31,7 @@ public class FourPieceMiddleBlue extends ParallelCommandGroup {
         // new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.225),
 
         new ParallelCommandGroup(
-          new PID_DistanceOdometry2(swerve, true, true, 3.0, 5.50, 0, 2, false)//,
+          new PID_DistanceOdometry2(swerve, true, true, 3.0, 5.50, 0, 0.5, false)//,
           // new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote()),
           // new PivotCommand(pivot, 2.3).withTimeout(0.4)
         ),
@@ -47,34 +47,35 @@ public class FourPieceMiddleBlue extends ParallelCommandGroup {
         //   new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.4)
         // ),
 
-        new PID_DistanceOdometry2(swerve, true, true, 5.50, 4.10, 0, 3, false),
+        new PID_DistanceOdometry2(swerve, true, true, 5.50, 4.10, 0, 1.5, false),
         new ParallelCommandGroup(
-          new PID_DistanceOdometry2(swerve, true, true, 8.00, 4.10, 0, 3, false)//,
+          new PID_DistanceOdometry2(swerve, true, true, 8.00, 4.10, 0, 2, false)//,
           // new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote())
         ),
 
         new ParallelCommandGroup(
           // new ConveyerToSpeedCommand(conveyor, 0.2).withTimeout(0.55),
           // new IntakeToSpeedCommand(intake, -0.1).withTimeout(0.55),
-          new PID_DistanceOdometry2(swerve, true, true, 5.50, 4.10, 0, 3, false)//,
+          new PID_DistanceOdometry2(swerve, true, true, 5.50, 4.10, 0, 2, false)//,
           // new PivotCommand(pivot, 3).withTimeout(0.5)
         ),
 
-        new PID_DistanceOdometry2(swerve, true, true, 4.05, 5.05, 350, 3, true),
+        new PID_DistanceOdometry2(swerve, true, true, 4.05, 5.05, 350, 2, true),
         // new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.225),
 
         new ParallelCommandGroup(
-          new PID_DistanceOdometry2(swerve, true, true, 7.93, 2.62, 330, 3, false)//,
+          new PID_DistanceOdometry2(swerve, true, true, 8.00, 2.675, 330, 3, false)//,
           // new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote())
         ),
 
         new ParallelCommandGroup(
           // new ConveyerToSpeedCommand(conveyor, 0.2).withTimeout(0.55),
           // new IntakeToSpeedCommand(intake, -0.1).withTimeout(0.55),
-          new PID_DistanceOdometry2(swerve, true, true, 4.05, 5.05, 350, 2, false)//,
+          new PID_DistanceOdometry2(swerve, true, true, 6.00, 4.10, 350, 1.5, false)
           // new PivotCommand(pivot, 3).withTimeout(0.5)
-        )//,
-
+          ),
+        new PID_DistanceOdometry2(swerve, true, true, 4.05, 5.05, 350, 2.5, false)//,
+          
         // new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.225)
       )
     );

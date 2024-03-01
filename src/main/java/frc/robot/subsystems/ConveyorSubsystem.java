@@ -10,15 +10,35 @@ import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ConveyorSubsystem extends SubsystemBase {
   	private CANSparkFlex conveyorMotor = new CANSparkFlex(Constants.Conveyor.conveyorMotorID, MotorType.kBrushless);
+	private RelativeEncoder conveyorEncoder = conveyorMotor.getEncoder();
+	private SparkPIDController conveyorPIDController = conveyorMotor.getPIDController();
   	private DigitalInput conveyorBeamBreak = new DigitalInput(Constants.Conveyor.conveyerBeamBreakID);
 
   	public ConveyorSubsystem() {
+		conveyorMotor.restoreFactoryDefaults();
     	conveyorMotor.setInverted(Constants.Conveyor.conveyorInverted);
-  	}
+		conveyorMotor.setIdleMode(IdleMode.kBrake);
+		conveyorMotor.setSmartCurrentLimit(40);
+
+		conveyorEncoder.setPosition(0);
+		conveyorPIDController.setFeedbackDevice(conveyorEncoder);
+
+		conveyorPIDController.setP(0);
+		conveyorPIDController.setI(0);
+		conveyorPIDController.setIZone(0);
+		conveyorPIDController.setD(0);
+		conveyorPIDController.setOutputRange(-1, 1, 0);
+		conveyorPIDController.setSmartMotionMaxVelocity(0, 0);
+		conveyorPIDController.setSmartMotionMaxAccel(0, 0);
+		conveyorPIDController.setSmartMotionAllowedClosedLoopError(0, 0);
+	}
 
   	public void conveyorTurn(double conveyorSpeed) {
     	conveyorMotor.set(conveyorSpeed);

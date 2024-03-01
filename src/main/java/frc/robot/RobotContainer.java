@@ -159,25 +159,17 @@ public class RobotContainer {
     new JoystickButton(driver, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
 
 
-
     new JoystickButton(operator, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));
     new JoystickButton(operator, 2).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.PODIUM)));
     new JoystickButton(operator, 3).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.UNDER)));
     new JoystickButton(operator, 4).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.STAGE)));
     new JoystickButton(operator, 5).whileTrue(new ClimberDownCommand(m_climberSub));
     new JoystickButton(operator, 6).whileTrue(new ClimberUpCommand(m_climberSub));
-    new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new ElevatorDownCommand(m_elevatorSub));
-    new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new ElevatorUpCommand(m_elevatorSub));
-    new Trigger(() -> (this.getLeftStickY(operator) > 0.1 || this.getLeftStickY(operator) < -0.1)).whileTrue(new PercentPivotCommand(m_pivotSubsystem, this.getLeftStickY(operator)));
-    // new JoystickButton(operator, 1).whileTrue(new ClimberDownRightCommand(m_climberSub));
-    // new JoystickButton(operator, 2).whileTrue(new ClimberUpRightCommand(m_climberSub));
-    // new JoystickButton(operator, 3).whileTrue(new ClimberDownLeftCommand(m_climberSub));
-    // new JoystickButton(operator, 4).whileTrue(new ClimberUpLeftCommand(m_climberSub));
-    // new JoystickButton(operator, 5).whileTrue(new RunServoLeftCommand(m_climberSub, 0.45));
-    // new JoystickButton(operator, 6).whileTrue(new RunServoRightCommand(m_climberSub, 0.45));
-    // new JoystickButton(operator, 8).whileTrue(new ClimberToggleUpCommand(m_climberSub));
-    // new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new RunServoLeftCommand(m_climberSub, Constants.Climber.servoPosEngage));  
-    // new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new RunServoRightCommand(m_climberSub, Constants.Climber.servoPosEngage));
+    // new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new ClimberUpLeftCommand(m_climberSub));
+    // new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new ClimberUpRightCommand(m_climberSub));
+
+    // new JoystickButton(operator, 7).whileTrue(new RunServosCommand(m_climberSub, Constants.Climber.servoPosLeftEngage, Constants.Climber.servoPosRightEngage));
+    // new JoystickButton(operator, 8).whileTrue(new RunServosCommand(m_climberSub, Constants.Climber.servoPosLeftDisEngage, Constants.Climber.servoPosRightDisEngage));
     
 
     new JoystickButton(operator2, 1).onTrue(new SystemCheck(m_climberSub, m_conveyorSub, m_elevatorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operator2));

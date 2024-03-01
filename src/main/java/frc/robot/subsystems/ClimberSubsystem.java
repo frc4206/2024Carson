@@ -28,7 +28,7 @@ public class ClimberSubsystem extends SubsystemBase {
 		climberRightLead.restoreFactoryDefaults();
 		climberLeftFollow.restoreFactoryDefaults();
 		climberRightLead.setIdleMode(IdleMode.kBrake);
-		climberRightLead.setInverted(true);
+		climberRightLead.setInverted(false);
 		climberLeftFollow.setInverted(false);
 
 		//climberLeftFollow.follow(climberRightLead);
@@ -45,6 +45,9 @@ public class ClimberSubsystem extends SubsystemBase {
 		climbLeadPid.setSmartMotionMinOutputVelocity(-Constants.Climber.climberMaxVelo, 0);
 		climbLeadPid.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
 		climbLeadPid.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
+
+		climberRightLead.burnFlash();
+		climberLeftFollow.burnFlash();
   	}
 
 	public void climbSTOP() {
@@ -54,7 +57,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public void climberUP(){
 		climberRightLead.set(0.2);
-		climberLeftFollow.set(0.2);
+		climberLeftFollow.set(-0.2);
 	}
 
 	public void climbUPRight() { 
@@ -67,7 +70,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public void climbDOWN(){
 		climberRightLead.set(-0.2);
-		climberLeftFollow.set(-0.2);
+		climberLeftFollow.set(0.2);
 	}
 
 	public void climbDOWNRight() { 

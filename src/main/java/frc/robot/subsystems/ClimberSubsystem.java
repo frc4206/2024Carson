@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -88,6 +89,11 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void setPosition(double pos){
 		servoLeft.setPosition(pos);
 		servoRight.setPosition(pos);
+	}
+
+	public void setPosition(double leftPos, double rightPos){
+		servoLeft.setPosition(leftPos);
+		servoRight.setPosition(rightPos);
 	}
 
 	public void setPositionRight(double pos) { 

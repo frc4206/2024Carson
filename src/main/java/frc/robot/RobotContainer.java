@@ -149,6 +149,8 @@ public class RobotContainer {
     new Trigger(() -> this.getLeftTrigger(driver)).whileTrue(new PercentShooterCommand(m_flywheelSubsystem, 1));
 
     // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(Commands.startEnd(() -> m_elevatorSub.GoToSetpoint(Constants.Elevator.elevTrapPosition), () -> m_elevatorSub.GoToSetpoint(5), m_elevatorSub));
+    new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(new ElevatorPIDCommand(m_elevatorSub, Constants.Elevator.elevTrapPosition));
+    new Trigger(() -> this.getRightTrigger(driver)).toggleOnFalse(new ElevatorPIDCommand(m_elevatorSub, 5));
     // new Trigger(() -> this.getRightTrigger(driver)).whileTrue(new ShooterStopCommand(m_flywheelSubsystem));
 
     // new JoystickButton(driver, 7).onTrue(new ChangePipelineCommand(m_Limelight, 2));
@@ -202,8 +204,10 @@ public class RobotContainer {
 
 
     new JoystickButton(climbertesta, 1).whileTrue(new ClimberDownCommand(m_climberSub));
-    new JoystickButton(climbertesta, 2).whileTrue(new RunServosCommand(m_climberSub, Constants.Climber.servoPosEngage));
-    new JoystickButton(climbertesta, 3).whileTrue(new RunServosCommand(m_climberSub, Constants.Climber.servoPosDisEngage));
+
+    new JoystickButton(climbertesta, 2).whileTrue(new RunServosCommand(m_climberSub, Constants.Climber.servoPosLeftEngage, Constants.Climber.servoPosRightEngage));
+    new JoystickButton(climbertesta, 3).whileTrue(new RunServosCommand(m_climberSub, Constants.Climber.servoPosLeftDisEngage, Constants.Climber.servoPosRightDisEngage));
+
     new JoystickButton(climbertesta, 4).whileTrue(new ClimberUpCommand(m_climberSub));
     new JoystickButton(climbertesta, 5).whileTrue(new ClimberDownLeftCommand(m_climberSub));
     new JoystickButton(climbertesta, 6).whileTrue(new ClimberDownRightCommand(m_climberSub));

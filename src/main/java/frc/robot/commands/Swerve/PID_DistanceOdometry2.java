@@ -90,7 +90,9 @@ public class PID_DistanceOdometry2 extends Command {
 
 		if (GlobalVariables.alliance == Alliance.Red){
 			X_Output = -X_Output;
-			
+
+			//ADDED THIS: since the entire robot is flipped, the left and right also get switched not just the up and down
+			Y_Output = -Y_Output;
 		}
 
 		translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed);

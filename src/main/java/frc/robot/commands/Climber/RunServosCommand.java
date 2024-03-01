@@ -9,9 +9,11 @@ import frc.robot.subsystems.ClimberSubsystem;
 
 public class RunServosCommand extends Command {
   private ClimberSubsystem m_climber;
-  private double m_servoPosition;
-  public RunServosCommand(ClimberSubsystem climber, double servoPosition) {
-    m_servoPosition = servoPosition;
+  private double m_leftServoPosition;
+  private double m_rightServoPosition;
+  public RunServosCommand(ClimberSubsystem climber, double leftServoPosition, double rightServoPosition) {
+    m_leftServoPosition = leftServoPosition;
+    m_rightServoPosition = rightServoPosition;
     m_climber = climber;
     addRequirements(m_climber);
   }
@@ -23,7 +25,7 @@ public class RunServosCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.setPosition(m_servoPosition);
+    m_climber.setPosition(m_leftServoPosition, m_rightServoPosition);
   }
 
   // Called once the command ends or is interrupted.

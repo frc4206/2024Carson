@@ -312,6 +312,12 @@ public final class Constants {
     public static final double servoPosEngage = 0.55;
     public static final double servoPosDisEngage = 0.3;
 
+	public static final double servoPosRightEngage = 0.55;
+    public static final double servoPosRightDisEngage = 0.3;
+
+	public static final double servoPosLeftEngage = 0.3;
+    public static final double servoPosLeftDisEngage = 0.55;
+
 		public static final double climberResetPosition = 7.5;
 
 		public static final double climberTopSetpoint = 15;

@@ -19,6 +19,7 @@ public class ClimberDownCommand extends Command {
   @Override
   public void initialize() {
     m_climber.setPosition(Constants.Climber.servoPosDisEngage);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

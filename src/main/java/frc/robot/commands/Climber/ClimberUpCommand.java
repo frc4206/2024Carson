@@ -18,7 +18,7 @@ public class ClimberUpCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.setPosition(Constants.Climber.servoPosEngage);
+    m_climber.setPosition(Constants.Climber.servoPosLeftDisEngage, Constants.Climber.servoPosRightDisEngage);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,6 +31,7 @@ public class ClimberUpCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_climber.climbSTOP();
+    m_climber.setPosition(Constants.Climber.servoPosLeftEngage, Constants.Climber.servoPosRightEngage);
   }
 
   // Returns true when the command should end.

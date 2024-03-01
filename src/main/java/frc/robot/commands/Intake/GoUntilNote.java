@@ -6,6 +6,7 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Conveyor.ConveyerToPosition;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -17,6 +18,8 @@ public class GoUntilNote extends SequentialCommandGroup {
   public GoUntilNote(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
     addCommands(
       new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote()),
+      // new ConveyerToPosition(conveyor, 8.75).withTimeout(2),
+      // new ConveyerToPosition(conveyor, 7.5).withTimeout(2)
       new ParallelCommandGroup(
         new ConveyerToSpeedCommand(conveyor, 0.2),
         new IntakeToSpeedCommand(intake, -0.1)

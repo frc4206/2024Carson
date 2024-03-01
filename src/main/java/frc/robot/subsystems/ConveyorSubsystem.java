@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
@@ -12,6 +13,7 @@ import frc.robot.GlobalVariables;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -30,14 +32,22 @@ public class ConveyorSubsystem extends SubsystemBase {
 		conveyorEncoder.setPosition(0);
 		conveyorPIDController.setFeedbackDevice(conveyorEncoder);
 
-		conveyorPIDController.setP(0);
-		conveyorPIDController.setI(0);
-		conveyorPIDController.setIZone(0);
-		conveyorPIDController.setD(0);
+		conveyorPIDController.setP(Constants.Conveyor.conveyorkP);
+		conveyorPIDController.setI(Constants.Conveyor.conveyorkI);
+		conveyorPIDController.setIZone(Constants.Conveyor.conveyorkIzone);
+		conveyorPIDController.setD(Constants.Conveyor.conveyorkD);
 		conveyorPIDController.setOutputRange(-1, 1, 0);
-		conveyorPIDController.setSmartMotionMaxVelocity(0, 0);
-		conveyorPIDController.setSmartMotionMaxAccel(0, 0);
-		conveyorPIDController.setSmartMotionAllowedClosedLoopError(0, 0);
+		conveyorPIDController.setSmartMotionMaxVelocity(Constants.Conveyor.conveyorMaxVelo, 0);
+		conveyorPIDController.setSmartMotionMaxAccel(Constants.Conveyor.conveyorMaxAcc, 0);
+		conveyorPIDController.setSmartMotionAllowedClosedLoopError(Constants.Conveyor.conveyorMaxError, 0);
+	}
+
+	public void conveyerGoToPosition(double desiredPosition){
+		conveyorPIDController.setReference(desiredPosition, ControlType.kPosition, 0);
+	}
+
+	public void resetConveyor(){
+		conveyorEncoder.setPosition(0);
 	}
 
   	public void conveyorTurn(double conveyorSpeed) {
@@ -52,5 +62,7 @@ public class ConveyorSubsystem extends SubsystemBase {
 	}
 
 	@Override
-	public void periodic() {}
+	public void periodic() {
+		SmartDashboard.putNumber("conveyorPosition", conveyorEncoder.getPosition());
+	}
 }

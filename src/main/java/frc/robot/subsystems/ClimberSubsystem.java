@@ -54,6 +54,12 @@ public class ClimberSubsystem extends SubsystemBase {
 		climberRightLead.set(0);
 		climberLeftFollow.set(0);
 	}
+	public void climbSTOPLeft() {
+		climberLeftFollow.set(0);
+	}
+	public void climbSTOPRight() {
+		climberRightLead.set(0);
+	}
 
 	public void climberUP(){
 		climberRightLead.set(0.2);

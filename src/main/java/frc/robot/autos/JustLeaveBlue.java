@@ -16,7 +16,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class JustLeaveBlue extends SequentialCommandGroup {
   public JustLeaveBlue(SwerveSubsystem swerve, Pose2d initialPose) {
     addCommands(
-      new WaitCommand(5),
+      new WaitCommand(1),
       new PID_DistanceOdometry2(swerve, true, true, initialPose.getX()+5, initialPose.getY(), 0, 5, true)
     );
   }

@@ -333,6 +333,14 @@ public final class Constants {
 		public static final int conveyorMotorID = 29;
 		public static final int conveyerBeamBreakID = 0;
 		public static final boolean conveyorInverted = true;
+
+		public static final double conveyorkP = 0.15;
+		public static final double conveyorkI = 0.00125;
+		public static final double conveyorkIzone = 0;
+		public static final double conveyorkD = 0;
+		public static final double conveyorMaxVelo = 6000;
+		public static final double conveyorMaxAcc = 6000;
+		public static final double conveyorMaxError = 0.1;
 	}
 
 	public static final class AutoConstants {

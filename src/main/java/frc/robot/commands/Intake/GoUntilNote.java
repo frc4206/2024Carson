@@ -18,12 +18,12 @@ public class GoUntilNote extends SequentialCommandGroup {
   public GoUntilNote(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
     addCommands(
       new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote()),
-      // new ConveyerToPosition(conveyor, 8.75).withTimeout(2),
-      // new ConveyerToPosition(conveyor, 7.5).withTimeout(2)
-      new ParallelCommandGroup(
-        new ConveyerToSpeedCommand(conveyor, 0.2),
-        new IntakeToSpeedCommand(intake, -0.1)
-      ).withTimeout(0.5)
+      new ConveyerToPosition(conveyor, 10).withTimeout(2),
+      new ConveyerToPosition(conveyor, 9.3).withTimeout(2)
+      // new ParallelCommandGroup(
+      //   new ConveyerToSpeedCommand(conveyor, 0.2),
+      //   new IntakeToSpeedCommand(intake, -0.1)
+      // ).withTimeout(0.5)
     );
   }
 }

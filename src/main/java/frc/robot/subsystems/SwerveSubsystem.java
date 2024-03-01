@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveSubsystem extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
+    public SwerveDriveOdometry swerveInvertOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
     Rotation2d noRotation2d = new Rotation2d(0,0);
@@ -34,6 +35,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double realYaw = 0;
     double rotations = 0;
     public SwerveDrivePoseEstimator poseEstimator;
+    public SwerveDrivePoseEstimator poseInvertEstimator;
     double[] OdometryArray = new double[3];
 
     double desiredVelo;
@@ -60,33 +62,10 @@ public class SwerveSubsystem extends SubsystemBase {
         };
         
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
+        poseEstimator = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions(), getPose());
+        swerveInvertOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYawInverted(), getModulePositionsInverted());
+        poseInvertEstimator = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getYawInverted(), getModulePositionsInverted(), getPoseInverted());
         
-    //     AutoBuilder.configureHolonomic(
-    //         this::getPose, // Robot pose supplier
-    //         this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-    //         this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-    //         this::setModuleSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-    //         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-    //                 new PIDConstants(Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD), // Translation PID constants
-    //                 new PIDConstants(Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD), // Rotation PID constants
-    //                 Constants.Swerve.maxSpeed, // Max module speed, in m/s
-    //                 Constants.Swerve.driveBase, // Drive base radius in meters. Distance from robot center to furthest module.
-    //                 new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
-    //         ),
-    //         () -> {
-    //           // Boolean supplier that controls when the path will be mirrored for the red alliance
-    //           // This will flip the path being followed to the red side of the field.
-    //           // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-    //           var alliance = DriverStation.getAlliance();
-    //           if (alliance.isPresent()) {
-    //             return alliance.get() == DriverStation.Alliance.Red;
-    //           }
-    //           return false;
-    //         },
-    //         this // Reference to this subsystem to set requirements
-    // );
-    poseEstimator = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions(), getPose());
     }
     
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -156,8 +135,16 @@ public class SwerveSubsystem extends SubsystemBase {
         return swerveOdometry.getPoseMeters();
     }
     
+    public Pose2d getPoseInverted(){
+        return swerveInvertOdometry.getPoseMeters();
+    }
+
     public void resetOdometry(Pose2d pose) {
         swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
+    }
+
+    public void resetOdometryInverted(Pose2d pose){
+        swerveInvertOdometry.resetPosition(getYaw(), getModulePositionsInverted(), pose);
     }
 
     public double getNominalYaw() {
@@ -241,6 +228,18 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
+    public void resetOdometryLLFieldCordsInverted(){
+        if (Limelight.limelightshooter.GetPipeline() == 2 && Math.abs(Limelight.limelightshooter.aprilTagResult[2]) < 3.5) {
+            double[] rawcords = Limelight.limelightshooter.fieldResult;
+            Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYawInverted());
+            AprilCords = fieldcords;
+            if (Limelight.limelightshooter.HasTarget() != 0 || Limelight.limelightright.HasTarget() != 0 || Limelight.limelightleft.HasTarget() != 0) {
+                resetOdometryInverted(fieldcords);
+                poseInvertEstimator.addVisionMeasurement(fieldcords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
+            }
+        }
+    }
+
     public double map(double val, double inMin, double inMax, double outMin, double outMax) {
         return ((val-inMin)*(outMax-outMin)
             /(inMax-inMin))
@@ -253,26 +252,25 @@ public class SwerveSubsystem extends SubsystemBase {
             swerveOdometry.update(getYaw(), getModulePositions());
             poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
             OdometryArray[2] = getYaw().getDegrees();
+            resetOdometryLLFieldCords();
+            OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
+            OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
+            if (Limelight.limelightshooter.HasTarget() != 0){
+                poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+            }
         } else if (GlobalVariables.alliance == Alliance.Red){
-            swerveOdometry.update(getYawInverted(), getModulePositions());
-            poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositions());
+            swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
+            poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
             OdometryArray[2] = getYawInverted().getDegrees();
+            resetOdometryLLFieldCordsInverted();
+            OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
+            OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
+            if (Limelight.limelightshooter.HasTarget() != 0){
+                poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
+            }
         }
-        resetOdometryLLFieldCords();
     
-        OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
-        OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
-        
-        // SmartDashboard.putNumber("Odometry X: ", OdometryArray[0]);
-        // SmartDashboard.putNumber("Odometry Y: ", OdometryArray[1]);
-
-        if (Limelight.limelightshooter.HasTarget() != 0){
-            poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
-        }
-        double[] poseEstimatorPos = {poseEstimator.getEstimatedPosition().getX(), poseEstimator.getEstimatedPosition().getY(), poseEstimator.getEstimatedPosition().getRotation().getDegrees()};
-        SmartDashboard.putNumberArray("pose estimator array", poseEstimatorPos);
-
 
         //Game piece positions
         if (Limelight.limelightshooter.GetPipeline() == 1) {
@@ -290,10 +288,10 @@ public class SwerveSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("roll", ypr[2]);
         // SmartDashboard.putNumber("currPercent", currPercent);
 
-        // for(SwerveModule mod : mSwerveMods){
-        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Falcon degrees", mod.mAngleMotor.getPosition().getValueAsDouble());
-        // }
+        for(SwerveModule mod : mSwerveMods){
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
+            // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Falcon degrees", mod.mAngleMotor.getPosition().getValueAsDouble());
+        }
 
         double angle = gyro.getYaw().getValueAsDouble() % 360;
         angle = (angle < 0) ? 360 + angle : angle;

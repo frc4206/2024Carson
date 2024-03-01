@@ -60,42 +60,42 @@ public class Robot extends LoggedRobot {
 		CommandScheduler.getInstance().run();
 	}
 
-  @Override
-  public void disabledInit() {
-    GlobalVariables.isEnabled = false;
-  }
+	@Override
+	public void disabledInit() {
+		GlobalVariables.isEnabled = false;
+	}
 
 	@Override
 	public void disabledPeriodic() {
 		GlobalVariables.alliance = DriverStation.getAlliance().get();
 	}
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-  @Override
-  public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    GlobalVariables.isEnabled = true;
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
-  }
+	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+	@Override
+	public void autonomousInit() {
+		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+		GlobalVariables.isEnabled = true;
+		// schedule the autonomous command (example)
+		if (m_autonomousCommand != null) {
+		m_autonomousCommand.schedule();
+		}
+	}
 
 	/** This function is called periodically during autonomous. */
 	@Override
 	public void autonomousPeriodic() {}
 
-  @Override
-  public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-    GlobalVariables.isEnabled = true;
-  }
+	@Override
+	public void teleopInit() {
+		// This makes sure that the autonomous stops running when
+		// teleop starts running. If you want the autonomous to
+		// continue until interrupted by another command, remove
+		// this line or comment it out.
+		if (m_autonomousCommand != null) {
+		m_autonomousCommand.cancel();
+		}
+		GlobalVariables.isEnabled = true;
+	}
 
 	/** This function is called periodically during operator control. */
 	@Override

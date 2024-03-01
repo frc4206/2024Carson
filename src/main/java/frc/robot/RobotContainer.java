@@ -8,6 +8,8 @@ import frc.robot.autos.FourPieceLeftBlue;
 import frc.robot.autos.FourPieceLeftRed;
 import frc.robot.autos.FourPieceMiddleBlue;
 import frc.robot.autos.FourPieceMiddleRed;
+import frc.robot.autos.JustLeaveBlue;
+import frc.robot.autos.JustLeaveRed;
 import frc.robot.autos.SixPieceTakeoverBlue;
 import frc.robot.autos.SixPieceTakeoverRed;
 import frc.robot.autos.ThreePieceRightBlue;
@@ -53,7 +55,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -92,6 +93,7 @@ public class RobotContainer {
   public RobotContainer() {
     // m_flywheelSubsystem.setDefaultCommand(new PercentShooterCommand(m_flywheelSubsystem, 0.15));
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driver, translationAxis, strafeAxis, rotationAxis, true, true));
+    m_climberSub.setDefaultCommand(new RunServosCommand(m_climberSub, Constants.Climber.servoPosLeftEngage, Constants.Climber.servoPosRightEngage));
     
     autoChooser.addOption("FourPieceLeftRed", "FourPieceLeftRed");
     autoChooser.addOption("FourPieceLeftBlue", "FourPieceLeftBlue");
@@ -103,6 +105,8 @@ public class RobotContainer {
     autoChooser.addOption("ThreePieceRightBlue", "ThreePieceRightBlue");
     autoChooser.addOption("SixPieceRed", "SixPieceRed");
     autoChooser.addOption("SixPieceBlue", "SixPieceBlue");
+    autoChooser.addOption("JustLeaveRed", "JustLeaveRed");
+    autoChooser.addOption("JustLeaveBlue", "JustLeaveBlue");
     autoChooser.setDefaultOption("Nothing", "Nothing");
 
     SmartDashboard.putData(autoChooser);
@@ -111,10 +115,6 @@ public class RobotContainer {
 
   private double getLeftStickY(XboxController controller){
     return -controller.getRawAxis(XboxController.Axis.kLeftY.value);
-  }
-
-  private double getRightStickY(XboxController controller){
-    return -controller.getRawAxis(XboxController.Axis.kRightY.value);
   }
 
 	private boolean getLeftTrigger(XboxController controller) {
@@ -250,6 +250,12 @@ public class RobotContainer {
     }
     else if (selectedAuto == "ThreePieceRightBlue"){
       return new ThreePieceRightBlue(m_conveyorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    }
+    else if (selectedAuto == "JustLeaveRed"){
+      return new JustLeaveRed(m_swerveSubsystem, m_swerveSubsystem.getPose());
+    }
+    else if (selectedAuto == "JustLeaveBlue"){
+      return new JustLeaveBlue(m_swerveSubsystem, m_swerveSubsystem.getPose());
     }
     else {
       return new InstantCommand();

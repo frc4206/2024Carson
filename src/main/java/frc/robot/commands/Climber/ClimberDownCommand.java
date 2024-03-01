@@ -4,12 +4,16 @@
 
 package frc.robot.commands.Climber;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimberDownCommand extends Command {
   private ClimberSubsystem m_climber;
+  double start = 0;
+  double currtime = 0;
+
   public ClimberDownCommand(ClimberSubsystem climber) {
     m_climber = climber;
     addRequirements(m_climber);
@@ -18,20 +22,24 @@ public class ClimberDownCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.setPosition(Constants.Climber.servoPosDisEngage);
-
+    start = Timer.getFPGATimestamp();
   }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.climbDOWN();
+    m_climber.setPosition(1, Constants.Climber.servoPosRightDisEngage);
+    currtime = Timer.getFPGATimestamp() - start;
+    if (currtime > 0.5) {
+      m_climber.climbDOWN();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_climber.climbSTOP();
+    m_climber.setPosition(Constants.Climber.servoPosEngage);
   }
 
   // Returns true when the command should end.

@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -25,17 +24,14 @@ public class ClimberSubsystem extends SubsystemBase {
 	PWM servoRight = new PWM(1);
 	PWM servoLeft = new PWM(2);
 
-	//private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
-	//private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
-
 	public ClimberSubsystem() {
 		climberRightLead.restoreFactoryDefaults();
 		climberLeftFollow.restoreFactoryDefaults();
 		climberRightLead.setIdleMode(IdleMode.kBrake);
-		climberRightLead.setInverted(false);
+		climberRightLead.setInverted(true);
 		climberLeftFollow.setInverted(false);
 
-		climberLeftFollow.follow(climberRightLead);
+		//climberLeftFollow.follow(climberRightLead);
 
 		climbRightLeadEncoder = climberRightLead.getEncoder();
 		climbLeadPid = climberRightLead.getPIDController();
@@ -62,7 +58,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void climbUPRight() { 
-		climberRightLead.set(0.2); 
+		climberRightLead.set(0.2);
 	}
 
 	public void climbUPLeft() { 

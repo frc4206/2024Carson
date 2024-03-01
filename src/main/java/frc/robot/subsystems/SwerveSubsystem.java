@@ -233,6 +233,10 @@ public class SwerveSubsystem extends SubsystemBase {
             if (Limelight.limelightshooter.HasTarget() != 0 || Limelight.limelightright.HasTarget() != 0 || Limelight.limelightleft.HasTarget() != 0) {
                 resetOdometry(fieldcords);
                 poseEstimator.addVisionMeasurement(fieldcords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
+            } 
+            if (Limelight.limelightshooter.HasTarget() != 0 && Math.abs(Limelight.limelightshooter.aprilTagResult[2]) < 2.4) {
+                resetOdometry(fieldcords);
+                poseEstimator.resetPosition(getYaw(), getModulePositions(), fieldcords);
             }
         }
     }
@@ -260,6 +264,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
         if (GlobalVariables.isEnabled == false) {
             poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+            resetOdometry(AprilCords);
         }
 
         //Game piece positions

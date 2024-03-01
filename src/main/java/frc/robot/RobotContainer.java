@@ -9,7 +9,6 @@ import frc.robot.autos.FourPieceLeftRed;
 import frc.robot.autos.FourPieceMiddleBlue;
 import frc.robot.autos.FourPieceMiddleRed;
 import frc.robot.autos.JustLeave;
-import frc.robot.autos.JustLeaveRed;
 import frc.robot.autos.SixPieceTakeoverBlue;
 import frc.robot.autos.SixPieceTakeoverRed;
 import frc.robot.autos.ThreePieceRightBlue;
@@ -54,6 +53,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -247,7 +247,11 @@ public class RobotContainer {
       return new ThreePieceRightBlue(m_conveyorSub, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
     }
     else if (selectedAuto == "JustLeave"){
-      return new JustLeave(m_swerveSubsystem, new Pose2d(new Translation2d(5, m_swerveSubsystem.getPoseInverted().getY()), new Rotation2d(0)));
+      if (GlobalVariables.alliance == Alliance.Red){
+        return new JustLeave(m_swerveSubsystem, new Pose2d(new Translation2d(5, m_swerveSubsystem.getPoseInverted().getY()), new Rotation2d(0)));
+      } else {
+        return new JustLeave(m_swerveSubsystem, new Pose2d(new Translation2d(5, m_swerveSubsystem.getPose().getY()), new Rotation2d(0)));
+      }
     }
     else {
       return new InstantCommand();

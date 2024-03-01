@@ -334,7 +334,7 @@ public final class Constants {
 		public static final int conveyerBeamBreakID = 0;
 		public static final boolean conveyorInverted = true;
 
-		public static final double conveyorkP = 0.025;
+		public static final double conveyorkP = 0.0225;
 		public static final double conveyorkI = 0.0005;
 		public static final double conveyorkIzone = 0;
 		public static final double conveyorkD = 0;

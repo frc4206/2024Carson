@@ -256,6 +256,9 @@ public class SwerveSubsystem extends SubsystemBase {
             OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
             OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
             if (Limelight.limelightshooter.HasTarget() != 0){
+                poseEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
+            }
+            if (GlobalVariables.isEnabled = false) {
                 poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
             }
         } else if (GlobalVariables.alliance == Alliance.Red){
@@ -266,7 +269,10 @@ public class SwerveSubsystem extends SubsystemBase {
             OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
             OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
             if (Limelight.limelightshooter.HasTarget() != 0){
-                poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
+                poseInvertEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
+            }
+             if (GlobalVariables.isEnabled = false) {
+                poseInvertEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
             }
         }
     

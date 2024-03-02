@@ -5,8 +5,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
@@ -14,26 +16,46 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimbRightSubystem extends SubsystemBase {
-	private CANSparkFlex climberRightLead = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
-  private PWM servoRight = new PWM(1);
+	private CANSparkFlex climberRightMotor = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
+  private RelativeEncoder climberRightEncoder = climberRightMotor.getEncoder();
+  private SparkPIDController climberRightPIDController = climberRightMotor.getPIDController();
+
+  private PWM servoRight = new PWM(Constants.Climber.servoRightID);
 
   public ClimbRightSubystem() {
-    climberRightLead.restoreFactoryDefaults();
-    climberRightLead.setIdleMode(IdleMode.kBrake);
-    climberRightLead.setInverted(false);
-    climberRightLead.burnFlash();
+		climberRightMotor.restoreFactoryDefaults();
+		climberRightMotor.setIdleMode(IdleMode.kBrake);
+		climberRightMotor.setInverted(false);
+		climberRightMotor.setSmartCurrentLimit(40);
+		climberRightMotor.burnFlash();
+		
+		climberRightEncoder.setPosition(0);
+		climberRightPIDController.setFeedbackDevice(climberRightEncoder);
+
+		climberRightPIDController.setP(Constants.Climber.climberkP);
+		climberRightPIDController.setI(Constants.Climber.climberkI);
+		climberRightPIDController.setIZone(Constants.Climber.climberkIZone);
+		climberRightPIDController.setD(Constants.Climber.climberkD);
+		climberRightPIDController.setOutputRange(-1, 1, 0);
+		climberRightPIDController.setSmartMotionMaxVelocity(Constants.Climber.climberMaxVelo, 0);
+		climberRightPIDController.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
+		climberRightPIDController.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
   }
 
-  public void climbStop(){
-    climberRightLead.set(0);
+  public void climbToPosition(double setpoint){
+    climberRightPIDController.setReference(setpoint, ControlType.kPosition);
   }
 
-  public void climberUp(){
-    climberRightLead.set(0.2);
+  public void climbSTOP(){
+    climberRightMotor.set(0);
   }
 
-  public void climberDown(){
-    climberRightLead.set(-0.2);
+  public void climberUP(){
+    climberRightMotor.set(0.2);
+  }
+
+  public void climbDOWN(){
+    climberRightMotor.set(-0.2);
   }
 
   public void setPosition(double pos){
@@ -41,7 +63,5 @@ public class ClimbRightSubystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-
-  }
+  public void periodic() {}
 }

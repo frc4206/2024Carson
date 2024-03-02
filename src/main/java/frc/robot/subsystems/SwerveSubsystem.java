@@ -168,6 +168,27 @@ public class SwerveSubsystem extends SubsystemBase {
         return nomYaw;
     }
     
+    public double getNominalYawInverted(){
+        realYaw = getYawInverted().getDegrees();
+        rotations = Math.round((realYaw/360));
+        if (realYaw < 0){
+            nomYaw = -realYaw;
+            if (nomYaw > 360){
+                nomYaw += (360*rotations);
+            }
+            if (nomYaw < 0){
+                nomYaw += 360;
+            }
+            nomYaw = 360 - nomYaw;
+        } else {
+            nomYaw = realYaw - (360*rotations);
+            if (nomYaw < 0){
+                nomYaw += 360;
+            }
+        }
+        return nomYaw;
+    }
+
     public SwerveModuleState[] getStates() {
         SwerveModuleState[] states = new SwerveModuleState[4];
         for(SwerveModule mod : mSwerveMods) {
@@ -258,8 +279,9 @@ public class SwerveSubsystem extends SubsystemBase {
             if (Limelight.limelightshooter.HasTarget() != 0){
                 poseEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
             }
-            if (GlobalVariables.isEnabled = false) {
+            if (GlobalVariables.isEnabled == false) {
                 poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+                swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
             }
         } else if (GlobalVariables.alliance == Alliance.Red){
             swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
@@ -271,44 +293,33 @@ public class SwerveSubsystem extends SubsystemBase {
             if (Limelight.limelightshooter.HasTarget() != 0){
                 poseInvertEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
             }
-             if (GlobalVariables.isEnabled = false) {
-                poseInvertEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+            if (GlobalVariables.isEnabled == false) {
+                poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
+                swerveInvertOdometry.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
             }
         }
     
         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
 
-        //Game piece positions
         if (Limelight.limelightshooter.GetPipeline() == 1) {
             Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
         }
 
-        
 
         double[] ypr = new double[3];
         ypr[0] = gyro.getYaw().getValueAsDouble();
         ypr[1] = gyro.getPitch().getValueAsDouble();
         ypr[2] = gyro.getRoll().getValueAsDouble();
-        // SmartDashboard.putNumber("yaw", ypr[0]);
-        // SmartDashboard.putNumber("gyro angle", ypr[1]);
-        // SmartDashboard.putNumber("roll", ypr[2]);
-        // SmartDashboard.putNumber("currPercent", currPercent);
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-            // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Falcon degrees", mod.mAngleMotor.getPosition().getValueAsDouble());
         }
 
         double angle = gyro.getYaw().getValueAsDouble() % 360;
         angle = (angle < 0) ? 360 + angle : angle;
 
-        // double[] flywheelArray = {OdometryArray[0] + Constants.Shooter.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Shooter.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
-
         double[] flywheelArray = {OdometryArray[0] + Constants.Pivot.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Pivot.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
-
         GlobalVariables.distanceToSpeaker = Math.sqrt((flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) * (flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) + (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY) * (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY));
-        // SmartDashboard.putNumber("Distance to speaker", GlobalVariables.distanceToSpeaker);
-
         GlobalVariables.desiredAngle = ((((-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75 - 4.17;
 
         if (GlobalVariables.distanceToSpeaker < 6) {

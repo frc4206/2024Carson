@@ -149,7 +149,7 @@ public final class Constants {
 			public static final int driveMotorID = 1; //3
 			public static final int angleMotorID = 2; //4
 			public static final int canCoderID = 3; //9
-			public static double angleOffset = (149.15)/360;//314.5 these aren't accurate just refrences
+			public static double angleOffset = (360-11.68)/360;//314.5 these aren't accurate just refrences
 			public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     	}
@@ -171,7 +171,7 @@ public final class Constants {
 			public static final int driveMotorID = 7; //3
 			public static final int angleMotorID = 8; //4
 			public static final int canCoderID = 9; //9
-			public static double angleOffset = (360-93.16)/360;//.47
+			public static double angleOffset = (360-95.09)/360;//.47
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}

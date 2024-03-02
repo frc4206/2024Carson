@@ -88,8 +88,8 @@ public class PID_DistanceOdometry2 extends Command {
 			y_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getY() - Math.abs(y_set));
 			yaw_error = Math.abs(s_Swerve.getNominalYaw()) - (yaw_set);
 		} else {
-			X_Output = pidx.calculate(s_Swerve.poseInvertEstimator.getEstimatedPosition().getX(), x_set);
-			Y_Output = pidy.calculate(s_Swerve.poseInvertEstimator.getEstimatedPosition().getY(), y_set);
+			X_Output = pidx.calculate(s_Swerve.swerveInvertOdometry.getPoseMeters().getX(), x_set);
+			Y_Output = pidy.calculate(s_Swerve.swerveInvertOdometry.getPoseMeters().getY(), y_set);
 			if (yaw_set == 0) {
 				if (s_Swerve.getNominalYawInverted() > 0 && s_Swerve.getNominalYawInverted() < 180) {
 					Yaw_Output = pidyaw.calculate(s_Swerve.getNominalYawInverted(), 0);
@@ -105,8 +105,10 @@ public class PID_DistanceOdometry2 extends Command {
 			} else {
 				Yaw_Output = pidyaw.calculate(s_Swerve.getNominalYawInverted(), yaw_set);
 			}
-			x_error = Math.abs(s_Swerve.poseInvertEstimator.getEstimatedPosition().getX() - Math.abs(x_set));
-			y_error = Math.abs(s_Swerve.poseInvertEstimator.getEstimatedPosition().getY() - Math.abs(y_set));
+			x_error = Math.abs(s_Swerve.swerveInvertOdometry.getPoseMeters().getX() - Math.abs(x_set));
+			y_error = Math.abs(s_Swerve.swerveInvertOdometry.getPoseMeters().getY() - Math.abs(y_set));
+
+
 			yaw_error = Math.abs(s_Swerve.getNominalYawInverted()) - (yaw_set);
 		}
 

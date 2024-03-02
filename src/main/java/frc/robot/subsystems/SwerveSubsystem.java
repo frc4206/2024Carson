@@ -37,6 +37,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public SwerveDrivePoseEstimator poseEstimator;
     public SwerveDrivePoseEstimator poseInvertEstimator;
     double[] OdometryArray = new double[3];
+    double[] swerveOdo = new double[2];
 
     double desiredVelo;
 
@@ -283,6 +284,8 @@ public class SwerveSubsystem extends SubsystemBase {
                 poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
                 swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
             }
+            swerveOdo[0] = swerveOdometry.getPoseMeters().getX();
+            swerveOdo[1] = swerveOdometry.getPoseMeters().getY();
         } else if (GlobalVariables.alliance == Alliance.Red){
             swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
             poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
@@ -297,9 +300,13 @@ public class SwerveSubsystem extends SubsystemBase {
                 poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
                 swerveInvertOdometry.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
             }
+            swerveOdo[0] = swerveInvertOdometry.getPoseMeters().getX();
+            swerveOdo[1] = swerveInvertOdometry.getPoseMeters().getY();
         }
     
+
         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
+        SmartDashboard.putNumberArray("ActualOdo", swerveOdo);
 
         if (Limelight.limelightshooter.GetPipeline() == 1) {
             Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());

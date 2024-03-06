@@ -78,7 +78,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ClimberLeftSubsystem m_climberLeftSub = new ClimberLeftSubsystem(operator);
   private final ClimberRightSubsystem m_climberRightSub = new ClimberRightSubsystem(operator);
-  private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
+  private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem(0);
   private final Limelight m_Limelight = new Limelight();
   private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
   private final ConveyorSubsystem m_conveyorSub = new ConveyorSubsystem();
@@ -111,10 +111,10 @@ public class RobotContainer {
     
     new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
 
-    new JoystickButton(operator, 2).onTrue(new ClimberRunBothUpCommand(m_climberLeftSub));
-    new JoystickButton(operator, 3).onTrue(new ClimberRunBothDownCommand(m_climberLeftSub));
-    new JoystickButton(operator, 5).onTrue(new ClimberRunRightCommand(m_climberRightSub));
-    new JoystickButton(operator, 1).onTrue(new ClimberRunLeftCommand(m_climberLeftSub)); 
+    new JoystickButton(operator, 2).whileTrue(new ClimberRunBothUpCommand(m_climberLeftSub));
+    new JoystickButton(operator, 3).whileTrue(new ClimberRunBothDownCommand(m_climberLeftSub));
+    new JoystickButton(operator, 5).whileTrue(new ClimberRunRightCommand(m_climberRightSub));
+    new JoystickButton(operator, 1).whileTrue(new ClimberRunLeftCommand(m_climberLeftSub)); 
     
     
     // new JoystickButton(driver, 4).toggleOnTrue(new ClimbToTopCommand(climber));

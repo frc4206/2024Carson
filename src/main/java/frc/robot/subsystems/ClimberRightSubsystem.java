@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWM;
@@ -27,7 +28,7 @@ public class ClimberRightSubsystem extends SubsystemBase {
   public RelativeEncoder climbRightEncoder; /* top encoder */
   //private RelativeEncoder climbBottomEncoder; /* bottom encoder */
 
-  public static XboxController joystick; 
+  public XboxController joystick; 
 
   PWM servoRight = new PWM(0);
 //X  PWM servoLeft = new PWM(1);
@@ -40,10 +41,12 @@ public class ClimberRightSubsystem extends SubsystemBase {
     climberRightLead.restoreFactoryDefaults();
  //X   climberLeftFollow.setInverted(true);
     climberRightLead.setInverted(false);
+    climberRightLead.setIdleMode(IdleMode.kBrake);
     joystick = joy;
     //climberRightLead.follow(climberLeftFollow);
 
     climbRightEncoder = climberRightLead.getEncoder();
+    climbRightEncoder.setPosition(0);
     climbRightPid = climberRightLead.getPIDController();
     
     climbRightPid.setFeedbackDevice(climbRightEncoder);
@@ -80,6 +83,13 @@ public class ClimberRightSubsystem extends SubsystemBase {
 
   public void GoToSetpoint(double setpoint) {
     climbRightPid.setReference(setpoint, ControlType.kPosition, 0);
+
+    /*// Raise climber upwards
+    if(climbRightEncoder.getPosition() < setpoint) {
+      climberRightLead.set(speed);
+    } else {
+      climberRightLead.set(0);
+    }*/
   }
 
   public void setPositionRight(double pos) {

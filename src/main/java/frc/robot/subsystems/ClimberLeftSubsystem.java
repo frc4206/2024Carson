@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWM;
@@ -27,7 +28,7 @@ public class ClimberLeftSubsystem extends SubsystemBase {
   public RelativeEncoder climbLeftEncoder; /* top encoder */
   //private RelativeEncoder climbBottomEncoder; /* bottom encoder */
 
-  public static XboxController joystick; 
+  public XboxController joystick; 
 
 //X  PWM servoRight = new PWM(0);
   PWM servoLeft = new PWM(1);
@@ -42,9 +43,12 @@ public class ClimberLeftSubsystem extends SubsystemBase {
   //x  climberRightLead.setInverted(false);
     joystick = joy;
     //climberRightLead.follow(climberLeftFollow);
+    climberLeftFollow.follow(ClimberRightSubsystem.climberRightLead, true);
+    climberLeftFollow.setIdleMode(IdleMode.kBrake);
 
     climbLeftEncoder = climberLeftFollow.getEncoder();
-     climbLeftPid = climberLeftFollow.getPIDController();
+    climbLeftEncoder.setPosition(0);
+    climbLeftPid = climberLeftFollow.getPIDController();
     
     climbLeftPid.setFeedbackDevice(climbLeftEncoder);
     climbLeftPid.setP(0.02);

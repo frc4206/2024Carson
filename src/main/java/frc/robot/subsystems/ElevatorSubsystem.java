@@ -23,7 +23,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private DigitalInput elevatorTopLimitSwitch = new DigitalInput(Constants.Elevator.elevatorTopLimitSwitch);
   private DigitalInput elevatorBottomLimitSwitch = new DigitalInput(Constants.Elevator.elevatorBottomLimitSwitch);
 
-  public ElevatorSubsystem() {
+  public ElevatorSubsystem(int waitTime) {
     elevatorLeader.restoreFactoryDefaults();
     elevatorFollower.restoreFactoryDefaults();
     elevatorLeader.setInverted(Constants.Elevator.elevatorLeaderisInverted);

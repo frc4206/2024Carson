@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -22,7 +21,6 @@ public class SwerveModule {
 
     private PositionDutyCycle turnControl = new PositionDutyCycle(0, 1, false, 0, 0, false, false, false);
     private VelocityVoltage velocityControl = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
-    private PIDController angleControlla = new PIDController(Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD);
 
     public TalonFX mAngleMotor;
     public TalonFX mDriveMotor;
@@ -35,8 +33,6 @@ public class SwerveModule {
         this.moduleNumber = moduleNumber;
         angleOffset = moduleConstants.angleOffset;
         
-        angleControlla.enableContinuousInput(-180, 180);
-
         /* Angle Encoder Config */
         angleEncoder = new CANcoder(moduleConstants.cancoderID, Constants.Canivore1);
         configAngleEncoder();
@@ -92,10 +88,6 @@ public class SwerveModule {
     private Rotation2d getAngle(){
         return Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
     }
-
-    // private Rotation2d getAngleInverted(){
-    //     return Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble()-0.5);
-    // }
 
     private void configDriveMotor(){
         mDriveMotor.getConfigurator().apply(new TalonFXConfiguration());     

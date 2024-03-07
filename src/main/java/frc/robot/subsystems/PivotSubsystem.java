@@ -81,30 +81,12 @@ public class PivotSubsystem extends SubsystemBase {
 		position = newPosition;
 	}
 
-	public void cycleRelativePosition(){
-		switch (position) {
-			// case WING:
-			// 	position = ShooterPositions.STAGE;
-			// 	break;
-			// case STAGE:
-			// 	position = ShooterPositions.UNDER;
-			// 	break;
-			case UNDER:
-				position = ShooterPositions.PODIUM;
-				break;
-			case PODIUM:
-				position = ShooterPositions.SPIKE;
-				break;
-			case SPIKE:
-				position = ShooterPositions.CLOSE;
-				break;
-			case CLOSE:
-				position = ShooterPositions.UNDER;
-				break;
-			default:
-				position = ShooterPositions.UNDER;
-				break;
-			}
+	public void togglePivotMode(){
+		if (position == ShooterPositions.NONE){
+			position = ShooterPositions.CLOSE;
+		} else {
+			position = ShooterPositions.NONE;
+		}
 	}
 
 	public void setFieldRelativePosition() {
@@ -132,7 +114,6 @@ public class PivotSubsystem extends SubsystemBase {
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
-
 
 		if(position != ShooterPositions.NONE) {
 			setFieldRelativePosition();

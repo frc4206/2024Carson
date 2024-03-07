@@ -25,10 +25,6 @@ public class Robot extends LoggedRobot {
 	private Command m_autonomousCommand;
 	private RobotContainer m_robotContainer;
 
-	/**
-	 * This function is run when the robot is first started up and should be used for any
-	 * initialization code.
-	 */
 	@Override
 	public void robotInit() {
 		setUseTiming(false);
@@ -72,8 +68,6 @@ public class Robot extends LoggedRobot {
 	public void autonomousInit() {
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 		GlobalVariables.isEnabled = true;
-		System.out.println("AUTO RUNNING");
-		System.out.println("SELECTED AUTO: " + m_autonomousCommand.toString());
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.schedule();
 		}

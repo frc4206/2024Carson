@@ -19,7 +19,6 @@ import frc.lib.util.SwerveModuleConstants;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-	public static final double stickDeadband = 0.1;
 	public static final String Canivore1 = "Canivore1";
 
 	public static final class Field {
@@ -130,7 +129,7 @@ public final class Constants {
 
 		/* Swerve Profiling Values */
 		public static final double maxSpeed = 5.25; //meters per second
-		public static final double maxAngularVelocity = 4.875;
+		public static final double maxAngularVelocity = 4.75;
 
 		/* Neutral Modes */
 		public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
@@ -239,10 +238,6 @@ public final class Constants {
 		public static final double bottomFlyWheelMinVel = -6500;
 		public static final double bottomFlyWheelMaxAccel = 6500;
 		public static final double bottomFlyWheelAllowedError = 50;
-
-		public static final double MIN_OUTPUT_RANGE = -1;
-		public static final double MAX_OUTPUT_RANGE = 1;
-		public static final int SLOT_ID_GAIN = 0; /* Between 0 and 3 */
   	}
 
 	public static final class Pivot {
@@ -336,6 +331,17 @@ public final class Constants {
 		public static final double conveyorMaxVelo = 5000;
 		public static final double conveyorMaxAcc = 5000;
 		public static final double conveyorMaxError = 0.05;
+	}
+
+	public static final class OperatorConstants {
+		public static final double stickDeadband = 0.1;
+
+		public static final int drivaPort = 0;
+		public static final int operataPort = 1;
+		public static final int operata2Port = 2;
+		public static final int shootertestaPort = 3;
+		public static final int elevatortestaPort = 4;
+		public static final int climbertestaPort = 5;
 	}
 
 	public static final class AutoConstants {

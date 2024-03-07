@@ -6,7 +6,6 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Conveyor.ConveyerToPosition;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;

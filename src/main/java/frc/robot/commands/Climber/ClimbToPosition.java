@@ -9,12 +9,13 @@ import frc.robot.commands.Climber.ClimberLeft.ClimbLeftToPosition;
 import frc.robot.commands.Climber.ClimberRight.ClimbRightToPosition;
 import frc.robot.subsystems.ClimbLeftSubsystem;
 import frc.robot.subsystems.ClimbRightSubystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ClimbToPosition extends ParallelCommandGroup {
-  public ClimbToPosition(ClimbLeftSubsystem climberLeft, ClimbRightSubystem climberRight, double climberLeftSetpoint, double climberRightSetpoint) {
+  public ClimbToPosition(ClimberSubsystem climberLeft, ClimberSubsystem climberRight, double climberLeftSetpoint, double climberRightSetpoint) {
     addCommands(
       new ClimbLeftToPosition(climberLeft, climberLeftSetpoint),
       new ClimbRightToPosition(climberRight, climberRightSetpoint)

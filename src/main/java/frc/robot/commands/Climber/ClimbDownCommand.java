@@ -9,12 +9,13 @@ import frc.robot.commands.Climber.ClimberLeft.ClimbDownLeftCommand;
 import frc.robot.commands.Climber.ClimberRight.ClimbDownRightCommand;
 import frc.robot.subsystems.ClimbLeftSubsystem;
 import frc.robot.subsystems.ClimbRightSubystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ClimbDownCommand extends ParallelCommandGroup {
-  public ClimbDownCommand(ClimbLeftSubsystem climberLeft, ClimbRightSubystem climberRight) {
+  public ClimbDownCommand(ClimberSubsystem climberLeft, ClimberSubsystem climberRight) {
     addCommands(
       new ClimbDownLeftCommand(climberLeft),
       new ClimbDownRightCommand(climberRight)

@@ -15,6 +15,7 @@ import frc.robot.commands.Shooter.PercentShooterCommand;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.subsystems.ClimbLeftSubsystem;
 import frc.robot.subsystems.ClimbRightSubystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
@@ -26,7 +27,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SystemCheck extends SequentialCommandGroup {
-  public SystemCheck(ClimbLeftSubsystem leftClimber, ClimbRightSubystem rightClimber, ConveyorSubsystem conveyor, ElevatorSubsystem elevator, FlywheelSubsystem flywheel, IntakeSubsystem intake, PivotSubsystem pivot, SwerveSubsystem swerve, XboxController controller) {
+  public SystemCheck(ClimberSubsystem leftClimber, ClimberSubsystem rightClimber, ConveyorSubsystem conveyor, ElevatorSubsystem elevator, FlywheelSubsystem flywheel, IntakeSubsystem intake, PivotSubsystem pivot, SwerveSubsystem swerve, XboxController controller) {
     addCommands(
       new IntakeToSpeedCommand(intake, -1).withTimeout(0.25),
       new IntakeToSpeedCommand(intake, 1).withTimeout(0.25),

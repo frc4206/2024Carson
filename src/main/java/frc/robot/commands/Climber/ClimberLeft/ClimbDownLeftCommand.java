@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimbLeftSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimbDownLeftCommand extends Command {
-  private ClimbLeftSubsystem m_climberLeft;
+  private ClimberSubsystem m_climberLeft;
   private double startTime = 0;
   private double currTime = 0;
-  public ClimbDownLeftCommand(ClimbLeftSubsystem climberLeft) {
+  public ClimbDownLeftCommand(ClimberSubsystem climberLeft) {
     m_climberLeft = climberLeft;
     addRequirements(m_climberLeft);
   }
@@ -27,9 +28,11 @@ public class ClimbDownLeftCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    System.out.println("Presssed the left command button");
     m_climberLeft.setPosition(Constants.Climber.servoPosLeftDisEngage);
     currTime = Timer.getFPGATimestamp() - startTime;
-    if (currTime > 0.5) {
+    if (currTime > 0.15d) {
       m_climberLeft.climbDOWN();
     }
   }

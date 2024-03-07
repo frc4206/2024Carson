@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimbRightSubystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimbDownRightCommand extends Command {
-  private ClimbRightSubystem m_climberRight;
+  private ClimberSubsystem m_climberRight;
   private double startTime = 0;
   private double currTime = 0;
-  public ClimbDownRightCommand(ClimbRightSubystem climberRight) {
+  public ClimbDownRightCommand(ClimberSubsystem climberRight) {
     m_climberRight = climberRight;
     addRequirements(m_climberRight);
   }

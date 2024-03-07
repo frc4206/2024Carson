@@ -6,11 +6,12 @@ package frc.robot.commands.Climber.ClimberLeft;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimbLeftSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimbLeftToPosition extends Command {
-  private ClimbLeftSubsystem m_climberLeft;
+  private ClimberSubsystem m_climberLeft;
   private double m_desiredPosition;
-  public ClimbLeftToPosition(ClimbLeftSubsystem climberLeft, double desiredPosition) {
+  public ClimbLeftToPosition(ClimberSubsystem climberLeft, double desiredPosition) {
     m_climberLeft = climberLeft;
     m_desiredPosition = desiredPosition;
     addRequirements(m_climberLeft);

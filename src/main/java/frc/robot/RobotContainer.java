@@ -4,17 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.autos.FourPieceLeftBlue;
-import frc.robot.autos.FourPieceLeftRed;
-import frc.robot.autos.FourPieceMiddleBlue;
-import frc.robot.autos.FourPieceMiddleRed;
-import frc.robot.autos.JustLeave;
-import frc.robot.autos.SixPieceTakeoverBlue;
-import frc.robot.autos.SixPieceTakeoverRed;
-import frc.robot.autos.ThreePieceRightBlue;
-import frc.robot.autos.ThreePieceRightRed;
-import frc.robot.autos.TwoPieceMiddleBlue;
-import frc.robot.autos.TwoPieceMiddleRed;
 import frc.robot.commands.Climber.ClimbDownCommand;
 import frc.robot.commands.Climber.ClimbUpCommand;
 import frc.robot.commands.Climber.ClimberLeft.ClimbDownLeftCommand;
@@ -23,15 +12,18 @@ import frc.robot.commands.Climber.ClimberLeft.ServoLeftGoToPosition;
 import frc.robot.commands.Climber.ClimberRight.ClimbDownRightCommand;
 import frc.robot.commands.Climber.ClimberRight.ClimbUpRightCommand;
 import frc.robot.commands.Climber.ClimberRight.ServoRightGoToPosition;
+import frc.robot.commands.Conveyor.ConveyerToPosition;
 import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
 import frc.robot.commands.Elevator.ElevatorDownCommand;
 import frc.robot.commands.Elevator.ElevatorPIDCommand;
 import frc.robot.commands.Elevator.ElevatorUpCommand;
 import frc.robot.commands.Elevator.PercentElevatorCommand;
 import frc.robot.commands.Elevator.ResetElevatorCommand;
+import frc.robot.commands.Elevator.ToggleElevatorAmp;
 import frc.robot.commands.Intake.GoUntilNote;
 import frc.robot.commands.Intake.IntakeToSpeedCommand;
 import frc.robot.commands.Pivot.PercentPivotCommand;
+import frc.robot.commands.Pivot.PivotCommand;
 import frc.robot.commands.Pivot.ResetPivotCommand;
 import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterStopCommand;
@@ -51,11 +43,11 @@ import frc.robot.subsystems.ClimbLeftSubsystem;
 import frc.robot.subsystems.ClimbRightSubystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -78,7 +70,7 @@ public class RobotContainer {
   private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
   private final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
+  public final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
   public final LEDSubsystem m_leds = new LEDSubsystem();
   public final Limelight m_Limelight = new Limelight();
 
@@ -96,10 +88,16 @@ public class RobotContainer {
   final static SendableChooser<String> autoChooser = new SendableChooser<String>();
 
   public RobotContainer() {
+    NamedCommands.registerCommand("pivot2", new PivotCommand(m_pivotSubsystem, 4.65).withTimeout(0.75));
+    NamedCommands.registerCommand("shoot", new ConveyerToSpeedCommand(m_conveyorSubsystem, 1).withTimeout(1));
+    NamedCommands.registerCommand("intake", new IntakeToSpeedCommand(m_intakeSubsystem, -1).withTimeout(0.8));
+    NamedCommands.registerCommand("conveyor", new ConveyerToSpeedCommand(m_conveyorSubsystem, 0.8).withTimeout(0.5));
+    NamedCommands.registerCommand("pivot3", new PivotCommand(m_pivotSubsystem, 4.4).withTimeout(0.75));
+    
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driver, translationAxis, strafeAxis, rotationAxis, true, true));
     m_leftClimberSubsystem.setDefaultCommand(new ServoLeftGoToPosition(m_leftClimberSubsystem, Constants.Climber.servoPosLeftEngage));
     m_rightClimberSubsystem.setDefaultCommand(new ServoRightGoToPosition(m_rightClimberSubsystem, Constants.Climber.servoPosRightEngage));
-    
+
     autoChooser.addOption("FourPieceLeftRed", "FourPieceLeftRed");
     autoChooser.addOption("FourPieceLeftBlue", "FourPieceLeftBlue");
     autoChooser.addOption("FourPieceMiddleRed", "FourPieceMiddleRed");
@@ -144,24 +142,34 @@ public class RobotContainer {
     // new JoystickButton(driver, 2).whileTrue(new ConveyerToSpeedCommand(m_conveyorSubsystem, -0.8));
     
     new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
-    
-    // new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
-    // new JoystickButton(driver, 4).onTrue(new ElevatorPIDCommand(m_elevatorSubsystem, 5));
-    new JoystickButton(driver, 4).whileTrue(new ElevatorDownCommand(m_elevatorSubsystem));
+    new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
      
-    new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSubsystem, m_intakeSubsystem));
-    new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -0.5), new ConveyerToSpeedCommand(m_conveyorSubsystem, 0.5)));
+    // new JoystickButton(driver, 5).onTrue(new ConveyerToPosition(m_conveyorSubsystem, 20));
+    // new JoystickButton(driver, 6).onTrue(new ConveyerToPosition(m_conveyorSubsystem, 10));
+    new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSubsystem, m_intakeSubsystem));//.andThen(new PercentShooterCommand(m_flywheelSubsystem, 1).onlyIf(() -> m_swerveSubsystem.shooterShouldRun())));
+    new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -0.8), new ConveyerToSpeedCommand(m_conveyorSubsystem, 0.5)));
     
-    // new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
-    new Trigger(() -> this.getLeftTrigger(driver)).whileTrue(new PercentShooterCommand(m_flywheelSubsystem, 1));
+    new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6000));
+    // new Trigger(() -> this.getLeftTrigger(driver)).whileTrue(new PercentShooterCommand(m_flywheelSubsystem, 1));
+    // new Trigger(() -> this.getLeftTrigger(driver)).whileTrue(new PercentShooterCommand2(m_flywheelSubsystem, 0.4, 0.6));
 
-    // new Trigger(() -> this.getRightTrigger(driver)).onTrue(new ElevatorPIDCommand(m_elevatorSubsystem, Constants.Elevator.elevTrapPosition));
-    new Trigger(() -> this.getRightTrigger(driver)).whileTrue(new ElevatorUpCommand(m_elevatorSubsystem));
+    new Trigger(() -> this.getRightTrigger(driver)).onTrue(new ToggleElevatorAmp(m_elevatorSubsystem));
 
     // new JoystickButton(driver, 7).onTrue(new ChangePipelineCommand(m_Limelight, 2));
     new JoystickButton(driver, 7).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, 0.8), new ConveyerToSpeedCommand(m_conveyorSubsystem, -0.675)));
-    
     new JoystickButton(driver, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
+
+    /*
+     * A: toggle shooter mode
+     * X: zero gyro
+     * Y: climb toggle
+     * B: outtake
+     * LB: intake
+     * RB: shoot
+     * LT: trap toggle
+     * RT: amp toggle
+     * start: set heading state
+    */
 
 
     new JoystickButton(operator, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));
@@ -209,47 +217,44 @@ public class RobotContainer {
 
   
   public Command getAutonomousCommand() {
-    String selectedAuto = autoChooser.getSelected();
+    // String selectedAuto = autoChooser.getSelected();
 
-    if (selectedAuto == "SixPieceRed"){
-      return new SixPieceTakeoverRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    } 
-    else if (selectedAuto == "SixPieceBlue"){
-      return new SixPieceTakeoverBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    }
-    else if (selectedAuto == "FourPieceMiddleRed"){
-      return new FourPieceMiddleRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    }
-    else if (selectedAuto == "FourPieceMiddleBlue"){
-      return new FourPieceMiddleBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    }
-    else if (selectedAuto == "TwoPieceMiddleRed"){
-      return new TwoPieceMiddleRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    }
-    else if (selectedAuto == "TwoPieceMiddleBlue"){
-      return new TwoPieceMiddleBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    }
-    else if (selectedAuto == "FourPieceLeftRed"){
-      return new FourPieceLeftRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    }
-    else if (selectedAuto == "FourPieceLeftBlue"){
-      return new FourPieceLeftBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    }
-    else if (selectedAuto == "ThreePieceRightRed"){
-      return new ThreePieceRightRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    }
-    else if (selectedAuto == "ThreePieceRightBlue"){
-      return new ThreePieceRightBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
-    }
-    else if (selectedAuto == "JustLeave"){
-      if (GlobalVariables.alliance == Alliance.Red){
-        return new JustLeave(m_swerveSubsystem, new Pose2d(new Translation2d(5, m_swerveSubsystem.getPoseInverted().getY()), new Rotation2d(0)));
-      } else {
-        return new JustLeave(m_swerveSubsystem, new Pose2d(new Translation2d(5, m_swerveSubsystem.getPose().getY()), new Rotation2d(0)));
-      }
-    }
-    else {
-      return new InstantCommand();
-    }
+    // if (selectedAuto == "SixPieceRed"){
+    //   return new SixPieceTakeoverRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // } 
+    // else if (selectedAuto == "SixPieceBlue"){
+    //   return new SixPieceTakeoverBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // }
+    // else if (selectedAuto == "FourPieceMiddleRed"){
+    //   return new FourPieceMiddleRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // }
+    // else if (selectedAuto == "FourPieceMiddleBlue"){
+    //   return new FourPieceMiddleBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // }
+    // else if (selectedAuto == "TwoPieceMiddleRed"){
+    //   return new TwoPieceMiddleRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // }
+    // else if (selectedAuto == "TwoPieceMiddleBlue"){
+    //   return new TwoPieceMiddleBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // }
+    // else if (selectedAuto == "FourPieceLeftRed"){
+    //   return new FourPieceLeftRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // }
+    // else if (selectedAuto == "FourPieceLeftBlue"){
+    //   return new FourPieceLeftBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // }
+    // else if (selectedAuto == "ThreePieceRightRed"){
+    //   return new ThreePieceRightRed(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // }
+    // else if (selectedAuto == "ThreePieceRightBlue"){
+    //   return new ThreePieceRightBlue(m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem);
+    // }
+    // else if (selectedAuto == "JustLeave"){
+    //   return new JustLeave(m_swerveSubsystem);
+    // }
+    // else {
+    //   return new InstantCommand();
+    // }
+    return new ParallelCommandGroup(new PathPlannerAuto("Source1"), new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
   }
 }

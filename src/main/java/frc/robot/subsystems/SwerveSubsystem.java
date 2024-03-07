@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import frc.robot.SwerveModule;
 import frc.robot.Constants;
@@ -15,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -67,6 +72,31 @@ public class SwerveSubsystem extends SubsystemBase {
         swerveInvertOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYawInverted(), getModulePositionsInverted());
         poseInvertEstimator = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getYawInverted(), getModulePositionsInverted(), getPoseInverted());
         
+        AutoBuilder.configureHolonomic(
+            this::getPose, // Robot pose supplier
+            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            this::setModuleSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                    new PIDConstants(Constants.Swerve.driveKP, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(Constants.Swerve.angleKP, 0.0, 0.0), // Rotation PID constants
+                    Constants.Swerve.maxSpeed, // Max module speed, in m/s
+                    Constants.Swerve.wheelBase, // Drive base radius in meters. Distance from robot center to furthest module.
+                    new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
+            ),
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+    );
     }
     
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -90,7 +120,6 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     } 
     
-    /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
         
@@ -268,41 +297,49 @@ public class SwerveSubsystem extends SubsystemBase {
             +outMin;
     }
 
+    public boolean shooterShouldRun(){
+        if (GlobalVariables.alliance == Alliance.Blue){
+            return (getPose().getX()) < 5;
+        } else {
+            return (getPose().getX()) > Constants.Field.fieldLength - 5;
+        }
+    }
+
     @Override
     public void periodic() {
-        if (GlobalVariables.alliance == Alliance.Blue){
+        // if (GlobalVariables.alliance == Alliance.Blue){
             swerveOdometry.update(getYaw(), getModulePositions());
-            poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
-            OdometryArray[2] = getYaw().getDegrees();
-            resetOdometryLLFieldCords();
-            OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
-            OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
-            if (Limelight.limelightshooter.HasTarget() != 0){
-                poseEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
-            }
-            if (GlobalVariables.isEnabled == false) {
-                poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
-                swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
-            }
+            // poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
+            // OdometryArray[2] = getYaw().getDegrees();
+            // resetOdometryLLFieldCords();
+            // OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
+            // OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
+            // if (Limelight.limelightshooter.HasTarget() != 0){
+            //     poseEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
+            // }
+            // if (GlobalVariables.isEnabled == false) {
+            //     poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+            //     swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
+            // }
             swerveOdo[0] = swerveOdometry.getPoseMeters().getX();
             swerveOdo[1] = swerveOdometry.getPoseMeters().getY();
-        } else if (GlobalVariables.alliance == Alliance.Red){
-            swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
-            poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
-            OdometryArray[2] = getYawInverted().getDegrees();
-            resetOdometryLLFieldCordsInverted();
-            OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
-            OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
-            if (Limelight.limelightshooter.HasTarget() != 0){
-                poseInvertEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
-            }
-            if (GlobalVariables.isEnabled == false) {
-                poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
-                swerveInvertOdometry.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
-            }
-            swerveOdo[0] = swerveInvertOdometry.getPoseMeters().getX();
-            swerveOdo[1] = swerveInvertOdometry.getPoseMeters().getY();
-        }
+        // } else if (GlobalVariables.alliance == Alliance.Red){
+        //     swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
+        //     poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
+        //     OdometryArray[2] = getYawInverted().getDegrees();
+        //     resetOdometryLLFieldCordsInverted();
+        //     OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
+        //     OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
+        //     if (Limelight.limelightshooter.HasTarget() != 0){
+        //         poseInvertEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
+        //     }
+        //     if (GlobalVariables.isEnabled == false) {
+        //         poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
+        //         swerveInvertOdometry.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
+        //     }
+        //     swerveOdo[0] = swerveInvertOdometry.getPoseMeters().getX();
+        //     swerveOdo[1] = swerveInvertOdometry.getPoseMeters().getY();
+        // }
     
 
         SmartDashboard.putNumberArray("OdometryArray", OdometryArray);

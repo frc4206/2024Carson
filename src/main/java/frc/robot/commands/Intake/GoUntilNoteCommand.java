@@ -30,11 +30,11 @@ public class GoUntilNoteCommand extends Command {
 	@Override
 	public void execute() {
 		if(!m_conveyor.hasNote()) {
-			m_intake.intakeGo(-0.7);
-			m_conveyor.conveyorTurn(0.4);
+			m_intake.intakeGo(-0.75);
+			m_conveyor.conveyorToDuty(0.4);
 		} else {
 			m_intake.intakeGo(0);
-			m_conveyor.conveyorTurn(0);
+			m_conveyor.conveyorToDuty(0);
 		}
 	}
 

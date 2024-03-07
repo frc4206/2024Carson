@@ -24,13 +24,13 @@ public class ConveyerToSpeedCommand extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		m_conveyor.conveyorTurn(m_conveyerSpeed);
+		m_conveyor.conveyorToDuty(m_conveyerSpeed);
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		m_conveyor.conveyorTurn(0);
+		m_conveyor.conveyorToDuty(0);
 	}
 
 	// Returns true when the command should end.

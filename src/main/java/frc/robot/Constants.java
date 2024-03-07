@@ -19,8 +19,8 @@ import frc.lib.util.SwerveModuleConstants;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-		public static final double stickDeadband = 0.1;
-		public static final String Canivore1 = "Canivore1";
+	public static final double stickDeadband = 0.1;
+	public static final String Canivore1 = "Canivore1";
 
 	public static final class Field {
 		public static final double fieldLength = 16.452;
@@ -67,13 +67,13 @@ public final class Constants {
 		public static final boolean driveEnableSupplyLimit = true;
 
 		/* Angle Motor PID Values */
-		public static final double angleKP = 1.1;
+		public static final double angleKP = 1.5;
 		public static final double angleKI = 0.0;
 		public static final double angleKD = 0.0;
 		public static final double angleKF = 0.0;
 
 		/* Drive Motor PID Values */
-		public static final double driveKP = 0.10;
+		public static final double driveKP = 0.18;
 		public static final double driveKI = 0.0;
 		public static final double driveKD = 0.0;
 		public static final double driveKF = 0.0;
@@ -149,7 +149,7 @@ public final class Constants {
 			public static final int driveMotorID = 1; //3
 			public static final int angleMotorID = 2; //4
 			public static final int canCoderID = 3; //9
-			public static double angleOffset = (360-11.68)/360;//314.5 these aren't accurate just refrences
+			public static double angleOffset = (360-10.54)/360;//314.5 these aren't accurate just refrences
 			public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     	}
@@ -160,7 +160,7 @@ public final class Constants {
 			public static final int driveMotorID = 4; //7
 			public static final int angleMotorID = 5; //8
 			public static final int canCoderID = 6; //11
-			public static double angleOffset = (30.23)/360;//246.7
+			public static double angleOffset = (32.17)/360;//246.7
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -171,7 +171,7 @@ public final class Constants {
 			public static final int driveMotorID = 7; //3
 			public static final int angleMotorID = 8; //4
 			public static final int canCoderID = 9; //9
-			public static double angleOffset = (360-95.09)/360;//.47
+			public static double angleOffset = (360-93.71)/360;//.47
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -182,7 +182,7 @@ public final class Constants {
 			public static final int driveMotorID = 10; //13
 			public static final int angleMotorID = 11; //2
 			public static final int canCoderID = 12; //12
-			public static double angleOffset = (157.67)/360;//257.95
+			public static double angleOffset = (158.47)/360;//257.95
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -222,23 +222,23 @@ public final class Constants {
 		public static final double SUBWOOFERPositionX = 0;
 		public static final double SUBWOOFERPositionY = 5.51;
 		
-		public static final double topFlyWheelKP = 0.0005; 
-		public static final double topFlyWheelKI = 0.00001; 
-		public static final double topFlyWheelKIZone = 100;
+		public static final double topFlyWheelKP = 0.00000625; 
+		public static final double topFlyWheelKI = 0.000000325; 
+		public static final double topFlyWheelKIZone = 2000;
 		public static final double topFlyWheelKD = 0.0; 
 		public static final double topFlyWheelMaxVel = 6500;
 		public static final double topFlyWheelMinVel = -6500;
-		public static final double topFlyWheelMaxAccel = 100;
-		public static final double topFlyWheelAllowedError = 5; 
+		public static final double topFlyWheelMaxAccel = 6500;
+		public static final double topFlyWheelAllowedError = 50; 
 
-		public static final double bottomFlyWheelKP = 0.0005; 
-		public static final double bottomFlyWheelKI = 0.00001; 
-		public static final double bottomFlyWheelKIZone = 100;
+		public static final double bottomFlyWheelKP = 0.00000625; 
+		public static final double bottomFlyWheelKI = 0.000000325; 
+		public static final double bottomFlyWheelKIZone = 2000;
 		public static final double bottomFlyWheelKD = 0.0; 
 		public static final double bottomFlyWheelMaxVel = 6500;
 		public static final double bottomFlyWheelMinVel = -6500;
-		public static final double bottomFlyWheelMaxAccel = 100;
-		public static final double bottomFlyWheelAllowedError = 5;
+		public static final double bottomFlyWheelMaxAccel = 6500;
+		public static final double bottomFlyWheelAllowedError = 50;
 
 		public static final double MIN_OUTPUT_RANGE = -1;
 		public static final double MAX_OUTPUT_RANGE = 1;
@@ -252,7 +252,7 @@ public final class Constants {
 		public static final double closePosition = 4.828;
 		public static final double spikePosition = 4.450;
 		public static final double podiumPosition = 3.900;
-		public static final double underPosition = 2.6;
+		public static final double underPosition = 1.0;
 
 		public static final double stagePosition = 1.73;
 		public static final double wingPosition = 1.0;
@@ -279,7 +279,7 @@ public final class Constants {
 		public static final int elevatorTopLimitSwitch = 2;
 		public static final int elevatorBottomLimitSwitch = 3;
     
-		public static final double elevKP = 0.00025;
+		public static final double elevKP = 0.005;
 		public static final double elevKI = 0.000005;
 		public static final double elevKIZone = 30;
 		public static final double elevKD = 0.0;
@@ -329,13 +329,13 @@ public final class Constants {
 		public static final int conveyerBeamBreakID = 0;
 		public static final boolean conveyorInverted = true;
 
-		public static final double conveyorkP = 0.0225;
-		public static final double conveyorkI = 0.0005;
-		public static final double conveyorkIzone = 0;
+		public static final double conveyorkP = 0.05;
+		public static final double conveyorkI = 0.00005;
+		public static final double conveyorkIzone = 5;
 		public static final double conveyorkD = 0;
-		public static final double conveyorMaxVelo = 6000;
-		public static final double conveyorMaxAcc = 6000;
-		public static final double conveyorMaxError = 0.1;
+		public static final double conveyorMaxVelo = 5000;
+		public static final double conveyorMaxAcc = 5000;
+		public static final double conveyorMaxError = 0.05;
 	}
 
 	public static final class AutoConstants {

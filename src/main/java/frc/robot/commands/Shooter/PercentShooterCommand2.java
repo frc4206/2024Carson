@@ -7,9 +7,13 @@ package frc.robot.commands.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlywheelSubsystem;
 
-public class ShootAmpCommand extends Command {
+public class PercentShooterCommand2 extends Command {
   private FlywheelSubsystem m_flywheel;
-  public ShootAmpCommand(FlywheelSubsystem flywheel) {
+  private double m_upperPercent;
+  private double m_lowerPercent;
+  public PercentShooterCommand2(FlywheelSubsystem flywheel, double upperPercent, double lowerPercent) {
+    m_upperPercent = upperPercent;
+    m_lowerPercent = lowerPercent;
     m_flywheel = flywheel;
     addRequirements(m_flywheel);
   }
@@ -21,13 +25,13 @@ public class ShootAmpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_flywheel.shootAmp();
+    m_flywheel.percentShooter2(m_upperPercent, m_lowerPercent);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_flywheel.percentShooter(0);
+    m_flywheel.percentShooter2(0, 0);
   }
 
   // Returns true when the command should end.

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants; 
 import com.revrobotics.*;
@@ -52,17 +53,13 @@ public class FlywheelSubsystem extends SubsystemBase {
 		lowerFlyMotor.burnFlash();
 	}
 
-  public void shootAmp(){
-    upperFlyMotor.set(1);
-    lowerFlyMotor.set(-1);
-  }
 
-  public boolean shooterAtVelocity(double setVelocity){
-    return (
-      (Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < 100) &&
-      (Math.abs(lowerFlyEncoder.getVelocity() - setVelocity) < 50)
-    );
-  }
+	public boolean shooterAtVelocity(double setVelocity){
+		return (
+		(Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < 50) &&
+		(Math.abs(lowerFlyEncoder.getVelocity() - setVelocity) < 50)
+		);
+	}
 
 	public void setVelocity(double setVelocity) {
 		upperFlyPIDController.setReference(setVelocity, CANSparkFlex.ControlType.kVelocity);
@@ -74,9 +71,14 @@ public class FlywheelSubsystem extends SubsystemBase {
 		lowerFlyMotor.set(percent);
 	}
 
+	public void percentShooter2(double upperPercent, double lowerPercent){
+		upperFlyMotor.set(upperPercent);
+		lowerFlyMotor.set(lowerPercent);
+	}
+
 	@Override
 	public void periodic() {
-		// SmartDashboard.putNumber("topVelo", upperFlyEncoder.getVelocity());
-		// SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
+		SmartDashboard.putNumber("topVelo", upperFlyEncoder.getVelocity());
+		SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
 	}
 }

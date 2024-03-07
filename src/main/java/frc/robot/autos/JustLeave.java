@@ -4,7 +4,6 @@
 
 package frc.robot.autos;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -15,10 +14,10 @@ import frc.robot.subsystems.SwerveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class JustLeave extends SequentialCommandGroup {
-  public JustLeave(SwerveSubsystem swerve, Pose2d initialPose) {
+  public JustLeave(SwerveSubsystem swerve) {
     addCommands(
       new WaitCommand(1),
-      new RunCommand(() -> swerve.drive(new Translation2d(2, 0), 0, true, true), swerve).withTimeout(5)
+      new RunCommand(() -> swerve.drive(new Translation2d(1.25, 0), 0, true, true), swerve).withTimeout(2.5)
     );
   }
 }

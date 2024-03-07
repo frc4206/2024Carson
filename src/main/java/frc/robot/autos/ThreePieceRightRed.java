@@ -30,27 +30,40 @@ public class ThreePieceRightRed extends ParallelCommandGroup {
         new PivotCommand(pivot, 4.65).withTimeout(0.02),
         new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-1.9, 4.00, 360-325, 1, false),
         new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.225),
+        // new ParallelCommandGroup(
+        //   new PID_DistanceOdometry2(swerve, true, true, 2.725, 4.00, 0, 1.5, false),
+        //   new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote())
+        //   ),
+        // new ParallelCommandGroup(
+        //   new ConveyerToSpeedCommand(conveyor, 0.2).withTimeout(0.55),
+        //   new IntakeToSpeedCommand(intake, -0.1).withTimeout(0.55),
+        //   new PID_DistanceOdometry2(swerve, true, true, 2.00, 4.10, 325, 1, true),
+        //   new PivotCommand(pivot, 4.65).withTimeout(0.1)
+        // ),
+        // new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.225),
+        new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-5.25, 1.10, 0, 3, false),
         new ParallelCommandGroup(
-          new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-2.725, 4.00, 0, 1.5, false),
-          new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote())
-          ),
-        new ParallelCommandGroup(
-          new ConveyerToSpeedCommand(conveyor, 0.2).withTimeout(0.55),
-          new IntakeToSpeedCommand(intake, -0.1).withTimeout(0.55),
-          new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-2.00, 4.10, 360-325, 1, true),
-          new PivotCommand(pivot, 4.65).withTimeout(0.1)
-        ),
-        new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.225),
-        new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-5.00, 1.10, 0, 3, false),
-        new ParallelCommandGroup(
-          new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-7.88, 0.77, 0, 2.5, false),
+          new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-7.88, 0.77, 0, 1.5, false),
           new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote())
         ),
         new ParallelCommandGroup(
           new ConveyerToSpeedCommand(conveyor, 0.2).withTimeout(0.55),
           new IntakeToSpeedCommand(intake, -0.1).withTimeout(0.55),
           new PivotCommand(pivot, 3.9).withTimeout(0.25),
-          new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-4.00, 1.9, 0, 3, false)
+          new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-4.00, 1.9, 0, 2.5, false)
+        ),
+        new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-2.00, 3.70, 360-318, 1.5, true),
+        new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.225),
+        new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-5.4, 1.46, 360-20, 2.5, false),
+        new ParallelCommandGroup(
+          new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-7.81, 2.26, 360-20, 1.5, false),
+          new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote())
+        ),
+        new ParallelCommandGroup(
+          new ConveyerToSpeedCommand(conveyor, 0.2).withTimeout(0.55),
+          new IntakeToSpeedCommand(intake, -0.1).withTimeout(0.55),
+          new PivotCommand(pivot, 3.9).withTimeout(0.25),
+          new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-4.00, 1.4, 0, 3, false)
         ),
         new PID_DistanceOdometry2(swerve, true, true, Constants.Field.fieldLength-2.00, 3.70, 360-318, 2, true),
         new ConveyerToSpeedCommand(conveyor, 1).withTimeout(0.225)

@@ -1,0 +1,70 @@
+public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMethods {
+  private CANSparkFlex conveyorMotor = new CANSparkFlex(Constants.Conveyor.conveyorMotorID, MotorType.kBrushless);
+  private RelativeEncoder conveyorEncoder = conveyorMotor.getEncoder();
+  private SparkPIDController conveyorPIDController = conveyorMotor.getPIDController();
+
+  SparkPIDTuner conveyorPIDTuner = new SparkPIDTuner(Constants.Conveyor.conveyorName);
+  SparkLogger conveyorLogger = new SparkLogger(Constants.Conveyor.conveyorName);
+  SparkConfiguration conveyorConfig;
+
+  public ConveyorSubsystem() {
+    // conveyorMotor.restoreFactoryDefaults();
+    // conveyorMotor.setInverted(false);
+    // conveyorMotor.setIdleMode(IdleMode.kBrake);
+    // conveyorMotor.setSmartCurrentLimit(40);
+
+    // conveyorMotor.set(0);
+    // conveyorEncoder.setPosition(0);
+    // conveyorPIDController.setFeedbackDevice(conveyorEncoder);
+
+    // conveyorPIDController.setP(0);
+    // conveyorPIDController.setI(0);
+    // conveyorPIDController.setIZone(0);
+    // conveyorPIDController.setD(0);
+    // conveyorPIDController.setFF(0);
+    // conveyorPIDController.setOutputRange(-1, 1, 0);
+    // conveyorPIDController.setSmartMotionMaxVelocity(6500, 0);
+    // conveyorPIDController.setSmartMotionMaxAccel(6500, 0);
+    // conveyorPIDController.setSmartMotionAllowedClosedLoopError(0.1, 0);
+
+    conveyorConfig = new SparkConfiguration(
+      conveyorMotor, 
+      Constants.Conveyor.conveyorIsInverted, 
+      IdleMode.kCoast, 
+      Constants.Conveyor.conveyorCurrentLimit, 
+      conveyorEncoder, 
+      Constants.Conveyor.conveyorEncoderIsInverted, 
+      conveyorPIDController, 
+      Constants.Conveyor.conveyorkP, 
+      Constants.Conveyor.conveyorkI, 
+      Constants.Conveyor.conveyorkIZone, 
+      Constants.Conveyor.conveyorkD, 
+      Constants.Conveyor.conveyorkFF, 
+      Constants.Conveyor.conveyorMaxVelo, 
+      Constants.Conveyor.conveyorMaxAcc, 
+      Constants.Conveyor.conveyorMaxError
+      );
+  }
+
+  public void conveyorGo(double setDuty){
+    setMotorSpeed(conveyorMotor, setDuty);
+  }
+
+  public void resetConveyor(){
+    resetMotor(conveyorEncoder);
+  }
+
+  public void conveyorToVelocity(double setVelocity){
+    motorGoToVelocity(conveyorPIDController, setVelocity);
+  }
+
+  public void conveyorToPosition(double setPosition){
+    motorGoToPosition(conveyorPIDController, setPosition);
+  }
+
+  @Override
+  public void periodic() {
+    // conveyorPIDTuner.updatePIDSettings(conveyorPIDController);
+    conveyorLogger.logMotorInfo(conveyorMotor, conveyorEncoder);
+  }
+}

@@ -7,31 +7,32 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class IntakeOutCommand extends Command {
-  /** Creates a new IntakeOut. */
-  private IntakeSubsystem intakeMotor;
-  public IntakeOutCommand(IntakeSubsystem m_intakeMotor) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    intakeMotor = m_intakeMotor; 
-    addRequirements(intakeMotor);
-  }
+	private IntakeSubsystem m_intakeMotor;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	/** Creates a new IntakeOut. */
+	public IntakeOutCommand(IntakeSubsystem intakeMotor) {
+		// Use addRequirements() here to declare subsystem dependencies.
+		m_intakeMotor = intakeMotor; 
+		addRequirements(m_intakeMotor);
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    intakeMotor.IntakeGo(-0.5);
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		m_intakeMotor.intakeGo(-0.5);
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

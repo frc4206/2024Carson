@@ -12,100 +12,116 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
-  private CANSparkFlex climberRightLead = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
-  private CANSparkFlex climberLeftFollow = new CANSparkFlex(Constants.Climber.climberLeftFollowID, MotorType.kBrushless);
+	private CANSparkFlex climberRightLead = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
+	private CANSparkFlex climberLeftFollow = new CANSparkFlex(Constants.Climber.climberLeftFollowID, MotorType.kBrushless);
+	private SparkPIDController climbLeadPid;
+	public RelativeEncoder climbRightLeadEncoder;
 
-  private SparkPIDController climbLeadPid;
-  public RelativeEncoder climbRightLeadEncoder; /* top encoder */
-  private RelativeEncoder climbLeftFollowEncoder; /* bottom encoder */
-  PWM servoRight = new PWM(1);
-  PWM servoLeft = new PWM(2);
+	PWM servoRight = new PWM(1);
+	PWM servoLeft = new PWM(2);
 
-  //private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
-  //private DigitalInput BottomClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
+	public ClimberSubsystem() {
+		climberRightLead.restoreFactoryDefaults();
+		climberLeftFollow.restoreFactoryDefaults();
+		climberRightLead.setIdleMode(IdleMode.kBrake);
+		climberRightLead.setInverted(false);
+		climberLeftFollow.setInverted(false);
 
-  public ClimberSubsystem() {
-    climberRightLead.restoreFactoryDefaults();
-    climberLeftFollow.restoreFactoryDefaults();
-    climberRightLead.setIdleMode(IdleMode.kBrake);
-    climberRightLead.setInverted(false);
-    climberLeftFollow.setInverted(false);
+		//climberLeftFollow.follow(climberRightLead);
 
-    climberLeftFollow.follow(climberRightLead);
+		climbRightLeadEncoder = climberRightLead.getEncoder();
+		climbLeadPid = climberRightLead.getPIDController();
+		
+		climbLeadPid.setFeedbackDevice(climbRightLeadEncoder);
+		climbLeadPid.setP(Constants.Climber.climberkP);
+		climbLeadPid.setI(Constants.Climber.climberkI);
+		climbLeadPid.setIZone(Constants.Climber.climberkIZone);
+		climbLeadPid.setD(Constants.Climber.climberkD);
+		climbLeadPid.setSmartMotionMaxVelocity(Constants.Climber.climberMaxVelo, 0);
+		climbLeadPid.setSmartMotionMinOutputVelocity(-Constants.Climber.climberMaxVelo, 0);
+		climbLeadPid.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
+		climbLeadPid.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
 
-    climbRightLeadEncoder = climberRightLead.getEncoder();
-    climbLeftFollowEncoder = climberLeftFollow.getEncoder();
-    climbLeadPid = climberRightLead.getPIDController();
-    
-    climbLeadPid.setFeedbackDevice(climbRightLeadEncoder);
-    climbLeadPid.setP(0.02);
-    climbLeadPid.setI(9e-8);
-    climbLeadPid.setD(0.0);
-    climbLeadPid.setFF(0.0);
-    climbLeadPid.setSmartMotionMaxVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecondfast, 0);
-    climbLeadPid.setSmartMotionMinOutputVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecond, 0);
-    climbLeadPid.setSmartMotionMaxAccel(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared, 0);
-    climbLeadPid.setSmartMotionAllowedClosedLoopError(5, 0);
-  }
+		climberRightLead.burnFlash();
+		climberLeftFollow.burnFlash();
+  	}
 
-  public void climbSTOP() {
-    climberRightLead.set(0);
-    climberLeftFollow.set(0);
-  }
+	public void climbSTOP() {
+		climberRightLead.set(0);
+		climberLeftFollow.set(0);
+	}
+	public void climbSTOPLeft() {
+		climberLeftFollow.set(0);
+	}
+	public void climbSTOPRight() {
+		climberRightLead.set(0);
+	}
 
-  public void climbUPRight() {
-    climberRightLead.set(.2);
-  }
+	public void climberUP(){
+		climberRightLead.set(0.2);
+		climberLeftFollow.set(-0.2);
+	}
 
-  public void climbDOWNRight() {
-    climberRightLead.set(-.2);
-  }
+	public void climbUPRight() { 
+		climberRightLead.set(0.2);
+	}
 
-    public void climbUPLeft() {
-    climberLeftFollow.set(.2);
-  }
+	public void climbUPLeft() { 
+		climberLeftFollow.set(0.2); 
+	}
 
-  public void climbDOWNLeft() {
-    climberLeftFollow.set(-.2);
+	public void climbDOWN(){
+		climberRightLead.set(-0.2);
+		climberLeftFollow.set(0.2);
+	}
 
-  }
+	public void climbDOWNRight() { 
+		climberRightLead.set(-0.2); 
+	}
 
-  public void GoToSetpoint(double setpoint) {
-    climbLeadPid.setReference(setpoint, ControlType.kPosition, 0);
-  }
+	public void climbDOWNLeft() { 
+		climberLeftFollow.set(-0.2); 
+	}
 
-  public void setPositionRight(double pos) {
-    servoRight.setPosition(pos);
-  }
+	public void GoToSetpoint(double setpoint) { 
+		climbLeadPid.setReference(setpoint, ControlType.kPosition, 0); 
+	}
 
-  public void setPositionLeft(double pos) {
-    servoLeft.setPosition(pos);
-  }
+	public void setPosition(double pos){
+		servoLeft.setPosition(pos);
+		servoRight.setPosition(pos);
+	}
 
-  public void runServoLeft(double speed) {
-    servoLeft.setSpeed(speed);
-  }
+	public void setPosition(double leftPos, double rightPos){
+		servoLeft.setPosition(leftPos);
+		servoRight.setPosition(rightPos);
+	}
 
+	public void setPositionRight(double pos) { 
+		servoRight.setPosition(pos); 
+	}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    //if(TopClimberLimitSwitch.get()) {
-    //  climbLeadEncoder.setPosition(0);
-    //}
-    //if(BottomClimberLimitSwitch.get()) {
-    //  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
-    //}
-    SmartDashboard.putNumber("Climber Right Position", climbRightLeadEncoder.getPosition());
-    SmartDashboard.putNumber("Climber Left Position", climbLeftFollowEncoder.getPosition());
+	public void setPositionLeft(double pos) { 
+		servoLeft.setPosition(pos); 
+	}
 
-    SmartDashboard.putNumber("servo Right", servoRight.getPosition());
-    SmartDashboard.putNumber("servo Left", servoLeft.getPosition());
+	@Override
+	public void periodic() {
+		//if(TopClimberLimitSwitch.get()) {
+		//  climbLeadEncoder.setPosition(0);
+		//}
+		//if(BottomClimberLimitSwitch.get()) {
+		//  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
+		//}
 
-  }
+		// SmartDashboard.putNumber("Climber Right Position", climbRightLeadEncoder.getPosition());
+		// SmartDashboard.putNumber("Climber Left Position", climbLeftFollowEncoder.getPosition());
+
+		// SmartDashboard.putNumber("servo Right", servoRight.getPosition());
+		// SmartDashboard.putNumber("servo Left", servoLeft.getPosition());
+	}
 }

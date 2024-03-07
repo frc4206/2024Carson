@@ -10,19 +10,17 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.intakeDriveMotorID, MotorType.kBrushless);
-  private CANSparkFlex intakeFollowerMotor = new CANSparkFlex(Constants.Intake.intakeFollowerMotorID, MotorType.kBrushless);
+	private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.intakeDriveMotorID, MotorType.kBrushless);
+	private CANSparkFlex intakeFollowerMotor = new CANSparkFlex(Constants.Intake.intakeFollowerMotorID, MotorType.kBrushless);
 
-  public IntakeSubsystem() { 
-    intakeFollowerMotor.follow(intakeMotor);
-  }
+	public IntakeSubsystem() { 
+		intakeFollowerMotor.follow(intakeMotor);
+	}
 
-  public void IntakeGo(double setSpeed) {
-    intakeMotor.set(setSpeed);
-  }
+	public void intakeGo(double setSpeed) {
+		intakeMotor.set(setSpeed);
+	}
 
-  @Override
-  public void periodic() {
-
-  }
+	@Override
+	public void periodic() {}
 }

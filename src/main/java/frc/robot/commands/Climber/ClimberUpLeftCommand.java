@@ -4,37 +4,42 @@
 
 package frc.robot.commands.Climber;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimberUpLeftCommand extends Command {
+	private ClimberSubsystem m_climber;
+  double start = 0;
+  double currtime = 0;
 
-  private ClimberSubsystem m_vortexClimberSubsystem;
-
-  /** The VortexClimberUp command can be called whenever we need to go up the chain. */
-  public ClimberUpLeftCommand(ClimberSubsystem vortexClimber) {
-    m_vortexClimberSubsystem = vortexClimber;
-    addRequirements(vortexClimber);
+  public ClimberUpLeftCommand(ClimberSubsystem climber) {
+    m_climber = climber;
+    addRequirements(m_climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
-   }
-
+    start = Timer.getFPGATimestamp();
+  }
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_vortexClimberSubsystem.climbUPLeft();
+    m_climber.setPosition(1, Constants.Climber.servoPosRightDisEngage);
+    currtime = Timer.getFPGATimestamp() - start;
+    if (currtime > 0.5) {
+      m_climber.climbUPLeft();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_vortexClimberSubsystem.climbSTOP();
-    m_vortexClimberSubsystem.setPositionRight(Constants.Climber.servoPosRightDisEngage);
+    m_climber.climbSTOPLeft();
+    m_climber.setPosition(Constants.Climber.servoPosEngage);
   }
 
   // Returns true when the command should end.
@@ -42,18 +47,4 @@ public class ClimberUpLeftCommand extends Command {
   public boolean isFinished() {
     return false;
   }
-
-  // public void testForLoops() {
-  //   public static int[] values = {0, 4, 6, 2};
-
-  //   for(int i = 0; i < values.length; i++) {
-  //     System.out.println(i);
-  //   }
-
-  //   for(int value : values) {
-  //     System.out.println(value);
-  //   }
-  // }
-  
-
 }

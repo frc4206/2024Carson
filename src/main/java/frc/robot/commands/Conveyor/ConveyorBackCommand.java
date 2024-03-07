@@ -8,31 +8,31 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ConveyorSubsystem;
 
 public class ConveyorBackCommand extends Command {
-  /** Creates a new ConveyorBack. */
-  private ConveyorSubsystem conveyorMotor;
-  public ConveyorBackCommand(ConveyorSubsystem m_conveyorMotor) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    conveyorMotor = m_conveyorMotor;
-    addRequirements(conveyorMotor);
-  }
+	/** Creates a new ConveyorBack. */
+	private ConveyorSubsystem conveyorMotor;
+	public ConveyorBackCommand(ConveyorSubsystem m_conveyorMotor) {
+		// Use addRequirements() here to declare subsystem dependencies.
+		conveyorMotor = m_conveyorMotor;
+		addRequirements(conveyorMotor);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    conveyorMotor.conveyorTurn(-0.2);
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		conveyorMotor.conveyorTurn(-0.2);
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

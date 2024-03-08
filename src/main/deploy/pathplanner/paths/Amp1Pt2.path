@@ -52,12 +52,12 @@
         "y": 6.015600819800215
       },
       "prevControl": {
-        "x": 5.133165861517263,
-        "y": 8.19958610657958
+        "x": 5.006931343772838,
+        "y": 8.016521614418748
       },
       "nextControl": {
-        "x": 11.19518400556991,
-        "y": 3.743907155272744
+        "x": 11.243932796654192,
+        "y": 3.9876511106941464
       },
       "isLocked": false,
       "linkedName": null
@@ -100,12 +100,12 @@
         "y": 3.9876511106941464
       },
       "prevControl": {
-        "x": 12.179909585472378,
-        "y": 4.221645307893745
+        "x": 11.614423608894723,
+        "y": 4.192396033248124
       },
       "nextControl": {
-        "x": 7.4905909659456995,
-        "y": 3.9524021335725474
+        "x": 7.49062344007824,
+        "y": 3.951841023400496
       },
       "isLocked": false,
       "linkedName": null
@@ -131,8 +131,8 @@
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 2.0500000000000003,
-      "rotationDegrees": 10.0,
+      "waypointRelativePos": 2.4499999999999997,
+      "rotationDegrees": 17.0,
       "rotateFast": true
     },
     {
@@ -168,7 +168,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
+                "name": "intakeshort"
               }
             },
             {
@@ -214,13 +214,13 @@
             {
               "type": "named",
               "data": {
-                "name": "intakeshort"
+                "name": "intake"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "conveyorshort"
+                "name": "conveyor"
               }
             },
             {

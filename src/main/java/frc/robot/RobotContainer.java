@@ -101,7 +101,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("pivot1", new PivotToPosition(m_pivotSubsystem, 5).withTimeout(0.75));
     NamedCommands.registerCommand("pivot2", new PivotToPosition(m_pivotSubsystem, 4.65).withTimeout(0.75));
     NamedCommands.registerCommand("pivot3", new PivotToPosition(m_pivotSubsystem, 4.4).withTimeout(0.75));
-    NamedCommands.registerCommand("pivot4", new PivotToPosition(m_pivotSubsystem, 2.92).withTimeout(0.75));
+    NamedCommands.registerCommand("pivot4", new PivotToPosition(m_pivotSubsystem, 2.54).withTimeout(0.75));
     
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driva, translationAxis, strafeAxis, rotationAxis, true, true));
     m_leftClimberSubsystem.setDefaultCommand(new ServoLeftGoToPosition(m_leftClimberSubsystem, Constants.Climber.servoPosLeftEngage));
@@ -186,6 +186,7 @@ public class RobotContainer {
     new JoystickButton(shootertesta, 7).whileTrue(new PivotToDuty(m_pivotSubsystem, -0.02));
     new JoystickButton(shootertesta, 8).whileTrue(new PivotToDuty(m_pivotSubsystem, 0.02));
     new JoystickButton(shootertesta, 9).onTrue(new ResetPivot(m_pivotSubsystem));
+    new JoystickButton(shootertesta, 10).whileTrue(new IntakeToDuty(m_intakeSubsystem, 1));
 
 
     new JoystickButton(elevatortesta, 1).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, -0.1));

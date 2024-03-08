@@ -21,6 +21,9 @@ import frc.robot.commands.Elevator.ElevatorToDuty;
 import frc.robot.commands.Elevator.ResetElevator;
 import frc.robot.commands.Elevator.ToggleElevatorAmp;
 import frc.robot.commands.Intake.SetupNote;
+import frc.robot.commands.LEDs.SetBlue;
+import frc.robot.commands.LEDs.SetGreen;
+import frc.robot.commands.LEDs.SetRed;
 import frc.robot.commands.Intake.IntakeToDuty;
 import frc.robot.commands.Pivot.PivotToDuty;
 import frc.robot.commands.Pivot.PivotToPosition;
@@ -35,7 +38,7 @@ import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -71,7 +74,7 @@ public class RobotContainer {
   private final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
-  public final LEDSubsystem m_leds = new LEDSubsystem();
+  private final LEDs m_leds = new LEDs();
   public final Limelight m_Limelight = new Limelight();
 
   public static final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -95,6 +98,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("conveyor", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.5));
     NamedCommands.registerCommand("intakelong", new IntakeToDuty(m_intakeSubsystem, -1).withTimeout(1));
     NamedCommands.registerCommand("conveyorlong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.6));
+    NamedCommands.registerCommand("pivot1", new PivotToPosition(m_pivotSubsystem, 5).withTimeout(0.75));
     NamedCommands.registerCommand("pivot2", new PivotToPosition(m_pivotSubsystem, 4.65).withTimeout(0.75));
     NamedCommands.registerCommand("pivot3", new PivotToPosition(m_pivotSubsystem, 4.4).withTimeout(0.75));
     NamedCommands.registerCommand("pivot4", new PivotToPosition(m_pivotSubsystem, 2.92).withTimeout(0.75));
@@ -168,7 +172,9 @@ public class RobotContainer {
     
 
     new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_leftClimberSubsystem, m_rightClimberSubsystem, m_conveyorSubsystem, m_elevatorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
-
+    new JoystickButton(operata2, 5).whileTrue(new SetBlue(m_leds));
+    new JoystickButton(operata2, 6).whileTrue(new SetGreen(m_leds));
+    new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));
 
 
     new JoystickButton(shootertesta, 1).whileTrue(new PivotToPosition(m_pivotSubsystem, 1));

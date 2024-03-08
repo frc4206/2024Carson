@@ -28,7 +28,7 @@ public final class Constants {
 	}
 
 	public static final class Swerve {
-		public static final int pigeonID = 55;
+		public static final int pigeonID = 20;
 		public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
 		/* Drivetrain Constants */
@@ -157,9 +157,9 @@ public final class Constants {
 
 		/* Front Right Module - Module 1 */
 		public static final class Mod1 {
-			public static final int driveMotorID = 4; //7
-			public static final int angleMotorID = 5; //8
-			public static final int canCoderID = 6; //11
+			public static final int driveMotorID = 7; //7
+			public static final int angleMotorID = 8; //8
+			public static final int canCoderID = 9; //11
 			public static double angleOffset = (32.17)/360;//246.7
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -168,8 +168,8 @@ public final class Constants {
 
 		/* Back Left Module - Module 2 */
 		public static final class Mod2 {
-			public static final int driveMotorID = 7; //3
-			public static final int angleMotorID = 8; //4
+			public static final int driveMotorID = 3; //3
+			public static final int angleMotorID = 4; //4
 			public static final int canCoderID = 9; //9
 			public static double angleOffset = (360-93.71)/360;//.47
 			public static final SwerveModuleConstants constants =
@@ -179,8 +179,8 @@ public final class Constants {
 
 		/* Back Right Module - Module 3 */
 		public static final class Mod3 {
-			public static final int driveMotorID = 10; //13
-			public static final int angleMotorID = 11; //2
+			public static final int driveMotorID = 13; //13
+			public static final int angleMotorID = 2; //2
 			public static final int canCoderID = 12; //12
 			public static double angleOffset = (158.47)/360;//257.95
 			public static final SwerveModuleConstants constants =

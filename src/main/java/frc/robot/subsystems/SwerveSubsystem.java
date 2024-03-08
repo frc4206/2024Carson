@@ -137,14 +137,6 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-    public void changePercent(){
-        if (currPercent == 1){
-            currPercent = 0.5;
-        } else if (currPercent == 0.5){
-            currPercent = 1;
-        }
-    }
-
     public void changeHeadingState() {
         if (headingState == HeadingState.PICKUP){
             // headingState = HeadingState.AIMED;
@@ -306,48 +298,15 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // if (GlobalVariables.alliance == Alliance.Blue){
-            swerveOdometry.update(getYaw(), getModulePositions());
-            // poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
-            // OdometryArray[2] = getYaw().getDegrees();
-            // resetOdometryLLFieldCords();
-            // OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
-            // OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
-            // if (Limelight.limelightshooter.HasTarget() != 0){
-            //     poseEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
-            // }
-            // if (GlobalVariables.isEnabled == false) {
-            //     poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
-            //     swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
-            // }
-            swerveOdo[0] = swerveOdometry.getPoseMeters().getX();
-            swerveOdo[1] = swerveOdometry.getPoseMeters().getY();
-        // } else if (GlobalVariables.alliance == Alliance.Red){
-        //     swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
-        //     poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
-        //     OdometryArray[2] = getYawInverted().getDegrees();
-        //     resetOdometryLLFieldCordsInverted();
-        //     OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
-        //     OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
-        //     if (Limelight.limelightshooter.HasTarget() != 0){
-        //         poseInvertEstimator.addVisionMeasurement(AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
-        //     }
-        //     if (GlobalVariables.isEnabled == false) {
-        //         poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
-        //         swerveInvertOdometry.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
-        //     }
-        //     swerveOdo[0] = swerveInvertOdometry.getPoseMeters().getX();
-        //     swerveOdo[1] = swerveInvertOdometry.getPoseMeters().getY();
-        // }
-    
+        swerveOdometry.update(getYaw(), getModulePositions());
+        swerveOdo[0] = swerveOdometry.getPoseMeters().getX();
+        swerveOdo[1] = swerveOdometry.getPoseMeters().getY();
 
-        SmartDashboard.putNumberArray("OdometryArray", OdometryArray);
         SmartDashboard.putNumberArray("ActualOdo", swerveOdo);
 
         if (Limelight.limelightshooter.GetPipeline() == 1) {
             Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
         }
-
 
         double[] ypr = new double[3];
         ypr[0] = gyro.getYaw().getValueAsDouble();

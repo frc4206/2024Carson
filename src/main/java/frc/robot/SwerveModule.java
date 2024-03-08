@@ -25,7 +25,7 @@ public class SwerveModule {
     public TalonFX mAngleMotor;
     public TalonFX mDriveMotor;
     private CANcoder angleEncoder;
-    CTREConfigs ctreConfigs = new CTREConfigs();
+    public CTREConfigs ctreConfigs = new CTREConfigs();
       
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
   

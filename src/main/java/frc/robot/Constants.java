@@ -24,6 +24,7 @@ public final class Constants {
 	public static final class Field {
 		public static final double fieldLength = 16.452;
 		public static final double fieldWidth = 8.211;
+		public static final double subwooferLength = Units.inchesToMeters(36.125);
 	}
 
 	public static final class Swerve {
@@ -72,7 +73,7 @@ public final class Constants {
 		public static final double angleKF = 0.0;
 
 		/* Drive Motor PID Values */
-		public static final double driveKP = 0.18;
+		public static final double driveKP = 0.165;
 		public static final double driveKI = 0.0;
 		public static final double driveKD = 0.0;
 		public static final double driveKF = 0.0;
@@ -208,15 +209,11 @@ public final class Constants {
 	public static final class Intake {
 		public static final int intakeDriveMotorID = 20;
 		public static final int intakeFollowerMotorID = 21;
-
-		public static final boolean driverInverted = true;
-		public static final boolean followerInverted = true;
 	}
 
 	public static final class Shooter {
 		public static final int shooterLeadMotorID = 25;
 		public static final int shooterFollowerID = 26;
-		public static final int shooterPivotID = 27;
 	
 		public static final double SUBWOOFERPositionX = 0;
 		public static final double SUBWOOFERPositionY = 5.51;
@@ -245,14 +242,10 @@ public final class Constants {
 
 		public static final double ampPosition = 8;
 		public static final double closePosition = 4.828;
-		public static final double spikePosition = 4.450;
 		public static final double podiumPosition = 3.900;
-		public static final double underPosition = 1.0;
-
+		public static final double underPosition = 2.64;
 		public static final double stagePosition = 1.73;
-		public static final double wingPosition = 1.0;
 
-		/* Shooter Pivot Values */
 		public static final double pivotKP = 0.15; 
 		public static final double pivotKI = 0.00125; 
 		public static final double pivotKIZone = 0.1;
@@ -274,19 +267,16 @@ public final class Constants {
 		public static final int elevatorTopLimitSwitch = 2;
 		public static final int elevatorBottomLimitSwitch = 3;
     
-		public static final double elevKP = 0.005;
-		public static final double elevKI = 0.000005;
-		public static final double elevKIZone = 30;
-		public static final double elevKD = 0.0;
+		public static final double elevatorkP = 0.005;
+		public static final double elevatorkI = 0.000005;
+		public static final double elevatorkIZone = 30;
+		public static final double elevatorkD = 0.0;
+		public static final double elevatorMaxVelo = 5000;
+		public static final double elevatorMaxAcc = 5000;
+		public static final double elevatorMaxError = 2.5;
 
-		public static final double elevStopSpeed = 0.0;
-		public static final double elevUpSpeed = 0.55;
-		public static final double elevDownSpeed = -0.55;
-
-		public static final double elevResetPosition = 7.5;
-		public static final double elevHighPosition = 100;
-		public static final double elevTrapPosition = 90;
-		public static final double elevAmpPosition = 80;
+		public static final double elevatorDownPosition = 5;
+		public static final double elevatorTrapPosition = 90;
 	}	
 
 	public static final class Climber {
@@ -294,7 +284,6 @@ public final class Constants {
 		public static final int climberLeftFollowID = 36;
 		public static final int servoRightID = 1;
 		public static final int servoLeftID = 2;
-		public static final int climberLimitSwitchID = 4;
 
 		public static final double climberkP = 0.002;
 		public static final double climberkI = 0.00002;

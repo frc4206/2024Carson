@@ -4,25 +4,49 @@
 
 package frc.robot.commands.Intake;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Conveyor.ConveyerToSpeedCommand;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.GlobalVariables;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GoUntilNote extends SequentialCommandGroup {
-  public GoUntilNote(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
-    addCommands(
-      new GoUntilNoteCommand(conveyor, intake).until(() -> conveyor.hasNote()),
-      // new ConveyerToPosition(conveyor, 18).withTimeout(2),
-      // new ConveyerToPosition(conveyor, 17.5).withTimeout(2)
-      new ParallelCommandGroup(
-        new ConveyerToSpeedCommand(conveyor, 0.2),
-        new IntakeToSpeedCommand(intake, -0.1)
-      ).withTimeout(0.5)
-    );
-  }
+public class GoUntilNote extends Command {
+	private ConveyorSubsystem m_conveyor; 
+	private IntakeSubsystem m_intake;
+	public GoUntilNote(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
+		m_conveyor = conveyor;
+		m_intake = intake;
+		addRequirements(m_conveyor, m_intake);
+	}
+
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		GlobalVariables.intakingPiece = true;
+		GlobalVariables.pieceReady = false;
+		GlobalVariables.ampReady = false;
+	}
+
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if(!m_conveyor.hasNote()) {
+			m_intake.intakeGo(-0.75);
+			m_conveyor.conveyorToDuty(0.4);
+		} else {
+			m_intake.intakeGo(0);
+			m_conveyor.conveyorToDuty(0);
+		}
+	}
+
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		m_conveyor.resetConveyor();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

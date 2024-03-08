@@ -7,6 +7,8 @@ package frc.robot;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -56,6 +58,10 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void disabledInit() {
 		GlobalVariables.isEnabled = false;
+		for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
+			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+			mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
+		}
 	}
 
 	@Override
@@ -85,6 +91,10 @@ public class Robot extends LoggedRobot {
 		// this line or comment it out.
 		if (m_autonomousCommand != null) {
 		m_autonomousCommand.cancel();
+		}
+		for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
+			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+			mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
 		}
 		GlobalVariables.isEnabled = true;
 	}

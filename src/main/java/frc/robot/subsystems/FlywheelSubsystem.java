@@ -19,7 +19,6 @@ public class FlywheelSubsystem extends SubsystemBase {
 	private SparkPIDController upperFlyPIDController = upperFlyMotor.getPIDController();
 	private SparkPIDController lowerFlyPIDController = lowerFlyMotor.getPIDController();
 
-	/** Creates a new FlywheelSubsystem. */
 	public FlywheelSubsystem() {
 		// upperFlyMotor.restoreFactoryDefaults();
 		lowerFlyMotor.restoreFactoryDefaults();
@@ -56,8 +55,8 @@ public class FlywheelSubsystem extends SubsystemBase {
 
 	public boolean shooterAtVelocity(double setVelocity){
 		return (
-		(Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < 50) &&
-		(Math.abs(lowerFlyEncoder.getVelocity() - setVelocity) < 50)
+			(Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < 50) &&
+			(Math.abs(lowerFlyEncoder.getVelocity() - setVelocity) < 50)
 		);
 	}
 

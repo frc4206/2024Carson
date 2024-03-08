@@ -5,12 +5,12 @@
 package frc.robot.commands.Climber.ClimberRight;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ClimbRightSubystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class ServoRightGoToPosition extends Command {
-  private ClimbRightSubystem m_climberRight;
+  private ClimberSubsystem m_climberRight;
   private double m_rightServoPosition;
-  public ServoRightGoToPosition(ClimbRightSubystem climberRight, double rightServoPosition) {
+  public ServoRightGoToPosition(ClimberSubsystem climberRight, double rightServoPosition) {
     m_climberRight = climberRight;
     m_rightServoPosition = rightServoPosition;
     addRequirements(m_climberRight);

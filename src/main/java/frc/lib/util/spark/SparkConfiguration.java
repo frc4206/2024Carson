@@ -72,14 +72,15 @@ public class SparkConfiguration {
      * @param motorMaxAcc the max acceleration the motor should achieve
      * @param motorMaxError the max error threshold the motor should approach (if within threshold, stop)
      */
-    public SparkConfiguration(CANSparkFlex motor, boolean motorIsInverted, IdleMode idleMode, int currentLimit, RelativeEncoder encoder, SparkPIDController pidController, double motorkP, double motorkI, double motorkIZone, double motorkD, double motorkFF, double motorMaxVelo, double motorMaxAcc, double motorMaxError){
-        motor.restoreFactoryDefaults();
+    public SparkConfiguration(boolean shouldRestore, boolean shouldBurn, CANSparkFlex motor, boolean motorIsInverted, IdleMode idleMode, int currentLimit, RelativeEncoder encoder, SparkPIDController pidController, double motorkP, double motorkI, double motorkIZone, double motorkD, double motorkFF, double motorMaxVelo, double motorMaxAcc, double motorMaxError){
+        if (shouldRestore) {
+            motor.restoreFactoryDefaults();
+        }
         motor.setInverted(motorIsInverted);
         motor.setIdleMode(idleMode);
         motor.setSmartCurrentLimit(currentLimit);
 
         motor.set(0);
-        encoder.setPosition(0);
         pidController.setFeedbackDevice(encoder);
 
         pidController.setP(motorkP);
@@ -91,5 +92,9 @@ public class SparkConfiguration {
         pidController.setSmartMotionMaxVelocity(motorMaxVelo, 0);
         pidController.setSmartMotionMaxAccel(motorMaxAcc, 0);
         pidController.setSmartMotionAllowedClosedLoopError(motorMaxError, 0);
+
+        if (shouldBurn){
+            motor.burnFlash();
+        }
     }
 }

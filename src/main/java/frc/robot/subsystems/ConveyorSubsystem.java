@@ -23,11 +23,12 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 	private RelativeEncoder conveyorEncoder = conveyorMotor.getEncoder();
 	private SparkPIDController conveyorPIDController = conveyorMotor.getPIDController();
   	private DigitalInput conveyorBeamBreak = new DigitalInput(Constants.Conveyor.conveyerBeamBreakID);
-
 	SparkConfiguration conveyorConfig;
 
   	public ConveyorSubsystem() {
 		conveyorConfig = new SparkConfiguration(
+			true,
+			false,
 			conveyorMotor,
 			Constants.Conveyor.conveyorInverted,
 			IdleMode.kBrake,
@@ -43,23 +44,6 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 			Constants.Conveyor.conveyorMaxAcc,
 			Constants.Conveyor.conveyorMaxError
 		);
-
-		// conveyorMotor.restoreFactoryDefaults();
-    	// conveyorMotor.setInverted(Constants.Conveyor.conveyorInverted);
-		// conveyorMotor.setIdleMode(IdleMode.kBrake);
-		// conveyorMotor.setSmartCurrentLimit(40);
-
-		// conveyorEncoder.setPosition(0);
-		// conveyorPIDController.setFeedbackDevice(conveyorEncoder);
-
-		// conveyorPIDController.setP(Constants.Conveyor.conveyorkP);
-		// conveyorPIDController.setI(Constants.Conveyor.conveyorkI);
-		// conveyorPIDController.setIZone(Constants.Conveyor.conveyorkIzone);
-		// conveyorPIDController.setD(Constants.Conveyor.conveyorkD);
-		// conveyorPIDController.setOutputRange(-1, 1, 0);
-		// conveyorPIDController.setSmartMotionMaxVelocity(Constants.Conveyor.conveyorMaxVelo, 0);
-		// conveyorPIDController.setSmartMotionMaxAccel(Constants.Conveyor.conveyorMaxAcc, 0);
-		// conveyorPIDController.setSmartMotionAllowedClosedLoopError(Constants.Conveyor.conveyorMaxError, 0);
 	}
 
 	public void conveyorGoToPosition(double desiredPosition){

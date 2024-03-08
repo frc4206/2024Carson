@@ -7,14 +7,13 @@ package frc.robot.commands.Climber;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.Climber.ClimberLeft.ServoLeftGoToPosition;
 import frc.robot.commands.Climber.ClimberRight.ServoRightGoToPosition;
-import frc.robot.subsystems.ClimbLeftSubsystem;
-import frc.robot.subsystems.ClimbRightSubystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ServosGoToPosition extends ParallelCommandGroup {
-  public ServosGoToPosition(ClimbLeftSubsystem climberLeft, ClimbRightSubystem climberRight, double leftServoPosition, double rightServoPosition) {
+  public ServosGoToPosition(ClimberSubsystem climberLeft, ClimberSubsystem climberRight, double leftServoPosition, double rightServoPosition) {
     addCommands(
       new ServoLeftGoToPosition(climberLeft, leftServoPosition),
       new ServoRightGoToPosition(climberRight, rightServoPosition)

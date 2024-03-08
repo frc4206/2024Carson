@@ -13,19 +13,8 @@ public class Limelight extends SubsystemBase {
 	public static LimelightCameraClass limelightshooter = new LimelightCameraClass(Constants.Limelight.limelightFrontCamID, "limelight-shooter", Constants.Limelight.limelightFrontAngle, Constants.Limelight.limelightFrontHeight, Constants.Limelight.limelightFrontTargetHeight);
 	static LimelightCameraClass limelightleft = new LimelightCameraClass(Constants.Limelight.limelightLeftCamID, "limelight-left", Constants.Limelight.limelightLeftAngle, Constants.Limelight.limelightLeftHeight, Constants.Limelight.limelightLeftTargetHeight);
 	static LimelightCameraClass limelightright = new LimelightCameraClass(Constants.Limelight.limelightRightCamID, "limelight-right", Constants.Limelight.limelightRightAngle, Constants.Limelight.limelightRightHeight, Constants.Limelight.limelightRightTargetHeight);
-
 	static LimelightCameraClass[] limelightList = {limelightshooter, limelightleft, limelightright};
-
 	public static LimelightCameraManagerClass limelightManger = new LimelightCameraManagerClass(limelightList);
-
-	static SwerveSubsystem swerve = new SwerveSubsystem();
-
-	public static boolean isenabled = false;
-	boolean init = false;
-
-	static int ctr;
-	static double[] rawbotpose;
-	static double[] botpose;
 
 	public Limelight() {}
 

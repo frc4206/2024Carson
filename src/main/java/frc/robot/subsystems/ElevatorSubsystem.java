@@ -7,85 +7,82 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.util.spark.SparkConfiguration;
+import frc.lib.util.spark.SparkDefaultMethods;
 import frc.robot.Constants;
 
-public class ElevatorSubsystem extends SubsystemBase {
+public class ElevatorSubsystem extends SubsystemBase implements SparkDefaultMethods {
   private CANSparkFlex elevatorLeader = new CANSparkFlex(Constants.Elevator.elevatorLeaderID, MotorType.kBrushless);
   private RelativeEncoder elevatorLeaderEncoder = elevatorLeader.getEncoder();
   private SparkPIDController elevatorLeaderPIDController = elevatorLeader.getPIDController();
   private CANSparkFlex elevatorFollower = new CANSparkFlex(Constants.Elevator.elevatorFollowerID, MotorType.kBrushless);
   private RelativeEncoder elevatorFollowEncoder = elevatorFollower.getEncoder();
   private SparkPIDController elevatorFollowerPIDController = elevatorFollower.getPIDController();
+  SparkConfiguration leaderConfig;
+  SparkConfiguration followerConfig;
 
   public ElevatorSubsystem() {
-    elevatorLeader.restoreFactoryDefaults();
-    elevatorFollower.restoreFactoryDefaults();
-    elevatorLeader.setInverted(Constants.Elevator.elevatorLeaderisInverted);
-    elevatorFollower.setInverted(Constants.Elevator.elevatorFollowisInverted);
-    
-    elevatorLeaderPIDController.setFeedbackDevice(elevatorLeaderEncoder);
-    elevatorLeaderPIDController.setP(Constants.Elevator.elevKP);
-    elevatorLeaderPIDController.setI(Constants.Elevator.elevKI);
-    elevatorLeaderPIDController.setIZone(Constants.Elevator.elevKIZone);
-    elevatorLeaderPIDController.setD(Constants.Elevator.elevKD);
-
-    elevatorFollowerPIDController.setFeedbackDevice(elevatorFollowEncoder);
-    elevatorFollowerPIDController.setP(Constants.Elevator.elevKP);
-    elevatorFollowerPIDController.setI(Constants.Elevator.elevKI);
-    elevatorFollowerPIDController.setIZone(Constants.Elevator.elevKIZone);
-    elevatorFollowerPIDController.setD(Constants.Elevator.elevKD);
-
-    elevatorLeader.burnFlash();
-    elevatorFollower.burnFlash();
+    leaderConfig = new SparkConfiguration(
+      true,
+      false,
+      elevatorLeader, 
+      Constants.Elevator.elevatorLeaderisInverted, 
+      IdleMode.kBrake, 
+      40, 
+      elevatorFollowEncoder, 
+      elevatorFollowerPIDController, 
+      Constants.Elevator.elevatorkP, 
+      Constants.Elevator.elevatorkI, 
+      Constants.Elevator.elevatorkIZone, 
+      Constants.Elevator.elevatorkD, 
+      0, 
+      Constants.Elevator.elevatorMaxVelo, 
+      Constants.Elevator.elevatorMaxAcc, 
+      Constants.Elevator.elevatorMaxError
+    );
+    followerConfig = new SparkConfiguration(
+      true,
+      false,
+      elevatorFollower, 
+      Constants.Elevator.elevatorFollowisInverted, 
+      IdleMode.kCoast, 
+      40, 
+      elevatorFollowEncoder, 
+      elevatorFollowerPIDController, 
+      Constants.Elevator.elevatorkP, 
+      Constants.Elevator.elevatorkI, 
+      Constants.Elevator.elevatorkIZone, 
+      Constants.Elevator.elevatorkD, 
+      0, 
+      Constants.Elevator.elevatorMaxVelo, 
+      Constants.Elevator.elevatorMaxAcc, 
+      Constants.Elevator.elevatorMaxError
+    );    
   }
 
 	public void resetElevator(){
-		elevatorLeaderEncoder.setPosition(0);
-		elevatorFollowEncoder.setPosition(0);
-	}
-
-	public void elevatorSTOP() {
-		elevatorLeader.set(Constants.Elevator.elevStopSpeed);
-		elevatorFollower.set(Constants.Elevator.elevStopSpeed);
-	}
-
-	public void elevatorUP() {
-		elevatorLeader.set(Constants.Elevator.elevUpSpeed);
-		elevatorFollower.set(Constants.Elevator.elevUpSpeed);
-	}
-
-	public void elevatorDOWN() {
-		elevatorLeader.set(Constants.Elevator.elevDownSpeed);
-		elevatorFollower.set(Constants.Elevator.elevDownSpeed);
-	}
+    resetMotor(elevatorLeaderEncoder);
+    resetMotor(elevatorFollowEncoder);
+  }
 
 	public void elevatorToPercent(double percent){
-		elevatorLeader.set(percent);
-		elevatorFollower.set(percent);
-	}
+    setMotorSpeed(elevatorLeader, percent);
+    setMotorSpeed(elevatorFollower, percent);
+  }
 
 	public void GoToSetpoint(double setpoint) {
-		elevatorLeaderPIDController.setReference(setpoint, ControlType.kPosition, 0);
-		elevatorFollowerPIDController.setReference(setpoint, ControlType.kPosition, 0);
+		motorGoToPosition(elevatorLeaderPIDController, setpoint);
+		motorGoToPosition(elevatorFollowerPIDController, setpoint);
 	}
 
 
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("elevPosition", elevatorLeaderEncoder.getPosition());
-
-
-    // if(!elevatorBottomLimitSwitch.get()) {
-    //   elevatorLeaderEncoder.setPosition(0);
-    //   elevatorFollowEncoder.setPosition(0);
-    // }
-    // if(!elevatorTopLimitSwitch.get()) {
-    //   elevatorLeaderEncoder.setPosition(Constants.Elevator.elevResetPosition);
-    //   elevatorFollowEncoder.setPosition(Constants.Elevator.elevResetPosition);
-    // }
+    SmartDashboard.putNumber("elevPosition", elevatorLeaderEncoder.getPosition());
   }
 }

@@ -29,6 +29,7 @@ import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterStopCommand;
 import frc.robot.commands.Shooter.FlywheelSpinCommand;
 import frc.robot.commands.Shooter.PercentShooterCommand;
+import frc.robot.commands.Swerve.PID_DistanceOdometry2;
 import frc.robot.commands.Swerve.SetHeadingState;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
@@ -118,45 +119,15 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    // new JoystickButton(driver, 1).onTrue(new CyclePivotPositionCommand(m_pivotSubsystem));
-    // new JoystickButton(driver, 1).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
-    // new JoystickButton(driver, 1).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-    new JoystickButton(driver, 1).whileTrue(new PercentPivotCommand(m_pivotSubsystem, 0.02));
-    // new JoystickButton(driver, 1).toggleOnTrue(Commands.startEnd(() -> m_pivotSubsystem.changePosition(ShooterPositions.NONE), () -> m_pivotSubsystem.changePosition(ShooterPositions.UNDER), m_pivotSubsystem));
-
-    // new JoystickButton(driver, 2).onTrue(new PivotCommand(m_pivotSubsystem));
-    new JoystickButton(driver, 2).onTrue(new ResetPivotCommand(m_pivotSubsystem));
-    // new JoystickButton(driver, 2).whileTrue(new ConveyerToSpeedCommand(m_conveyorSub, -0.8));
-    
     new JoystickButton(driver, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     
-    // new JoystickButton(driver, 4).toggleOnTrue(Commands.startEnd(() -> m_climberSub.GoToSetpoint(Constants.Climber.climberTopSetpoint), () -> m_elevatorSub.GoToSetpoint(Constants.Climber.climberResetPosition), m_climberSub));
-    // new JoystickButton(driver, 4).onTrue(new ResetPivotCommand(m_pivotSubsystem));
-    new JoystickButton(driver, 4).whileTrue(new PercentPivotCommand(m_pivotSubsystem, -0.02));
-    
-    new JoystickButton(driver, 5).onTrue(new GoUntilNote(m_conveyorSub, m_intakeSubsystem));
-    new JoystickButton(driver, 6).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, -0.5), new ConveyerToSpeedCommand(m_conveyorSub, 0.5)));
-    
-    // new Trigger(() -> this.getLeftTrigger(driver)).onTrue(new FlywheelSpinCommand(m_flywheelSubsystem, 6500));
-    new Trigger(() -> this.getLeftTrigger(driver)).whileTrue(new PercentShooterCommand(m_flywheelSubsystem, 1));
-
-    // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(Commands.startEnd(() -> m_elevatorSub.GoToSetpoint(Constants.Elevator.elevTrapPosition), () -> m_elevatorSub.GoToSetpoint(5), m_elevatorSub));
-    // new Trigger(() -> this.getRightTrigger(driver)).toggleOnTrue(new ElevatorPIDCommand(m_elevatorSub, Constants.Elevator.elevTrapPosition));
-    // new Trigger(() -> this.getRightTrigger(driver)).toggleOnFalse(new ElevatorPIDCommand(m_elevatorSub, 5));
-    // new Trigger(() -> this.getRightTrigger(driver)).whileTrue(new ShooterStopCommand(m_flywheelSubsystem));
-
-    // new JoystickButton(driver, 7).onTrue(new ChangePipelineCommand(m_Limelight, 2));
-    new JoystickButton(driver, 7).whileTrue(new ParallelCommandGroup(new IntakeToSpeedCommand(m_intakeSubsystem, 0.8), new ConveyerToSpeedCommand(m_conveyorSub, -0.675)));
-    
-    new JoystickButton(driver, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
-
-
+    new JoystickButton(driver, 1).whileTrue(new PID_DistanceOdometry2(m_swerveSubsystem, true,  true,13, 6, 180, 10, false));
     new JoystickButton(operator, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));
     new JoystickButton(operator, 2).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.PODIUM)));
     new JoystickButton(operator, 3).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.UNDER)));
     new JoystickButton(operator, 4).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.STAGE)));}
     /* 
-    new JoystickButton(operator, 5).whileTrue(new ClimberDownCommand(m_climberSub));
+    new J·oystickButton(operator, 5).whileTrue(new ClimberDownCommand(m_climberSub));
     new JoystickButton(operator, 6).whileTrue(new ClimberUpCommand(m_climberSub));
     new Trigger(() -> this.getLeftTrigger(operator)).whileTrue(new ClimberUpLeftCommand(m_climberSub));
     new Trigger(() -> this.getRightTrigger(operator)).whileTrue(new ClimberUpRightCommand(m_climberSub));

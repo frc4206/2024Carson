@@ -55,14 +55,25 @@ public class PID_DistanceOdometry2 extends Command {
 	@Override
 	public void initialize() {
 		init_time = Timer.getFPGATimestamp();
+		current_time = 0;
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		current_time = Timer.getFPGATimestamp() - init_time;
-		double X_Output = pidx.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getX(), x_set);
-		double Y_Output = pidy.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getY(), y_set);
+		double X_Output = 0;
+		double Y_Output = 0;
+		double x_error = 0;
+		double y_error = 0;
+		if (DriverStation.getAlliance().get() == Alliance.Blue) {
+			X_Output = pidx.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getX(), x_set);
+			Y_Output = pidy.calculate(s_Swerve.poseEstimator.getEstimatedPosition().getY(), y_set);
+		} else {
+			X_Output = pidx.calculate(s_Swerve.poseInvertEstimator.getEstimatedPosition().getX(), x_set);
+			Y_Output = pidy.calculate(s_Swerve.poseInvertEstimator.getEstimatedPosition().getY(), y_set);
+		}
+		
 
 		if (yaw_set == 0) {
 			if (s_Swerve.getNominalYaw() > 0 && s_Swerve.getNominalYaw() < 180) {
@@ -80,8 +91,14 @@ public class PID_DistanceOdometry2 extends Command {
 			Yaw_Output = pidyaw.calculate(s_Swerve.getNominalYaw(), yaw_set);
 		}
 		
-		double x_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getX() - Math.abs(x_set));
-		double y_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getY() - Math.abs(y_set));
+		if (DriverStation.getAlliance().get() == Alliance.Blue) {
+			x_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getX() - Math.abs(x_set));
+			y_error = Math.abs(s_Swerve.poseEstimator.getEstimatedPosition().getY() - Math.abs(y_set));
+		} else {
+			x_error = Math.abs(s_Swerve.poseInvertEstimator.getEstimatedPosition().getX() - Math.abs(x_set));
+			y_error = Math.abs(s_Swerve.poseInvertEstimator.getEstimatedPosition().getY() - Math.abs(y_set));
+		}
+		
 		double yaw_error = Math.abs(s_Swerve.getNominalYaw()) - (yaw_set);
 
 		if ((x_error < Constants.Swerve.disOdometryMaxPosError && y_error < Constants.Swerve.disOdometryMaxPosError && yaw_error < Constants.Swerve.disOdometryMaxRotationError) || current_time > timeout){
@@ -91,8 +108,8 @@ public class PID_DistanceOdometry2 extends Command {
 
 		 if (DriverStation.getAlliance().get() == Alliance.Red){
 		 	X_Output = -X_Output;
-		 	Y_Output = -Y_Output;
-			Yaw_Output = -Yaw_Output;
+		 	Y_Output =  0;
+			Yaw_Output = 0;
 		 }
 
 		translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed);

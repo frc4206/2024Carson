@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -38,6 +39,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public SwerveDrivePoseEstimator poseEstimator;
     public SwerveDrivePoseEstimator poseInvertEstimator;
     double[] OdometryArray = new double[3];
+    double maxJitter = 0.4;
     
 
     boolean aprilInit = false;
@@ -225,6 +227,62 @@ public class SwerveSubsystem extends SubsystemBase {
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw().getValueAsDouble()) : Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble() - 180);
     }
 
+
+    public void resetWithApriltags(SwerveDriveOdometry swerveOdo, SwerveDrivePoseEstimator poseEst, SwerveModulePosition[] modPos, Rotation2d yaw) {
+        double distanceToApriTag = 0;
+        if (Limelight.limelightshooter.GetPipeline() == 2) {
+            double[] rawcords = Limelight.limelightshooter.fieldResult;
+            Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
+            AprilCords = fieldcords;
+            
+            if (Limelight.limelightshooter.HasTarget() != 0) {
+                distanceToApriTag = Math.abs(Math.sqrt(Limelight.limelightshooter.aprilTagResult[2] * Limelight.limelightshooter.aprilTagResult[2]) + (Limelight.limelightshooter.aprilTagResult[1] * Limelight.limelightshooter.aprilTagResult[1]));
+                resetOdometry(fieldcords);
+                poseEst.addVisionMeasurement(fieldcords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
+
+            
+            
+            if (distanceToApriTag < 4) {
+                if (!aprilInit) {
+                    aprilInit = true;
+                    aprilStartTrackTime = Timer.getFPGATimestamp();
+                    previousPose = swerveOdo.getPoseMeters();
+                }
+
+                aprilCurrTrackTime = Timer.getFPGATimestamp() - aprilStartTrackTime;
+                swerveOdo.resetPosition(yaw, modPos, AprilCords);
+                double yError = Math.abs(swerveOdo.getPoseMeters().getY()) - Math.abs(previousPose.getY());
+                double xError = Math.abs(swerveOdo.getPoseMeters().getX()) - Math.abs(previousPose.getX());
+                SmartDashboard.putNumber("xError", xError);
+                SmartDashboard.putNumber("yError", yError);
+
+                if (yError < maxJitter && xError < maxJitter) {
+                    if (aprilCurrTrackTime > .3) {
+                        poseEst.resetPosition(yaw, modPos, AprilCords);
+                        System.out.println(" RESETI SPAGETTI");
+                    }
+                    //if (yError + xError > .2 || aprilCurrTrackTime > 5) {
+                    //    aprilCurrTrackTime = 0;
+                    //    aprilInit = false;
+                    //}
+                } else {
+                    aprilCurrTrackTime = 0;
+                    aprilInit = false;
+                }
+            }
+            SmartDashboard.putNumber("distance to apriltag", distanceToApriTag);
+            previousPose = swerveOdo.getPoseMeters();
+            } else {
+                aprilInit = false;
+                aprilCurrTrackTime = 0;
+                aprilStartTrackTime = 0;
+                badpose = true;
+                
+        }
+        } 
+        SmartDashboard.putNumber("AprilTag time since tracking", aprilCurrTrackTime);
+    }
+
     public void resetOdometryLLFieldCords() {
         double distanceToApriTag = 0;
         if (Limelight.limelightshooter.GetPipeline() == 2) {
@@ -252,8 +310,12 @@ public class SwerveSubsystem extends SubsystemBase {
                 swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
                 double yError = Math.abs(swerveOdometry.getPoseMeters().getY() - previousPose.getY());
                 double xError = Math.abs(swerveOdometry.getPoseMeters().getX() - previousPose.getX());
-                if ( ((yError < .3 && aprilCurrTrackTime > .3) || (Math.abs(swerveOdometry.getPoseMeters().getY() - poseEstimator.getEstimatedPosition().getY()) < .5 && yError < .1 && aprilCurrTrackTime > .1))       &&          (xError < .3 && aprilCurrTrackTime > .3) || (Math.abs(swerveOdometry.getPoseMeters().getX() - poseEstimator.getEstimatedPosition().getX()) < .5 && xError < .1 && aprilCurrTrackTime > .1)) {
+                if ( ((yError < maxJitter && aprilCurrTrackTime > .3) || (Math.abs(swerveOdometry.getPoseMeters().getY() - poseEstimator.getEstimatedPosition().getY()) < .5 && yError < maxJitter && aprilCurrTrackTime > .1))       &&          (xError < .3 && aprilCurrTrackTime > .3) || (Math.abs(swerveOdometry.getPoseMeters().getX() - poseEstimator.getEstimatedPosition().getX()) < .5 && xError < maxJitter && aprilCurrTrackTime > .1)) {
                     poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+                    if (yError + xError > .2 || aprilCurrTrackTime > 5) {
+                        aprilCurrTrackTime = 0;
+                        aprilInit = false;
+                    }
                 }
             }
             SmartDashboard.putNumber("distance to apriltag", distanceToApriTag);
@@ -293,11 +355,15 @@ public class SwerveSubsystem extends SubsystemBase {
                 //poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
             }
             else if (distanceToApriTag < 4) {
-                swerveInvertOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
+                swerveInvertOdometry.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
                 double yError = Math.abs(swerveInvertOdometry.getPoseMeters().getY() - previousPose.getY());
                 double xError = Math.abs(swerveInvertOdometry.getPoseMeters().getX() - previousPose.getX());
-                if ( ((yError < .3 && aprilCurrTrackTime > .3) || (Math.abs(swerveInvertOdometry.getPoseMeters().getY() - poseInvertEstimator.getEstimatedPosition().getY()) < .5 && yError < .1 && aprilCurrTrackTime > .1))       &&          (xError < .3 && aprilCurrTrackTime > .3) || (Math.abs(swerveInvertOdometry.getPoseMeters().getX() - poseInvertEstimator.getEstimatedPosition().getX()) < .5 && xError < .1 && aprilCurrTrackTime > .1)) {
-                    poseInvertEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+                if ( yError < maxJitter  &&  xError < maxJitter  && aprilCurrTrackTime > 0.3) {
+                    poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
+                    if (yError + xError > .2 || Math.abs(swerveInvertOdometry.getPoseMeters().getY() - poseInvertEstimator.getEstimatedPosition().getY()) < .5 ) {
+                        aprilCurrTrackTime = 0;
+                        aprilInit = false;
+                    }
                 }
             }
             SmartDashboard.putNumber("distance to apriltag", distanceToApriTag);
@@ -358,17 +424,17 @@ public class SwerveSubsystem extends SubsystemBase {
                 swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
             }
         } else if (GlobalVariables.alliance == Alliance.Red){
-            swerveInvertOdometry.update(getYawInverted(), getModulePositions());
+            swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
             poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
             OdometryArray[2] = getYawInverted().getDegrees();
-            resetOdometryRED();
+            resetWithApriltags(swerveInvertOdometry, poseInvertEstimator, getModulePositionsInverted(), getYawInverted());
             double[] actualOdoRed = {swerveInvertOdometry.getPoseMeters().getX(), swerveInvertOdometry.getPoseMeters().getY(), getYawInverted().getDegrees()};
             actualOdo = actualOdoRed;
             OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
             OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
             if (Limelight.limelightshooter.HasTarget() != 0 && GlobalVariables.isEnabled == false){
                 swerveInvertOdometry.resetPosition(getYaw(), getModulePositionsInverted(), AprilCords);
-                poseInvertEstimator.resetPosition(getYawInverted(), getModulePositions(), AprilCords);
+                poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
             }
         }
         

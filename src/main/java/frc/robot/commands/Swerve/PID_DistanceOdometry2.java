@@ -119,7 +119,13 @@ public class PID_DistanceOdometry2 extends Command {
 			isFinished();
 		}
 
-		translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed);
+		 if (DriverStation.getAlliance().get() == Alliance.Red){
+		 	X_Output = -X_Output;
+		 	Y_Output = -Y_Output;
+			Yaw_Output = -Yaw_Output;
+		 }
+
+    translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed);
 		rotation = Yaw_Output;
 
 		s_Swerve.drive(translation, rotation, fieldRelative, openLoop);

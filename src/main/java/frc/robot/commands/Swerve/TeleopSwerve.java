@@ -7,6 +7,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.HeadingState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -29,6 +30,7 @@ public class TeleopSwerve extends Command {
     private int rotationAxis;
 
     private double botYaw;
+    private double botYawInverted;
     private double yawSet;
     private double errorYaw;
     private double outputYaw;
@@ -57,6 +59,7 @@ public class TeleopSwerve extends Command {
     @Override
     public void execute() {
         botYaw = s_Swerve.getNominalYaw();
+        botYawInverted = s_Swerve.getNominalYawInverted();
 
         switch (s_Swerve.headingState){
             case PICKUP:
@@ -81,27 +84,48 @@ public class TeleopSwerve extends Command {
                 rAxis = outputYaw;
                 break;
             case AIMED:
-                yawSet= Math.toDegrees(
-                    Math.atan(
-                        (s_Swerve.getPose().getY()-5.72)/
-                        (s_Swerve.getPose().getX()-0)
-                    )
-                );
-                if (yawSet < 0) {
-                    errorYaw = botYaw - (360 + yawSet);
-                    if(Math.abs(errorYaw) > 1.5) { 
-                        outputYaw = pidyaw.calculate(botYaw, 360 + yawSet);
+                // yawSet= Math.toDegrees(
+                //     Math.atan(
+                //         (s_Swerve.getPose().getY()-5.72)/
+                //         (s_Swerve.getPose().getX()-0)
+                //     )
+                // );
+                if (GlobalVariables.alliance == Alliance.Blue){
+                    yawSet = Math.atan2(s_Swerve.getPose().getY() - 5.72, s_Swerve.getPose().getX());
+                    if (yawSet < 0) {
+                        errorYaw = botYaw - (360 + yawSet);
+                        if(Math.abs(errorYaw) > 1.5) { 
+                            outputYaw = pidyaw.calculate(botYaw, 360 + yawSet);
+                        } else {
+                            outputYaw = pidyawi.calculate(botYaw, 360 + yawSet);
+                        }
                     } else {
-                        outputYaw = pidyawi.calculate(botYaw, 360 + yawSet);
+                        errorYaw = botYaw - yawSet;
+                        if(Math.abs(errorYaw) > 1.5) {
+                            outputYaw = pidyaw.calculate(botYaw, yawSet);
+                        } else {
+                            outputYaw = pidyawi.calculate(botYaw, yawSet);
+                        }
                     }
-                } else {
-                    errorYaw = botYaw - yawSet;
-                    if(Math.abs(errorYaw) > 1.5) {
-                        outputYaw = pidyaw.calculate(botYaw, yawSet);
+                } else if (GlobalVariables.alliance == Alliance.Red){
+                    yawSet = Math.atan2(s_Swerve.getPose().getY() - 5.72, Constants.Field.fieldLength-s_Swerve.getPose().getX());
+                    if (yawSet < 0) {
+                        errorYaw = botYawInverted - (360 + yawSet);
+                        if(Math.abs(errorYaw) > 1.5) { 
+                            outputYaw = pidyaw.calculate(botYawInverted, 360 + yawSet);
+                        } else {
+                            outputYaw = pidyawi.calculate(botYawInverted, 360 + yawSet);
+                        }
                     } else {
-                        outputYaw = pidyawi.calculate(botYaw, yawSet);
+                        errorYaw = botYawInverted - yawSet;
+                        if(Math.abs(errorYaw) > 1.5) {
+                            outputYaw = pidyaw.calculate(botYawInverted, yawSet);
+                        } else {
+                            outputYaw = pidyawi.calculate(botYawInverted, yawSet);
+                        }
                     }
                 }
+
                 rAxis = outputYaw;
                 break;
             case BACKWARD:
@@ -130,32 +154,35 @@ public class TeleopSwerve extends Command {
 
         double yAxisDeadzoned;
         double xAxisDeadzoned;
+        double rAxisDeadzoned;
         double yAxis = (-controller.getRawAxis(translationAxis)*Constants.Swerve.translationMultiplier);
         double xAxis = (-controller.getRawAxis(strafeAxis)*Constants.Swerve.translationMultiplier);
 
-        yAxisDeadzoned = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(yAxis), Constants.stickDeadband, 1.0, 0.0, 1.0);
+        yAxisDeadzoned = (Math.abs(yAxis) < Constants.OperatorConstants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(yAxis), Constants.OperatorConstants.stickDeadband, 1.0, 0.0, 1.0);
         yAxisDeadzoned = yAxis >= 0.0 ? yAxisDeadzoned : -yAxisDeadzoned;
-        xAxisDeadzoned = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(xAxis), Constants.stickDeadband, 1.0, 0.0, 1.0);
-        xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
         yAxisDeadzoned = yAxisDeadzoned * yAxisDeadzoned; //(Math.cos(Math.PI*(yAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;
         yAxisDeadzoned = yAxis >= 0.0 ? yAxisDeadzoned : -yAxisDeadzoned; 
+
+        xAxisDeadzoned = (Math.abs(xAxis) < Constants.OperatorConstants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(xAxis), Constants.OperatorConstants.stickDeadband, 1.0, 0.0, 1.0);
+        xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
         xAxisDeadzoned = xAxisDeadzoned * xAxisDeadzoned; //(Math.cos(Math.PI*(xAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
 
 
         if(s_Swerve.headingState == HeadingState.FREE) {
-            rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
-        } else if(s_Swerve.headingState == HeadingState.AIMED) {
-            // rAxis = -rAxis;
+            rAxisDeadzoned = (Math.abs(rAxis) < Constants.OperatorConstants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(rAxis), Constants.OperatorConstants.stickDeadband, 1.0, 0.0, 1.0);
+            rAxisDeadzoned = rAxis >= 0.0 ? rAxisDeadzoned : -rAxisDeadzoned;
+            rAxisDeadzoned = rAxisDeadzoned * rAxisDeadzoned;
+            rAxisDeadzoned = rAxis >= 0.0 ? rAxisDeadzoned : -rAxisDeadzoned;
         }
 
         translation = new Translation2d(yAxisDeadzoned, xAxisDeadzoned).times(Constants.Swerve.maxSpeed);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
 
-        // SmartDashboard.putNumber("yawNominal", botYaw);
-        // SmartDashboard.putNumber("yawSet", yawSet);
-        // SmartDashboard.putNumber("yawOutput", outputYaw);
-        // SmartDashboard.putNumber("yawError", errorYaw);
+        SmartDashboard.putNumber("yawNominal", botYaw);
+        SmartDashboard.putNumber("yawSet", yawSet);
+        SmartDashboard.putNumber("yawOutput", outputYaw);
+        SmartDashboard.putNumber("yawError", errorYaw);
     }
 }

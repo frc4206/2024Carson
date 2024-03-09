@@ -7,6 +7,8 @@ package frc.robot;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -14,7 +16,6 @@ import frc.robot.Constants.Swerve.Mod0;
 import frc.robot.Constants.Swerve.Mod1;
 import frc.robot.Constants.Swerve.Mod2;
 import frc.robot.Constants.Swerve.Mod3;
-import frc.robot.subsystems.SwerveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -25,22 +26,16 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class Robot extends LoggedRobot {
 	private Command m_autonomousCommand;
 	private RobotContainer m_robotContainer;
-	private SwerveSubsystem m_swerve;
 
-	/**
-	 * This function is run when the robot is first started up and should be used for any
-	 * initialization code.
-	 */
 	@Override
 	public void robotInit() {
 		setUseTiming(false);
 		Logger.start(); 
 		m_robotContainer = new RobotContainer();
-		m_swerve = new SwerveSubsystem();
-		Mod0.angleOffset = m_swerve.mSwerveMods[0].getCanCoder().getDegrees();
-		Mod1.angleOffset = m_swerve.mSwerveMods[1].getCanCoder().getDegrees();
-		Mod2.angleOffset = m_swerve.mSwerveMods[2].getCanCoder().getDegrees();
-		Mod3.angleOffset = m_swerve.mSwerveMods[3].getCanCoder().getDegrees();
+		Mod0.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[0].getCanCoder().getDegrees();
+		Mod1.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[1].getCanCoder().getDegrees();
+		Mod2.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[2].getCanCoder().getDegrees();
+		Mod3.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[3].getCanCoder().getDegrees();
 		m_robotContainer.m_Limelight.ChangePipelines(2);
 	}
 
@@ -63,6 +58,10 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void disabledInit() {
 		GlobalVariables.isEnabled = false;
+		for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
+			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+			mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
+		}
 	}
 
 	@Override
@@ -75,9 +74,8 @@ public class Robot extends LoggedRobot {
 	public void autonomousInit() {
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 		GlobalVariables.isEnabled = true;
-		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
-		m_autonomousCommand.schedule();
+			m_autonomousCommand.schedule();
 		}
 	}
 
@@ -93,6 +91,10 @@ public class Robot extends LoggedRobot {
 		// this line or comment it out.
 		if (m_autonomousCommand != null) {
 		m_autonomousCommand.cancel();
+		}
+		for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
+			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+			mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
 		}
 		GlobalVariables.isEnabled = true;
 	}

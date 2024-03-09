@@ -14,7 +14,6 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class PID_to_game_Piece extends Command {
-	/** Creates a new PID_DistanceOdometry2. */
 	private double rotation;
 	private Translation2d translation;
 	private boolean fieldRelative;

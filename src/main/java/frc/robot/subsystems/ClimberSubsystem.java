@@ -15,27 +15,29 @@ import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.Climber;
-import frc.robot.commands.Climber.RunServosCommand;
-import frc.robot.commands.Climber.ClimberLeft.RunServoLeftCommand;
-import frc.robot.commands.Climber.ClimberRight.RunServoRightCommand;
 
 public class ClimberSubsystem extends SubsystemBase {
-	public static CANSparkFlex climbMotor = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
+	public static CANSparkFlex climbMotorRight;
+	public static CANSparkFlex climbMotorLeft;
 	private SparkPIDController climbPid;
 	public RelativeEncoder climbEncoder;
 	public XboxController climberControl;
-	private double motorRunSpeed;
+	public PWM leftServo;
+	public PWM rightServo;
 
-	static PWM servo;
+	public ClimberSubsystem() {
+		climbMotorRight = new CANSparkFlex(35, MotorType.kBrushless);
+		climbMotorLeft = new CANSparkFlex(36, MotorType.kBrushless);
+		climbMotorRight.setIdleMode(IdleMode.kBrake);
+		climbMotorLeft.setIdleMode(IdleMode.kBrake);
+		climbMotorRight.setInverted(false);
+		climbMotorLeft.setInverted(true);
 
-	public ClimberSubsystem(int climbMotorId, boolean isInverted, int servoChannel) {
-		climbMotor = new CANSparkFlex(climbMotorId, MotorType.kBrushless);
-		climbMotor.setIdleMode(IdleMode.kBrake);
-		climbMotor.setInverted(isInverted);
+		leftServo = new PWM(1);
+		rightServo = new PWM(0);
 
-		climbEncoder = climbMotor.getEncoder();
-		climbPid = climbMotor.getPIDController();
+		climbEncoder = climbMotorRight.getEncoder();
+		climbPid = climbMotorRight.getPIDController();
 		
 		climbPid.setFeedbackDevice(climbEncoder);
 		climbPid.setP(Constants.Climber.climberkP);
@@ -47,30 +49,29 @@ public class ClimberSubsystem extends SubsystemBase {
 		climbPid.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
 		climbPid.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
 
-		climbMotor.burnFlash();
-
-		servo = new PWM(servoChannel);
+		climbMotorRight.burnFlash();
+		climbMotorLeft.burnFlash();
   	}
 
 	/* Stop climber motors voids */
-	public void climbSTOP() {
-		climbMotor.set(0);
-		setServoPosition(Constants.Climber.servoPosLeftEngage);
+	public void climbStop(double servoPos) {
+		climbMotorRight.set(0);
+		setServoPosition(servoPos);
+		climbMotorLeft.set(0);
 	}
 
 	/* Run climber motors up voids */
-	public void climberUP() {
-		setServoPosition(Constants.Climber.servoPosLeftDisEngage);
-
-		// Motor speed depends on which trigger is held down more.
-		climbMotor.set(climberControl.getLeftTriggerAxis());
+	public void climbUp(double servoPos, double motorSpeed) {
+		setServoPosition(servoPos);
+		climbMotorRight.set(motorSpeed);
+		climbMotorLeft.set(motorSpeed);
 	}
 
 	/* Run climber motors down voids */
-	public void climbDOWN() {
-		setServoPosition(Constants.Climber.servoPosLeftDisEngage);
-		climbMotor.set(-0.2);
-		climbMotor.set(0.2);
+	public void climbDown(double servoPos) {
+		setServoPosition(servoPos);
+		climbMotorLeft.set(-0.2);
+		climbMotorRight.set(-0.2);
 	}
 
 	/* PID setpoint set */
@@ -80,7 +81,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	/* Servo set positions methods */
 	public void setServoPosition(double servoPos) {
-		servo.setPosition(servoPos);
+		leftServo.setPosition(servoPos);
+		rightServo.setPosition(servoPos);
 	}
 
 	@Override

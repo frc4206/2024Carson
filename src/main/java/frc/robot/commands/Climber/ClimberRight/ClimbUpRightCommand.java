@@ -5,17 +5,21 @@
 package frc.robot.commands.Climber.ClimberRight;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimbRightSubystem;
+import frc.robot.Constants.Climber;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimbUpRightCommand extends Command {
   private ClimberSubsystem m_climberRight;
   private double startTime = 0;
   private double currTime = 0;
-  public ClimbUpRightCommand(ClimberSubsystem climberRight) {
+  private XboxController controller;
+  
+  public ClimbUpRightCommand(ClimberSubsystem climberRight, int controllerPort) {
     m_climberRight = climberRight;
+    controller = new XboxController(controllerPort);
     addRequirements(m_climberRight);
   }
 
@@ -28,18 +32,18 @@ public class ClimbUpRightCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climberRight.setServoPosition(Constants.Climber.servoPosRightDisEngage);
+    //m_climberRight.setServoPosition(Constants.Climber.servoPosRightDisEngage);
     currTime = Timer.getFPGATimestamp() - startTime;
-    if (currTime > 0.5) {
-      m_climberRight.climberUP();
+    if (currTime > 0.2) {
+      m_climberRight.climbUp(Climber.servoPosRightDisEngage, controller.getRightTriggerAxis());
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climberRight.setServoPosition(Constants.Climber.servoPosRightEngage);
-    m_climberRight.climbSTOP();
+    //m_climberRight.setServoPosition(Constants.Climber.servoPosRightEngage);
+    m_climberRight.climbStop(Climber.servoPosRightEngage);
   }
 
   // Returns true when the command should end.

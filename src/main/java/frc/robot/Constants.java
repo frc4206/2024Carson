@@ -216,7 +216,7 @@ public final class Constants {
 
 	public static final class Shooter {
 		public static final int shooterLeadMotorID = 25;
-		public static final int shooterFollowerID = 26;
+		public static final int shooterFollowerID = 42; // TODO: change this back to 26
 		public static final int shooterPivotID = 27;
 	
 		public static final double SUBWOOFERPositionX = 0;

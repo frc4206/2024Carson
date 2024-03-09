@@ -7,44 +7,45 @@ package frc.robot.commands.Climber.ClimberRight;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimbRightSubystem;
+import frc.robot.Constants.Climber;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimbDownRightCommand extends Command {
-  private ClimberSubsystem m_climberRight;
-  private double startTime = 0;
-  private double currTime = 0;
-  public ClimbDownRightCommand(ClimberSubsystem climberRight) {
-    m_climberRight = climberRight;
-    addRequirements(m_climberRight);
-  }
+	private ClimberSubsystem m_climberRight;
+	private double startTime = 0;
+	private double currTime = 0;
+	
+	public ClimbDownRightCommand(ClimberSubsystem climberRight) {
+		m_climberRight = climberRight;
+		addRequirements(m_climberRight);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    startTime = Timer.getFPGATimestamp();
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		startTime = Timer.getFPGATimestamp();
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_climberRight.setServoPosition(Constants.Climber.servoPosRightDisEngage);
-    currTime = Timer.getFPGATimestamp() - startTime;
-    if (currTime > 0.5) {
-      m_climberRight.climbDOWN();
-    }
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		//m_climberRight.setServoPosition(Constants.Climber.servoPosRightDisEngage);
+		currTime = Timer.getFPGATimestamp() - startTime;
+		if (currTime > 0.2) {
+		m_climberRight.climbDown(Climber.servoPosRightDisEngage);
+		}
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_climberRight.setServoPosition(Constants.Climber.servoPosRightEngage);
-    m_climberRight.climbSTOP();
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		//m_climberRight.setServoPosition(Constants.Climber.servoPosRightEngage);
+		m_climberRight.climbStop(Climber.servoPosRightEngage);
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

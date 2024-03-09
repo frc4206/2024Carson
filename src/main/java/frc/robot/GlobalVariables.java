@@ -15,4 +15,6 @@ public class GlobalVariables {
     public static double ampCounter = 2;
 
     public static boolean isEnabled = false;
+
+    public static boolean teleOpEnabled = false;
 }

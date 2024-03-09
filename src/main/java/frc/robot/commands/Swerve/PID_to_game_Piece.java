@@ -49,6 +49,7 @@ public class PID_to_game_Piece extends Command {
 	@Override
 	public void initialize() {
 		init_time = Timer.getFPGATimestamp();
+		fin = false;
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.

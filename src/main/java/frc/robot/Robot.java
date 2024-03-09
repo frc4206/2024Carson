@@ -57,6 +57,7 @@ public class Robot extends LoggedRobot {
 
 	@Override
 	public void disabledInit() {
+		GlobalVariables.teleOpEnabled = false;
 		GlobalVariables.isEnabled = false;
 		for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
 			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -72,6 +73,7 @@ public class Robot extends LoggedRobot {
 	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
 	@Override
 	public void autonomousInit() {
+		GlobalVariables.teleOpEnabled = false;
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 		GlobalVariables.isEnabled = true;
 		if (m_autonomousCommand != null) {
@@ -89,6 +91,7 @@ public class Robot extends LoggedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		GlobalVariables.teleOpEnabled = true;
 		if (m_autonomousCommand != null) {
 		m_autonomousCommand.cancel();
 		}

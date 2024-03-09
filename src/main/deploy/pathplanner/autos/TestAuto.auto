@@ -16,6 +16,12 @@
           "data": {
             "pathName": "Ai note path pt1"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Ai note path pt2"
+          }
         }
       ]
     }

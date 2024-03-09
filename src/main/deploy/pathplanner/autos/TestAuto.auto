@@ -18,6 +18,18 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Ai Pickup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "print"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Ai note path pt2"

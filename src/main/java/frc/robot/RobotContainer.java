@@ -32,7 +32,9 @@ import frc.robot.commands.Pivot.TogglePivotMode;
 import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.commands.Shooter.ShooterToVelocity;
+import frc.robot.commands.Swerve.AlignWithSpeakerCommand;
 import frc.robot.commands.Swerve.FreeHeadingState;
+import frc.robot.commands.Swerve.PID_to_game_Piece;
 import frc.robot.commands.Swerve.SetHeadingState;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
@@ -102,6 +104,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("pivot2", new PivotToPosition(m_pivotSubsystem, 4.65).withTimeout(0.75));
     NamedCommands.registerCommand("pivot3", new PivotToPosition(m_pivotSubsystem, 4.4).withTimeout(0.75));
     NamedCommands.registerCommand("pivot4", new PivotToPosition(m_pivotSubsystem, 2.54).withTimeout(0.75));
+    NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2));
+    NamedCommands.registerCommand("print", new InstantCommand( () -> System.out.println("Ran command in auto")));
     
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driva, translationAxis, strafeAxis, rotationAxis, true, true));
     m_leftClimberSubsystem.setDefaultCommand(new ServoLeftGoToPosition(m_leftClimberSubsystem, Constants.Climber.servoPosLeftEngage));
@@ -133,7 +137,7 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    //new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
+    new JoystickButton(driva, 1).whileTrue(new AlignWithSpeakerCommand(m_swerveSubsystem, driva, translationAxis, strafeAxis, rotationAxis, true, true));
     
     new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 0.8), new ConveyorToDuty(m_conveyorSubsystem, -0.675)));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));

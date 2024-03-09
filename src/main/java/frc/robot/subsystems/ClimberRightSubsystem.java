@@ -18,10 +18,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+@Deprecated
 public class ClimberRightSubsystem extends SubsystemBase {
 
   /* Variables */
-  public static CANSparkFlex climberRightLead = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
+  public static CANSparkFlex climberRightLead = ClimberSubsystem.climbLeadMotor; // new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
 //X  public static CANSparkFlex climberLeftFollow = new CANSparkFlex(Constants.Climber.climberLeftFollowID, MotorType.kBrushless);
 
   private SparkPIDController climbRightPid;
@@ -30,7 +31,7 @@ public class ClimberRightSubsystem extends SubsystemBase {
 
   public XboxController joystick; 
 
-  PWM servoRight = new PWM(0);
+  PWM servoRight = ClimberSubsystem.servoRight;
 //X  PWM servoLeft = new PWM(1);
 
   //private DigitalInput TopClimberLimitSwitch = new DigitalInput(Constants.Climber.climberLimitSwitch);
@@ -58,6 +59,8 @@ public class ClimberRightSubsystem extends SubsystemBase {
     climbRightPid.setSmartMotionMinOutputVelocity(Constants.AutoConstants.kMaxSpeedMetersPerSecond, 0);
     climbRightPid.setSmartMotionMaxAccel(Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared, 0);
     climbRightPid.setSmartMotionAllowedClosedLoopError(5, 0);
+
+    servoRight.setPosition(0);
   }
 
   public void climbSTOP() {

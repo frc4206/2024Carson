@@ -2,33 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Shooter;
-
+package frc.robot.commands.Climber.ClimberLeft;
+import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.GlobalVariables;
-import frc.robot.subsystems.PivotSubsystem;
-import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 
-public class ShooterToWing extends Command {
-  private PivotSubsystem m_pivot;
-  private boolean isfinished = false;
-  public ShooterToWing(PivotSubsystem pivot) {
-    m_pivot = pivot;
-    addRequirements(m_pivot);
+public class ClimberRunLeftCommand extends Command {
+  /** Creates a new ClimberRunLeftCommand. */
+  ClimberSubsystem m_climberLeft; 
+  public ClimberRunLeftCommand(ClimberSubsystem climber_L) {
+    m_climberLeft = climber_L; 
+    addRequirements(m_climberLeft);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    // GlobalVariables.shooterAutomatic = false;
-    m_pivot.position = ShooterPositions.WING;
-    isfinished = true;
-    isFinished();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_climberLeft.climbSTOPLeft(); 
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -37,6 +32,6 @@ public class ShooterToWing extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isfinished;
+    return false;
   }
 }

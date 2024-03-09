@@ -3,36 +3,36 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Climber;
-import frc.robot.subsystems.ClimberLeftSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ClimberRunBothDownCommand extends Command {
-  /** Creates a new ClimberRunBothMotorsDownCommand. */
-  ClimberLeftSubsystem m_ClimberSubsystem; 
+	/** Creates a new ClimberRunBothMotorsDownCommand. */
+	ClimberSubsystem m_climberSubsystem; 
 
-  public ClimberRunBothDownCommand(ClimberLeftSubsystem climberSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_ClimberSubsystem = climberSubsystem; 
-    addRequirements(climberSubsystem);
-  }
+	public ClimberRunBothDownCommand(ClimberSubsystem climber) {
+		// Use addRequirements() here to declare subsystem dependencies.
+		m_climberSubsystem = climber; 
+		addRequirements(m_climberSubsystem);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_ClimberSubsystem.RunBothMotorsDown(); 
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		m_climberSubsystem.climbDOWN(); 
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

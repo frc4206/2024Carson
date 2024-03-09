@@ -4,13 +4,14 @@
 
 package frc.robot.commands.Climber;
 import frc.robot.subsystems.ClimberLeftSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ClimberRunBothUpCommand extends Command {
   /** Creates a new ClimberRunBothCommand. */
-  ClimberLeftSubsystem m_ClimberSubsystem; 
+  ClimberSubsystem m_ClimberSubsystem; 
 
-  public ClimberRunBothUpCommand(ClimberLeftSubsystem climberSubsystem) {
+  public ClimberRunBothUpCommand(ClimberSubsystem climberSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_ClimberSubsystem = climberSubsystem; 
     addRequirements(climberSubsystem);
@@ -23,7 +24,7 @@ public class ClimberRunBothUpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ClimberSubsystem.RunBothMotorsUp(); 
+    m_ClimberSubsystem.climberUP(); 
     
   }
 

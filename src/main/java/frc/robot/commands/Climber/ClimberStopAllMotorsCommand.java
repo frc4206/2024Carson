@@ -3,16 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Climber;
-import frc.robot.subsystems.ClimberLeftSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ClimberStopAllMotorsCommand extends Command {
   /** Creates a new ClimberStopAllMotorsCommand. */
-  ClimberLeftSubsystem m_ClimberSubsystem; 
-  public ClimberStopAllMotorsCommand(ClimberLeftSubsystem climberSubsystem) {
+  ClimberSubsystem m_climberSubsystem; 
+  public ClimberStopAllMotorsCommand(ClimberSubsystem climberSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    climberSubsystem = m_ClimberSubsystem; 
-    addRequirements(climberSubsystem);
+    m_climberSubsystem = climberSubsystem; 
+    addRequirements(m_climberSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +22,7 @@ public class ClimberStopAllMotorsCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ClimberSubsystem.climbSTOP();
+    m_climberSubsystem.climbSTOP();
   }
 
   // Called once the command ends or is interrupted.

@@ -2,17 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Climber;
-import frc.robot.subsystems.ClimberLeftSubsystem;
+package frc.robot.commands.Climber.ClimberRight;
+import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class ClimberRunLeftCommand extends Command {
-  /** Creates a new ClimberRunLeftCommand. */
-  ClimberLeftSubsystem m_ClimberSubsystem; 
-  public ClimberRunLeftCommand(ClimberLeftSubsystem climberSubsystem) {
-    m_ClimberSubsystem = climberSubsystem; 
-    addRequirements(climberSubsystem);
+public class ClimberRunRightCommand extends Command {
+  /** Creates a new ClimberRunRightCommand. */
+  ClimberSubsystem m_climberRight; 
+
+  public ClimberRunRightCommand(ClimberSubsystem climber_R) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_climberRight = climber_R; 
+    addRequirements(climber_R);
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +23,7 @@ public class ClimberRunLeftCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ClimberSubsystem.RunLeft(); 
+    m_climberRight.climbSTOPRight();
   }
 
   // Called once the command ends or is interrupted.

@@ -17,6 +17,7 @@ public class ClimberToggleUpCommand extends Command {
   ClimberRightSubsystem m_climberRightSubsystem;
   String state = "down";
   boolean isfin = false;
+
   public ClimberToggleUpCommand(ClimberLeftSubsystem climberLeftSubsystem, ClimberRightSubsystem climberRightSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_climberLeftSubsystem = climberLeftSubsystem;
@@ -37,11 +38,30 @@ public class ClimberToggleUpCommand extends Command {
     }
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if(state == "down") {
+			m_climberRightSubsystem.climbUPRight();
+			m_climberLeftSubsystem.climbUPLeft();
 
-    if (state == "down") {
+			if(m_climberRightSubsystem.climbRightEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
+				state = "up";
+				isfin = true;
+				isFinished();
+			} else {
+        m_climberRightSubsystem.climbDOWNRight();
+        m_climberLeftSubsystem.climbDOWNLeft();
+        if(m_climberLeftSubsystem.climbLeftEncoder.getPosition() < Constants.Climber.climberBottomSetpoint) {
+          state = "down";
+          isfin = true;
+          isFinished();
+			  }
+		  }
+		// SmartDashboard.putString("state", state);
+    }
+
+    if(state == "down") {
       m_climberRightSubsystem.climbUPRight();
       m_climberLeftSubsystem.climbUPLeft();
       if (m_climberRightSubsystem.climbRightEncoder.getPosition() > Constants.Climber.climberTopSetpoint) {
@@ -49,7 +69,7 @@ public class ClimberToggleUpCommand extends Command {
         isfin = true;
         isFinished();
       }
-    }else {
+    } else {
       m_climberRightSubsystem.climbDOWNRight();
       m_climberLeftSubsystem.climbDOWNLeft();
       if (m_climberRightSubsystem.climbRightEncoder.getPosition() < Constants.Climber.climberBottomSetpoint) {
@@ -64,7 +84,6 @@ public class ClimberToggleUpCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
     m_climberRightSubsystem.climbSTOP();
     m_climberLeftSubsystem.climbSTOP();
     m_climberRightSubsystem.setPositionRight(0.55);

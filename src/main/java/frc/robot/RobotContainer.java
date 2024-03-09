@@ -133,7 +133,8 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
+    //new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
+    
     new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 0.8), new ConveyorToDuty(m_conveyorSubsystem, -0.675)));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     // new JoystickButton(driva, 4).onTrue(new);

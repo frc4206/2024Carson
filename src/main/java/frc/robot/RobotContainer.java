@@ -208,6 +208,6 @@ public class RobotContainer {
 
   
   public Command getAutonomousCommand() {
-    return new ParallelCommandGroup(new PathPlannerAuto("Amp1"), new ShooterToVelocity(m_flywheelSubsystem, 6500));
+    return new PathPlannerAuto("TestAuto");
   }
 } 

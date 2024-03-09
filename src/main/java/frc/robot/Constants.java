@@ -67,13 +67,13 @@ public final class Constants {
 		public static final boolean driveEnableSupplyLimit = true;
 
 		/* Angle Motor PID Values */
-		public static final double angleKP = 1.5;
+		public static final double angleKP = 1.1;
 		public static final double angleKI = 0.0;
 		public static final double angleKD = 0.0;
 		public static final double angleKF = 0.0;
 
 		/* Drive Motor PID Values */
-		public static final double driveKP = 0.165;
+		public static final double driveKP = 0.10;
 		public static final double driveKI = 0.0;
 		public static final double driveKD = 0.0;
 		public static final double driveKF = 0.0;
@@ -116,7 +116,7 @@ public final class Constants {
 		public static final double toGamePieceYKI = 0.0; 
 		public static final double toGamePieceYKD = 0.0; 
 
-		public static final double toGamePieceYawKP = 0.0002; 
+		public static final double toGamePieceYawKP = 0.1; 
 		public static final double toGamePieceYawKI = 0.0; 
 		public static final double toGamePieceYawKD = 0.0; 
 
@@ -130,7 +130,7 @@ public final class Constants {
 
 		/* Swerve Profiling Values */
 		public static final double maxSpeed = 5.25; //meters per second
-		public static final double maxAngularVelocity = 4.75;
+		public static final double maxAngularVelocity = 4.875;
 
 		/* Neutral Modes */
 		public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
@@ -146,10 +146,10 @@ public final class Constants {
 		/* Module Specific Constants */
 		/* Front Left Module - Module 0 */
 		public static final class Mod0 {
-			public static final int driveMotorID = 1; //3
-			public static final int angleMotorID = 2; //4
-			public static final int canCoderID = 3; //9
-			public static double angleOffset = (360-10.54)/360;//314.5 these aren't accurate just refrences
+			public static final int driveMotorID = 7; //3
+			public static final int angleMotorID = 8; //4
+			public static final int canCoderID = 11; //9
+			public static double angleOffset = (360-178.82)/360;//314.5 these aren't accurate just refrences
 			public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     	}
@@ -157,10 +157,10 @@ public final class Constants {
 
 		/* Front Right Module - Module 1 */
 		public static final class Mod1 {
-			public static final int driveMotorID = 7; //7
-			public static final int angleMotorID = 8; //8
-			public static final int canCoderID = 9; //11
-			public static double angleOffset = (32.17)/360;//246.7
+			public static final int driveMotorID = 18; //7
+			public static final int angleMotorID = 6; //8
+			public static final int canCoderID = 10; //11
+			public static double angleOffset = (360-73.21)/360;//246.7
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -171,7 +171,7 @@ public final class Constants {
 			public static final int driveMotorID = 3; //3
 			public static final int angleMotorID = 4; //4
 			public static final int canCoderID = 9; //9
-			public static double angleOffset = (360-93.71)/360;//.47
+			public static double angleOffset = (360-63.5)/360;//.47
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -182,11 +182,10 @@ public final class Constants {
 			public static final int driveMotorID = 13; //13
 			public static final int angleMotorID = 2; //2
 			public static final int canCoderID = 12; //12
-			public static double angleOffset = (158.47)/360;//257.95
+			public static double angleOffset = (360-135.23)/360;//257.95
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
-
 	}
 
 	public static final class Limelight {

@@ -459,35 +459,35 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         double[] actualOdo = {0,0,0};
-
-        if (GlobalVariables.alliance == Alliance.Blue){
-            swerveOdometry.update(getYaw(), getModulePositions());
-            poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
-            OdometryArray[2] = getYaw().getDegrees();
-            resetOdometryLLFieldCords();
-            OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
-            OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
-            double[] actualOdoBlue = {swerveOdometry.getPoseMeters().getX(), swerveOdometry.getPoseMeters().getY(), getYaw().getDegrees()};
-            actualOdo = actualOdoBlue;
-            if (Limelight.limelightshooter.HasTarget() != 0 && GlobalVariables.isEnabled == false){
-                poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
-                swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
-            }
-        } else if (GlobalVariables.alliance == Alliance.Red){
-            swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
-            poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
-            OdometryArray[2] = getYawInverted().getDegrees();
-            resetWithApriltags(swerveInvertOdometry, poseInvertEstimator, getModulePositionsInverted(), getYawInverted());
-            double[] actualOdoRed = {swerveInvertOdometry.getPoseMeters().getX(), swerveInvertOdometry.getPoseMeters().getY(), getYawInverted().getDegrees()};
-            actualOdo = actualOdoRed;
-            OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
-            OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
-            if (Limelight.limelightshooter.HasTarget() != 0 && GlobalVariables.isEnabled == false){
-                swerveInvertOdometry.resetPosition(getYaw(), getModulePositionsInverted(), AprilCords);
-                poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
-            }
-        }
-        
+        swerveOdometry.update(getYaw(), getModulePositions());
+        //if (GlobalVariables.alliance == Alliance.Blue){
+        //    swerveOdometry.update(getYaw(), getModulePositions());
+        //    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
+        //    OdometryArray[2] = getYaw().getDegrees();
+        //    resetOdometryLLFieldCords();
+        //    OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
+        //    OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
+        //    double[] actualOdoBlue = {swerveOdometry.getPoseMeters().getX(), swerveOdometry.getPoseMeters().getY(), getYaw().getDegrees()};
+        //    actualOdo = actualOdoBlue;
+        //    if (Limelight.limelightshooter.HasTarget() != 0 && GlobalVariables.isEnabled == false){
+        //        poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+        //        swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
+        //    }
+        //} else if (GlobalVariables.alliance == Alliance.Red){
+        //    swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
+        //    poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
+        //    OdometryArray[2] = getYawInverted().getDegrees();
+        //    resetWithApriltags(swerveInvertOdometry, poseInvertEstimator, getModulePositionsInverted(), getYawInverted());
+        //    double[] actualOdoRed = {swerveInvertOdometry.getPoseMeters().getX(), swerveInvertOdometry.getPoseMeters().getY(), getYawInverted().getDegrees()};
+        //    actualOdo = actualOdoRed;
+        //    OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
+        //    OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
+        //    if (Limelight.limelightshooter.HasTarget() != 0 && GlobalVariables.isEnabled == false){
+        //        swerveInvertOdometry.resetPosition(getYaw(), getModulePositionsInverted(), AprilCords);
+        //        poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
+        //    }
+        //}
+        //
 
         SmartDashboard.putNumberArray("odometry", actualOdo);
         SmartDashboard.putNumberArray("Pose estimator", OdometryArray);

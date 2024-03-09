@@ -24,7 +24,7 @@ public class ServoLeftGoToPosition extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climberLeft.setPosition(m_leftServoPosition);
+    m_climberLeft.setServoPosition(m_leftServoPosition);
   }
 
   // Called once the command ends or is interrupted.

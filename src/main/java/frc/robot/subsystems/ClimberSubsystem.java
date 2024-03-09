@@ -12,63 +12,90 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.Climber;
+import frc.robot.commands.Climber.RunServosCommand;
+import frc.robot.commands.Climber.ClimberLeft.RunServoLeftCommand;
+import frc.robot.commands.Climber.ClimberRight.RunServoRightCommand;
 
 public class ClimberSubsystem extends SubsystemBase {
-	private CANSparkFlex climber_motor; //= new CANSparkFlex(Constants.Climber.climberLeftFollowID, MotorType.kBrushless);
-	private RelativeEncoder climber_encoder; //= climberLeftMotor.getEncoder();
-	private SparkPIDController climber_PID_controller; // = climberLeftMotor.getPIDController();
+	public static CANSparkFlex climbMotor = new CANSparkFlex(Constants.Climber.climberRightLeadID, MotorType.kBrushless);
+	private SparkPIDController climbPid;
+	public RelativeEncoder climbEncoder;
+	public XboxController climberControl;
+	private double motorRunSpeed;
 
-	PWM servo;// = new PWM(Constants.Climber.servoLeftID);
+	static PWM servo;
 
-	public ClimberSubsystem(int motor_CAN_id, boolean invert_motor, int current_limit, int servo_id) {
+	public ClimberSubsystem(int climbMotorId, boolean isInverted, int servoChannel) {
+		climbMotor = new CANSparkFlex(climbMotorId, MotorType.kBrushless);
+		climbMotor.setIdleMode(IdleMode.kBrake);
+		climbMotor.setInverted(isInverted);
 
-        climber_motor = new CANSparkFlex(motor_CAN_id, MotorType.kBrushless);
-        climber_encoder = climber_motor.getEncoder();
-        climber_PID_controller = climber_motor.getPIDController();
-
-        servo = new PWM(servo_id);
-
-		climber_motor.restoreFactoryDefaults();
-		climber_motor.setIdleMode(IdleMode.kBrake);
-		climber_motor.setInverted(invert_motor);
-		climber_motor.setSmartCurrentLimit(current_limit);
-		climber_motor.burnFlash();
+		climbEncoder = climbMotor.getEncoder();
+		climbPid = climbMotor.getPIDController();
 		
-		climber_encoder.setPosition(0);
-		climber_PID_controller.setFeedbackDevice(climber_encoder);
+		climbPid.setFeedbackDevice(climbEncoder);
+		climbPid.setP(Constants.Climber.climberkP);
+		climbPid.setI(Constants.Climber.climberkI);
+		climbPid.setIZone(Constants.Climber.climberkIZone);
+		climbPid.setD(Constants.Climber.climberkD);
+		climbPid.setSmartMotionMaxVelocity(Constants.Climber.climberMaxVelo, 0);
+		climbPid.setSmartMotionMinOutputVelocity(-Constants.Climber.climberMaxVelo, 0);
+		climbPid.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
+		climbPid.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
 
-		climber_PID_controller.setP(Constants.Climber.climberkP);
-		climber_PID_controller.setI(Constants.Climber.climberkI);
-		climber_PID_controller.setIZone(Constants.Climber.climberkIZone);
-		climber_PID_controller.setD(Constants.Climber.climberkD);
-		climber_PID_controller.setOutputRange(-1, 1, 0);
-		climber_PID_controller.setSmartMotionMaxVelocity(Constants.Climber.climberMaxVelo, 0);
-		climber_PID_controller.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
-		climber_PID_controller.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
+		climbMotor.burnFlash();
+
+		servo = new PWM(servoChannel);
   	}
 
-	public void climbToPosition(double setpoint){
-		climber_PID_controller.setReference(setpoint, ControlType.kPosition);
-	}
-
+	/* Stop climber motors voids */
 	public void climbSTOP() {
-		climber_motor.set(0);
+		climbMotor.set(0);
+		setServoPosition(Constants.Climber.servoPosLeftEngage);
 	}
 
-	public void climberUP(){
-		climber_motor.set(-0.2);
+	/* Run climber motors up voids */
+	public void climberUP() {
+		setServoPosition(Constants.Climber.servoPosLeftDisEngage);
+
+		// Motor speed depends on which trigger is held down more.
+		climbMotor.set(climberControl.getLeftTriggerAxis());
 	}
 
-	public void climbDOWN(){
-		climber_motor.set(0.2);
+	/* Run climber motors down voids */
+	public void climbDOWN() {
+		setServoPosition(Constants.Climber.servoPosLeftDisEngage);
+		climbMotor.set(-0.2);
+		climbMotor.set(0.2);
 	}
 
-	public void setPosition(double pos){
-		servo.setPosition(pos);
+	/* PID setpoint set */
+	public void GoToSetpoint(double setpoint) { 
+		climbPid.setReference(setpoint, ControlType.kPosition, 0); 
+	}
+
+	/* Servo set positions methods */
+	public void setServoPosition(double servoPos) {
+		servo.setPosition(servoPos);
 	}
 
 	@Override
-	public void periodic() {}
+	public void periodic() {
+		// if(TopClimberLimitSwitch.get()) {
+		//  climbLeadEncoder.setPosition(0);
+		// }
+		// if(BottomClimberLimitSwitch.get()) {
+		//  climbLeadEncoder.setPosition(Constants.Climber.climberResetPosition);
+		// }
+
+		// SmartDashboard.putNumber("Climber Right Position", climbRightLeadEncoder.getPosition());
+		// SmartDashboard.putNumber("Climber Left Position", climbLeftFollowEncoder.getPosition());
+
+		// SmartDashboard.putNumber("servo Right", servoRight.getPosition());
+		// SmartDashboard.putNumber("servo Left", servoLeft.getPosition());
+	}
 }

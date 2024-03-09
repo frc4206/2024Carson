@@ -7,13 +7,13 @@ package frc.robot.commands.Climber.ClimberLeft;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimbLeftSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimbDownLeftCommand extends Command {
   private ClimberSubsystem m_climberLeft;
   private double startTime = 0;
   private double currTime = 0;
+
   public ClimbDownLeftCommand(ClimberSubsystem climberLeft) {
     m_climberLeft = climberLeft;
     addRequirements(m_climberLeft);
@@ -30,7 +30,7 @@ public class ClimbDownLeftCommand extends Command {
   public void execute() {
 
     System.out.println("Presssed the left command button");
-    m_climberLeft.setPosition(Constants.Climber.servoPosLeftDisEngage);
+    m_climberLeft.setServoPosition(Constants.Climber.servoPosLeftDisEngage);
     currTime = Timer.getFPGATimestamp() - startTime;
     if (currTime > 0.15d) {
       m_climberLeft.climbDOWN();
@@ -40,7 +40,7 @@ public class ClimbDownLeftCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climberLeft.setPosition(Constants.Climber.servoPosLeftEngage);
+    m_climberLeft.setServoPosition(Constants.Climber.servoPosLeftEngage);
     m_climberLeft.climbSTOP();
   }
 

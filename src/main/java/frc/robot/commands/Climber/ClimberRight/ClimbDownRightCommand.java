@@ -29,18 +29,18 @@ public class ClimbDownRightCommand extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		//m_climberRight.setServoPosition(Constants.Climber.servoPosRightDisEngage);
+		m_climberRight.setServoPosition(Constants.Climber.servoPosRightDisEngage);
 		currTime = Timer.getFPGATimestamp() - startTime;
 		if (currTime > 0.2) {
-		m_climberRight.climbDown(Climber.servoPosRightDisEngage);
+		m_climberRight.climbDown();
 		}
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		//m_climberRight.setServoPosition(Constants.Climber.servoPosRightEngage);
-		m_climberRight.climbStop(Climber.servoPosRightEngage);
+		m_climberRight.setServoPosition(Constants.Climber.servoPosRightEngage);
+		m_climberRight.climbStop();
 	}
 
 	// Returns true when the command should end.

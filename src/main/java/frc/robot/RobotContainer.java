@@ -86,7 +86,9 @@ public class RobotContainer {
 	private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
 	public final LEDSubsystem m_leds = new LEDSubsystem();
 	public final Limelight m_Limelight = new Limelight();
-	private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+	public final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+	private final ClimberSubsystem m_climberLeft = new ClimberSubsystem();
+	private final ClimberSubsystem m_climberRight = new ClimberSubsystem();
     // private final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberLeftFollowID, false, 40, Constants.Climber.servoLeftID);
     // private final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberRightLeadID, false, 40, Constants.Climber.servoRightID);
 
@@ -215,24 +217,15 @@ public class RobotContainer {
 		
 		/* CLIMBER UP controls */
 		// new Trigger(() -> this.getLeftTrigger(climbertesta)).whileTrue(new ClimbUpLeftCommand(m_climberLeft));
-		// TODO: might need to remove this or just de-comment this //new Trigger(() -> this.getRightTrigger(climbertesta)).whileTrue(new ClimbUpRightCommand(m_climberSubsystem, climbertesta.getPort()));
-		// TODO: might need to remove this or just de-comment this //new Trigger(() -> this.getLeftTrigger(climbertesta)).whileTrue(new ClimbUpLeftCommand(m_climberSubsystem, climbertesta.getPort()));
-		// TODO: might need to remove this or just de-comment this //new Trigger(() -> this.getLeftTrigger(climbertesta) && this.getRightTrigger(climbertesta)).whileTrue(new ClimberSetSpeedCommand(m_climberSubsystem, MotorDirections.UP, climbertesta.getPort()));
-		//new Trigger(() -> !this.getLeftTrigger(climbertesta) && !this.getRightTrigger(climbertesta)).onTrue(new ClimberSetSpeedCommand(m_climberSubsystem, MotorDirections.STOP, climbertesta.getPort()));
+		new Trigger(() -> this.getRightTrigger(climbertesta)).whileTrue(new ClimbUpRightCommand(m_climberRight, climbertesta.getPort()));
+		new Trigger(() -> this.getLeftTrigger(climbertesta)).whileTrue(new ClimbUpLeftCommand(m_climberLeft, climbertesta.getPort()));
+		new Trigger(() -> this.getLeftTrigger(climbertesta) && this.getRightTrigger(climbertesta)).whileTrue(new ClimberSetSpeedCommand(m_climberSubsystem, MotorDirections.UP, climbertesta.getPort()));
+		new Trigger(() -> !this.getLeftTrigger(climbertesta) && !this.getRightTrigger(climbertesta)).onTrue(new ClimberSetSpeedCommand(m_climberSubsystem, MotorDirections.STOP, climbertesta.getPort()));
 
-		if(climbertesta.getLeftTriggerAxis() >= 0.02 && climbertesta.getRightTriggerAxis() >= 0.02) {
-			new ClimberSetSpeedCommand(m_climberSubsystem, MotorDirections.UP, climbertesta.getPort());
-		} else if (climbertesta.getLeftTriggerAxis() >= 0.02) {
-			new ClimbUpLeftCommand(m_climberSubsystem, climbertesta.getPort());
-		} else if(climbertesta.getRightTriggerAxis() >= 0.02)/*the right trigger >= 0.02 */ {
-			new ClimbUpLeftCommand(m_climberSubsystem, climbertesta.getPort());
-		} else {
-			new ClimberSetSpeedCommand(m_climberSubsystem, MotorDirections.STOP, climbertesta.getPort());
-		}
 
 		/* CLIMBER DOWN controls (individual) */
-		new JoystickButton(climbertesta, 5).whileTrue(new ClimbDownLeftCommand(m_climberSubsystem));
-		new JoystickButton(climbertesta, 6).whileTrue(new ClimbDownRightCommand(m_climberSubsystem));
+		new JoystickButton(climbertesta, 5).whileTrue(new ClimbDownLeftCommand(m_climberLeft));
+		new JoystickButton(climbertesta, 6).whileTrue(new ClimbDownRightCommand(m_climberLeft));
 		new Trigger(() -> this.bumpersPressed(climbertesta)).whileTrue(new ClimberSetSpeedCommand(m_climberSubsystem, MotorDirections.DOWN, climbertesta.getPort()));
 		new Trigger(() -> !this.bumpersPressed(climbertesta)).onTrue(new ClimberSetSpeedCommand(m_climberSubsystem, MotorDirections.STOP, climbertesta.getPort()));
 

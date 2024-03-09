@@ -30,8 +30,8 @@ public class ClimberDownCommand extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		this.left_climber.climbDown(Climber.servoPosLeftDisEngage);
-		this.right_climber.climbDown(Climber.servoPosRightDisEngage);
+		this.left_climber.climbDown();
+		this.right_climber.climbDown();
 	}
 
 	// Called once the command ends or is interrupted.

@@ -33,15 +33,15 @@ public class ClimbDownLeftCommand extends Command {
     //m_climberLeft.setServoPosition(Constants.Climber.servoPosLeftDisEngage);
     currTime = Timer.getFPGATimestamp() - startTime;
     if (currTime > 0.15d) {
-      m_climberLeft.climbDown(Constants.Climber.servoPosLeftDisEngage);
+      m_climberLeft.climbDown();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //m_climberLeft.setServoPosition(Constants.Climber.servoPosLeftEngage);
-    m_climberLeft.climbStop(Constants.Climber.servoPosLeftEngage);
+    m_climberLeft.climbStop();
+    m_climberLeft.setServoPosition(Constants.Climber.servoPosLeftEngage);
   }
 
   // Returns true when the command should end.

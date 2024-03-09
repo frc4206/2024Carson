@@ -30,18 +30,18 @@ public class ClimbUpLeftCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //m_climberLeft.setServoPosition(Constants.Climber.servoPosLeftDisEngage);
+    m_climberLeft.setServoPosition(Constants.Climber.servoPosLeftDisEngage);
     currTime = Timer.getFPGATimestamp() - startTime;
     if (currTime > 0.2) {
-      m_climberLeft.climbUp(Constants.Climber.servoPosLeftDisEngage, controller.getLeftTriggerAxis());
+      m_climberLeft.climbUp();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climberLeft.climbStop(Constants.Climber.servoPosLeftEngage);
-   // m_climberLeft.setServoPosition(Constants.Climber.servoPosLeftEngage);
+    m_climberLeft.climbStop();
+    m_climberLeft.setServoPosition(Constants.Climber.servoPosLeftEngage);
   }
 
   // Returns true when the command should end.

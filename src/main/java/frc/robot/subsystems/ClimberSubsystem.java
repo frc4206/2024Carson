@@ -54,22 +54,25 @@ public class ClimberSubsystem extends SubsystemBase {
   	}
 
 	/* Stop climber motors voids */
-	public void climbStop(double servoPos) {
+	public void climbStop() {
 		climbMotorRight.set(0);
-		setServoPosition(servoPos);
 		climbMotorLeft.set(0);
+		setServoPosition(Constants.Climber.servoPosLeftEngage);
+		setServoPosition(Constants.Climber.servoPosRightEngage);
 	}
 
 	/* Run climber motors up voids */
-	public void climbUp(double servoPos, double motorSpeed) {
-		setServoPosition(servoPos);
-		climbMotorRight.set(motorSpeed);
-		climbMotorLeft.set(motorSpeed);
+	public void climbUp() {
+		setServoPosition(Constants.Climber.servoPosLeftDisEngage);
+		setServoPosition(Constants.Climber.servoPosRightDisEngage);
+		climbMotorRight.set(climberControl.getRightTriggerAxis());
+		climbMotorLeft.set(climberControl.getLeftTriggerAxis());
 	}
 
 	/* Run climber motors down voids */
-	public void climbDown(double servoPos) {
-		setServoPosition(servoPos);
+	public void climbDown() {
+		setServoPosition(Constants.Climber.servoPosLeftDisEngage);
+		setServoPosition(Constants.Climber.servoPosRightDisEngage);
 		climbMotorLeft.set(-0.2);
 		climbMotorRight.set(-0.2);
 	}

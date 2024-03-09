@@ -50,14 +50,14 @@ public class ClimberSetSpeedCommand extends Command {
 	@Override
 	public void execute() {
 		if(direction == MotorDirections.UP) {
-			climberLeft.climbUp(Climber.servoPosLeftDisEngage, controller.getLeftTriggerAxis());
-			climberRight.climbUp(Climber.servoPosRightDisEngage, controller.getRightTriggerAxis());
+			climberLeft.climbUp();
+			climberRight.climbUp();
 		} else if(direction == MotorDirections.DOWN) {
-			climberLeft.climbDown(Climber.servoPosLeftDisEngage);
-			climberRight.climbDown(Climber.servoPosLeftDisEngage);
+			climberLeft.climbDown();
+			climberRight.climbDown();
 		} else {
-			climberLeft.climbStop(Climber.servoPosLeftEngage);
-			climberRight.climbStop(Climber.servoPosRightEngage);
+			climberLeft.climbStop();
+			climberRight.climbStop();
 		}
 
 	}

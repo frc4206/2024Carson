@@ -5,6 +5,7 @@
 package frc.robot;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //import frc.robot.commands.Autos;
 //import frc.robot.commands.Climber.VortexClimberDown;
 //import frc.robot.commands.Climber.VortexClimberPIDCommand;
@@ -52,6 +53,8 @@ import frc.robot.commands.Intake.IntakeToSpeedCommand;
 import frc.robot.commands.Pivot.PercentPivotCommand;
 import frc.robot.commands.Pivot.ResetPivotCommand;
 =======
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
 import frc.robot.commands.Climber.ClimbDown;
 import frc.robot.commands.Climber.ClimbUp;
 import frc.robot.commands.Climber.ClimberLeft.ClimbDownLeft;
@@ -74,6 +77,9 @@ import frc.robot.commands.Pivot.PivotToDuty;
 import frc.robot.commands.Pivot.PivotToPosition;
 import frc.robot.commands.Pivot.ResetPivot;
 import frc.robot.commands.Pivot.TogglePivotMode;
+<<<<<<< HEAD
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
+=======
 >>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
 import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterStop;
@@ -115,6 +121,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private final ConveyorSubsystem m_conveyorSub = new ConveyorSubsystem();
 	private final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
 	private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
@@ -124,6 +131,8 @@ public class RobotContainer {
 	public final LEDSubsystem m_leds = new LEDSubsystem();
 	public final Limelight m_Limelight = new Limelight();
 =======
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
   private final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberLeftFollowID, false, 40, Constants.Climber.servoLeftID);
   private final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberRightLeadID, false, 40, Constants.Climber.servoRightID);
   private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
@@ -141,6 +150,7 @@ public class RobotContainer {
 	public static final int rotationAxis = XboxController.Axis.kRightX.value;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private final XboxController driver = new XboxController(5);
 	private final XboxController operator = new XboxController(1);
 	private final XboxController operator2 = new XboxController(2);
@@ -154,6 +164,8 @@ public class RobotContainer {
 	
 	final static SendableChooser<String> autoChooser = new SendableChooser<String>();
 =======
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
   private final XboxController driva = new XboxController(Constants.OperatorConstants.drivaPort);
   private final XboxController operata = new XboxController(Constants.OperatorConstants.operataPort);
   private final XboxController operata2 = new XboxController(Constants.OperatorConstants.operata2Port);
@@ -213,6 +225,7 @@ public class RobotContainer {
 		autoChooser.setDefaultOption("Nothing", "Nothing");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		SmartDashboard.putData(autoChooser);
 		configureBindings();
 	}
@@ -221,6 +234,8 @@ public class RobotContainer {
 		return -controller.getRawAxis(XboxController.Axis.kLeftY.value);
 	}
 
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
 =======
 >>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
 	private boolean getLeftTrigger(XboxController controller) {
@@ -483,5 +498,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return new ParallelCommandGroup(new PathPlannerAuto("Amp1"), new ShooterToVelocity(m_flywheelSubsystem, 6500));
   }
+<<<<<<< HEAD
+} 
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
+=======
 } 
 >>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362

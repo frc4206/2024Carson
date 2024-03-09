@@ -2,17 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/main/java/frc/robot/commands/Climber/ClimberRight/ClimberUpRightCommand.java
 package frc.robot.commands.Climber.ClimberRight;
 ========
 package frc.robot.commands.Elevator;
 >>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362:src/main/java/frc/robot/commands/Elevator/ToggleElevatorAmp.java
+=======
+package frc.robot.commands.Elevator;
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 import frc.robot.subsystems.ElevatorSubsystem;
 
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/main/java/frc/robot/commands/Climber/ClimberRight/ClimberUpRightCommand.java
 public class ClimberUpRightCommand extends Command {
 private ClimberSubsystem m_climberRight;
@@ -23,13 +28,18 @@ private ClimberSubsystem m_climberRight;
     m_climberRight = climber_R;
     addRequirements(m_climberRight);
 ========
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
 public class ToggleElevatorAmp extends Command {
   private ElevatorSubsystem m_elevator;
   private boolean toTop = false;
   public ToggleElevatorAmp(ElevatorSubsystem elevator) {
     m_elevator = elevator;
     addRequirements(m_elevator);
+<<<<<<< HEAD
 >>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362:src/main/java/frc/robot/commands/Elevator/ToggleElevatorAmp.java
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
   }
 
   // Called when the command is initially scheduled.
@@ -41,29 +51,39 @@ public class ToggleElevatorAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/main/java/frc/robot/commands/Climber/ClimberRight/ClimberUpRightCommand.java
     m_climberRight.setPositionRight(Constants.Climber.servoPosRightDisEngage);
     currtime = Timer.getFPGATimestamp() - start;
     if (currtime > 0.2) {
       m_climberRight.climbUPRight();
 ========
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
     if (toTop){
       m_elevator.GoToSetpoint(Constants.Elevator.elevatorTrapPosition);
     } else {
       m_elevator.GoToSetpoint(5);
+<<<<<<< HEAD
 >>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362:src/main/java/frc/robot/commands/Elevator/ToggleElevatorAmp.java
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/main/java/frc/robot/commands/Climber/ClimberRight/ClimberUpRightCommand.java
     m_climberRight.climbSTOP();
     m_climberRight.setPositionRight(Constants.Climber.servoPosEngage);
 ========
     GlobalVariables.ampCounter++;
 >>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362:src/main/java/frc/robot/commands/Elevator/ToggleElevatorAmp.java
+=======
+    GlobalVariables.ampCounter++;
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
   }
 
   // Returns true when the command should end.

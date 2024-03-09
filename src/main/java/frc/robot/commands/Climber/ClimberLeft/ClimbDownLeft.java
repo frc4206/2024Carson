@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/main/java/frc/robot/commands/Climber/ClimberLeft/ClimberUpLeftCommand.java
 public class ClimberUpLeftCommand extends Command {
 	private ClimberSubsystem m_climberLeft;
@@ -18,13 +19,18 @@ public class ClimberUpLeftCommand extends Command {
   public ClimberUpLeftCommand(ClimberSubsystem climber) {
     m_climberLeft = climber;
 ========
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
 public class ClimbDownLeft extends Command {
   private ClimberSubsystem m_climberLeft;
   private double startTime = 0;
   private double currTime = 0;
   public ClimbDownLeft(ClimberSubsystem climberLeft) {
     m_climberLeft = climberLeft;
+<<<<<<< HEAD
 >>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362:src/main/java/frc/robot/commands/Climber/ClimberLeft/ClimbDownLeft.java
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
     addRequirements(m_climberLeft);
   }
 
@@ -37,25 +43,32 @@ public class ClimbDownLeft extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/main/java/frc/robot/commands/Climber/ClimberLeft/ClimberUpLeftCommand.java
     m_climberLeft.setPositionLeft(Constants.Climber.servoPosRightDisEngage);
     currtime = Timer.getFPGATimestamp() - start;
     if (currtime > 0.2) {
       m_climberLeft.climbUPLeft();
 ========
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
 
     System.out.println("Presssed the left command button");
     m_climberLeft.setPosition(Constants.Climber.servoPosLeftDisEngage);
     currTime = Timer.getFPGATimestamp() - startTime;
     if (currTime > 0.15d) {
       m_climberLeft.climbToDuty(-0.15);
+<<<<<<< HEAD
 >>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362:src/main/java/frc/robot/commands/Climber/ClimberLeft/ClimbDownLeft.java
+=======
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/main/java/frc/robot/commands/Climber/ClimberLeft/ClimberUpLeftCommand.java
     m_climberLeft.climbSTOP();
     m_climberLeft.setPositionLeft(Constants.Climber.servoPosEngage);
@@ -63,6 +76,10 @@ public class ClimbDownLeft extends Command {
     m_climberLeft.setPosition(Constants.Climber.servoPosLeftEngage);
     m_climberLeft.climbToDuty(0);
 >>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362:src/main/java/frc/robot/commands/Climber/ClimberLeft/ClimbDownLeft.java
+=======
+    m_climberLeft.setPosition(Constants.Climber.servoPosLeftEngage);
+    m_climberLeft.climbToDuty(0);
+>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362
   }
 
   // Returns true when the command should end.

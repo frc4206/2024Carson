@@ -9,11 +9,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 
+<<<<<<<< HEAD:src/main/java/frc/robot/commands/Climber/ClimberRight/ClimbDownRight.java
 public class ClimbDownRight extends Command {
   private ClimberSubsystem m_climberRight;
   private double startTime = 0;
   private double currTime = 0;
   public ClimbDownRight(ClimberSubsystem climberRight) {
+========
+public class ClimbUpRight extends Command {
+  private ClimberSubsystem m_climberRight;
+  private double startTime = 0;
+  private double currTime = 0;
+  public ClimbUpRight(ClimberSubsystem climberRight) {
+>>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362:src/main/java/frc/robot/commands/Climber/ClimberRight/ClimbUpRight.java
     m_climberRight = climberRight;
     addRequirements(m_climberRight);
   }
@@ -30,7 +38,11 @@ public class ClimbDownRight extends Command {
     m_climberRight.setPosition(Constants.Climber.servoPosRightDisEngage);
     currTime = Timer.getFPGATimestamp() - startTime;
     if (currTime > 0.5) {
+<<<<<<<< HEAD:src/main/java/frc/robot/commands/Climber/ClimberRight/ClimbDownRight.java
       m_climberRight.climbToDuty(-0.15);
+========
+      m_climberRight.climbToDuty(0.15);
+>>>>>>>> b7bd597c3eca3ecef4cb29ac3f28cb0a3b757362:src/main/java/frc/robot/commands/Climber/ClimberRight/ClimbUpRight.java
     }
   }
 

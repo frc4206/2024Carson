@@ -7,7 +7,6 @@ package frc.robot.commands.Climber.ClimberLeft;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimbLeftSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimbDownLeftCommand extends Command {

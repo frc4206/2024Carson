@@ -12,30 +12,37 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
-	private CANSparkFlex climber_motor; //= new CANSparkFlex(Constants.Climber.climberLeftFollowID, MotorType.kBrushless);
-	private RelativeEncoder climber_encoder; //= climberLeftMotor.getEncoder();
-	private SparkPIDController climber_PID_controller; // = climberLeftMotor.getPIDController();
+	private CANSparkFlex climber_motor;
+	private RelativeEncoder climber_encoder;
+	private SparkPIDController climber_PID_controller;
+
+	private XboxController controller;
+	private int motor_axis;
+
+	public double default_motor_speed = 0.1; // default speed of motor
+	private double DEADZONE = 0.1;
 
 	PWM servo;// = new PWM(Constants.Climber.servoLeftID);
 
 	public ClimberSubsystem(int motor_CAN_id, boolean invert_motor, int current_limit, int servo_id) {
 
-        climber_motor = new CANSparkFlex(motor_CAN_id, MotorType.kBrushless);
-        climber_encoder = climber_motor.getEncoder();
-        climber_PID_controller = climber_motor.getPIDController();
+		climber_motor = new CANSparkFlex(motor_CAN_id, MotorType.kBrushless);
+		climber_encoder = climber_motor.getEncoder();
+		climber_PID_controller = climber_motor.getPIDController();
 
-        servo = new PWM(servo_id);
+		servo = new PWM(servo_id);
 
 		climber_motor.restoreFactoryDefaults();
 		climber_motor.setIdleMode(IdleMode.kBrake);
 		climber_motor.setInverted(invert_motor);
 		climber_motor.setSmartCurrentLimit(current_limit);
 		climber_motor.burnFlash();
-		
+
 		climber_encoder.setPosition(0);
 		climber_PID_controller.setFeedbackDevice(climber_encoder);
 
@@ -47,9 +54,17 @@ public class ClimberSubsystem extends SubsystemBase {
 		climber_PID_controller.setSmartMotionMaxVelocity(Constants.Climber.climberMaxVelo, 0);
 		climber_PID_controller.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
 		climber_PID_controller.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
-  	}
+	}
 
-	public void climbToPosition(double setpoint){
+	public boolean setupController(XboxController controller, int axis) {
+		if (controller == null)
+			return false;
+		this.controller = controller;
+		this.motor_axis = axis;
+		return true;
+	}
+
+	public void climbToPosition(double setpoint) {
 		climber_PID_controller.setReference(setpoint, ControlType.kPosition);
 	}
 
@@ -57,18 +72,71 @@ public class ClimberSubsystem extends SubsystemBase {
 		climber_motor.set(0);
 	}
 
-	public void climberUP(){
-		climber_motor.set(-0.2);
+	public void climberUP() {
+		climber_motor.set(default_motor_speed);
 	}
 
-	public void climbDOWN(){
-		climber_motor.set(0.2);
+	public void climbDOWN() {
+		climber_motor.set(-default_motor_speed);
 	}
 
-	public void setPosition(double pos){
+	public void setPosition(double pos) {
 		servo.setPosition(pos);
 	}
 
+	public double square_deadzone(double val, double deadzone) {
+		double dead_zoned = (Math.abs(val) >= deadzone ? map(Math.abs(val), deadzone, 1.0d, 0.0d, 1.0d) : 0.0d);
+		return val >= 0.0d ? dead_zoned : -dead_zoned;
+	}
+
+	public double quadratic(double val) {
+		return val >= 0.0d ? (val * val) : -(val * val);
+	}
+
+	public double map(double val, double in_min, double in_max, double out_min, double out_max) {
+		return ((val - in_min) * (out_max - out_min) / (in_max - in_min)) + out_min;
+	}
+
 	@Override
-	public void periodic() {}
+	public void periodic() {
+		double motor_speed_set = 0.0d;
+
+		// trigger input
+		double rght_trigger_speed = this.controller.getRightTriggerAxis();
+		double left_trigger_speed = this.controller.getLeftTriggerAxis();
+
+		// joystick input
+		double jystck_speed = this.controller.getRawAxis(this.motor_axis);
+		jystck_speed = square_deadzone(jystck_speed, this.DEADZONE); // apply deadzone anyway
+
+		// ignore if both right and left trigger are pressed
+		if (rght_trigger_speed > 0.0d && left_trigger_speed > 0.0d) {
+			climber_motor.set(0.0d); // safe to zero for safety
+			return; // return early, multiple inputs are unclear so ignore
+		}
+
+		// by this point, either one is these is NOT zero or both are
+		if (left_trigger_speed > 0.0d) {
+			motor_speed_set = left_trigger_speed;
+		}
+		if (rght_trigger_speed > 0.0d) {
+			motor_speed_set = -rght_trigger_speed;
+		} // right is negative to match axis
+
+		// if nothing set, safe to use joystick input
+		if (motor_speed_set == 0.0d && jystck_speed != 0.0d) {
+			jystck_speed = quadratic(jystck_speed); // apply response curve to user input
+			motor_speed_set = jystck_speed;
+		}
+
+		// if (motor_speed_set < 0.0d) {
+		// 	servo.setPosition(Constants.Climber.servoPosLeftDisEngage);
+		// } else if (motor_speed_set > 0.0d) {
+		// 	servo.setPosition(Constants.Climber.servoPosLeftEngage);
+		// }
+
+		// set motor
+		climber_motor.set(motor_speed_set);
+
+	}
 }

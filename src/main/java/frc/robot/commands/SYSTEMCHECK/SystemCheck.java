@@ -13,8 +13,6 @@ import frc.robot.commands.Intake.IntakeToSpeedCommand;
 import frc.robot.commands.Pivot.PivotCommand;
 import frc.robot.commands.Shooter.PercentShooterCommand;
 import frc.robot.commands.Swerve.TeleopSwerve;
-import frc.robot.subsystems.ClimbLeftSubsystem;
-import frc.robot.subsystems.ClimbRightSubystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;

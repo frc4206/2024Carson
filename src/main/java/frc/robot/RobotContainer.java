@@ -47,14 +47,13 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
-import frc.robot.subsystems.ClimbLeftSubsystem;
-import frc.robot.subsystems.ClimbRightSubystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -62,6 +61,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -74,8 +74,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   private final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberLeftFollowID, false, 40, Constants.Climber.servoLeftID);
   private final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberRightLeadID, true, 40, Constants.Climber.servoRightID);
-  // private final ClimbLeftSubsystem m_leftClimberSubsystem = new ClimbLeftSubsystem();
-  // private final ClimbRightSubystem m_rightClimberSubsystem = new ClimbRightSubystem();
+
   private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
@@ -89,12 +88,12 @@ public class RobotContainer {
   public static final int strafeAxis = XboxController.Axis.kLeftX.value;
   public static final int rotationAxis = XboxController.Axis.kRightX.value;
 
-  private final XboxController driver = new XboxController(5);
+  private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
   private final XboxController operator2 = new XboxController(2);
   private final XboxController shootertesta = new XboxController(3);
   private final XboxController elevatortesta = new XboxController(4);
-  private final XboxController climbertesta = new XboxController(0);
+  private final XboxController climbertesta = new XboxController(5);
   
   final static SendableChooser<String> autoChooser = new SendableChooser<String>();
 
@@ -120,20 +119,20 @@ public class RobotContainer {
     configureBindings();
   }
 
-  // private double getLeftStickY(XboxController controller){
-  //   return -controller.getRawAxis(XboxController.Axis.kLeftY.value);
-  // }
-  
-  // private double getRightStickY(XboxController controller){
-  //   return -controller.getRawAxis(XboxController.Axis.kRightY.value);
-  // }
-
 	private boolean getLeftTrigger(XboxController controller) {
 		return controller.getLeftTriggerAxis() > 0.05;
 	}
 
   private boolean getRightTrigger(XboxController controller){
     return controller.getRightTriggerAxis() > 0.05;
+  }
+
+  private void setupClimberControls()
+  {
+    if(!m_leftClimberSubsystem.setupController(climbertesta, XboxController.Axis.kLeftY.value) || !m_rightClimberSubsystem.setupController(climbertesta, XboxController.Axis.kRightY.value)){
+      System.err.println("Coult not bind climber controller to the subsystem.");
+      System.exit(-1);
+    };
   }
   
   private void configureBindings() {
@@ -202,12 +201,7 @@ public class RobotContainer {
     new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorPIDCommand(m_elevatorSubsystem, Constants.Elevator.elevTrapPosition+5));
 
 
-    new JoystickButton(climbertesta, 1).whileTrue(new ClimbDownCommand(m_leftClimberSubsystem, m_rightClimberSubsystem));
-    new JoystickButton(climbertesta, 2).whileTrue(new ClimbUpCommand(m_leftClimberSubsystem, m_rightClimberSubsystem));
-    new JoystickButton(climbertesta, 3).whileTrue(new ClimbDownLeftCommand(m_leftClimberSubsystem));
-    new JoystickButton(climbertesta, 4).whileTrue(new ClimbDownRightCommand(m_rightClimberSubsystem));
-    new Trigger(() -> this.getLeftTrigger(climbertesta)).whileTrue(new ClimbUpLeftCommand(m_leftClimberSubsystem));
-    new Trigger(() -> this.getRightTrigger(climbertesta)).whileTrue(new ClimbUpRightCommand(m_rightClimberSubsystem));
+    setupClimberControls();
   }
 
   

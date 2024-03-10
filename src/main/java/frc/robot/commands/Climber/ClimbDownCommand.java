@@ -7,8 +7,6 @@ package frc.robot.commands.Climber;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.Climber.ClimberLeft.ClimbDownLeftCommand;
 import frc.robot.commands.Climber.ClimberRight.ClimbDownRightCommand;
-import frc.robot.subsystems.ClimbLeftSubsystem;
-import frc.robot.subsystems.ClimbRightSubystem;
 import frc.robot.subsystems.ClimberSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

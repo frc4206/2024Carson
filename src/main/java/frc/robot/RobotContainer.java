@@ -91,18 +91,23 @@ public class RobotContainer {
   final static SendableChooser<String> autoChooser = new SendableChooser<String>();
 
   public RobotContainer() {
-    NamedCommands.registerCommand("shoot", new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(1));
+    NamedCommands.registerCommand("shoot", new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(1.5));
     NamedCommands.registerCommand("intakeshort", new IntakeToDuty(m_intakeSubsystem, -1).withTimeout(0.6));
     NamedCommands.registerCommand("conveyorshort", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.4));
     NamedCommands.registerCommand("intake", new IntakeToDuty(m_intakeSubsystem, -1).withTimeout(0.8));
     NamedCommands.registerCommand("conveyor", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.5));
-    NamedCommands.registerCommand("intakelong", new IntakeToDuty(m_intakeSubsystem, -1).withTimeout(1));
+    NamedCommands.registerCommand("intakelong", new IntakeToDuty(m_intakeSubsystem, -1).withTimeout(1.5));
     NamedCommands.registerCommand("conveyorlong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.6));
     NamedCommands.registerCommand("pivot1", new PivotToPosition(m_pivotSubsystem, 5).withTimeout(0.75));
-    NamedCommands.registerCommand("pivot2", new PivotToPosition(m_pivotSubsystem, 4.65).withTimeout(0.75));
+    NamedCommands.registerCommand("pivot2", new PivotToPosition(m_pivotSubsystem, 4.54).withTimeout(0.75));
     NamedCommands.registerCommand("pivot3", new PivotToPosition(m_pivotSubsystem, 4.4).withTimeout(0.75));
     NamedCommands.registerCommand("pivot4", new PivotToPosition(m_pivotSubsystem, 2.54).withTimeout(0.75));
-    
+    NamedCommands.registerCommand("pivot5", new PivotToPosition(m_pivotSubsystem, 3).withTimeout(0.75));
+    NamedCommands.registerCommand("pivot6", new PivotToPosition(m_pivotSubsystem, 2.64).withTimeout(0.75));
+    NamedCommands.registerCommand("pivot7", new PivotToPosition(m_pivotSubsystem, 4.35).withTimeout(0.75));
+
+
+
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driva, translationAxis, strafeAxis, rotationAxis, true, true));
     m_leftClimberSubsystem.setDefaultCommand(new ServoLeftGoToPosition(m_leftClimberSubsystem, Constants.Climber.servoPosLeftEngage));
     m_rightClimberSubsystem.setDefaultCommand(new ServoRightGoToPosition(m_rightClimberSubsystem, Constants.Climber.servoPosRightEngage));
@@ -141,22 +146,11 @@ public class RobotContainer {
     new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, -0.8), new ConveyorToDuty(m_conveyorSubsystem, 0.5)));
     new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ShooterToVelocity(m_flywheelSubsystem, 6500));
     new Trigger(() -> this.getLeftTrigger(driva)).onFalse(new ShooterStop(m_flywheelSubsystem));
-    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ToggleElevatorAmp(m_elevatorSubsystem));
+    //new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ToggleElevatorAmp(m_elevatorSubsystem));
     new JoystickButton(driva, 7).onTrue(new FreeHeadingState(m_swerveSubsystem));
     new JoystickButton(driva, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
 
     // new Trigger(() -> this.getLeftTrigger(driva)).whileTrue(new shooterToDutyCommand2(m_flywheelSubsystem, 0.4, 0.6));
-    /*
-     * A: toggle shooter mode
-     * X: zero gyro
-     * Y: climb toggle
-     * B: outtake
-     * LB: intake
-     * RB: shoot
-     * LT: flyup toggle
-     * RT: amp toggle
-     * start: set heading state
-    */
 
 
     new JoystickButton(operata, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));
@@ -189,13 +183,13 @@ public class RobotContainer {
     new JoystickButton(shootertesta, 10).whileTrue(new IntakeToDuty(m_intakeSubsystem, 1));
 
 
-    new JoystickButton(elevatortesta, 1).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, -0.1));
-    new JoystickButton(elevatortesta, 2).whileTrue(new ResetElevator(m_elevatorSubsystem));
-    new JoystickButton(elevatortesta, 4).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, 0.1));
-    new JoystickButton(elevatortesta, 5).whileTrue(new ElevatorDown(m_elevatorSubsystem));
-    new JoystickButton(elevatortesta, 6).whileTrue(new ElevatorUp(m_elevatorSubsystem));
-    new JoystickButton(elevatortesta, 7).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
-    new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, Constants.Elevator.elevatorTrapPosition+5));
+    // new JoystickButton(elevatortesta, 1).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, -0.1));
+    // new JoystickButton(elevatortesta, 2).whileTrue(new ResetElevator(m_elevatorSubsystem));
+    // new JoystickButton(elevatortesta, 4).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, 0.1));
+    // new JoystickButton(elevatortesta, 5).whileTrue(new ElevatorDown(m_elevatorSubsystem));
+    // new JoystickButton(elevatortesta, 6).whileTrue(new ElevatorUp(m_elevatorSubsystem));
+    // new JoystickButton(elevatortesta, 7).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
+    // new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, Constants.Elevator.elevatorTrapPosition+5));
 
 
     new JoystickButton(climbertesta, 7).whileTrue(new ClimbDown(m_leftClimberSubsystem, m_rightClimberSubsystem));
@@ -208,6 +202,7 @@ public class RobotContainer {
 
   
   public Command getAutonomousCommand() {
-    return new ParallelCommandGroup(new PathPlannerAuto("Amp1"), new ShooterToVelocity(m_flywheelSubsystem, 6500));
+    return new ParallelCommandGroup(new PathPlannerAuto("CopyAmp2"), new ShooterToVelocity(m_flywheelSubsystem, 6500));
+    //return new PathPlannerAuto("TestAuto");
   }
 } 

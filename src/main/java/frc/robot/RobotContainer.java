@@ -72,8 +72,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberLeftFollowID, false, 40, Constants.Climber.servoLeftID);
-  private final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberRightLeadID, true, 40, Constants.Climber.servoRightID);
+  private final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberLeftFollowID, true, 40, Constants.Climber.servoLeftID);
+  private final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberRightLeadID, false, 40, Constants.Climber.servoRightID);
 
   private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();

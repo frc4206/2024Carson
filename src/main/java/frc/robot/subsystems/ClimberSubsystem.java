@@ -110,8 +110,8 @@ public class ClimberSubsystem extends SubsystemBase {
 		double rght_trigger_speed = this.controller.getRightTriggerAxis();
 		double left_trigger_speed = this.controller.getLeftTriggerAxis();
 
-		// joystick input
-		double jystck_speed = this.controller.getRawAxis(this.motor_axis);
+		// joystick input, negative because y axis on XBoxController is upside down
+		double jystck_speed = -this.controller.getRawAxis(this.motor_axis);
 		jystck_speed = square_deadzone(jystck_speed, this.DEADZONE); // apply deadzone anyway
 
 		// ignore if both right and left trigger are pressed
@@ -122,10 +122,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		// by this point, either one is these is NOT zero or both are
 		if (left_trigger_speed > 0.0d) {
-			motor_speed_set = left_trigger_speed;
+			motor_speed_set = -left_trigger_speed;
 		}
 		if (rght_trigger_speed > 0.0d) {
-			motor_speed_set = -rght_trigger_speed; // right is negative
+			motor_speed_set = rght_trigger_speed; // opposite direction
 		}
 
 		// if nothing set, safe to use joystick input
@@ -135,7 +135,7 @@ public class ClimberSubsystem extends SubsystemBase {
 		}
 
 		// if spinning against the pawl, open the pawl servo
-		if (motor_speed_set > 0.0d) {
+		if (motor_speed_set < 0.0d) {
 			servo.setPosition(this.disengageServoPos);
 			// start a timer if we are just now pressing the button
 			if (!this.servoDisengaged) {
@@ -143,7 +143,7 @@ public class ClimberSubsystem extends SubsystemBase {
 				this.servoDisengaged = true;
 			}
 		} else {
-			// spinning away from pawl
+			// spinning with from pawl
 			servo.setPosition(this.engageServoPos);
 			this.servoDisengaged = false;
 		}

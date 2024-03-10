@@ -133,6 +133,12 @@ public class RobotContainer {
       System.err.println("Coult not bind climber controller to the subsystem.");
       System.exit(-1);
     };
+
+    m_leftClimberSubsystem.engageServoPos = Constants.Climber.servoPosLeftEngage;
+    m_leftClimberSubsystem.disengageServoPos = Constants.Climber.servoPosLeftDisEngage;
+
+    m_rightClimberSubsystem.engageServoPos = Constants.Climber.servoPosRightEngage;
+    m_rightClimberSubsystem.disengageServoPos = Constants.Climber.servoPosRightDisEngage;
   }
   
   private void configureBindings() {

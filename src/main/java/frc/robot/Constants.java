@@ -298,7 +298,7 @@ public final class Constants {
 		public static final int climberRightLeadID = 36;
 		public static final int climberLeftFollowID = 35;
 		public static final int servoRightID = 1;
-		public static final int servoLeftID = 2;
+		public static final int servoLeftID = 0;
 		public static final int climberLimitSwitchID = 4;
 
 		public static final double climberkP = 0.002;
@@ -309,10 +309,12 @@ public final class Constants {
 		public static final double climberMaxVelo = 4000;
 		public static final double climberMaxAcc = 4000;
 
-		public static final double servoPosRightEngage = 0.55;
-		public static final double servoPosRightDisEngage = 0.3;
-		public static final double servoPosLeftEngage = 0.3;
-		public static final double servoPosLeftDisEngage = 0.8;
+		/** Since the servos on our climber are facing opposite
+		 * directions, the engage and disengage values are inverted **/
+		public static final double servoPosRightEngage = 0.2d;
+		public static final double servoPosRightDisEngage = 0.0d;
+		public static final double servoPosLeftEngage = 0.0d;
+		public static final double servoPosLeftDisEngage = 0.2d;
 
 		public static final double climberTopSetpoint = 15;
 		public static final double climberBottomSetpoint = 0;

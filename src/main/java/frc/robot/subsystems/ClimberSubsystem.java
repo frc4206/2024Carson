@@ -24,13 +24,18 @@ public class ClimberSubsystem extends SubsystemBase {
 	private XboxController controller;
 	private int motor_axis;
 
-	public double default_motor_speed = 0.1; // default speed of motor
-	private double DEADZONE = 0.1;
+	public double engageServoPos;
+	public double disengageServoPos;
+	private boolean servoDisengaged = false;
+	private long startServoTime = 0;
+	private long disengageDuractionMilliseconds = 200; // 0.2 seconds (human reaction time)
+
+	private final double default_motor_speed = 0.1d;
+	private final double DEADZONE = 0.1;
 
 	PWM servo;// = new PWM(Constants.Climber.servoLeftID);
 
 	public ClimberSubsystem(int motor_CAN_id, boolean invert_motor, int current_limit, int servo_id) {
-
 		climber_motor = new CANSparkFlex(motor_CAN_id, MotorType.kBrushless);
 		climber_encoder = climber_motor.getEncoder();
 		climber_PID_controller = climber_motor.getPIDController();
@@ -120,8 +125,8 @@ public class ClimberSubsystem extends SubsystemBase {
 			motor_speed_set = left_trigger_speed;
 		}
 		if (rght_trigger_speed > 0.0d) {
-			motor_speed_set = -rght_trigger_speed;
-		} // right is negative to match axis
+			motor_speed_set = -rght_trigger_speed; // right is negative
+		}
 
 		// if nothing set, safe to use joystick input
 		if (motor_speed_set == 0.0d && jystck_speed != 0.0d) {
@@ -129,11 +134,27 @@ public class ClimberSubsystem extends SubsystemBase {
 			motor_speed_set = jystck_speed;
 		}
 
-		// if (motor_speed_set < 0.0d) {
-		// 	servo.setPosition(Constants.Climber.servoPosLeftDisEngage);
-		// } else if (motor_speed_set > 0.0d) {
-		// 	servo.setPosition(Constants.Climber.servoPosLeftEngage);
-		// }
+		// if spinning against the pawl, open the pawl servo
+		if (motor_speed_set > 0.0d) {
+			servo.setPosition(this.disengageServoPos);
+			// start a timer if we are just now pressing the button
+			if (!this.servoDisengaged) {
+				this.startServoTime = System.currentTimeMillis();
+				this.servoDisengaged = true;
+			}
+		} else {
+			// spinning away from pawl
+			servo.setPosition(this.engageServoPos);
+			this.servoDisengaged = false;
+		}
+
+		long currentTime = System.currentTimeMillis();
+
+		// if not enough time has passed for the servos to disengage
+		// then we should not start moving the motors yet
+		if (currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
+			motor_speed_set = 0.0d;
+		}
 
 		// set motor
 		climber_motor.set(motor_speed_set);

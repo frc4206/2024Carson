@@ -73,7 +73,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Amp2Pt1End"
+      "linkedName": "Amp3Pt1End"
     }
   ],
   "rotationTargets": [
@@ -177,7 +177,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp2",
+  "folder": "Amp3",
   "previewStartingState": {
     "rotation": -2.6630007660671655,
     "velocity": 0

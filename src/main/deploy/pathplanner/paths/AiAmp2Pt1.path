@@ -32,48 +32,16 @@
     },
     {
       "anchor": {
-        "x": 2.7856981070087494,
-        "y": 6.96
+        "x": 2.59589155354597,
+        "y": 6.986510161319658
       },
       "prevControl": {
-        "x": 2.5050384003901907,
-        "y": 6.969716047694203
-      },
-      "nextControl": {
-        "x": 3.027122037197434,
-        "y": 6.951642240175847
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.972804578087788,
-        "y": 6.689056341075646
-      },
-      "prevControl": {
-        "x": 2.5975941762958956,
-        "y": 6.806309591635613
-      },
-      "nextControl": {
-        "x": 3.3470175202458665,
-        "y": 6.572114796651245
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.81,
-        "y": 6.96
-      },
-      "prevControl": {
-        "x": 3.7446187712888244,
-        "y": 6.946327738809324
+        "x": 2.315231846927411,
+        "y": 6.996226209013861
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Amp2Pt1End"
+      "linkedName": "AiAmp2Pt1End"
     }
   ],
   "rotationTargets": [
@@ -85,11 +53,6 @@
     {
       "waypointRelativePos": 1.75,
       "rotationDegrees": 0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 3.05,
-      "rotationDegrees": 38.669878505178254,
       "rotateFast": false
     }
   ],
@@ -117,52 +80,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "pickup1",
-      "waypointRelativePos": 1.9,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "conveyer"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "shoot2",
-      "waypointRelativePos": 3.35,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "shoot"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "pivot3"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
@@ -177,7 +94,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp2",
+  "folder": "AiAmp2",
   "previewStartingState": {
     "rotation": -2.6630007660671655,
     "velocity": 0

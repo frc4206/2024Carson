@@ -1,0 +1,114 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.9545143705672015,
+        "y": 7.448815277678062
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.612350173600233,
+        "y": 7.433816299180879
+      },
+      "isLocked": false,
+      "linkedName": "AiAmp1Pt1End"
+    },
+    {
+      "anchor": {
+        "x": 4.1363590565660955,
+        "y": 6.269094533438474
+      },
+      "prevControl": {
+        "x": 4.2728556716020805,
+        "y": 6.600586312811581
+      },
+      "nextControl": {
+        "x": 3.7288088534029353,
+        "y": 5.27932975432794
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.755713745045723,
+        "y": 6.104348618953648
+      },
+      "prevControl": {
+        "x": 4.658134437992033,
+        "y": 8.10526941357218
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "AiAmp1Pt2End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.4499999999999997,
+      "rotationDegrees": 17.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": -35.837652954278234,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "shoot1",
+      "waypointRelativePos": 1.0500000000000003,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup2",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pivot4"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -7.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "AiAmp1",
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

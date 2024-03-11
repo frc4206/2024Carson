@@ -3,7 +3,12 @@
   "robotLength": 0.81,
   "holonomicMode": true,
   "pathFolders": [
-    "Ai Test Paths"
+    "AiAmp1",
+    "AiAmp2",
+    "Amp1",
+    "Amp2",
+    "Amp3",
+    "AiAmp3"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

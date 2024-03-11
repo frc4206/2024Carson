@@ -67,13 +67,13 @@ public final class Constants {
 		public static final boolean driveEnableSupplyLimit = true;
 
 		/* Angle Motor PID Values */
-		public static final double angleKP = 1.1;
+		public static final double angleKP = 1.5;
 		public static final double angleKI = 0.0;
 		public static final double angleKD = 0.0;
 		public static final double angleKF = 0.0;
 
 		/* Drive Motor PID Values */
-		public static final double driveKP = 0.10;
+		public static final double driveKP = 0.165;
 		public static final double driveKI = 0.0;
 		public static final double driveKD = 0.0;
 		public static final double driveKF = 0.0;
@@ -116,7 +116,7 @@ public final class Constants {
 		public static final double toGamePieceYKI = 0.0; 
 		public static final double toGamePieceYKD = 0.0; 
 
-		public static final double toGamePieceYawKP = 0.1; 
+		public static final double toGamePieceYawKP = 0.0002; 
 		public static final double toGamePieceYawKI = 0.0; 
 		public static final double toGamePieceYawKD = 0.0; 
 
@@ -130,7 +130,7 @@ public final class Constants {
 
 		/* Swerve Profiling Values */
 		public static final double maxSpeed = 5.25; //meters per second
-		public static final double maxAngularVelocity = 4.875;
+		public static final double maxAngularVelocity = 4.75;
 
 		/* Neutral Modes */
 		public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
@@ -186,6 +186,7 @@ public final class Constants {
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
+
 	}
 
 	public static final class Limelight {

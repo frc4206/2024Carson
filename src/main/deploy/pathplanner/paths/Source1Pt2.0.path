@@ -1,0 +1,86 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.9719127324240409,
+        "y": 4.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.62197994481459,
+        "y": 2.6311847495489866
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.6861479990766246,
+        "y": 1.5436283864020728
+      },
+      "prevControl": {
+        "x": 2.679907843534709,
+        "y": 2.1248188210685237
+      },
+      "nextControl": {
+        "x": 5.042669914399658,
+        "y": 0.7601200387585969
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.264559258463246,
+        "y": 0.8185908109707958
+      },
+      "prevControl": {
+        "x": 5.0660582232845375,
+        "y": 0.7835083476434771
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Source1Pt2.0End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "pickup1",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pivot3"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 180.0,
+    "maxAngularAcceleration": 360.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -1.591140271194525,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "AiSource1",
+  "previewStartingState": {
+    "rotation": -41.69813432556498,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

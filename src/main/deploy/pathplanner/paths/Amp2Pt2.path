@@ -1,0 +1,246 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.81,
+        "y": 6.96
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.974446324142054,
+        "y": 7.369489845107957
+      },
+      "isLocked": false,
+      "linkedName": "Amp2Pt1End"
+    },
+    {
+      "anchor": {
+        "x": 8.644469482671159,
+        "y": 6.1511252367234075
+      },
+      "prevControl": {
+        "x": 5.814484107600693,
+        "y": 7.226987445427882
+      },
+      "nextControl": {
+        "x": 10.251907067603256,
+        "y": 5.5400332622864115
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.81,
+        "y": 5.908353479414798
+      },
+      "prevControl": {
+        "x": 2.493645850409001,
+        "y": 9.4810515455316
+      },
+      "nextControl": {
+        "x": 4.5865978911445,
+        "y": 3.8006001937929805
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 9.194094741465836,
+        "y": 3.9526242015446997
+      },
+      "prevControl": {
+        "x": 7.287947567348126,
+        "y": 4.361919607030098
+      },
+      "nextControl": {
+        "x": 10.95636365416326,
+        "y": 3.5742229012722473
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.867257597763059,
+        "y": 4.736132549188175
+      },
+      "prevControl": {
+        "x": 4.604052350635495,
+        "y": 4.2864902520119195
+      },
+      "nextControl": {
+        "x": 5.147917304381616,
+        "y": 5.215592881328213
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.81,
+        "y": 5.908353479414798
+      },
+      "prevControl": {
+        "x": 4.025278477907382,
+        "y": 4.677661776975976
+      },
+      "nextControl": {
+        "x": 3.7152459932429585,
+        "y": 6.450037771417701
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.9317252423678632,
+        "y": 5.908353479414798
+      },
+      "prevControl": {
+        "x": 3.9434193968103033,
+        "y": 5.905547993432169
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": 0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.3,
+      "rotationDegrees": -30.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 2.7,
+      "rotationDegrees": -2.2407889847626206,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 2.05,
+      "rotationDegrees": 0,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "pickup1",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "conveyor"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot1",
+      "waypointRelativePos": 2.05,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivot2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "pickup2",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "conveyor"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot2",
+      "waypointRelativePos": 4.85,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivot2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

@@ -10,15 +10,26 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.util.spark.SparkConfiguration;
+import frc.lib.util.spark.SparkDefaultMethods;
 import frc.robot.Constants;
 
-public class PivotSubsystem extends SubsystemBase {
-  public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Shooter.shooterPivotID, MotorType.kBrushless);
-  public RelativeEncoder pivotEncoder;
-  public SparkPIDController pivotController;
+public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods {
+	public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Pivot.pivotMotorID, MotorType.kBrushless);
+	public RelativeEncoder pivotEncoder = pivotMotor.getEncoder();
+	public SparkPIDController pivotController = pivotMotor.getPIDController();
+	SparkConfiguration pivotConfig;
 
-	double[][] angleData = {{4.65, 1.03}, {4.04, 1.86}, {3.89, 1.69}, {3.12, 2.77}, {2.90, 3.21}, {2.49, 4.07}, {2.515, 4.85}};
+	double[][] angleData = {
+		{Constants.Pivot.pivotDistanceToRobotCenter+Constants.Field.subwooferLength+ Units.inchesToMeters(34), 6.476},
+		{Constants.Pivot.pivotDistanceToRobotCenter+Constants.Field.subwooferLength+ Units.inchesToMeters(52), 5.538},
+		{Constants.Pivot.pivotDistanceToRobotCenter+Constants.Field.subwooferLength+ Units.inchesToMeters(62.75), 5.121},
+		{Constants.Pivot.pivotDistanceToRobotCenter+Constants.Field.subwooferLength+ Units.inchesToMeters(68), 4.475},
+		{Constants.Pivot.pivotDistanceToRobotCenter+Constants.Field.subwooferLength+ Units.inchesToMeters(34), 6.476}
+	};
 	InterpolatingTreeTableSubsystem angleTree;
 
 	public enum ShooterPositions {
@@ -37,35 +48,37 @@ public class PivotSubsystem extends SubsystemBase {
 	public PivotSubsystem() {
 		angleTree = new InterpolatingTreeTableSubsystem(angleData);
 
-		pivotEncoder = pivotMotor.getEncoder();
-		
-		pivotMotor.restoreFactoryDefaults();
-		pivotMotor.setIdleMode(IdleMode.kBrake);
+		pivotConfig = new SparkConfiguration(
+			true,
+			false,
+			pivotMotor, 
+			false, 
+			IdleMode.kBrake, 
+			40, 
+			pivotEncoder, 
+			pivotController, 
+			Constants.Pivot.pivotKP, 
+			Constants.Pivot.pivotKI, 
+			Constants.Pivot.pivotKIZone, 
+			Constants.Pivot.pivotKD, 
+			0, 
+			Constants.Pivot.pivotMaxVel, 
+			Constants.Pivot.pivotMaxAccel, 
+			Constants.Pivot.pivotAllowedError
+		);
 		pivotMotor.setClosedLoopRampRate(0.25);
-		pivotMotor.setSmartCurrentLimit(40);
-
-		pivotController = pivotMotor.getPIDController();
-		pivotController.setFeedbackDevice(pivotEncoder);
-		pivotController.setP(Constants.Pivot.pivotKP);
-		pivotController.setI(Constants.Pivot.pivotKI);
-		pivotController.setIZone(Constants.Pivot.pivotKIZone);
-		pivotController.setD(Constants.Pivot.pivotKD);
-		pivotController.setSmartMotionMaxVelocity(Constants.Pivot.pivotMaxVel, 0);
-		pivotController.setSmartMotionMinOutputVelocity(Constants.Pivot.pivotMinVel, 0);
-		pivotController.setSmartMotionMaxAccel(Constants.Pivot.pivotMaxAccel, 0);
-		pivotController.setSmartMotionAllowedClosedLoopError(Constants.Pivot.pivotAllowedError, 0);
 	}
 	
 	public void resetPivot(){
-		pivotEncoder.setPosition(0);
+		resetMotor(pivotEncoder);
 	}
 	
 	public void runPivot(double speed) {
-		pivotMotor.set(speed);
+		setMotorSpeed(pivotMotor, speed);
 	}
 	
 	public void setPosition(double angle) {
-		pivotController.setReference(angle, CANSparkFlex.ControlType.kPosition);
+		motorGoToPosition(pivotController, angle);
 	}
 	
 	public void autoAdjust(double distFromSpeaker){
@@ -80,48 +93,27 @@ public class PivotSubsystem extends SubsystemBase {
 		position = newPosition;
 	}
 
-	public void cycleRelativePosition(){
-		switch (position) {
-			// case WING:
-			// 	position = ShooterPositions.STAGE;
-			// 	break;
-			// case STAGE:
-			// 	position = ShooterPositions.UNDER;
-			// 	break;
-			case UNDER:
-				position = ShooterPositions.PODIUM;
-				break;
-			case PODIUM:
-				position = ShooterPositions.SPIKE;
-				break;
-			case SPIKE:
-				position = ShooterPositions.CLOSE;
-				break;
-			case CLOSE:
-				position = ShooterPositions.WING;
-				break;
-			default:
-				position = ShooterPositions.UNDER;
-				break;
-			}
+	public void togglePivotMode(){
+		if (position == ShooterPositions.NONE){
+			position = ShooterPositions.PODIUM;
+		} else {
+			position = ShooterPositions.NONE;
+		}
 	}
 
 	public void setFieldRelativePosition() {
 		switch (position){
-			// case WING:
-			// 	pivotController.setReference(Constants.Pivot.wingPosition, CANSparkFlex.ControlType.kPosition); 
-			// 	break;
-			// case STAGE:
-			// 	pivotController.setReference(Constants.Pivot.stagePosition, CANSparkFlex.ControlType.kPosition); 
-			// 	break;
+			case STAGE:
+				setPosition(Constants.Pivot.stagePosition);
+				break;
 			case UNDER:
-				pivotController.setReference(Constants.Pivot.underPosition, CANSparkFlex.ControlType.kPosition); 
+				setPosition(Constants.Pivot.underPosition);
 				break;
 			case PODIUM:
-				pivotController.setReference(Constants.Pivot.podiumPosition, CANSparkFlex.ControlType.kPosition); 
+				setPosition(Constants.Pivot.podiumPosition); 
 				break;
 			case CLOSE:
-				pivotController.setReference(Constants.Pivot.closePosition, CANSparkFlex.ControlType.kPosition); 
+				setPosition(Constants.Pivot.closePosition);
 				break;
 			default:
 				break;
@@ -130,8 +122,7 @@ public class PivotSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
-
+		SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
 
 		if(position != ShooterPositions.NONE) {
 			setFieldRelativePosition();

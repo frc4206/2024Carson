@@ -12,5 +12,7 @@ public class GlobalVariables {
     public static boolean pieceReady = false;
     public static boolean ampReady = false;
 
+    public static double ampCounter = 2;
+
     public static boolean isEnabled = false;
 }

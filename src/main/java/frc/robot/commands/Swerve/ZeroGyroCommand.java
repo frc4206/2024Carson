@@ -9,7 +9,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class ZeroGyroCommand extends Command {
 	private SwerveSubsystem swerveSubsystem;
-	boolean isfinished = false;
+	private boolean isfinished = false;
 	
 	public ZeroGyroCommand(SwerveSubsystem m_swerveSubsystem) {
 		swerveSubsystem = m_swerveSubsystem;
@@ -18,15 +18,15 @@ public class ZeroGyroCommand extends Command {
 
 	// Called when the command is initially scheduled.
 	@Override
-	public void initialize() {}
-
-	// Called every time the scheduler runs while the command is scheduled.
-	@Override
-	public void execute() {
+	public void initialize() {
 		swerveSubsystem.zeroGyro();
 		isfinished = true;
 		isFinished();
 	}
+
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {}
 
 	// Called once the command ends or is interrupted.
 	@Override
@@ -35,6 +35,6 @@ public class ZeroGyroCommand extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return true;
+		return isfinished;
 	}
 }

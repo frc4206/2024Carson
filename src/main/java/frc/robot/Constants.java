@@ -19,16 +19,16 @@ import frc.lib.util.SwerveModuleConstants;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-		public static final double stickDeadband = 0.1;
-		public static final String Canivore1 = "Canivore1";
+	public static final String Canivore1 = "Canivore1";
 
 	public static final class Field {
 		public static final double fieldLength = 16.452;
 		public static final double fieldWidth = 8.211;
+		public static final double subwooferLength = Units.inchesToMeters(36.125);
 	}
 
 	public static final class Swerve {
-		public static final int pigeonID = 55;
+		public static final int pigeonID = 20;
 		public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
 		/* Drivetrain Constants */
@@ -67,13 +67,13 @@ public final class Constants {
 		public static final boolean driveEnableSupplyLimit = true;
 
 		/* Angle Motor PID Values */
-		public static final double angleKP = 1.1;
+		public static final double angleKP = 1.5;
 		public static final double angleKI = 0.0;
 		public static final double angleKD = 0.0;
 		public static final double angleKF = 0.0;
 
 		/* Drive Motor PID Values */
-		public static final double driveKP = 0.10;
+		public static final double driveKP = 0.165;
 		public static final double driveKI = 0.0;
 		public static final double driveKD = 0.0;
 		public static final double driveKF = 0.0;
@@ -130,7 +130,7 @@ public final class Constants {
 
 		/* Swerve Profiling Values */
 		public static final double maxSpeed = 5.25; //meters per second
-		public static final double maxAngularVelocity = 4.875;
+		public static final double maxAngularVelocity = 4.75;
 
 		/* Neutral Modes */
 		public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
@@ -149,7 +149,7 @@ public final class Constants {
 			public static final int driveMotorID = 1; //3
 			public static final int angleMotorID = 2; //4
 			public static final int canCoderID = 3; //9
-			public static double angleOffset = (155.39)/360;//314.5 these aren't accurate just refrences
+			public static double angleOffset = (360-10.54)/360;//314.5 these aren't accurate just refrences
 			public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     	}
@@ -157,10 +157,10 @@ public final class Constants {
 
 		/* Front Right Module - Module 1 */
 		public static final class Mod1 {
-			public static final int driveMotorID = 4; //7
-			public static final int angleMotorID = 5; //8
-			public static final int canCoderID = 6; //11
-			public static double angleOffset = (31.72)/360;//246.7
+			public static final int driveMotorID = 7; //7
+			public static final int angleMotorID = 8; //8
+			public static final int canCoderID = 9; //11
+			public static double angleOffset = (32.17)/360;//246.7
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -168,10 +168,10 @@ public final class Constants {
 
 		/* Back Left Module - Module 2 */
 		public static final class Mod2 {
-			public static final int driveMotorID = 7; //3
-			public static final int angleMotorID = 8; //4
+			public static final int driveMotorID = 3; //3
+			public static final int angleMotorID = 4; //4
 			public static final int canCoderID = 9; //9
-			public static double angleOffset = (360-93.77)/360;//.47
+			public static double angleOffset = (360-93.71)/360;//.47
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -179,10 +179,10 @@ public final class Constants {
 
 		/* Back Right Module - Module 3 */
 		public static final class Mod3 {
-			public static final int driveMotorID = 10; //13
-			public static final int angleMotorID = 11; //2
+			public static final int driveMotorID = 13; //13
+			public static final int angleMotorID = 2; //2
 			public static final int canCoderID = 12; //12
-			public static double angleOffset = (161.89)/360;//257.95
+			public static double angleOffset = (158.47)/360;//257.95
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -209,40 +209,32 @@ public final class Constants {
 	public static final class Intake {
 		public static final int intakeDriveMotorID = 20;
 		public static final int intakeFollowerMotorID = 21;
-
-		public static final boolean driverInverted = true;
-		public static final boolean followerInverted = true;
 	}
 
 	public static final class Shooter {
 		public static final int shooterLeadMotorID = 25;
 		public static final int shooterFollowerID = 26;
-		public static final int shooterPivotID = 27;
 	
 		public static final double SUBWOOFERPositionX = 0;
 		public static final double SUBWOOFERPositionY = 5.51;
 		
-		public static final double topFlyWheelKP = 0.0005; 
-		public static final double topFlyWheelKI = 0.00001; 
-		public static final double topFlyWheelKIZone = 100;
+		public static final double topFlyWheelKP = 0.00000625; 
+		public static final double topFlyWheelKI = 0.000000325; 
+		public static final double topFlyWheelKIZone = 2000;
 		public static final double topFlyWheelKD = 0.0; 
 		public static final double topFlyWheelMaxVel = 6500;
 		public static final double topFlyWheelMinVel = -6500;
-		public static final double topFlyWheelMaxAccel = 100;
-		public static final double topFlyWheelAllowedError = 5; 
+		public static final double topFlyWheelMaxAccel = 6500;
+		public static final double topFlyWheelAllowedError = 50; 
 
-		public static final double bottomFlyWheelKP = 0.0005; 
-		public static final double bottomFlyWheelKI = 0.00001; 
-		public static final double bottomFlyWheelKIZone = 100;
+		public static final double bottomFlyWheelKP = 0.00000625; 
+		public static final double bottomFlyWheelKI = 0.000000325; 
+		public static final double bottomFlyWheelKIZone = 2000;
 		public static final double bottomFlyWheelKD = 0.0; 
 		public static final double bottomFlyWheelMaxVel = 6500;
 		public static final double bottomFlyWheelMinVel = -6500;
-		public static final double bottomFlyWheelMaxAccel = 100;
-		public static final double bottomFlyWheelAllowedError = 5;
-
-		public static final double MIN_OUTPUT_RANGE = -1;
-		public static final double MAX_OUTPUT_RANGE = 1;
-		public static final int SLOT_ID_GAIN = 0; /* Between 0 and 3 */
+		public static final double bottomFlyWheelMaxAccel = 6500;
+		public static final double bottomFlyWheelAllowedError = 50;
   	}
 
 	public static final class Pivot {
@@ -250,14 +242,10 @@ public final class Constants {
 
 		public static final double ampPosition = 8;
 		public static final double closePosition = 4.828;
-		public static final double spikePosition = 4.450;
 		public static final double podiumPosition = 3.900;
-		public static final double underPosition = 2.6;
-
+		public static final double underPosition = 2.64;
 		public static final double stagePosition = 1.73;
-		public static final double wingPosition = 1.0;
 
-		/* Shooter Pivot Values */
 		public static final double pivotKP = 0.15; 
 		public static final double pivotKI = 0.00125; 
 		public static final double pivotKIZone = 0.1;
@@ -272,75 +260,77 @@ public final class Constants {
 	}
 
 	public static final class Elevator {
-    public static final int elevatorLeaderID = 30;
+		public static final int elevatorLeaderID = 30;
 		public static final int elevatorFollowerID = 31;
 		public static final boolean elevatorLeaderisInverted = true;
 		public static final boolean elevatorFollowisInverted = false;
 		public static final int elevatorTopLimitSwitch = 2;
 		public static final int elevatorBottomLimitSwitch = 3;
     
-		public static final double elevKP = 0.00025;
-		public static final double elevKI = 0.000005;
-		public static final double elevKIZone = 30;
-		public static final double elevKD = 0.0;
+		public static final double elevatorkP = 0.005;
+		public static final double elevatorkI = 0.000005;
+		public static final double elevatorkIZone = 30;
+		public static final double elevatorkD = 0.0;
+		public static final double elevatorMaxVelo = 5000;
+		public static final double elevatorMaxAcc = 5000;
+		public static final double elevatorMaxError = 2.5;
 
-		public static final double elevStopSpeed = 0.0;
-		public static final double elevUpSpeed = 0.35;
-		public static final double elevDownSpeed = -0.35;
+		public static final double elevatorDownPosition = 5;
+		public static final double elevatorTrapPosition = 90;
+	}	
 
-		public static final double elevResetPosition = 7.5;
-		public static final double elevHighPosition = 100;
-		public static final double elevTrapPosition = 90;
-		public static final double elevAmpPosition = 80;
-  }
+	public static final class Climber {
+		public static final int climberRightLeadID = 35;
+		public static final int climberLeftFollowID = 36;
+		public static final int servoRightID = 1;
+		public static final int servoLeftID = 2;
 
-  public static final class Climber {
-    public static final int climberRightLeadID = 35;
-    public static final int climberLeftFollowID = 36;
-    public static final int servoRightID = 1;
-    public static final int servoLeftID = 2;
-    public static final int climberLimitSwitchID = 4;
+		public static final double climberkP = 0.002;
+		public static final double climberkI = 0.00002;
+		public static final double climberkIZone = 0.1;
+		public static final double climberkD = 0;
+		public static final double climberAllowedError = 1;
+		public static final double climberMaxVelo = 4000;
+		public static final double climberMaxAcc = 4000;
 
-    public static final double climberkP = 0.002;
-    public static final double climberkI = 0.00002;
-    public static final double climberkIZone = 0.1;
-    public static final double climberkD = 0;
-    public static final double climberAllowedError = 1;
-    public static final double climberMaxVelo = 4000;
-    public static final double climberMaxAcc = 4000;
-
-    public static final double servoPosEngage = 0.55;
-    public static final double servoPosDisEngage = 0.3;
-
-	public static final double servoPosRightEngage = 0.55;
-    public static final double servoPosRightDisEngage = 0.3;
-
-	public static final double servoPosLeftEngage = 0.3;
-    public static final double servoPosLeftDisEngage = 0.55;
-
-		public static final double climberResetPosition = 7.5;
+		public static final double servoPosRightEngage = 0.55;
+		public static final double servoPosRightDisEngage = 0.3;
+		public static final double servoPosLeftEngage = 0.3;
+		public static final double servoPosLeftDisEngage = 0.8;
 
 		public static final double climberTopSetpoint = 15;
 		public static final double climberBottomSetpoint = 0;
 	}
 
-  public static final class LEDS{
-    public static final int candleID = 60;
-    public static final int numLEDs = 37;
-    public static final int ledStartOffset = 0;
-  }
+	public static final class LEDS{
+		public static final int candleID = 60;
+		public static final int numLEDs = 37;
+		public static final int ledStartOffset = 0;
+	}
+  
 	public static final class Conveyor {
 		public static final int conveyorMotorID = 29;
 		public static final int conveyerBeamBreakID = 0;
 		public static final boolean conveyorInverted = true;
 
-		public static final double conveyorkP = 0.025;
-		public static final double conveyorkI = 0.0005;
-		public static final double conveyorkIzone = 0;
+		public static final double conveyorkP = 0.05;
+		public static final double conveyorkI = 0.00005;
+		public static final double conveyorkIzone = 5;
 		public static final double conveyorkD = 0;
-		public static final double conveyorMaxVelo = 6000;
-		public static final double conveyorMaxAcc = 6000;
-		public static final double conveyorMaxError = 0.1;
+		public static final double conveyorMaxVelo = 5000;
+		public static final double conveyorMaxAcc = 5000;
+		public static final double conveyorMaxError = 0.05;
+	}
+
+	public static final class OperatorConstants {
+		public static final double stickDeadband = 0.1;
+
+		public static final int drivaPort = 0;
+		public static final int operataPort = 1;
+		public static final int operata2Port = 2;
+		public static final int shootertestaPort = 3;
+		public static final int elevatortestaPort = 4;
+		public static final int climbertestaPort = 5;
 	}
 
 	public static final class AutoConstants {
@@ -360,6 +350,7 @@ public final class Constants {
 		// Constraint for the motion profilied robot angle controller
 		public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
 			new TrapezoidProfile.Constraints(
-				kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-		}
+				kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared
+			);
+	}
 }

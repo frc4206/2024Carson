@@ -27,7 +27,7 @@
         "x": 10.251907067603256,
         "y": 5.5400332622864115
       },
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": null
     },
     {
@@ -36,44 +36,60 @@
         "y": 5.908353479414798
       },
       "prevControl": {
-        "x": 2.493645850409001,
-        "y": 9.4810515455316
+        "x": 2.646399896498798,
+        "y": 9.533680294739495
       },
       "nextControl": {
-        "x": 4.5865978911445,
-        "y": 3.8006001937929805
+        "x": 4.013584323464943,
+        "y": 5.274063653540413
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 9.194094741465836,
-        "y": 3.9526242015446997
+        "x": 4.270855721198622,
+        "y": 4.864768248055015
       },
       "prevControl": {
-        "x": 7.287947567348126,
-        "y": 4.361919607030098
+        "x": 3.768007080173705,
+        "y": 5.285757807982852
       },
       "nextControl": {
-        "x": 10.95636365416326,
-        "y": 3.5742229012722473
+        "x": 4.55011835072556,
+        "y": 4.63096697682316
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.867257597763059,
-        "y": 4.736132549188175
+        "x": 9.147318123696076,
+        "y": 4.209895599278378
       },
       "prevControl": {
-        "x": 4.604052350635495,
-        "y": 4.2864902520119195
+        "x": 7.241170949578366,
+        "y": 4.619191004763777
       },
       "nextControl": {
-        "x": 5.147917304381616,
-        "y": 5.215592881328213
+        "x": 10.9095870363935,
+        "y": 3.831494299005926
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.007587451072338,
+        "y": 4.630885159206216
+      },
+      "prevControl": {
+        "x": 4.744382203944774,
+        "y": 4.18124286202996
+      },
+      "nextControl": {
+        "x": 5.288247157690895,
+        "y": 5.110345491346254
       },
       "isLocked": false,
       "linkedName": null
@@ -96,12 +112,12 @@
     },
     {
       "anchor": {
-        "x": 3.9317252423678632,
-        "y": 5.908353479414798
+        "x": 3.194993512494147,
+        "y": 5.776912294565331
       },
       "prevControl": {
-        "x": 3.9434193968103033,
-        "y": 5.905547993432169
+        "x": 3.3704058291307457,
+        "y": 5.776912294565331
       },
       "nextControl": null,
       "isLocked": false,
@@ -116,16 +132,16 @@
     },
     {
       "waypointRelativePos": 1.3,
-      "rotationDegrees": -30.0,
+      "rotationDegrees": -20.0,
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 2.7,
-      "rotationDegrees": -2.2407889847626206,
+      "waypointRelativePos": 3.4,
+      "rotationDegrees": 5.184029896860754,
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 2.05,
+      "waypointRelativePos": 2.1,
       "rotationDegrees": 0,
       "rotateFast": true
     }
@@ -142,7 +158,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
+                "name": "intakelong"
               }
             },
             {
@@ -157,7 +173,7 @@
     },
     {
       "name": "shoot1",
-      "waypointRelativePos": 2.05,
+      "waypointRelativePos": 1.9,
       "command": {
         "type": "parallel",
         "data": {
@@ -171,7 +187,7 @@
             {
               "type": "named",
               "data": {
-                "name": "pivot2"
+                "name": "pivot4"
               }
             }
           ]
@@ -180,7 +196,7 @@
     },
     {
       "name": "pickup2",
-      "waypointRelativePos": 3.0,
+      "waypointRelativePos": 4.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -188,7 +204,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
+                "name": "intakelong"
               }
             },
             {
@@ -203,7 +219,7 @@
     },
     {
       "name": "shoot2",
-      "waypointRelativePos": 4.85,
+      "waypointRelativePos": 6.8,
       "command": {
         "type": "parallel",
         "data": {
@@ -217,7 +233,7 @@
             {
               "type": "named",
               "data": {
-                "name": "pivot2"
+                "name": "pivot6"
               }
             }
           ]

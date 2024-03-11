@@ -134,12 +134,12 @@ public class RobotContainer {
   
   private void configureBindings() {
     new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
-    //new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 0.8), new ConveyorToDuty(m_conveyorSubsystem, -0.675)));
-    new JoystickButton(driva, 2).whileTrue(new ShooterToVelocity(m_flywheelSubsystem, 6500));
+    new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 1), new ConveyorToDuty(m_conveyorSubsystem, -0.675)));
+    //new JoystickButton(driva, 2).whileTrue(new ShooterToVelocity(m_flywheelSubsystem, 6500));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     // new JoystickButton(driva, 4).onTrue(new);
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));//.andThen(new shooterToDutyCommand(m_flywheelSubsystem, 1).onlyIf(() -> m_swerveSubsystem.shooterShouldRun())));
-    new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, -0.8), new ConveyorToDuty(m_conveyorSubsystem, 0.5)));
+    new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 1), new ConveyorToDuty(m_conveyorSubsystem, 0.5)));
     new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ShooterToVelocity(m_flywheelSubsystem, 6500));
     new Trigger(() -> this.getLeftTrigger(driva)).onFalse(new ShooterStop(m_flywheelSubsystem));
     new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ToggleElevatorAmp(m_elevatorSubsystem));

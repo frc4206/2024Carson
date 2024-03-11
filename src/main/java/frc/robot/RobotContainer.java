@@ -138,7 +138,8 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
+    //new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
+    new JoystickButton(driva, 1).whileTrue(new ConveyorToDuty(m_conveyorSubsystem, -1));
     new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 1), new ConveyorToDuty(m_conveyorSubsystem, -0.675)));
     //new JoystickButton(driva, 2).whileTrue(new ShooterToVelocity(m_flywheelSubsystem, 6500));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
@@ -184,13 +185,13 @@ public class RobotContainer {
     new JoystickButton(shootertesta, 10).whileTrue(new IntakeToDuty(m_intakeSubsystem, 1));
 
 
-    // new JoystickButton(elevatortesta, 1).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, -0.1));
-    // new JoystickButton(elevatortesta, 2).whileTrue(new ResetElevator(m_elevatorSubsystem));
-    // new JoystickButton(elevatortesta, 4).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, 0.1));
-    // new JoystickButton(elevatortesta, 5).whileTrue(new ElevatorDown(m_elevatorSubsystem));
-    // new JoystickButton(elevatortesta, 6).whileTrue(new ElevatorUp(m_elevatorSubsystem));
-    // new JoystickButton(elevatortesta, 7).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
-    // new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, Constants.Elevator.elevatorTrapPosition+5));
+    new JoystickButton(elevatortesta, 1).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, -0.1));
+    new JoystickButton(elevatortesta, 2).whileTrue(new ResetElevator(m_elevatorSubsystem));
+    new JoystickButton(elevatortesta, 4).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, 0.1));
+    new JoystickButton(elevatortesta, 5).whileTrue(new ElevatorDown(m_elevatorSubsystem));
+    new JoystickButton(elevatortesta, 6).whileTrue(new ElevatorUp(m_elevatorSubsystem));
+    new JoystickButton(elevatortesta, 7).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
+    new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, Constants.Elevator.elevatorTrapPosition+5));
 
 
     new JoystickButton(climbertesta, 7).whileTrue(new ClimbDown(m_leftClimberSubsystem, m_rightClimberSubsystem));

@@ -139,7 +139,7 @@ public class RobotContainer {
   private void configureBindings() {
     new JoystickButton(driva, 1).whileTrue(new AlignWithSpeakerCommand(m_swerveSubsystem, driva, translationAxis, strafeAxis, rotationAxis, true, true));
     
-    new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 0.8), new ConveyorToDuty(m_conveyorSubsystem, -0.675)));
+    new JoystickButton(driva, 2).whileTrue(new InstantCommand(() -> m_swerveSubsystem.poseEstimator.addVisionMeasurement(m_swerveSubsystem.AprilCords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0))));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     // new JoystickButton(driva, 4).onTrue(new);
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));//.andThen(new shooterToDutyCommand(m_flywheelSubsystem, 1).onlyIf(() -> m_swerveSubsystem.shooterShouldRun())));

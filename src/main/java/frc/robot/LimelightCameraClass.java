@@ -109,7 +109,7 @@ public class LimelightCameraClass {
 					currTime = Timer.getFPGATimestamp();
 				}
 				if (currTime > 1) {
-					aprilTagResult = limelightTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
+					aprilTagResult = limelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 					aprilTagResult[0] *= -1;
 					fieldResult = limelightTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
 				}

@@ -65,6 +65,11 @@ public class FlywheelSubsystem extends SubsystemBase {
 		lowerFlyPIDController.setReference(setVelocity, CANSparkFlex.ControlType.kVelocity);
 	}
 
+	public void setVelocity(double setVelocityUpper, double setVelocityLower) {
+		upperFlyPIDController.setReference(setVelocityUpper, CANSparkFlex.ControlType.kVelocity);
+		lowerFlyPIDController.setReference(setVelocityLower, CANSparkFlex.ControlType.kVelocity);
+	}
+
 	public void percentShooter(double percent) {
 		upperFlyMotor.set(percent);
 		lowerFlyMotor.set(percent);
@@ -79,5 +84,9 @@ public class FlywheelSubsystem extends SubsystemBase {
 	public void periodic() {
 		SmartDashboard.putNumber("topVelo", upperFlyEncoder.getVelocity());
 		SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
+		SmartDashboard.putNumber("topcurr", upperFlyMotor.getOutputCurrent());
+		SmartDashboard.putNumber("bottomcurr", lowerFlyMotor.getOutputCurrent());
+
+		// setVelocity(SmartDashboard.getNumber("top velo", 0), SmartDashboard.getNumber("bottom velo", 0));
 	}
 }

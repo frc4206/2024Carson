@@ -13,6 +13,8 @@ public class GlobalVariables {
     public static boolean ampReady = false;
 
     public static double ampCounter = 2;
+    public static double veloCounter = 2;
+    public static double climbCounter = 2;
 
     public static boolean isEnabled = false;
 }

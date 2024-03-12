@@ -14,6 +14,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class PID_to_game_Piece extends Command {
+	/** Creates a new PID_DistanceOdometry2. */
 	private double rotation;
 	private Translation2d translation;
 	private boolean fieldRelative;
@@ -29,6 +30,7 @@ public class PID_to_game_Piece extends Command {
 	private double init_time;
 	double current_time;
 	double timeout;
+	boolean fin = false;
 
 	public PIDController pidx = new PIDController(Constants.Swerve.toGamePiecexKP, Constants.Swerve.toGamePiecexKI, Constants.Swerve.toGamePiecexKD);
 	public PIDController pidy = new PIDController(Constants.Swerve.toGamePieceYKP, Constants.Swerve.toGamePieceYKI, Constants.Swerve.toGamePieceYKD);
@@ -45,7 +47,9 @@ public class PID_to_game_Piece extends Command {
 
 	// Called when the command is initially scheduled.
 	@Override
-	public void initialize() {}
+	public void initialize() {
+		init_time = Timer.getFPGATimestamp();
+	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
@@ -53,12 +57,12 @@ public class PID_to_game_Piece extends Command {
 		current_time = Timer.getFPGATimestamp() - init_time;
 		double[] OdometryArray = {s_Swerve.poseEstimator.getEstimatedPosition().getX(), s_Swerve.poseEstimator.getEstimatedPosition().getY()};
 
-		double[] gamePiecePos = Limelight.limelightshooter.GetGamePiecePosition(OdometryArray, s_Swerve.getYaw().getDegrees());
+		double[] gamePiecePos = Limelight.limelightintake.GetGamePiecePosition(OdometryArray, s_Swerve.getYaw().getDegrees());
 		x_set = gamePiecePos[0];
 		y_set = gamePiecePos[1];
 		rotation = 0;
 
-		double X_Output = 0;
+		double X_Output = 0.2;
 		double Y_Output = 0;
 
 		SmartDashboard.putNumber("x game piece pos", x_set);
@@ -70,17 +74,21 @@ public class PID_to_game_Piece extends Command {
 			Y_Output = pidy.calculate(s_Swerve.swerveOdometry.getPoseMeters().getY(), y_set);
 		} else {
 			//fieldRelative = false;
-			X_Output = (Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece() == 0) ? X_Output : pidx.calculate(Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
-			rotation = pidyaw.calculate(Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0), 0);
-			SmartDashboard.putNumber("angle", Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0));
+			//X_Output = (Limelight.limelightintake.HasTarget() == 0) ? X_Output : pidx.calculate(Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
 			SmartDashboard.putNumber("distance to game piece in command", Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
 		}
-		
+		//Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0)
+		SmartDashboard.putNumber("angle", SmartDashboard.getNumber("tx", 10));
+		rotation = pidyaw.calculate(Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0), 0);
 		SmartDashboard.putNumber("pid output piece ", X_Output);
 
-		translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
+		translation = new Translation2d(X_Output, 0).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
 
 		s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
+		if (current_time > timeout) {
+			fin = true;
+			isFinished();
+		}
 	}
 
 	// Called once the command ends or is interrupted.
@@ -90,7 +98,7 @@ public class PID_to_game_Piece extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return false;
+		return fin;
 	}
 }
 // Polo

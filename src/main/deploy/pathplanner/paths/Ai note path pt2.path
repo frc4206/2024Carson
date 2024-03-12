@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3239288017037572,
-        "y": 5.531335051274091
+        "x": 1.6111716784003651,
+        "y": 4.182646275031268
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.323928801703758,
-        "y": 5.531335051274091
+        "x": 1.3966769976295312,
+        "y": 3.8511544956581605
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Ai note path end 1"
     },
     {
       "anchor": {
-        "x": 4.0954434045620225,
-        "y": 5.531335051274091
+        "x": 0.7044441642327478,
+        "y": 4.182646275031268
       },
       "prevControl": {
-        "x": 3.0954434045620225,
-        "y": 5.531335051274091
+        "x": 1.1919320750755529,
+        "y": 4.319142890067254
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,10 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
-  "useDefaultConstraints": true
+  "folder": "Ai Test Paths",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
 }

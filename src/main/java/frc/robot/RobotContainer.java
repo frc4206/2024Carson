@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.commands.Climber.ClimbDown;
 import frc.robot.commands.Climber.ClimbUp;
+import frc.robot.commands.Climber.ToggleClimbToPosition;
 import frc.robot.commands.Climber.ClimberLeft.ClimbDownLeft;
 import frc.robot.commands.Climber.ClimberLeft.ClimbUpLeft;
 import frc.robot.commands.Climber.ClimberLeft.ServoLeftGoToPosition;
@@ -32,9 +33,11 @@ import frc.robot.commands.Pivot.TogglePivotMode;
 import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.commands.Shooter.ShooterToVelocity;
-import frc.robot.commands.Swerve.FreeHeadingState;
-import frc.robot.commands.Swerve.SetHeadingState;
+import frc.robot.commands.Shooter.ToggleShooterToVelocity;
+import frc.robot.commands.Swerve.PID_to_game_Piece;
 import frc.robot.commands.Swerve.TeleopSwerve;
+import frc.robot.commands.Swerve.ToggleAimed;
+import frc.robot.commands.Swerve.TogglePickup;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -92,22 +95,25 @@ public class RobotContainer {
 
   public RobotContainer() {
     NamedCommands.registerCommand("shoot", new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(1.5));
-    NamedCommands.registerCommand("intakeshort", new IntakeToDuty(m_intakeSubsystem, -1).withTimeout(0.6));
+    NamedCommands.registerCommand("intakeshort", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.6));
     NamedCommands.registerCommand("conveyorshort", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.4));
-    NamedCommands.registerCommand("intake", new IntakeToDuty(m_intakeSubsystem, -1).withTimeout(0.8));
+    NamedCommands.registerCommand("intake", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.8));
     NamedCommands.registerCommand("conveyor", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.5));
-    NamedCommands.registerCommand("intakelong", new IntakeToDuty(m_intakeSubsystem, -1).withTimeout(1.5));
+    NamedCommands.registerCommand("intakelong", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(1.5));
     NamedCommands.registerCommand("conveyorlong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.6));
-    NamedCommands.registerCommand("pivot1", new PivotToPosition(m_pivotSubsystem, 5).withTimeout(0.75));
-    NamedCommands.registerCommand("pivot2", new PivotToPosition(m_pivotSubsystem, 4.54).withTimeout(0.75));
-    NamedCommands.registerCommand("pivot3", new PivotToPosition(m_pivotSubsystem, 4.4).withTimeout(0.75));
-    NamedCommands.registerCommand("pivot4", new PivotToPosition(m_pivotSubsystem, 2.54).withTimeout(0.75));
-    NamedCommands.registerCommand("pivot5", new PivotToPosition(m_pivotSubsystem, 3).withTimeout(0.75));
-    NamedCommands.registerCommand("pivot6", new PivotToPosition(m_pivotSubsystem, 2.64).withTimeout(0.75));
-    NamedCommands.registerCommand("pivot7", new PivotToPosition(m_pivotSubsystem, 4.35).withTimeout(0.75));
+    // NamedCommands.registerCommand("pivot1", new PivotToPosition(m_pivotSubsystem, 5).withTimeout(0.75));
+    // NamedCommands.registerCommand("pivot2", new PivotToPosition(m_pivotSubsystem, 4.54).withTimeout(0.75));
+    // NamedCommands.registerCommand("pivot3", new PivotToPosition(m_pivotSubsystem, 4.4).withTimeout(0.75));
+    // NamedCommands.registerCommand("pivot4", new PivotToPosition(m_pivotSubsystem, 2.54).withTimeout(0.75));
+    // NamedCommands.registerCommand("pivot5", new PivotToPosition(m_pivotSubsystem, 3).withTimeout(0.75));
+    // NamedCommands.registerCommand("pivot6", new PivotToPosition(m_pivotSubsystem, 2.64).withTimeout(0.75));
+    // NamedCommands.registerCommand("pivot7", new PivotToPosition(m_pivotSubsystem, 4.35).withTimeout(0.75));
 
 
 
+    NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2));
+    NamedCommands.registerCommand("print", new InstantCommand( () -> System.out.println("Ran command in auto")));
+    
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driva, translationAxis, strafeAxis, rotationAxis, true, true));
     m_leftClimberSubsystem.setDefaultCommand(new ServoLeftGoToPosition(m_leftClimberSubsystem, Constants.Climber.servoPosLeftEngage));
     m_rightClimberSubsystem.setDefaultCommand(new ServoRightGoToPosition(m_rightClimberSubsystem, Constants.Climber.servoPosRightEngage));
@@ -138,21 +144,16 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    //new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
-    new JoystickButton(driva, 1).whileTrue(new ConveyorToDuty(m_conveyorSubsystem, -1));
-    new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 1), new ConveyorToDuty(m_conveyorSubsystem, -0.675)));
-    //new JoystickButton(driva, 2).whileTrue(new ShooterToVelocity(m_flywheelSubsystem, 6500));
+    new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
+    new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, -1), new ConveyorToDuty(m_conveyorSubsystem, -0.65)));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
-    // new JoystickButton(driva, 4).onTrue(new);
+    new JoystickButton(driva, 4).onTrue(new ToggleClimbToPosition(m_leftClimberSubsystem, m_rightClimberSubsystem, 0, 0, 0, 0));
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));//.andThen(new shooterToDutyCommand(m_flywheelSubsystem, 1).onlyIf(() -> m_swerveSubsystem.shooterShouldRun())));
-    new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 1), new ConveyorToDuty(m_conveyorSubsystem, 0.5)));
-    new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ShooterToVelocity(m_flywheelSubsystem, 6500));
-    new Trigger(() -> this.getLeftTrigger(driva)).onFalse(new ShooterStop(m_flywheelSubsystem));
+    new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 1), new ConveyorToDuty(m_conveyorSubsystem, 0.65)));
+    new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleShooterToVelocity(m_flywheelSubsystem, 6500));
     //new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ToggleElevatorAmp(m_elevatorSubsystem));
-    new JoystickButton(driva, 7).onTrue(new FreeHeadingState(m_swerveSubsystem));
-    new JoystickButton(driva, 8).onTrue(new SetHeadingState(m_swerveSubsystem));
-
-    // new Trigger(() -> this.getLeftTrigger(driva)).whileTrue(new shooterToDutyCommand2(m_flywheelSubsystem, 0.4, 0.6));
+    new JoystickButton(driva, 7).onTrue(new TogglePickup(m_swerveSubsystem));
+    new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
 
 
     new JoystickButton(operata, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));
@@ -167,7 +168,7 @@ public class RobotContainer {
     new Trigger(() -> this.getRightTrigger(operata)).whileTrue(new ClimbUpRight(m_rightClimberSubsystem));
     
 
-    //new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_leftClimberSubsystem, m_rightClimberSubsystem, m_conveyorSubsystem, m_elevatorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
+    new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_leftClimberSubsystem, m_rightClimberSubsystem, m_conveyorSubsystem, m_elevatorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
     new JoystickButton(operata2, 5).whileTrue(new SetBlue(m_leds));
     new JoystickButton(operata2, 6).whileTrue(new SetGreen(m_leds));
     new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));
@@ -179,8 +180,8 @@ public class RobotContainer {
     new JoystickButton(shootertesta, 4).whileTrue(new PivotToPosition(m_pivotSubsystem, 5));
     new JoystickButton(shootertesta, 5).onTrue(new ConveyorToPosition(m_conveyorSubsystem, 10));
     new JoystickButton(shootertesta, 6).onTrue(new ConveyorToPosition(m_conveyorSubsystem, 20));
-    new JoystickButton(shootertesta, 7).whileTrue(new PivotToDuty(m_pivotSubsystem, -0.02));
-    new JoystickButton(shootertesta, 8).whileTrue(new PivotToDuty(m_pivotSubsystem, 0.02));
+    new JoystickButton(shootertesta, 7).whileTrue(new PivotToDuty(m_pivotSubsystem, -0.08));
+    new JoystickButton(shootertesta, 8).whileTrue(new PivotToDuty(m_pivotSubsystem, 0.08));
     new JoystickButton(shootertesta, 9).onTrue(new ResetPivot(m_pivotSubsystem));
     new JoystickButton(shootertesta, 10).whileTrue(new IntakeToDuty(m_intakeSubsystem, 1));
 
@@ -204,7 +205,6 @@ public class RobotContainer {
 
   
   public Command getAutonomousCommand() {
-    return new ParallelCommandGroup(new PathPlannerAuto("CopyAmp2"), new ShooterToVelocity(m_flywheelSubsystem, 6500));
-    //return new PathPlannerAuto("TestAuto");
+    return new ParallelCommandGroup(new PathPlannerAuto("Source1"));//, new ShooterToVelocity(m_flywheelSubsystem, 6500));
   }
 } 

@@ -73,7 +73,7 @@ public final class Constants {
 		public static final double angleKF = 0.0;
 
 		/* Drive Motor PID Values */
-		public static final double driveKP = 0.10;
+		public static final double driveKP = 0.15;
 		public static final double driveKI = 0.0;
 		public static final double driveKD = 0.0;
 		public static final double driveKF = 0.0;
@@ -116,7 +116,7 @@ public final class Constants {
 		public static final double toGamePieceYKI = 0.0; 
 		public static final double toGamePieceYKD = 0.0; 
 
-		public static final double toGamePieceYawKP = 0.0002; 
+		public static final double toGamePieceYawKP = 0.1; 
 		public static final double toGamePieceYawKI = 0.0; 
 		public static final double toGamePieceYawKD = 0.0; 
 
@@ -130,7 +130,7 @@ public final class Constants {
 
 		/* Swerve Profiling Values */
 		public static final double maxSpeed = 5.25; //meters per second
-		public static final double maxAngularVelocity = 4.875;
+		public static final double maxAngularVelocity = 7.75;
 
 		/* Neutral Modes */
 		public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
@@ -149,7 +149,7 @@ public final class Constants {
 			public static final int driveMotorID = 1; //3
 			public static final int angleMotorID = 2; //4
 			public static final int canCoderID = 3; //9
-			public static double angleOffset = (360-11.3)/360;//314.5 these aren't accurate just refrences
+			public static double angleOffset = (360-14.06)/360;//314.5 these aren't accurate just refrences
 			public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     	}
@@ -160,7 +160,7 @@ public final class Constants {
 			public static final int driveMotorID = 4; //7
 			public static final int angleMotorID = 5; //8
 			public static final int canCoderID = 6; //11
-			public static double angleOffset = (35.7)/360;//246.7
+			public static double angleOffset = (31.64)/360;//246.7
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -171,7 +171,7 @@ public final class Constants {
 			public static final int driveMotorID = 7; //3
 			public static final int angleMotorID = 8; //4
 			public static final int canCoderID = 9; //9
-			public static double angleOffset = (360-95.1)/360;//.47
+			public static double angleOffset = (360-92.90)/360;//.47
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -182,7 +182,7 @@ public final class Constants {
 			public static final int driveMotorID = 10; //13
 			public static final int angleMotorID = 11; //2
 			public static final int canCoderID = 12; //12
-			public static double angleOffset = (161.29)/360;//257.95
+			public static double angleOffset = (162.86)/360;//257.95
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -208,7 +208,6 @@ public final class Constants {
 
 	public static final class Intake {
 		public static final int intakeDriveMotorID = 20;
-		public static final int intakeFollowerMotorID = 21;
 	}
 
 	public static final class Shooter {
@@ -218,17 +217,17 @@ public final class Constants {
 		public static final double SUBWOOFERPositionX = 0;
 		public static final double SUBWOOFERPositionY = 5.51;
 		
-		public static final double topFlyWheelKP = 0.00000625; 
-		public static final double topFlyWheelKI = 0.000000325; 
-		public static final double topFlyWheelKIZone = 2000;
-		public static final double topFlyWheelKD = 0.0; 
+		public static final double topFlyWheelKP = 0.5;//0.0000975*50000; //0.00000625
+		public static final double topFlyWheelKI = 0;//0.0000975*10; //0.000000325
+		public static final double topFlyWheelKIZone = 0;
+		public static final double topFlyWheelKD = 1; 
 		public static final double topFlyWheelMaxVel = 6500;
 		public static final double topFlyWheelMinVel = -6500;
 		public static final double topFlyWheelMaxAccel = 6500;
 		public static final double topFlyWheelAllowedError = 50; 
 
 		public static final double bottomFlyWheelKP = 0.00000625; 
-		public static final double bottomFlyWheelKI = 0.000000325; 
+		public static final double bottomFlyWheelKI = 0.000000325*1.25; 
 		public static final double bottomFlyWheelKIZone = 2000;
 		public static final double bottomFlyWheelKD = 0.0; 
 		public static final double bottomFlyWheelMaxVel = 6500;

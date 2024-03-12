@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3479282065452507,
-      "y": 4.094898451079563
+      "x": 0.528948516329338,
+      "y": 4.182646275031268
     },
-    "rotation": -45.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,19 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SourcePt1"
+            "pathName": "Ai note path pt1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "shoot"
+            "name": "Ai Pickup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "print"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Source1Pt2"
+            "pathName": "Ai note path pt2"
           }
         }
       ]

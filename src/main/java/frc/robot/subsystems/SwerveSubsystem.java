@@ -13,15 +13,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -156,6 +153,22 @@ public class SwerveSubsystem extends SubsystemBase {
             headingState = HeadingState.FREE;
         } else if (headingState == HeadingState.FREE){
             headingState = HeadingState.PICKUP;
+        }
+    }
+
+    public void toggleSource(){
+        if (headingState != HeadingState.PICKUP){
+            headingState = HeadingState.PICKUP;
+        } else {
+            headingState = HeadingState.FREE;
+        }
+    }
+
+    public void toggleAimed(){
+        if (headingState != HeadingState.AIMED){
+            headingState = HeadingState.AIMED;
+        } else {
+            headingState = HeadingState.FREE;
         }
     }
 
@@ -458,38 +471,36 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        double[] actualOdo = {swerveOdometry.getPoseMeters().getX(), swerveOdometry.getPoseMeters().getY(), getYaw().getDegrees()};
+        double[] actualOdo = {0,0,0};
         swerveOdometry.update(getYaw(), getModulePositions());
-        // if (GlobalVariables.alliance == Alliance.Blue){
-        //     swerveOdometry.update(getYaw(), getModulePositions());
-        //     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
-        //     OdometryArray[2] = getYaw().getDegrees();
-        //     resetOdometryLLFieldCords();
-        //     OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
-        //     OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
-        //     double[] actualOdoBlue = {swerveOdometry.getPoseMeters().getX(), swerveOdometry.getPoseMeters().getY(), getYaw().getDegrees()};
-        //     actualOdo = actualOdoBlue;
-        //     if (Limelight.limelightshooter.HasTarget() != 0 && GlobalVariables.isEnabled == false){
-        //         poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
-        //         swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
-        //     }
-        // } else if (GlobalVariables.alliance == Alliance.Red){
-        //     swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
-        //     poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
-        //     OdometryArray[2] = getYawInverted().getDegrees();
-        //     //resetWithApriltags(swerveInvertOdometry, poseInvertEstimator, getModulePositionsInverted(), getYawInverted());
-        //     double[] actualOdoRed = {swerveInvertOdometry.getPoseMeters().getX(), swerveInvertOdometry.getPoseMeters().getY(), getYawInverted().getDegrees()};
-        //     actualOdo = actualOdoRed;
-        //     OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
-        //     OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
-        //     if (Limelight.limelightshooter.HasTarget() != 0 && GlobalVariables.isEnabled == false){
-        //         swerveInvertOdometry.resetPosition(getYaw(), getModulePositionsInverted(), AprilCords);
-        //         poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
-        //     }
-        // }
-        
-        OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
-        OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
+        //if (GlobalVariables.alliance == Alliance.Blue){
+        //    swerveOdometry.update(getYaw(), getModulePositions());
+        //    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions());
+        //    OdometryArray[2] = getYaw().getDegrees();
+        //    resetOdometryLLFieldCords();
+        //    OdometryArray[0] = poseEstimator.getEstimatedPosition().getX();
+        //    OdometryArray[1] = poseEstimator.getEstimatedPosition().getY();
+        //    double[] actualOdoBlue = {swerveOdometry.getPoseMeters().getX(), swerveOdometry.getPoseMeters().getY(), getYaw().getDegrees()};
+        //    actualOdo = actualOdoBlue;
+        //    if (Limelight.limelightshooter.HasTarget() != 0 && GlobalVariables.isEnabled == false){
+        //        poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
+        //        swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
+        //    }
+        //} else if (GlobalVariables.alliance == Alliance.Red){
+        //    swerveInvertOdometry.update(getYawInverted(), getModulePositionsInverted());
+        //    poseInvertEstimator.updateWithTime(Timer.getFPGATimestamp(), getYawInverted(), getModulePositionsInverted());
+        //    OdometryArray[2] = getYawInverted().getDegrees();
+        //    resetWithApriltags(swerveInvertOdometry, poseInvertEstimator, getModulePositionsInverted(), getYawInverted());
+        //    double[] actualOdoRed = {swerveInvertOdometry.getPoseMeters().getX(), swerveInvertOdometry.getPoseMeters().getY(), getYawInverted().getDegrees()};
+        //    actualOdo = actualOdoRed;
+        //    OdometryArray[0] = poseInvertEstimator.getEstimatedPosition().getX();
+        //    OdometryArray[1] = poseInvertEstimator.getEstimatedPosition().getY();
+        //    if (Limelight.limelightshooter.HasTarget() != 0 && GlobalVariables.isEnabled == false){
+        //        swerveInvertOdometry.resetPosition(getYaw(), getModulePositionsInverted(), AprilCords);
+        //        poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
+        //    }
+        //}
+        //
 
         SmartDashboard.putNumberArray("odometry", actualOdo);
         SmartDashboard.putNumberArray("Pose estimator", OdometryArray);
@@ -510,15 +521,21 @@ public class SwerveSubsystem extends SubsystemBase {
         double angle = gyro.getYaw().getValueAsDouble() % 360;
         angle = (angle < 0) ? 360 + angle : angle;
 
-        double[] flywheelArray = {OdometryArray[0] + Constants.Pivot.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Pivot.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
-        GlobalVariables.distanceToSpeaker = Math.sqrt((flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) * (flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) + (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY) * (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY));
-        GlobalVariables.desiredAngle = ((((-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75 - 4.17;
+        //double[] flywheelArray = {OdometryArray[0] + Constants.Pivot.pivotDistanceToRobotCenter * Math.cos(angle * (3.14159 / 180.0)), OdometryArray[1] + Constants.Pivot.pivotDistanceToRobotCenter * Math.sin(angle * (3.14159 / 180.0))};
+        //GlobalVariables.distanceToSpeaker = Math.sqrt((flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) * (flywheelArray[0] - Constants.Shooter.SUBWOOFERPositionX) + (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY) * (flywheelArray[1] - Constants.Shooter.SUBWOOFERPositionY));
+        //GlobalVariables.desiredAngle = ((((-22) * Math.log(GlobalVariables.distanceToSpeaker) + 90.377)) / 360) *75 - 4.17;
 
-        if (GlobalVariables.distanceToSpeaker < 6) {
-            desiredVelo = 30 * 91.7;
-        } else {
-            desiredVelo = (0.9621 * GlobalVariables.distanceToSpeaker + 24.4843) * (288/Math.PI);
-        }
-        GlobalVariables.desiredVelo = desiredVelo;
+        //if (GlobalVariables.distanceToSpeaker < 6) {
+        //    desiredVelo = 30 * 91.7;
+        //} else {
+        //    desiredVelo = (0.9621 * GlobalVariables.distanceToSpeaker + 24.4843) * (288/Math.PI);
+        //}
+        //GlobalVariables.desiredVelo = desiredVelo;
+        double distanceToSpeaker = Math.sqrt(((Limelight.limelightshooter.aprilTagResult[0]) * (Limelight.limelightshooter.aprilTagResult[0]))    +      ((Limelight.limelightshooter.aprilTagResult[2]) * (Limelight.limelightshooter.aprilTagResult[2])));
+        double DesiredPivot = 14.3599*Math.pow(.755, distanceToSpeaker);
+        SmartDashboard.putNumber("distance to speaker", distanceToSpeaker);
+        SmartDashboard.putNumberArray("limelight distance array", Limelight.limelightshooter.aprilTagResult);
+
+        SmartDashboard.putNumber("DesPos", DesiredPivot);
     }
 }

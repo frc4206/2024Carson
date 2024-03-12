@@ -42,6 +42,7 @@ import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightEmittingDiodeSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -81,7 +82,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
   public final Limelight m_Limelight = new Limelight();
-
+  public final LightEmittingDiodeSubsystem leds = new LightEmittingDiodeSubsystem(Constants.LED.pwm_port, Constants.LED.number_of_leds);
   public static final int translationAxis = XboxController.Axis.kLeftY.value;
   public static final int strafeAxis = XboxController.Axis.kLeftX.value;
   public static final int rotationAxis = XboxController.Axis.kRightX.value;

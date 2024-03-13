@@ -1,0 +1,103 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.445668857149679,
+        "y": 7.4385296607335585
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 9.496436303550752,
+        "y": 7.181055016984292
+      },
+      "isLocked": false,
+      "linkedName": "AiAmp3Pt3End"
+    },
+    {
+      "anchor": {
+        "x": 4.648348290454617,
+        "y": 6.67574633904168
+      },
+      "prevControl": {
+        "x": 3.8088257263684198,
+        "y": 8.392951583739658
+      },
+      "nextControl": {
+        "x": 4.822109370363031,
+        "y": 6.320325948324848
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.43397470270724,
+        "y": 5.908353479414798
+      },
+      "prevControl": {
+        "x": 6.527827528589529,
+        "y": 6.317648884900195
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "AiAmp3Pt4End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.6,
+      "rotationDegrees": -7.775313224143874,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.9,
+      "rotationDegrees": 18.128202641295314,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "shoot1",
+      "waypointRelativePos": 1.0499999999999998,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivot2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 18.771146525122447,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "AiAmp3",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

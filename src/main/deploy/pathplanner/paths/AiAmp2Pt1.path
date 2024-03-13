@@ -1,0 +1,103 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.4408703461281565,
+        "y": 7.390705607622041
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.6981417438618351,
+        "y": 6.911245275482004
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.8384715971711143,
+        "y": 6.805997885500045
+      },
+      "prevControl": {
+        "x": 1.5031388730015318,
+        "y": 6.805997885500045
+      },
+      "nextControl": {
+        "x": 2.1074371493472355,
+        "y": 6.805997885500045
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.59589155354597,
+        "y": 6.986510161319658
+      },
+      "prevControl": {
+        "x": 2.315231846927411,
+        "y": 6.996226209013861
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "AiAmp2Pt1End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": 37.0023728867915,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.75,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "shoot1",
+      "waypointRelativePos": 0.85,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivot2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -1.5074357587749212,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "AiAmp2",
+  "previewStartingState": {
+    "rotation": -2.6630007660671655,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

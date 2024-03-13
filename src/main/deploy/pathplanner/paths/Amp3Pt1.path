@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.01,
-        "y": 6.79
+        "x": 1.8384715971711143,
+        "y": 6.805997885500045
       },
       "prevControl": {
-        "x": 1.6746672758304173,
-        "y": 6.79
+        "x": 1.5031388730015318,
+        "y": 6.805997885500045
       },
       "nextControl": {
-        "x": 2.27896555217612,
-        "y": 6.79
+        "x": 2.1074371493472355,
+        "y": 6.805997885500045
       },
       "isLocked": false,
       "linkedName": null
@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 2.7856981070087494,
-        "y": 6.572114796651245
+        "x": 2.972804578087788,
+        "y": 6.689056341075646
       },
       "prevControl": {
-        "x": 2.410487705216857,
-        "y": 6.689368047211213
+        "x": 2.5975941762958956,
+        "y": 6.806309591635613
       },
       "nextControl": {
-        "x": 3.159911049166828,
-        "y": 6.455173252226845
+        "x": 3.3470175202458665,
+        "y": 6.572114796651245
       },
       "isLocked": false,
       "linkedName": null
@@ -73,7 +73,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Amp2Pt1End"
+      "linkedName": "Amp3Pt1End"
     }
   ],
   "rotationTargets": [
@@ -83,13 +83,13 @@
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 1.55,
-      "rotationDegrees": -8.0,
-      "rotateFast": true
+      "waypointRelativePos": 1.75,
+      "rotationDegrees": 0,
+      "rotateFast": false
     },
     {
       "waypointRelativePos": 3.05,
-      "rotationDegrees": 47.11175463403381,
+      "rotationDegrees": 38.669878505178254,
       "rotateFast": false
     }
   ],
@@ -111,7 +111,7 @@
             {
               "type": "named",
               "data": {
-                "name": "pivot3"
+                "name": "pivot2"
               }
             }
           ]
@@ -128,7 +128,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intakelong"
+                "name": "intake"
               }
             },
             {
@@ -157,7 +157,7 @@
             {
               "type": "named",
               "data": {
-                "name": "pivot7"
+                "name": "pivot3"
               }
             }
           ]
@@ -177,7 +177,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp2",
+  "folder": "Amp3",
   "previewStartingState": {
     "rotation": -2.6630007660671655,
     "velocity": 0

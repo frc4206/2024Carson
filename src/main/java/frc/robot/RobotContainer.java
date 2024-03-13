@@ -19,7 +19,6 @@ import frc.robot.commands.Elevator.ElevatorToPosition;
 import frc.robot.commands.Elevator.ElevatorUp;
 import frc.robot.commands.Elevator.ElevatorToDuty;
 import frc.robot.commands.Elevator.ResetElevator;
-import frc.robot.commands.Elevator.ToggleElevatorAmp;
 import frc.robot.commands.Intake.SetupNote;
 import frc.robot.commands.LEDs.SetBlue;
 import frc.robot.commands.LEDs.SetGreen;

@@ -139,6 +139,13 @@ public class RobotContainer {
     m_rightClimberSubsystem.engageServoPos = Constants.Climber.servoPosRightEngage;
     m_rightClimberSubsystem.disengageServoPos = Constants.Climber.servoPosRightDisEngage;
   }
+
+  private void setupLEDControls() {
+	if(!leds.setupController(climbertesta)) {
+		System.err.println("Could not bind controller to subsystem.");
+		System.exit(-1);
+	};
+  }
   
   private void configureBindings() {
     // new JoystickButton(driver, 1).onTrue(new CyclePivotPositionCommand(m_pivotSubsystem));
@@ -207,6 +214,7 @@ public class RobotContainer {
 
 
     setupClimberControls();
+	setupLEDControls();
   }
 
   

@@ -28,8 +28,8 @@ public final class Constants {
 	public static final String Canivore1 = "Canivore1";
 
 	public static final class LED {
-		public static final int pwm_port = 9;
-		public static final int number_of_leds = 70;
+		public static final int pwm_port = 6;
+		public static final int number_of_leds = 18;
 	}
 
 	public static final class Field {

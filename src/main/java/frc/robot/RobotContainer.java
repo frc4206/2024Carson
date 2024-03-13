@@ -147,7 +147,7 @@ public class RobotContainer {
     new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
     new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, -1), new ConveyorToDuty(m_conveyorSubsystem, -0.65)));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
-    new JoystickButton(driva, 4).onTrue(new ToggleClimbToPosition(m_leftClimberSubsystem, m_rightClimberSubsystem, 0, 0, 0, 0));
+    // new JoystickButton(driva, 4).onTrue(new ToggleClimbToPosition(m_leftClimberSubsystem, m_rightClimberSubsystem, 0, 0, 0, 0));
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));//.andThen(new shooterToDutyCommand(m_flywheelSubsystem, 1).onlyIf(() -> m_swerveSubsystem.shooterShouldRun())));
     new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 1), new ConveyorToDuty(m_conveyorSubsystem, 0.65)));
     new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleShooterToVelocity(m_flywheelSubsystem, 6500));

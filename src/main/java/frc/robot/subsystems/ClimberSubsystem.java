@@ -24,11 +24,15 @@ public class ClimberSubsystem extends SubsystemBase {
 	private XboxController controller;
 	private int motor_axis;
 
-	public double engageServoPos;
-	public double disengageServoPos;
+	private int minMicroPulse = 500;
+	private int centerMicroPulse = 1500;
+	private int maxMicroPulse = 2500;
+
+	public double engageServoPos = 0.0d;
+	public double disengageServoPos = 0.0d;
 	private boolean servoDisengaged = false;
 	private long startServoTime = 0;
-	private long disengageDuractionMilliseconds = 200; // 0.2 seconds (human reaction time)
+	private long disengageDuractionMilliseconds = 180; // 0.2 seconds (human reaction time)
 
 	private final double default_motor_speed = 0.1d;
 	private final double DEADZONE = 0.1;
@@ -41,6 +45,8 @@ public class ClimberSubsystem extends SubsystemBase {
 		climber_PID_controller = climber_motor.getPIDController();
 
 		servo = new PWM(servo_id);
+
+		//servo.setBoundsMicroseconds(2500, 2100, 1500, 500, 700);
 
 		climber_motor.restoreFactoryDefaults();
 		climber_motor.setIdleMode(IdleMode.kBrake);
@@ -155,6 +161,8 @@ public class ClimberSubsystem extends SubsystemBase {
 		if (currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
 			motor_speed_set = 0.0d;
 		}
+
+		motor_speed_set = 0.0d;
 
 		// set motor
 		climber_motor.set(motor_speed_set);

@@ -36,12 +36,12 @@ public class Robot extends LoggedRobot {
 		setUseTiming(false);
 		Logger.start(); 
 		m_robotContainer = new RobotContainer();
-		m_swerve = new SwerveSubsystem();
-		Mod0.angleOffset = m_swerve.mSwerveMods[0].getCanCoder().getDegrees();
-		Mod1.angleOffset = m_swerve.mSwerveMods[1].getCanCoder().getDegrees();
-		Mod2.angleOffset = m_swerve.mSwerveMods[2].getCanCoder().getDegrees();
-		Mod3.angleOffset = m_swerve.mSwerveMods[3].getCanCoder().getDegrees();
-		m_robotContainer.m_Limelight.ChangePipelines(2);
+		// m_swerve = new SwerveSubsystem();
+		// Mod0.angleOffset = m_swerve.mSwerveMods[0].getCanCoder().getDegrees();
+		// Mod1.angleOffset = m_swerve.mSwerveMods[1].getCanCoder().getDegrees();
+		// Mod2.angleOffset = m_swerve.mSwerveMods[2].getCanCoder().getDegrees();
+		// Mod3.angleOffset = m_swerve.mSwerveMods[3].getCanCoder().getDegrees();
+		//m_robotContainer.m_Limelight.ChangePipelines(2);
 	}
 
 	/**
@@ -73,12 +73,12 @@ public class Robot extends LoggedRobot {
 	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-		GlobalVariables.isEnabled = true;
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-		m_autonomousCommand.schedule();
-		}
+		// m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+		// GlobalVariables.isEnabled = true;
+		// // schedule the autonomous command (example)
+		// if (m_autonomousCommand != null) {
+		// m_autonomousCommand.schedule();
+		// }
 	}
 
 	/** This function is called periodically during autonomous. */

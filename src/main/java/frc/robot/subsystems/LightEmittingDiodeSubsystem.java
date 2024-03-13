@@ -15,7 +15,6 @@ public class LightEmittingDiodeSubsystem extends SubsystemBase {
     public AddressableLEDBuffer buffer;
 
     private XboxController controller;
-    private int buttonNumber;
 
     public int pwm_port;
     public int number_of_leds;

@@ -6,7 +6,6 @@ package frc.robot;
 
 import frc.robot.commands.Climber.ClimbDown;
 import frc.robot.commands.Climber.ClimbUp;
-import frc.robot.commands.Climber.ToggleClimbToPosition;
 import frc.robot.commands.Climber.ClimberLeft.ClimbDownLeft;
 import frc.robot.commands.Climber.ClimberLeft.ClimbUpLeft;
 import frc.robot.commands.Climber.ClimberLeft.ServoLeftGoToPosition;

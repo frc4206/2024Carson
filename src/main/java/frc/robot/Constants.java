@@ -323,8 +323,8 @@ public final class Constants {
 		 **/
 		public static final double servoPosRightEngage = 0.2d;
 		public static final double servoPosRightDisEngage = 0.0d;
-		public static final double servoPosLeftEngage = 0.0d;
-		public static final double servoPosLeftDisEngage = 0.2d;
+		public static final double servoPosLeftEngage = 0.725d; // found by manual test 
+		public static final double servoPosLeftDisEngage = 1.0d; // max clockwise (right)
 
 		public static final double climberTopSetpoint = 15;
 		public static final double climberBottomSetpoint = 0;

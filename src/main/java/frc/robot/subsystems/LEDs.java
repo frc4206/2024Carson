@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDs extends SubsystemBase {
@@ -51,6 +52,10 @@ public class LEDs extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    if (SmartDashboard.getBoolean("beam broken", false)) {
+      setGreen();
+    } else {
+      setRed();
+    }
   }
 }

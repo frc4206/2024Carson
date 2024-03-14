@@ -145,23 +145,23 @@ public class LEDs extends SubsystemBase {
         if (currTime < flashCycleTime) {
           setGreen(2);
         } else if (currTime < flashCycleTime * 2) {
-          setOff(shooterLeds);
+          setWhite(shooterLeds);
         }if (currTime < flashCycleTime * 3) {
           setGreen(shooterLeds);
         } else if (currTime < flashCycleTime * 4) {
-          setOff(shooterLeds);
+          setWhite(shooterLeds);
         }if (currTime < flashCycleTime * 5) {
           setGreen(shooterLeds);
         } else if (currTime < flashCycleTime * 6) {
-          setOff(shooterLeds);
+          setWhite(shooterLeds);
         }if (currTime < flashCycleTime * 7) {
           setGreen(shooterLeds);
         } else if (currTime < flashCycleTime * 8) {
-          setOff(shooterLeds);
+          setWhite(shooterLeds);
         } if (currTime < flashCycleTime * 9) {
           setGreen(shooterLeds);
         } else if (currTime < flashCycleTime * 10) {
-          setOff(shooterLeds);
+          setWhite(shooterLeds);
         } else {
           setGreen(shooterLeds);
         }

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.GlobalVariables;
 
 public class LEDs extends SubsystemBase {
   private AddressableLED ledstrip;
@@ -28,6 +29,7 @@ public class LEDs extends SubsystemBase {
   double shooterCurrTime = 0;
   double shooterFlashCycleTime = 0.1;
   double shooterMaxError = 100;
+  double endGameFlashCycleTime = .1;
 
   public LEDs() {
     ledstrip = new AddressableLED(9);
@@ -91,7 +93,21 @@ public class LEDs extends SubsystemBase {
     ledstrip.setData(ledBuffer);
     LEDstate = "white";
   }
+  public void setYellow(){
+    for (var i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 100, 100, 100);
+    }
+    ledstrip.setData(ledBuffer);
+    LEDstate = "yellow";
+  }
 
+  public void setOff(){
+    for (var i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 100, 100, 0);
+    }
+    ledstrip.setData(ledBuffer);
+    LEDstate = "off";
+  }
   public void setOff(int offFromMax){
     for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 100, 100, 0);
@@ -118,46 +134,48 @@ public class LEDs extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (SmartDashboard.getBoolean("beam broken", false)) {
-      if (!ledInit) {
-        ledInit = true;
-        initTime = Timer.getFPGATimestamp();
-      }
-      currTime = Timer.getFPGATimestamp() - initTime;
+    if (GlobalVariables.teleopTimeElapsed < 115)  {
+       if (SmartDashboard.getBoolean("beam broken", false)) {
+        if (!ledInit) {
+          ledInit = true;
+          initTime = Timer.getFPGATimestamp();
+        }
+        currTime = Timer.getFPGATimestamp() - initTime;
 
-      if (currTime < flashCycleTime) {
-        setGreen(2);
-      } else if (currTime < flashCycleTime * 2) {
-        setOff(shooterLeds);
-      }if (currTime < flashCycleTime * 3) {
-        setGreen(shooterLeds);
-      } else if (currTime < flashCycleTime * 4) {
-        setOff(shooterLeds);
-      }if (currTime < flashCycleTime * 5) {
-        setGreen(shooterLeds);
-      } else if (currTime < flashCycleTime * 6) {
-        setOff(shooterLeds);
-      }if (currTime < flashCycleTime * 7) {
-        setGreen(shooterLeds);
-      } else if (currTime < flashCycleTime * 8) {
-        setOff(shooterLeds);
-      } if (currTime < flashCycleTime * 9) {
-        setGreen(shooterLeds);
-      } else if (currTime < flashCycleTime * 10) {
-        setOff(shooterLeds);
+        if (currTime < flashCycleTime) {
+          setGreen(2);
+        } else if (currTime < flashCycleTime * 2) {
+          setOff(shooterLeds);
+        }if (currTime < flashCycleTime * 3) {
+          setGreen(shooterLeds);
+        } else if (currTime < flashCycleTime * 4) {
+          setOff(shooterLeds);
+        }if (currTime < flashCycleTime * 5) {
+          setGreen(shooterLeds);
+        } else if (currTime < flashCycleTime * 6) {
+          setOff(shooterLeds);
+        }if (currTime < flashCycleTime * 7) {
+          setGreen(shooterLeds);
+        } else if (currTime < flashCycleTime * 8) {
+          setOff(shooterLeds);
+        } if (currTime < flashCycleTime * 9) {
+          setGreen(shooterLeds);
+        } else if (currTime < flashCycleTime * 10) {
+          setOff(shooterLeds);
+        } else {
+          setGreen(shooterLeds);
+        }
+
       } else {
-        setGreen(shooterLeds);
+        setRed(shooterLeds);
+        ledInit = false;
       }
-      
-    } else {
-      setRed(shooterLeds);
-      ledInit = false;
-    }
+    
+   
 
     if (Math.abs(6500 - SmartDashboard.getNumber("bottomVelo", currTime)) < shooterMaxError && Math.abs(6500 - SmartDashboard.getNumber("topVelo", currTime)) < shooterMaxError) {
       upToSpeed = true;
     }
-
     if (upToSpeed) {
       if (!ShooterLedInit) {
         ShooterLedInit = true;
@@ -176,6 +194,12 @@ public class LEDs extends SubsystemBase {
       updateShooterLEDS();
       ShooterLedInit = false;
     }
-    }
+    } else if (GlobalVariables.teleopTimeElapsed < 130) {
+      setYellow();
+  } else {
+    setRed();
   }
 
+
+  }
+}

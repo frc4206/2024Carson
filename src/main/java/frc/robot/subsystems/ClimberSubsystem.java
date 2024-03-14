@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -24,12 +25,8 @@ public class ClimberSubsystem extends SubsystemBase {
 	private XboxController controller;
 	private int motor_axis;
 
-	private int minMicroPulse = 500;
-	private int centerMicroPulse = 1500;
-	private int maxMicroPulse = 2500;
-
-	public double engageServoPos = 0.0d;
-	public double disengageServoPos = 0.0d;
+	public int engageServoPos = 0;
+	public int disengageServoPos = 0;
 	private boolean servoDisengaged = false;
 	private long startServoTime = 0;
 	private long disengageDuractionMilliseconds = 180; // 0.2 seconds (human reaction time)
@@ -142,7 +139,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		// if spinning against the pawl, open the pawl servo
 		if (motor_speed_set < 0.0d) {
-			servo.setPosition(this.disengageServoPos);
+			servo.setPulseTimeMicroseconds(this.disengageServoPos);
+			//servo.setPosition(this.disengageServoPos);
 			// start a timer if we are just now pressing the button
 			if (!this.servoDisengaged) {
 				this.startServoTime = System.currentTimeMillis();
@@ -150,19 +148,18 @@ public class ClimberSubsystem extends SubsystemBase {
 			}
 		} else {
 			// spinning with from pawl
-			servo.setPosition(this.engageServoPos);
+			servo.setPulseTimeMicroseconds(this.engageServoPos);
+			//servo.setPosition(this.engageServoPos);
 			this.servoDisengaged = false;
 		}
 
 		long currentTime = System.currentTimeMillis();
 
 		// if not enough time has passed for the servos to disengage
-		// then we should not start moving the motors yet
+		// then we should not start moving the motors yetq
 		if (currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
 			motor_speed_set = 0.0d;
 		}
-
-		motor_speed_set = 0.0d;
 
 		// set motor
 		climber_motor.set(motor_speed_set);

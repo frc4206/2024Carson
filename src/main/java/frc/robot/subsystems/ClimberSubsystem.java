@@ -141,6 +141,11 @@ public class ClimberSubsystem extends SubsystemBase {
 			motor_speed_set = 0.0d;
 		}
 
+		// set the speed to half for now
+		motor_speed_set *= 0.5;
+
+		//motor_speed_set = 0.0d;
+
 		// set motor
 		climber_motor.set(motor_speed_set);
 

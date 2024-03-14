@@ -111,13 +111,17 @@ public class RobotContainer {
         }
 
         private void setupClimberControls() {
-                if (!m_leftClimberSubsystem.setupController(climbertesta, XboxController.Axis.kLeftY.value)
-                                || !m_rightClimberSubsystem.setupController(climbertesta,
-                                                XboxController.Axis.kRightY.value)) {
-                        System.err.println("Coult not bind climber controller to the subsystem.");
-                        System.exit(-1);
-                }
-                ;
+                m_leftClimberSubsystem.setupController(climbertesta, XboxController.Axis.kLeftY.value);
+                m_rightClimberSubsystem.setupController(climbertesta, XboxController.Axis.kRightY.value);
+               
+               
+                // if (!m_leftClimberSubsystem.setupController(climbertesta, XboxController.Axis.kLeftY.value)
+                //                 || !m_rightClimberSubsystem.setupController(climbertesta,
+                //                                 XboxController.Axis.kRightY.value)) {
+                //         System.err.println("Coult not bind climber controller to the subsystem.");
+                //         System.exit(-1);
+                // }
+                // ;
 
                 m_leftClimberSubsystem.engageServoPos = Constants.Climber.servo_left_engage;
                 m_leftClimberSubsystem.disengageServoPos = Constants.Climber.servo_left_disengage;

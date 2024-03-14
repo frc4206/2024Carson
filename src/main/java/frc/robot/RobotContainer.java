@@ -82,7 +82,8 @@ public class RobotContainer {
 	// private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 	//private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
 	//public final Limelight m_Limelight = new Limelight();
-	public final LightEmittingDiodeSubsystem leds = new LightEmittingDiodeSubsystem(Constants.LED.pwm_port, Constants.LED.number_of_leds);
+	
+	//public final LightEmittingDiodeSubsystem leds = new LightEmittingDiodeSubsystem(Constants.LED.pwm_port, Constants.LED.number_of_leds);
 	public static final int translationAxis = XboxController.Axis.kLeftY.value;
 	public static final int strafeAxis = XboxController.Axis.kLeftX.value;
 	public static final int rotationAxis = XboxController.Axis.kRightX.value;
@@ -113,7 +114,7 @@ public class RobotContainer {
 		// autoChooser.setDefaultOption("Nothing", "Nothing");
 
 		// SmartDashboard.putData(autoChooser);
-		configureBindings();
+		configureBindings();  // Use CAN IDs to tell what subsystem is asking to be placed on SmarDash
 	}
 
 		private boolean getLeftTrigger(XboxController controller) {
@@ -138,12 +139,12 @@ public class RobotContainer {
 		m_rightClimberSubsystem.disengageServoPos = Constants.Climber.servoPosRightDisEngage;
 	}
 
-	private void setupLEDControls() {
-		if(!leds.setupController(climbertesta)) {
-			System.err.println("Could not bind controller to subsystem.");
-			System.exit(-1);
-		};
-	}
+	// private void setupLEDControls() {
+	// 	if(!leds.setupController(climbertesta)) {
+	// 		System.err.println("Could not bind controller to subsystem.");
+	// 		System.exit(-1);
+	// 	};
+	// }
 	
 	private void configureBindings() {
 		// // new JoystickButton(driver, 1).onTrue(new CyclePivotPositionCommand(m_pivotSubsystem));
@@ -201,7 +202,7 @@ public class RobotContainer {
 
 
 		setupClimberControls();
-		setupLEDControls();
+		//setupLEDControls();
 	}
 
 	

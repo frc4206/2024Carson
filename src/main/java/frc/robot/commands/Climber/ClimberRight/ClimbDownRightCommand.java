@@ -30,7 +30,7 @@ public class ClimbDownRightCommand extends Command {
     m_climberRight.setPosition(Constants.Climber.servoPosRightDisEngage);
     currTime = Timer.getFPGATimestamp() - startTime;
     if (currTime > 0.5) {
-      m_climberRight.climbDOWN();
+      m_climberRight.climbDown();
     }
   }
 
@@ -38,7 +38,7 @@ public class ClimbDownRightCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_climberRight.setPosition(Constants.Climber.servoPosRightEngage);
-    m_climberRight.climbSTOP();
+    m_climberRight.climbStop();
   }
 
   // Returns true when the command should end.

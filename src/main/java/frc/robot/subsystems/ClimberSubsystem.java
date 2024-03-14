@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -33,6 +34,8 @@ public class ClimberSubsystem extends SubsystemBase {
 	private boolean servoDisengaged = false;
 	private long startServoTime = 0;
 	private long disengageDuractionMilliseconds = 180; // 0.2 seconds (human reaction time)
+	private int leftServoPulseTimeMicroseconds = 1500;
+	private int rightServoPulseTimeMicroseconds = 1500;
 
 	private final double default_motor_speed = 0.1d;
 	private final double DEADZONE = 0.1;
@@ -79,15 +82,15 @@ public class ClimberSubsystem extends SubsystemBase {
 		climber_PID_controller.setReference(setpoint, ControlType.kPosition);
 	}
 
-	public void climbSTOP() {
+	public void climbStop() {
 		climber_motor.set(0);
 	}
 
-	public void climberUP() {
+	public void climbUp() {
 		climber_motor.set(default_motor_speed);
 	}
 
-	public void climbDOWN() {
+	public void climbDown() {
 		climber_motor.set(-default_motor_speed);
 	}
 
@@ -106,6 +109,45 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public double map(double val, double in_min, double in_max, double out_min, double out_max) {
 		return ((val - in_min) * (out_max - out_min) / (in_max - in_min)) + out_min;
+	}
+
+	public int getServoPulseTimeMicroseconds(int waitTimeMilliseconds, int motorId) throws InterruptedException {
+		try{
+			wait(waitTimeMilliseconds);
+		} catch(IllegalMonitorStateException mse) {
+			mse.printStackTrace();
+		}
+		if(motorId == Constants.Climber.climberRightLeadID) {
+			SmartDashboard.putNumber("Right Servo Pulse Time (microseconds)", servo.getPulseTimeMicroseconds());
+		} else {
+			SmartDashboard.putNumber("Left Servo Pulse Time (microseconds)", servo.getPulseTimeMicroseconds());
+		}
+		return servo.getPulseTimeMicroseconds();
+	}
+
+	public void setServoPulseTimeMicroseconds(boolean positive, int motorId) {
+		if(motorId == Constants.Climber.climberRightLeadID) {
+			SmartDashboard.getNumber("Right Servo Pulse Time (microseconds)", servo.getPulseTimeMicroseconds());
+			if(rightServoPulseTimeMicroseconds >= 500 && rightServoPulseTimeMicroseconds <= 2500) {
+				if(positive) {
+					rightServoPulseTimeMicroseconds += 20;
+				} else {
+					rightServoPulseTimeMicroseconds -= 20;
+				}
+			} else return;
+			servo.setPulseTimeMicroseconds(rightServoPulseTimeMicroseconds);
+		} else {
+			SmartDashboard.getNumber("Left Servo Pulse Time (microseconds)", servo.getPulseTimeMicroseconds());
+			if(leftServoPulseTimeMicroseconds >= 500 && leftServoPulseTimeMicroseconds <= 2500) {
+				if(positive) {
+					leftServoPulseTimeMicroseconds += 20;
+				}
+				else {
+					leftServoPulseTimeMicroseconds -= 20;
+				}
+			} else return;
+			servo.setPulseTimeMicroseconds(leftServoPulseTimeMicroseconds);
+		}
 	}
 
 	@Override
@@ -127,21 +169,21 @@ public class ClimberSubsystem extends SubsystemBase {
 		}
 
 		// by this point, either one is these is NOT zero or both are
-		if (left_trigger_speed > 0.0d) {
+		if(left_trigger_speed > 0.0d) {
 			motor_speed_set = -left_trigger_speed;
 		}
-		if (rght_trigger_speed > 0.0d) {
+		if(rght_trigger_speed > 0.0d) {
 			motor_speed_set = rght_trigger_speed; // opposite direction
 		}
 
 		// if nothing set, safe to use joystick input
-		if (motor_speed_set == 0.0d && jystck_speed != 0.0d) {
+		if(motor_speed_set == 0.0d && jystck_speed != 0.0d) {
 			jystck_speed = quadratic(jystck_speed); // apply response curve to user input
 			motor_speed_set = jystck_speed;
 		}
 
 		// if spinning against the pawl, open the pawl servo
-		if (motor_speed_set < 0.0d) {
+		if(motor_speed_set < 0.0d) {
 			servo.setPosition(this.disengageServoPos);
 			// start a timer if we are just now pressing the button
 			if (!this.servoDisengaged) {
@@ -158,7 +200,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		// if not enough time has passed for the servos to disengage
 		// then we should not start moving the motors yet
-		if (currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
+		if(currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
 			motor_speed_set = 0.0d;
 		}
 
@@ -166,6 +208,17 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		// set motor
 		climber_motor.set(motor_speed_set);
+
+		// Tried to implement a wait void but it forced me to do this...?
+		if(controller.getBackButton()) {
+			setServoPulseTimeMicroseconds(false, climber_motor.getDeviceId());
+		} else if(controller.getStartButton()) {
+			setServoPulseTimeMicroseconds(true, climber_motor.getDeviceId());
+		} else try {
+			getServoPulseTimeMicroseconds(500, climber_motor.getDeviceId());
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
 
 	}
 }

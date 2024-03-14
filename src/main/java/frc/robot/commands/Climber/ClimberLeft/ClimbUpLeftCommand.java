@@ -30,14 +30,14 @@ public class ClimbUpLeftCommand extends Command {
     m_climberLeft.setPosition(Constants.Climber.servoPosLeftDisEngage);
     currTime = Timer.getFPGATimestamp() - startTime;
     if (currTime > 0.5) {
-      m_climberLeft.climberUP();
+      m_climberLeft.climbUp();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climberLeft.climbSTOP();
+    m_climberLeft.climbStop();
     m_climberLeft.setPosition(Constants.Climber.servoPosLeftEngage);
   }
 

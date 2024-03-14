@@ -15,7 +15,7 @@ public class LEDs extends SubsystemBase {
   public LEDs() {
     ledstrip = new AddressableLED(9);
     ledBuffer = new AddressableLEDBuffer(60);
-
+    ledstrip.setBitTiming(400, 850, 800, 450);
     ledstrip.setLength(ledBuffer.getLength());
     ledstrip.setData(ledBuffer);
     ledstrip.start();

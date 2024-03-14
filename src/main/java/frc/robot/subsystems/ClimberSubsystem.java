@@ -11,56 +11,135 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.spark.SparkDefaultMethods;
-import frc.lib.util.spark.sparkConfig.SparkConfiguration;
 import frc.robot.Constants;
 
-public class ClimberSubsystem extends SubsystemBase implements SparkDefaultMethods {
-	private CANSparkFlex climberMotor;
-	private RelativeEncoder climberEncoder;
-	private SparkPIDController climberPIDController;
-	private PWM servo;
-	SparkConfiguration climberConfig;
+public class ClimberSubsystem extends SubsystemBase {
+	private CANSparkFlex climber_motor;
+	private RelativeEncoder climber_encoder;
+	private SparkPIDController climber_PID_controller;
 
-	public ClimberSubsystem(int canID, boolean motorisInverted, int currentLimit, int servoID) {
-        climberMotor = new CANSparkFlex(canID, MotorType.kBrushless);
-        climberEncoder = climberMotor.getEncoder();
-        climberPIDController = climberMotor.getPIDController();
-		servo = new PWM(servoID);
+	private XboxController controller;
+	private int motor_axis;
 
-		climberConfig = new SparkConfiguration(
-			true,
-			false,
-			climberMotor, 
-			motorisInverted, 
-			IdleMode.kBrake, 
-			currentLimit, 
-			climberEncoder, 
-			climberPIDController, 
-			Constants.Climber.climberkP, 
-			Constants.Climber.climberkI, 
-			Constants.Climber.climberkIZone, 
-			Constants.Climber.climberkD, 
-			0, 
-			Constants.Climber.climberMaxVelo, 
-			Constants.Climber.climberMaxAcc, 
-			Constants.Climber.climberAllowedError
-		);
-  	}
+	public int engageServoPos = 0;
+	public int disengageServoPos = 0;
+	private boolean servoDisengaged = false;
+	private long startServoTime = 0;
+	private long disengageDuractionMilliseconds = 180; // 0.2 seconds (human reaction time)
 
-	public void climbToPosition(double setpoint){
-		motorGoToPosition(climberPIDController, setpoint);
+	private final double DEADZONE = 0.1;
+
+	PWM servo;// = new PWM(Constants.Climber.servoLeftID);
+
+	public ClimberSubsystem(int motor_CAN_id, boolean invert_motor, int current_limit, int servo_id) {
+		climber_motor = new CANSparkFlex(motor_CAN_id, MotorType.kBrushless);
+		climber_encoder = climber_motor.getEncoder();
+		climber_PID_controller = climber_motor.getPIDController();
+
+		servo = new PWM(servo_id);
+
+		//servo.setBoundsMicroseconds(2500, 2100, 1500, 500, 700);
+
+		climber_motor.restoreFactoryDefaults();
+		climber_motor.setIdleMode(IdleMode.kBrake);
+		climber_motor.setInverted(invert_motor);
+		climber_motor.setSmartCurrentLimit(current_limit);
+		climber_motor.burnFlash();
+
+		climber_encoder.setPosition(0);
+		climber_PID_controller.setFeedbackDevice(climber_encoder);
+
+		climber_PID_controller.setP(Constants.Climber.climberkP);
+		climber_PID_controller.setI(Constants.Climber.climberkI);
+		climber_PID_controller.setIZone(Constants.Climber.climberkIZone);
+		climber_PID_controller.setD(Constants.Climber.climberkD);
+		climber_PID_controller.setOutputRange(-1, 1, 0);
+		climber_PID_controller.setSmartMotionMaxVelocity(Constants.Climber.climberMaxVelo, 0);
+		climber_PID_controller.setSmartMotionMaxAccel(Constants.Climber.climberMaxAcc, 0);
+		climber_PID_controller.setSmartMotionAllowedClosedLoopError(Constants.Climber.climberAllowedError, 0);
 	}
 
-	public void climbToDuty(double setDuty){
-		setMotorSpeed(climberMotor, setDuty);
+	public boolean setupController(XboxController controller, int axis) {
+		if (controller == null)
+			return false;
+		this.controller = controller;
+		this.motor_axis = axis;
+		return true;
 	}
 
-	public void setPosition(double pos){
-		servo.setPosition(pos);
+	public double square_deadzone(double val, double deadzone) {
+		double dead_zoned = (Math.abs(val) >= deadzone ? map(Math.abs(val), deadzone, 1.0d, 0.0d, 1.0d) : 0.0d);
+		return val >= 0.0d ? dead_zoned : -dead_zoned;
+	}
+
+	public double quadratic(double val) {
+		return val * val * val;
+	}
+
+	public double map(double val, double in_min, double in_max, double out_min, double out_max) {
+		return ((val - in_min) * (out_max - out_min) / (in_max - in_min)) + out_min;
 	}
 
 	@Override
-	public void periodic() {}
+	public void periodic() {
+		double motor_speed_set = 0.0d;
+
+		// trigger input
+		double rght_trigger_speed = this.controller.getRightTriggerAxis();
+		double left_trigger_speed = this.controller.getLeftTriggerAxis();
+
+		// joystick input, negative because y axis on XBoxController is upside down
+		double jystck_speed = -this.controller.getRawAxis(this.motor_axis);
+		jystck_speed = square_deadzone(jystck_speed, this.DEADZONE); // apply deadzone anyway
+
+		// ignore if both right and left trigger are pressed
+		if (rght_trigger_speed > 0.0d && left_trigger_speed > 0.0d) {
+			climber_motor.set(0.0d); // safe to zero for safety
+			return; // return early, multiple inputs are unclear so ignore
+		}
+
+		// by this point, either one is these is NOT zero or both are
+		if (left_trigger_speed > 0.0d) {
+			motor_speed_set = -left_trigger_speed;
+		}
+		if (rght_trigger_speed > 0.0d) {
+			motor_speed_set = rght_trigger_speed; // opposite direction
+		}
+
+		// if nothing set, safe to use joystick input
+		if (motor_speed_set == 0.0d && jystck_speed != 0.0d) {
+			jystck_speed = quadratic(jystck_speed); // apply response curve to user input
+			motor_speed_set = jystck_speed;
+		}
+
+		// if spinning against the pawl, open the pawl servo
+		if (motor_speed_set < 0.0d) {
+			servo.setPulseTimeMicroseconds(this.disengageServoPos);
+			//servo.setPosition(this.disengageServoPos);
+			// start a timer if we are just now pressing the button
+			if (!this.servoDisengaged) {
+				this.startServoTime = System.currentTimeMillis();
+				this.servoDisengaged = true;
+			}
+		} else {
+			// spinning with from pawl
+			servo.setPulseTimeMicroseconds(this.engageServoPos);
+			//servo.setPosition(this.engageServoPos);
+			this.servoDisengaged = false;
+		}
+
+		long currentTime = System.currentTimeMillis();
+
+		// if not enough time has passed for the servos to disengage
+		// then we should not start moving the motors yetq
+		if (currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
+			motor_speed_set = 0.0d;
+		}
+
+		// set motor
+		climber_motor.set(motor_speed_set);
+
+	}
 }

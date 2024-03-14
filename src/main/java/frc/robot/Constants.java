@@ -149,7 +149,7 @@ public final class Constants {
 			public static final int driveMotorID = 1; //3
 			public static final int angleMotorID = 2; //4
 			public static final int canCoderID = 3; //9
-			public static double angleOffset = (360-11.95)/360;//314.5 these aren't accurate just refrences
+			public static double angleOffset = (360-10.46)/360;//314.5 these aren't accurate just refrences
 			public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     	}
@@ -160,7 +160,7 @@ public final class Constants {
 			public static final int driveMotorID = 4; //7
 			public static final int angleMotorID = 5; //8
 			public static final int canCoderID = 6; //11
-			public static double angleOffset = (33.16)/360;//246.7
+			public static double angleOffset = (33.05)/360;//246.7
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -171,7 +171,7 @@ public final class Constants {
 			public static final int driveMotorID = 7; //3
 			public static final int angleMotorID = 8; //4
 			public static final int canCoderID = 9; //9
-			public static double angleOffset = (360-93.42)/360;//.47
+			public static double angleOffset = (360-94.92)/360;//.47
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -182,7 +182,7 @@ public final class Constants {
 			public static final int driveMotorID = 10; //13
 			public static final int angleMotorID = 11; //2
 			public static final int canCoderID = 12; //12
-			public static double angleOffset = (160.93)/360;//257.95
+			public static double angleOffset = (162.16)/360;//257.95
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -243,7 +243,7 @@ public final class Constants {
 		public static final int pivotMotorID = 27;
 
 		public static final double ampPosition = 11.27;
-		public static final double closePosition = 4.828;
+		public static final double closePosition = 5.4;
 		public static final double podiumPosition = 3.900;
 		public static final double underPosition = 2.64;
 		public static final double stagePosition = 1.73;
@@ -295,13 +295,12 @@ public final class Constants {
 		public static final double climberMaxVelo = 4000;
 		public static final double climberMaxAcc = 4000;
 
-		public static final double servoPosRightEngage = 0.55;
-		public static final double servoPosRightDisEngage = 0.3;
-		public static final double servoPosLeftEngage = 0.3;
-		public static final double servoPosLeftDisEngage = 0.8;
-
-		public static final double climberTopSetpoint = 15;
-		public static final double climberBottomSetpoint = 0;
+		public static final int servo_center = 1500; // in microseconds
+		public static final int microsecond_degrees_of_freedom = 300; // 40.5 angular degrees
+		public static final int servo_right_engage = 1670;
+		public static final int servo_right_disengage = 1350;
+		public static final int servo_left_engage = 1475;//servo_center - (microsecond_degrees_of_freedom / 2);
+		public static final int servo_left_disengage = 1700; //servo_center + (microsecond_degrees_of_freedom / 2);
 	}
 
 	public static final class LEDS{

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.4870477832123745,
-        "y": 7.554423769816201
+        "x": 5.5793232726607975,
+        "y": 7.088074223654385
       },
       "isLocked": false,
       "linkedName": "AiAmp3Pt2End"
     },
     {
       "anchor": {
-        "x": 8.445668857149679,
-        "y": 7.4385296607335585
+        "x": 8.533500012368195,
+        "y": 7.3513176955095005
       },
       "prevControl": {
-        "x": 6.387497675280251,
-        "y": 7.729836086452799
+        "x": 6.135059491021596,
+        "y": 7.3513176955095005
       },
       "nextControl": null,
       "isLocked": false,
@@ -36,7 +36,7 @@
     },
     {
       "waypointRelativePos": 0.85,
-      "rotationDegrees": -30.0,
+      "rotationDegrees": -0.8646117751699436,
       "rotateFast": true
     }
   ],
@@ -50,7 +50,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -28.205503462956454,
+    "rotation": -0.5562522270806538,
     "rotateFast": false
   },
   "reversed": false,

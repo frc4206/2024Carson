@@ -43,12 +43,6 @@ public class LightEmittingDiodeSubsystem extends SubsystemBase {
         leds.start();
     }
 
-    public boolean setupController(XboxController controller) {
-        if(controller == null) return false;
-        this.controller = controller;
-        return true;
-    }
-
     public void setLEDs(int red, int green, int blue) {
         for(int i = 0; i < this.buffer.getLength(); i++) {
             this.buffer.setRGB(i, red, green, blue);

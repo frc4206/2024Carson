@@ -303,10 +303,10 @@ public final class Constants {
 	}
 
 	public static final class Climber {
-		public static final int climberRightLeadID = 36;
-		public static final int climberLeftFollowID = 35;
-		public static final int servoRightID = 2;
-		public static final int servoLeftID = 0;
+		public static final int climberRightLeadID = 35;
+		public static final int climberLeftFollowID = 36;  // could be reversed
+		public static final int servoRightID = 1;
+		public static final int servoLeftID = 2;
 		public static final int climberLimitSwitchID = 4;
 
 		public static final double climberkP = 0.002;
@@ -321,10 +321,12 @@ public final class Constants {
 		 * Since the servos on our climber are facing opposite
 		 * directions, the engage and disengage values are inverted
 		 **/
-		public static final double servoPosRightEngage = -1.0;
-		public static final double servoPosRightDisEngage = 0.0d;
-		public static final double servoPosLeftEngage = 0.725d; // found by manual test 
-		public static final double servoPosLeftDisEngage = 1.0d; // max clockwise (right)
+		public static final int servo_center = 1500; // in microseconds
+		public static final int microsecond_degrees_of_freedom = 300; // 40.5 angular degrees
+		public static final int servo_right_engage = 1670;
+		public static final int servo_right_disengage = 1350;
+		public static final int servo_left_engage = 1475;//servo_center - (microsecond_degrees_of_freedom / 2);
+		public static final int servo_left_disengage = 1700; //servo_center + (microsecond_degrees_of_freedom / 2);
 
 		public static final double climberTopSetpoint = 15;
 		public static final double climberBottomSetpoint = 0;

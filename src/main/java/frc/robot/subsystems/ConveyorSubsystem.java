@@ -7,8 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.spark.SparkConfiguration;
 import frc.lib.util.spark.SparkDefaultMethods;
+import frc.lib.util.spark.sparkConfig.SparkConfiguration;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 
@@ -27,7 +27,7 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 
   	public ConveyorSubsystem() {
 		conveyorConfig = new SparkConfiguration(
-			true,
+			false,
 			false,
 			conveyorMotor,
 			Constants.Conveyor.conveyorInverted,
@@ -62,6 +62,7 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 		if (!conveyorBeamBreak.get()) {
 			GlobalVariables.pieceReady = true;
 		}
+		SmartDashboard.putBoolean("PIECEREADY", !conveyorBeamBreak.get());
 		return !conveyorBeamBreak.get();
 	}
 

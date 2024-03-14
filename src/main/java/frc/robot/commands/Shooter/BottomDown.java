@@ -2,29 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Climber.ClimberRight;
+package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.GlobalVariables;
 
-public class ServoRightGoToPosition extends Command {
-  private ClimberSubsystem m_climberRight;
-  private double m_rightServoPosition;
-  public ServoRightGoToPosition(ClimberSubsystem climberRight, double rightServoPosition) {
-    m_climberRight = climberRight;
-    m_rightServoPosition = rightServoPosition;
-    addRequirements(m_climberRight);
+public class BottomDown extends Command {
+  private boolean isFinished = false;
+  public BottomDown() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    GlobalVariables.topVelo += 0.025;
+    isFinished = true;
+    isFinished();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_climberRight.setPosition(m_rightServoPosition);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -33,6 +32,6 @@ public class ServoRightGoToPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }

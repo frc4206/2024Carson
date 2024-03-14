@@ -65,12 +65,6 @@
               "data": {
                 "name": "shoot"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "pivot3"
-              }
             }
           ]
         }
@@ -85,7 +79,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -1.5074357587749212,
+    "rotation": 17.67327850720746,
     "rotateFast": false
   },
   "reversed": false,

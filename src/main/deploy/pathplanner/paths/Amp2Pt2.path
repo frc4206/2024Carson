@@ -183,12 +183,6 @@
               "data": {
                 "name": "shoot"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "pivot4"
-              }
             }
           ]
         }
@@ -228,12 +222,6 @@
               "type": "named",
               "data": {
                 "name": "shoot"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "pivot6"
               }
             }
           ]

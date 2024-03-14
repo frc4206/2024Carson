@@ -2,29 +2,30 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Climber.ClimberRight;
+package frc.robot.commands.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 
-public class ClimbRightToPosition extends Command {
-  private ClimberSubsystem m_climberRight;
-  private double m_desiredPosition;
-  public ClimbRightToPosition(ClimberSubsystem climberRight, double desiredPosition) {
-    m_climberRight = climberRight;
-    m_desiredPosition = desiredPosition;
-    addRequirements(m_climberRight);
+public class ToggleAmped extends Command {
+  private SwerveSubsystem m_swerve;
+  private boolean isFinished = false;
+  public ToggleAmped(SwerveSubsystem swerve) {
+    m_swerve = swerve;
+    addRequirements(m_swerve);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_swerve.toggleAmped();
+    isFinished = true;
+    isFinished();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_climberRight.climbToPosition(m_desiredPosition);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -33,6 +34,6 @@ public class ClimbRightToPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }

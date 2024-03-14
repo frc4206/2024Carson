@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import org.ejml.equation.MatrixConstructor;
-import org.opencv.objdetect.FaceDetectorYN;
-
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -16,15 +13,11 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -65,6 +58,7 @@ public class SwerveSubsystem extends SubsystemBase {
         PICKUP,
         BACKWARD,
         AIMED,
+        AMPED,
         FREE
     }
 
@@ -190,6 +184,14 @@ public class SwerveSubsystem extends SubsystemBase {
     public void toggleAimed(){
         if (headingState != HeadingState.AIMED){
             headingState = HeadingState.AIMED;
+        } else {
+            headingState = HeadingState.FREE;
+        }
+    }
+
+    public void toggleAmped(){
+        if (headingState != HeadingState.AMPED){
+            headingState = HeadingState.AMPED;
         } else {
             headingState = HeadingState.FREE;
         }
@@ -568,7 +570,7 @@ public class SwerveSubsystem extends SubsystemBase {
         //}
         //GlobalVariables.desiredVelo = desiredVelo;
         double distanceToSpeaker = Math.sqrt(((Limelight.limelightshooter.aprilTagResult[0]) * (Limelight.limelightshooter.aprilTagResult[0]))    +      ((Limelight.limelightshooter.aprilTagResult[2]) * (Limelight.limelightshooter.aprilTagResult[2])));
-        double DesiredPivot = 14.3599*Math.pow(.755, distanceToSpeaker);
+        double DesiredPivot = 14.3599*Math.pow(.76, distanceToSpeaker);
         SmartDashboard.putNumber("distance to speaker", distanceToSpeaker);
         SmartDashboard.putNumberArray("limelight distance array", Limelight.limelightshooter.aprilTagResult);
 

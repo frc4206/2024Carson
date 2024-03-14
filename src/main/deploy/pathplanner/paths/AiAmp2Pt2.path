@@ -65,12 +65,6 @@
               "data": {
                 "name": "shoot"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "pivot3"
-              }
             }
           ]
         }

@@ -16,5 +16,8 @@ public class GlobalVariables {
     public static double veloCounter = 2;
     public static double climbCounter = 2;
 
+    public static double topVelo = 0.52;
+    public static double bottomVelo = 0.28;
+
     public static boolean isEnabled = false;
 }

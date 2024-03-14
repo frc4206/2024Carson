@@ -89,6 +89,11 @@ public class PID_to_game_Piece extends Command {
 			fin = true;
 			isFinished();
 		}
+		if (!SmartDashboard.getBoolean("beam broken", false)) {
+			System.out.println("The beam broke");
+			fin = true;
+			isFinished();
+		}
 	}
 
 	// Called once the command ends or is interrupted.
@@ -101,4 +106,3 @@ public class PID_to_game_Piece extends Command {
 		return fin;
 	}
 }
-// Polo

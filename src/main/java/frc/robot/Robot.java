@@ -10,6 +10,7 @@ import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.Swerve.Mod0;
@@ -89,8 +90,9 @@ public class Robot extends LoggedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		GlobalVariables.teleopTimeStart = Timer.getFPGATimestamp();
 		if (m_autonomousCommand != null) {
-		m_autonomousCommand.cancel();
+			m_autonomousCommand.cancel();
 		}
 		for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
 			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
@@ -101,7 +103,9 @@ public class Robot extends LoggedRobot {
 
 	/** This function is called periodically during operator control. */
 	@Override
-	public void teleopPeriodic() {}
+	public void teleopPeriodic() {
+		GlobalVariables.teleopTimeElapsed = Timer.getFPGATimestamp() - GlobalVariables.teleopTimeStart;
+	}
 
 	@Override
 	public void testInit() {

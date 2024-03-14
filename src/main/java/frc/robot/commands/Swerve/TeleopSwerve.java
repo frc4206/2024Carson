@@ -129,16 +129,16 @@ public class TeleopSwerve extends Command {
                 break;
             case AMPED:
                 if (GlobalVariables.alliance == Alliance.Blue) {
-                    if (botYaw > 0 && botYaw < 180) {
-                        yawSet = 90; //makes robot overshoot and go to else statement
+                    if (botYaw > 0 && botYaw < 270) {
+                        yawSet = 90;
                     } else {
-                        yawSet = -270;
+                        yawSet = -90; //makes robot overshoot and go to positive setpoint
                     }
                 } else if (GlobalVariables.alliance == Alliance.Red) {
-                    if (botYaw > 0 && botYaw < 180) {
-                        yawSet = -90;
+                    if (botYaw > 90 && botYaw < 360) {
+                        yawSet = 270;
                     } else {
-                        yawSet = 270; //makes robot overshoot and go to else statement
+                        yawSet = -90; //makes robot overshoot and go to positive setpoint
                     }
                 }
                 if (Math.abs(errorYaw) > 1.5) { 

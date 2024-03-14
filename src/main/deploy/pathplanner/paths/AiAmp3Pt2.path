@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.59589155354597,
-        "y": 6.986510161319658
+        "x": 2.2741552371465805,
+        "y": 6.96
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8373154837346544,
-        "y": 6.978152401495505
+        "x": 2.515579167335265,
+        "y": 6.951642240175847
       },
       "isLocked": false,
       "linkedName": "AiAmp3Pt1End"
-    },
-    {
-      "anchor": {
-        "x": 2.972804578087788,
-        "y": 6.689056341075646
-      },
-      "prevControl": {
-        "x": 2.5975941762958956,
-        "y": 6.806309591635613
-      },
-      "nextControl": {
-        "x": 3.3470175202458665,
-        "y": 6.572114796651245
-      },
-      "isLocked": false,
-      "linkedName": null
     },
     {
       "anchor": {
@@ -36,8 +20,8 @@
         "y": 6.96
       },
       "prevControl": {
-        "x": 3.7446187712888244,
-        "y": 6.946327738809324
+        "x": 3.288130091699615,
+        "y": 6.415340906691315
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +30,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0499999999999998,
+      "waypointRelativePos": 0.5,
       "rotationDegrees": 38.669878505178254,
       "rotateFast": false
     }
@@ -55,7 +39,7 @@
   "eventMarkers": [
     {
       "name": "shoot2",
-      "waypointRelativePos": 1.35,
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "parallel",
         "data": {
@@ -72,8 +56,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -85,8 +69,8 @@
   "reversed": false,
   "folder": "AiAmp3",
   "previewStartingState": {
-    "rotation": -2.6630007660671655,
+    "rotation": 0.3144315736773605,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.974446324142054,
-        "y": 7.369489845107957
+        "x": 4.926089472131439,
+        "y": 7.439065519461206
       },
       "isLocked": false,
       "linkedName": "Amp3Pt1End"
@@ -20,12 +20,12 @@
         "y": 7.4385296607335585
       },
       "prevControl": {
-        "x": 6.2908182745242645,
-        "y": 7.404009752920757
+        "x": 5.891315535600193,
+        "y": 7.419566003027493
       },
       "nextControl": {
-        "x": 6.923562175288685,
-        "y": 7.47304956854636
+        "x": 6.925328263553036,
+        "y": 7.446957198343554
       },
       "isLocked": false,
       "linkedName": null
@@ -33,59 +33,59 @@
     {
       "anchor": {
         "x": 8.866658417077517,
-        "y": 7.343928989852282
+        "y": 7.4385296607335585
       },
       "prevControl": {
-        "x": 7.419174803249373,
-        "y": 7.698612920230772
+        "x": 7.50002564138145,
+        "y": 7.494667157475058
       },
       "nextControl": {
-        "x": 9.91742586347859,
-        "y": 7.086454346103015
+        "x": 9.947599615383965,
+        "y": 7.39412758427467
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.648348290454617,
-        "y": 6.67574633904168
+        "x": 3.6196218710746,
+        "y": 6.503088730644515
       },
       "prevControl": {
-        "x": 3.8088257263684198,
-        "y": 8.392951583739658
+        "x": 3.2538790104407993,
+        "y": 7.441903558968944
       },
       "nextControl": {
-        "x": 4.822109370363031,
-        "y": 6.320325948324848
+        "x": 3.7632345567079413,
+        "y": 6.134453458928115
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.43397470270724,
-        "y": 5.908353479414798
+        "x": 8.866658417077517,
+        "y": 5.684109040427108
       },
       "prevControl": {
-        "x": 6.527827528589529,
-        "y": 6.317648884900195
+        "x": 4.584847934541476,
+        "y": 7.585311892712553
       },
       "nextControl": {
-        "x": 10.196243615404663,
-        "y": 5.529952179142345
+        "x": 10.514006538596991,
+        "y": 4.952656081424378
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.648348290454617,
-        "y": 6.67574633904168
+        "x": 3.6196218710746,
+        "y": 6.503088730644515
       },
       "prevControl": {
-        "x": 4.385143043327053,
-        "y": 6.226104041865424
+        "x": 6.36905368822802,
+        "y": 6.41534090669281
       },
       "nextControl": null,
       "isLocked": false,
@@ -94,13 +94,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.0,
-      "rotationDegrees": 0,
-      "rotateFast": true
-    },
-    {
       "waypointRelativePos": 2.3,
-      "rotationDegrees": -30.0,
+      "rotationDegrees": -2.5556908074320597,
       "rotateFast": true
     },
     {
@@ -109,12 +104,24 @@
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 3.05,
-      "rotationDegrees": 15.864129192465755,
+      "waypointRelativePos": 2.75,
+      "rotationDegrees": 30.003130514799825,
       "rotateFast": true
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "slow1",
+      "minWaypointRelativePos": 2.9,
+      "maxWaypointRelativePos": 3.1,
+      "constraints": {
+        "maxVelocity": 0.5,
+        "maxAcceleration": 4.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "pickup1",
@@ -141,7 +148,7 @@
     },
     {
       "name": "shoot1",
-      "waypointRelativePos": 3.05,
+      "waypointRelativePos": 2.9,
       "command": {
         "type": "parallel",
         "data": {
@@ -164,7 +171,7 @@
     },
     {
       "name": "pickup2",
-      "waypointRelativePos": 4.0,
+      "waypointRelativePos": 3.9000000000000004,
       "command": {
         "type": "parallel",
         "data": {
@@ -210,8 +217,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -221,10 +228,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Amp3",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 0.6819179150726314,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

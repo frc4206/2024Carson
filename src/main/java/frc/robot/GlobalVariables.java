@@ -20,4 +20,7 @@ public class GlobalVariables {
     public static double bottomVelo = 0.28;
 
     public static boolean isEnabled = false;
+
+    public static double teleopTimeStart = 0;
+    public static double teleopTimeElapsed = 0;
 }

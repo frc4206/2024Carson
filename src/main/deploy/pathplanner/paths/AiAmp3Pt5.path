@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.43397470270724,
-        "y": 5.908353479414798
+        "x": 8.17275895834452,
+        "y": 5.840105171896805
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.485416159497887,
-        "y": 7.168030654758777
+        "x": 7.224200415135168,
+        "y": 7.099782347240784
       },
       "isLocked": false,
       "linkedName": "AiAmp3Pt4End"
     },
     {
       "anchor": {
-        "x": 4.648348290454617,
-        "y": 6.67574633904168
+        "x": 3.882865342927837,
+        "y": 6.405591148474459
       },
       "prevControl": {
-        "x": 5.84122492175464,
-        "y": 6.359123735655147
+        "x": 5.3453290754562515,
+        "y": 6.668834620329574
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,7 +61,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -77,5 +77,5 @@
     "rotation": 26.204974444306632,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

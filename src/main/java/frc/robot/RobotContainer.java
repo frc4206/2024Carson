@@ -20,6 +20,7 @@ import frc.robot.commands.Pivot.PivotToDuty;
 import frc.robot.commands.Pivot.PivotToPosition;
 import frc.robot.commands.Pivot.ResetPivot;
 import frc.robot.commands.Pivot.TogglePivotMode;
+import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.commands.Shooter.ShooterToVelocity;
 import frc.robot.commands.Shooter.ToggleShooterToVelocity;
@@ -141,14 +142,13 @@ public class RobotContainer {
   
   private void configureBindings() {
     new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
-    // new JoystickButton(driva, 1).whileTrue(new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 5));
     new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, -1), new ConveyorToDuty(m_conveyorSubsystem, -0.65)));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
-    // new JoystickButton(driva, 4).onTrue(new ToggleClimbToPosition(m_leftClimberSubsystem, m_rightClimberSubsystem, 0, 0, 0, 0));
+    new JoystickButton(driva, 4).onTrue(new ToggleAmped(m_swerveSubsystem));
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));
     new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 1), new ConveyorToDuty(m_conveyorSubsystem, 0.9)));
     new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleShooterToVelocity(m_flywheelSubsystem, 6500));
-    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ParallelCommandGroup(/*new ToggleAmped(m_swerveSubsystem) */ new InstantCommand(() -> m_pivotSubsystem.toggleAmpMode()), new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, 2800, 1500)));
+    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ParallelCommandGroup(new InstantCommand(() -> m_pivotSubsystem.toggleAmpMode()), new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, 3100, 1700)));
     new JoystickButton(driva, 7).onTrue(new TogglePickup(m_swerveSubsystem));
     new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
 
@@ -157,22 +157,17 @@ public class RobotContainer {
     new JoystickButton(operata, 2).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.PODIUM)));
     new JoystickButton(operata, 3).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.UNDER)));
     new JoystickButton(operata, 4).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.STAGE)));
-    // new JoystickButton(operata, 7).whileTrue(new ClimbDown(m_leftClimberSubsystem, m_rightClimberSubsystem));
-    // new JoystickButton(operata, 8).whileTrue(new ClimbUp(m_leftClimberSubsystem, m_rightClimberSubsystem));
-    // new JoystickButton(operata, 5).whileTrue(new ClimbDownLeft(m_leftClimberSubsystem));
-    // new JoystickButton(operata, 6).whileTrue(new ClimbDownRight(m_rightClimberSubsystem));
-    // new Trigger(() -> this.getLeftTrigger(operata)).whileTrue(new ClimbUpLeft(m_leftClimberSubsystem));
-    // new Trigger(() -> this.getRightTrigger(operata)).whileTrue(new ClimbUpRight(m_rightClimberSubsystem));
+    setupClimberControls(operata);
     
 
-    // new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_leftClimberSubsystem, m_rightClimberSubsystem, m_conveyorSubsystem, m_elevatorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
+    new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_leftClimberSubsystem, m_rightClimberSubsystem, m_conveyorSubsystem, m_elevatorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
     new JoystickButton(operata2, 5).whileTrue(new SetBlue(m_leds));
     new JoystickButton(operata2, 6).whileTrue(new SetGreen(m_leds));
     new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));
 
 
     new JoystickButton(shootertesta, 1).whileTrue(new PivotToPosition(m_pivotSubsystem, 1));
-    new JoystickButton(shootertesta, 2).onTrue(new ShooterToVelocity(m_flywheelSubsystem, 6400));
+    new JoystickButton(shootertesta, 2).onTrue(new ShooterToVelocity(m_flywheelSubsystem, 4000));
     new JoystickButton(shootertesta, 3).onTrue(new ShooterStop(m_flywheelSubsystem));
     new JoystickButton(shootertesta, 4).whileTrue(new PivotToPosition(m_pivotSubsystem, 5));
     new JoystickButton(shootertesta, 5).onTrue(new ConveyorToPosition(m_conveyorSubsystem, 10));
@@ -190,20 +185,11 @@ public class RobotContainer {
     new JoystickButton(elevatortesta, 6).whileTrue(new ElevatorUp(m_elevatorSubsystem));
     new JoystickButton(elevatortesta, 7).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
     new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, Constants.Elevator.elevatorTrapPosition+5));
-
-
-    setupClimberControls(operata);
-    // new JoystickButton(climbertesta, 7).whileTrue(new ClimbDown(m_leftClimberSubsystem, m_rightClimberSubsystem));
-    // new JoystickButton(climbertesta, 8).whileTrue(new ClimbUp(m_leftClimberSubsystem, m_rightClimberSubsystem));
-    // new JoystickButton(climbertesta, 5).whileTrue(new ClimbDownLeft(m_leftClimberSubsystem));
-    // new JoystickButton(climbertesta, 6).whileTrue(new ClimbDownRight(m_rightClimberSubsystem));
-    // new Trigger(() -> this.getLeftTrigger(climbertesta)).whileTrue(new ClimbUpLeft(m_leftClimberSubsystem));
-    // new Trigger(() -> this.getRightTrigger(climbertesta)).whileTrue(new ClimbUpRight(m_rightClimberSubsystem));
   }
 
 
   
   public Command getAutonomousCommand() {
-    return new ParallelCommandGroup(new PathPlannerAuto("AiAmp3"), new ShooterToVelocity(m_flywheelSubsystem, 6500));
+    return new ParallelCommandGroup(new PathPlannerAuto("Source1"), new ShooterToVelocity(m_flywheelSubsystem, 6500));
   }
-} 
+}

@@ -549,8 +549,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
         double[] ypr = new double[3];
         ypr[0] = gyro.getYaw().getValueAsDouble();
-        ypr[1] = gyro.getPitch().getValueAsDouble();
-        ypr[2] = gyro.getRoll().getValueAsDouble();
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
@@ -570,7 +568,7 @@ public class SwerveSubsystem extends SubsystemBase {
         //}
         //GlobalVariables.desiredVelo = desiredVelo;
         double distanceToSpeaker = Math.sqrt(((Limelight.limelightshooter.aprilTagResult[0]) * (Limelight.limelightshooter.aprilTagResult[0]))    +      ((Limelight.limelightshooter.aprilTagResult[2]) * (Limelight.limelightshooter.aprilTagResult[2])));
-        double DesiredPivot = 14.3599*Math.pow(.76, distanceToSpeaker);
+        double DesiredPivot = 14.5*Math.pow(.78, distanceToSpeaker);
         SmartDashboard.putNumber("distance to speaker", distanceToSpeaker);
         SmartDashboard.putNumberArray("limelight distance array", Limelight.limelightshooter.aprilTagResult);
 

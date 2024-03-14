@@ -12,10 +12,10 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class FlywheelSubsystem extends SubsystemBase {
-	private CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.shooterLeadMotorID, MotorType.kBrushless); 
-	private CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.shooterFollowerID, MotorType.kBrushless);
-	private RelativeEncoder upperFlyEncoder = upperFlyMotor.getEncoder();
-	private RelativeEncoder lowerFlyEncoder = lowerFlyMotor.getEncoder();
+	private static CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.shooterLeadMotorID, MotorType.kBrushless); 
+	private static CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.shooterFollowerID, MotorType.kBrushless);
+	private static RelativeEncoder upperFlyEncoder = upperFlyMotor.getEncoder();
+	private static RelativeEncoder lowerFlyEncoder = lowerFlyMotor.getEncoder();
 	private SparkPIDController upperFlyPIDController = upperFlyMotor.getPIDController();
 	private SparkPIDController lowerFlyPIDController = lowerFlyMotor.getPIDController();
 
@@ -53,7 +53,7 @@ public class FlywheelSubsystem extends SubsystemBase {
 	}
 
 
-	public boolean shooterAtVelocity(double setVelocity){
+	public static boolean shooterAtVelocity(double setVelocity){
 		return (
 			(Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < 50) &&
 			(Math.abs(lowerFlyEncoder.getVelocity() - setVelocity) < 50)

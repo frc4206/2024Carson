@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.533500012368195,
-        "y": 7.3513176955095005
+        "x": 8.29950581516365,
+        "y": 7.536563101629767
       },
       "prevControl": null,
       "nextControl": {
-        "x": 9.584267458769268,
-        "y": 7.093843051760234
+        "x": 8.007013068657967,
+        "y": 7.546312859846624
       },
       "isLocked": false,
       "linkedName": "AiAmp3Pt3End"
     },
     {
       "anchor": {
-        "x": 4.648348290454617,
-        "y": 6.67574633904168
+        "x": 3.921864375795261,
+        "y": 6.327593082739611
       },
       "prevControl": {
-        "x": 3.8088257263684198,
-        "y": 8.392951583739658
+        "x": 3.0823418117090635,
+        "y": 8.0447983274376
       },
       "nextControl": {
-        "x": 4.822109370363031,
-        "y": 6.320325948324848
+        "x": 4.095625455703674,
+        "y": 5.972172692022779
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.43397470270724,
-        "y": 5.908353479414798
+        "x": 8.17275895834452,
+        "y": 5.840105171896805
       },
       "prevControl": {
-        "x": 6.527827528589529,
-        "y": 6.317648884900195
+        "x": 5.854344230225165,
+        "y": 7.790056815268026
       },
       "nextControl": null,
       "isLocked": false,
@@ -52,7 +52,7 @@
     },
     {
       "waypointRelativePos": 1.9,
-      "rotationDegrees": 18.128202641295314,
+      "rotationDegrees": -32.57376026664111,
       "rotateFast": true
     }
   ],
@@ -77,14 +77,14 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 18.771146525122447,
+    "rotation": -31.328692867804197,
     "rotateFast": false
   },
   "reversed": false,
@@ -93,5 +93,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

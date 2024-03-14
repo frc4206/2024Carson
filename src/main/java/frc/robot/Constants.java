@@ -61,8 +61,8 @@ public final class Constants {
 		public static final boolean angleEnableStatorLimit = true;
 		public static final boolean angleEnableSupplyLimit = true; 
 
-		public static final int driveStatorCurrentLimit = 55;
-		public static final int driveSupplyCurrentLimit = 65;
+		public static final int driveStatorCurrentLimit = 50;
+		public static final int driveSupplyCurrentLimit = 60;
 		public static final boolean driveEnableStatorLimit = true;
 		public static final boolean driveEnableSupplyLimit = true;
 

@@ -110,14 +110,15 @@ public class LEDs extends SubsystemBase {
 
   public void setOff(){
     for (var i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 100, 100, 0);
+      ledBuffer.setRGB(i, 255, 255, 255);
     }
     ledstrip.setData(ledBuffer);
     LEDstate = "off";
   }
+  
   public void setOff(int offFromMax){
     for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 100, 100, 0);
+      ledBuffer.setRGB(i, 255, 255, 255);
     }
     ledstrip.setData(ledBuffer);
     LEDstate = "off";
@@ -152,23 +153,23 @@ public class LEDs extends SubsystemBase {
         if (currTime < flashCycleTime) {
           setGreen(shooterLeds);
         } else if (currTime < flashCycleTime * 2) {
-          setWhite(shooterLeds);
+          setOff(shooterLeds);
         }if (currTime < flashCycleTime * 3) {
           setGreen(shooterLeds);
         } else if (currTime < flashCycleTime * 4) {
-          setWhite(shooterLeds);
+          setOff(shooterLeds);
         }if (currTime < flashCycleTime * 5) {
           setGreen(shooterLeds);
         } else if (currTime < flashCycleTime * 6) {
-          setWhite(shooterLeds);
+          setOff(shooterLeds);
         }if (currTime < flashCycleTime * 7) {
           setGreen(shooterLeds);
         } else if (currTime < flashCycleTime * 8) {
-          setWhite(shooterLeds);
+          setOff(shooterLeds);
         } if (currTime < flashCycleTime * 9) {
           setGreen(shooterLeds);
         } else if (currTime < flashCycleTime * 10) {
-          setWhite(shooterLeds);
+          setOff(shooterLeds);
         } else {
           setGreen(shooterLeds);
         }

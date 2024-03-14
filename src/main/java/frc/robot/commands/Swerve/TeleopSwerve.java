@@ -127,6 +127,27 @@ public class TeleopSwerve extends Command {
                 // }
                 // rAxis = outputYaw;
                 break;
+            case AMPED:
+                if (GlobalVariables.alliance == Alliance.Blue) {
+                    if (botYaw > 0 && botYaw < 180) {
+                        yawSet = 90; //makes robot overshoot and go to else statement
+                    } else {
+                        yawSet = -270;
+                    }
+                } else if (GlobalVariables.alliance == Alliance.Red) {
+                    if (botYaw > 0 && botYaw < 180) {
+                        yawSet = -90;
+                    } else {
+                        yawSet = 270; //makes robot overshoot and go to else statement
+                    }
+                }
+                if (Math.abs(errorYaw) > 1.5) { 
+                    outputYaw = pidyaw.calculate(botYaw, yawSet);
+                } else {
+                    outputYaw = pidyawi.calculate(botYaw, yawSet);
+                }
+                rAxis = outputYaw;
+                break;
             case BACKWARD:
                 if(botYaw > 0 && botYaw < 180) {
                         yawSet = 0;
@@ -153,7 +174,6 @@ public class TeleopSwerve extends Command {
 
         double yAxisDeadzoned = 0;
         double xAxisDeadzoned = 0;
-        double rAxisDeadzoned = 0;
         double yAxis = (-controller.getRawAxis(translationAxis)*Constants.Swerve.translationMultiplier);
         double xAxis = (-controller.getRawAxis(strafeAxis)*Constants.Swerve.translationMultiplier);
 
@@ -167,25 +187,13 @@ public class TeleopSwerve extends Command {
         xAxisDeadzoned = xAxisDeadzoned * xAxisDeadzoned; //(Math.cos(Math.PI*(xAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
 
-
-        if(s_Swerve.headingState == HeadingState.FREE) {
-            rAxisDeadzoned = (Math.abs(rAxis) < Constants.OperatorConstants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(rAxis), Constants.OperatorConstants.stickDeadband, 1.0, 0.0, 1.0);
-            rAxisDeadzoned = rAxis >= 0.0 ? rAxisDeadzoned : -rAxisDeadzoned;
-            rAxisDeadzoned = rAxisDeadzoned * rAxisDeadzoned;
-            rAxisDeadzoned = rAxis >= 0.0 ? rAxisDeadzoned : -rAxisDeadzoned;
-        }
-
         translation = new Translation2d(yAxisDeadzoned, xAxisDeadzoned).times(Constants.Swerve.maxSpeed);
-        rotation = rAxisDeadzoned * Constants.Swerve.maxAngularVelocity;
+        rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         if (s_Swerve.headingState == HeadingState.AIMED && Limelight.limelightshooter.HasTarget() == 1){
             rotation = pidyaw2.calculate(Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0), 0);
         } else if (s_Swerve.headingState == HeadingState.AIMED && Limelight.limelightshooter.HasTarget() != 1){
             rAxis = -controller.getRawAxis(rotationAxis)*Constants.Swerve.rotationMultiplier;
-            rAxisDeadzoned = (Math.abs(rAxis) < Constants.OperatorConstants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(rAxis), Constants.OperatorConstants.stickDeadband, 1.0, 0.0, 1.0);
-            rAxisDeadzoned = rAxis >= 0.0 ? rAxisDeadzoned : -rAxisDeadzoned;
-            rAxisDeadzoned = rAxisDeadzoned * rAxisDeadzoned;
-            rAxisDeadzoned = rAxis >= 0.0 ? rAxisDeadzoned : -rAxisDeadzoned;
-            rotation = rAxisDeadzoned * Constants.Swerve.maxAngularVelocity;
+            rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         }
         
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);

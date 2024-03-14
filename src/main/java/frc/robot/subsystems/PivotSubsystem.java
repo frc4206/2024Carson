@@ -12,8 +12,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.spark.SparkConfiguration;
 import frc.lib.util.spark.SparkDefaultMethods;
+import frc.lib.util.spark.sparkConfig.SparkConfiguration;
 import frc.robot.Constants;
 
 public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods {
@@ -45,10 +45,10 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 			40, 
 			pivotEncoder, 
 			pivotController, 
-			Constants.Pivot.pivotKP, 
-			Constants.Pivot.pivotKI, 
-			Constants.Pivot.pivotKIZone, 
-			Constants.Pivot.pivotKD, 
+			Constants.Pivot.pivotkP, 
+			Constants.Pivot.pivotkI, 
+			Constants.Pivot.pivotkIZone, 
+			Constants.Pivot.pivotkD, 
 			0, 
 			Constants.Pivot.pivotMaxVel, 
 			Constants.Pivot.pivotMaxAccel, 
@@ -85,6 +85,14 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		}
 	}
 
+	public void toggleAmpMode(){
+		if (position != ShooterPositions.AMPLIFIER){
+			position = ShooterPositions.AMPLIFIER;
+		} else {
+			position = ShooterPositions.NONE;
+		} 
+	}
+
 	public void setFieldRelativePosition() {
 		switch (position){
 			case STAGE:
@@ -99,6 +107,8 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 			case CLOSE:
 				setPosition(Constants.Pivot.closePosition);
 				break;
+			case AMPLIFIER:
+				setPosition(Constants.Pivot.ampPosition);
 			default:
 				break;
 			}

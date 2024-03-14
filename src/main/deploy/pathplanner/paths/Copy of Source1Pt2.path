@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.3173793663501825,
-        "y": 4.02665014356157
+        "x": 1.9719127324240409,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.629371629289578,
-        "y": 4.02665014356157
+        "x": 2.2839049953634363,
+        "y": 4.0
       },
       "isLocked": false,
-      "linkedName": "Source1Pt1End"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 9.264731878632404,
-        "y": 0.7897304155653457
+        "x": 8.202008232997247,
+        "y": 0.8287294484285919
       },
       "prevControl": {
-        "x": 7.373278784562323,
-        "y": 1.4722134907452713
+        "x": 5.628363408961373,
+        "y": 1.328995324935374
       },
       "nextControl": {
-        "x": 11.142241467405352,
-        "y": 0.11227850209057078
+        "x": 10.161328062800402,
+        "y": 0.4478762542117926
       },
       "isLocked": false,
       "linkedName": null
@@ -182,7 +182,7 @@
   "eventMarkers": [
     {
       "name": "pickup1",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.75,
       "command": {
         "type": "parallel",
         "data": {
@@ -205,7 +205,7 @@
     },
     {
       "name": "shoot2",
-      "waypointRelativePos": 2.0500000000000003,
+      "waypointRelativePos": 1.9500000000000002,
       "command": {
         "type": "parallel",
         "data": {
@@ -313,9 +313,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Source1",
+  "folder": "AiSource1",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": -41.69813432556498,
     "velocity": 0
   },
   "useDefaultConstraints": false

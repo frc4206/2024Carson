@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.761411027095559,
-        "y": 4.034483282641779
+        "x": 8.280006298729937,
+        "y": 4.1046482092964185
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.538602718089942,
-        "y": 4.283201047635969
+        "x": 7.057197989724321,
+        "y": 4.353365974290608
       },
       "isLocked": false,
       "linkedName": "AiAmp2Pt4End"
@@ -90,12 +90,6 @@
               "type": "named",
               "data": {
                 "name": "shoot"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "pivot2"
               }
             }
           ]

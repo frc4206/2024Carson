@@ -12,8 +12,8 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.spark.SparkConfiguration;
 import frc.lib.util.spark.SparkDefaultMethods;
+import frc.lib.util.spark.sparkConfig.SparkConfiguration;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase implements SparkDefaultMethods {

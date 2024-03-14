@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4408703461281565,
-      "y": 7.390705607622041
+      "x": 0.801941746401309,
+      "y": 4.514138054404375
     },
-    "rotation": 0
+    "rotation": -62.318938431514745
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AiAmp2Pt1"
+            "pathName": "AiSource1Pt1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AiSource1Pt2"
           }
         },
         {
@@ -45,13 +51,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AiAmp2Pt2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "AiAmp2Pt3"
+            "pathName": "AiSource1Pt3"
           }
         },
         {
@@ -61,66 +61,9 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Ai Pickup"
+                  "name": "Ai Pickuplong"
                 }
               },
-              {
-                "type": "named",
-                "data": {
-                  "name": "setupnote"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "AiAmp2Pt4"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Ai Pickup"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakelonglong"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "conveyorlong"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "AiAmp2Pt5"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
               {
                 "type": "named",
                 "data": {
@@ -131,6 +74,31 @@
                 "type": "named",
                 "data": {
                   "name": "conveyor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AiSource1Pt4"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
                 }
               }
             ]

@@ -221,7 +221,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp3",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

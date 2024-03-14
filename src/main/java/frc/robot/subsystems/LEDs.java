@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import javax.swing.plaf.basic.BasicTreeUI.TreeCancelEditingAction;
 
+import edu.wpi.first.units.Time;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
@@ -19,10 +20,18 @@ public class LEDs extends SubsystemBase {
   double initTime = 0;
   double currTime = 0;
   double flashCycleTime = .1;
+  int shooterLeds = 24;
+  String LEDstate = "off";
+  boolean upToSpeed = false;
+  boolean ShooterLedInit = false;
+  double shooterInitTime = 0;
+  double shooterCurrTime = 0;
+  double shooterFlashCycleTime = 0.1;
+  double shooterMaxError = 100;
 
   public LEDs() {
     ledstrip = new AddressableLED(9);
-    ledBuffer = new AddressableLEDBuffer(44);
+    ledBuffer = new AddressableLEDBuffer(48);
     ledstrip.setBitTiming(400, 850, 800, 450);
     ledstrip.setLength(ledBuffer.getLength());
     ledstrip.setData(ledBuffer);
@@ -34,12 +43,14 @@ public class LEDs extends SubsystemBase {
       ledBuffer.setRGB(i, 255, 0, 0);
     }
     ledstrip.setData(ledBuffer);
+    LEDstate = "red";
   }
   public void setRed(int offFromMax){
-    for (var i = 0; i < ledBuffer.getLength() - offFromMax; i++) {
+    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 255, 0, 0);
     }
     ledstrip.setData(ledBuffer);
+    LEDstate = "red";
   }
 
   public void setGreen(){
@@ -47,12 +58,14 @@ public class LEDs extends SubsystemBase {
       ledBuffer.setRGB(i, 0, 255, 0);
     }
     ledstrip.setData(ledBuffer);
+    LEDstate = "green";
   }
   public void setGreen(int offFromMax){
-    for (var i = 0; i < ledBuffer.getLength() - offFromMax; i++) {
+    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 0, 255, 0);
     }
     ledstrip.setData(ledBuffer);
+    LEDstate = "green";
   }
   
 
@@ -61,6 +74,7 @@ public class LEDs extends SubsystemBase {
       ledBuffer.setRGB(i, 0, 0, 255);
     }
     ledstrip.setData(ledBuffer);
+    LEDstate = "white";
   }
 
   public void setWhite(){
@@ -68,12 +82,38 @@ public class LEDs extends SubsystemBase {
       ledBuffer.setRGB(i, 100, 100, 100);
     }
     ledstrip.setData(ledBuffer);
+    LEDstate = "white";
   }
   public void setWhite(int offFromMax){
-    for (var i = 0; i < ledBuffer.getLength() - offFromMax; i++) {
+    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 100, 100, 100);
     }
     ledstrip.setData(ledBuffer);
+    LEDstate = "white";
+  }
+
+  public void setOff(int offFromMax){
+    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 100, 100, 0);
+    }
+    ledstrip.setData(ledBuffer);
+    LEDstate = "off";
+  }
+
+  public void updateShooterLEDS() {
+    for (var i = 0; i < shooterLeds; i++) {
+        if (LEDstate == "off") {
+          ledBuffer.setRGB(i, 0, 0, 0);
+        } else if (LEDstate == "red") {
+          ledBuffer.setRGB(i, 100, 0, 0);
+        } else if (LEDstate == "green") {
+          ledBuffer.setRGB(i, 0, 100, 0);
+         }else if (LEDstate == "blue") {
+          ledBuffer.setRGB(i, 0, 0, 0);
+        } else if (LEDstate == "white") {
+          ledBuffer.setRGB(i, 100,100, 100);
+        }
+      }
   }
 
   @Override
@@ -88,41 +128,54 @@ public class LEDs extends SubsystemBase {
       if (currTime < flashCycleTime) {
         setGreen(2);
       } else if (currTime < flashCycleTime * 2) {
-        setWhite(2);
+        setOff(shooterLeds);
       }if (currTime < flashCycleTime * 3) {
-        setGreen(2);
+        setGreen(shooterLeds);
       } else if (currTime < flashCycleTime * 4) {
-        setWhite(2);
+        setOff(shooterLeds);
       }if (currTime < flashCycleTime * 5) {
-        setGreen(2);
+        setGreen(shooterLeds);
       } else if (currTime < flashCycleTime * 6) {
-        setWhite(2);
+        setOff(shooterLeds);
       }if (currTime < flashCycleTime * 7) {
-        setGreen(2);
+        setGreen(shooterLeds);
       } else if (currTime < flashCycleTime * 8) {
-        setWhite(2);
+        setOff(shooterLeds);
       } if (currTime < flashCycleTime * 9) {
-        setGreen(2);
+        setGreen(shooterLeds);
       } else if (currTime < flashCycleTime * 10) {
-        setWhite(2);
+        setOff(shooterLeds);
       } else {
-        setGreen(2);
+        setGreen(shooterLeds);
       }
       
     } else {
-      setRed(2);
+      setRed(shooterLeds);
+      ledInit = false;
     }
 
-    if (Math.abs(6500 - SmartDashboard.getNumber("bottomVelo", currTime)) < 100) {
-      ledBuffer.setRGB(ledBuffer.getLength(), 0, 0, 100);
-    } else {
-      ledBuffer.setRGB(ledBuffer.getLength(), 100, 100, 0);
+    if (Math.abs(6500 - SmartDashboard.getNumber("bottomVelo", currTime)) < shooterMaxError && Math.abs(6500 - SmartDashboard.getNumber("topVelo", currTime)) < shooterMaxError) {
+      upToSpeed = true;
     }
 
-    if (Math.abs(6500 - SmartDashboard.getNumber("topVelo", currTime)) < 100) {
-      ledBuffer.setRGB(ledBuffer.getLength() - 1, 0, 0, 100);
+    if (upToSpeed) {
+      if (!ShooterLedInit) {
+        ShooterLedInit = true;
+        shooterInitTime = Timer.getFPGATimestamp();
+      }
+      shooterCurrTime = Timer.getFPGATimestamp() - shooterInitTime;
+      if (shooterCurrTime < shooterFlashCycleTime) {
+        for (var i = 0; i < shooterLeds; i++) {
+          ledBuffer.setRGB(i, 0, 0, 100);
+        }
+      } else if (shooterCurrTime < shooterFlashCycleTime * 2) {
+        updateShooterLEDS();
+        ShooterLedInit = false;
+      }
     } else {
-      ledBuffer.setRGB(ledBuffer.getLength() - 1, 100, 100, 100);
+      updateShooterLEDS();
+      ShooterLedInit = false;
+    }
     }
   }
-}
+

@@ -70,7 +70,7 @@ public class RobotContainer {
   private final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
-  private final LEDs m_leds = new LEDs();
+  //private final LEDs m_leds = new LEDs();
   public final Limelight m_Limelight = new Limelight();
 
   public static final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -166,9 +166,9 @@ public class RobotContainer {
     
 
     // new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_leftClimberSubsystem, m_rightClimberSubsystem, m_conveyorSubsystem, m_elevatorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
-    new JoystickButton(operata2, 5).whileTrue(new SetBlue(m_leds));
-    new JoystickButton(operata2, 6).whileTrue(new SetGreen(m_leds));
-    new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));
+    //new JoystickButton(operata2, 5).whileTrue(new SetBlue(m_leds));
+    //new JoystickButton(operata2, 6).whileTrue(new SetGreen(m_leds));
+    //new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));
 
 
     new JoystickButton(shootertesta, 1).whileTrue(new PivotToPosition(m_pivotSubsystem, 1));

@@ -72,26 +72,6 @@ public class ClimberSubsystem extends SubsystemBase {
 		return true;
 	}
 
-	public void climbToPosition(double setpoint) {
-		climber_PID_controller.setReference(setpoint, ControlType.kPosition);
-	}
-
-	public void climbSTOP() {
-		climber_motor.set(0);
-	}
-
-	public void climberUP() {
-		climber_motor.set(default_motor_speed);
-	}
-
-	public void climbDOWN() {
-		climber_motor.set(-default_motor_speed);
-	}
-
-	public void setPosition(double pos) {
-		servo.setPosition(pos);
-	}
-
 	public double square_deadzone(double val, double deadzone) {
 		double dead_zoned = (Math.abs(val) >= deadzone ? map(Math.abs(val), deadzone, 1.0d, 0.0d, 1.0d) : 0.0d);
 		return val >= 0.0d ? dead_zoned : -dead_zoned;

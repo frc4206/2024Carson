@@ -167,7 +167,7 @@ public class LEDs extends SubsystemBase {
         }
 
       } else {
-        setRed(shooterLeds);
+        setWhite(shooterLeds);
         ledInit = false;
       }
     

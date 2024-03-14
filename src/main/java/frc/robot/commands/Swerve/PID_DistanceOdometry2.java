@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.GlobalVariables;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class PID_DistanceOdometry2 extends Command {
@@ -123,18 +122,22 @@ public class PID_DistanceOdometry2 extends Command {
 			x_error = Math.abs(s_Swerve.poseInvertEstimator.getEstimatedPosition().getX() - Math.abs(x_set));
 			y_error = Math.abs(s_Swerve.poseInvertEstimator.getEstimatedPosition().getY() - Math.abs(y_set));
 		}
-		
-		double yaw_error = Math.abs(s_Swerve.getNominalYaw()) - (yaw_set);
 
+
+		
 		if ((x_error < Constants.Swerve.disOdometryMaxPosError && y_error < Constants.Swerve.disOdometryMaxPosError && yaw_error < Constants.Swerve.disOdometryMaxRotationError) || current_time > timeout){
-			isFinished = true;
 			isFinished();
 		}
 
 		 if (DriverStation.getAlliance().get() == Alliance.Red){
 		 	X_Output = -X_Output;
+
+		 	Y_Output = -Y_Output;
+			Yaw_Output = -Yaw_Output;
+
 		 	Y_Output =  0;
 			Yaw_Output = 0;
+
 		 }
 
     translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed);

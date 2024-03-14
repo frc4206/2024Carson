@@ -21,8 +21,8 @@ public class SetupNote extends SequentialCommandGroup {
       // new ConveyerToPosition(conveyor, 17.5).withTimeout(2)
       new ParallelCommandGroup(
         new ConveyorToDuty(conveyor, 0.2),
-        new IntakeToDuty(intake, -0.1)
-      ).withTimeout(0.5)
+        new IntakeToDuty(intake, 0.1)
+      ).withTimeout(.85)
     );
   }
 }

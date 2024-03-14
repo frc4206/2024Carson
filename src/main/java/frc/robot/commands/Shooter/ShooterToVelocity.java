@@ -13,19 +13,18 @@ public class ShooterToVelocity extends Command {
 	public ShooterToVelocity(FlywheelSubsystem flywheelSubsystem, double flySpeed) {
 		m_flywheelSubsystem = flywheelSubsystem;
 		m_flySpeed = flySpeed;
-
 		addRequirements(m_flywheelSubsystem);
 	}
 
 	// Called when the command is initially scheduled.
 	@Override
-	public void initialize() {
-		m_flywheelSubsystem.setVelocity(m_flySpeed);
-	}
+	public void initialize() {}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
-	public void execute() {}
+	public void execute() {
+		m_flywheelSubsystem.setVelocity(m_flySpeed);
+	}
 
 	// Called once the command ends or is interrupted.
 	@Override

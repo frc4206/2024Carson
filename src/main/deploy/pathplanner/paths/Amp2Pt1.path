@@ -177,7 +177,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Amp2",
   "previewStartingState": {
     "rotation": -2.6630007660671655,
     "velocity": 0

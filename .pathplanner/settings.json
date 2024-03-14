@@ -2,9 +2,18 @@
   "robotWidth": 0.74,
   "robotLength": 0.81,
   "holonomicMode": true,
+<<<<<<< HEAD
+  "pathFolders": [],
+=======
   "pathFolders": [
-    "New Folder"
+    "AiAmp1",
+    "AiAmp2",
+    "Amp1",
+    "Amp2",
+    "Amp3",
+    "AiAmp3"
   ],
+>>>>>>> carsonFromFlorida
   "autoFolders": [],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

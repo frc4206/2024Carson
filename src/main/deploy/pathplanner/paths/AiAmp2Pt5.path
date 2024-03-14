@@ -1,0 +1,124 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.761411027095559,
+        "y": 4.034483282641779
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.538602718089942,
+        "y": 4.283201047635969
+      },
+      "isLocked": false,
+      "linkedName": "AiAmp2Pt4End"
+    },
+    {
+      "anchor": {
+        "x": 4.867257597763059,
+        "y": 4.736132549188175
+      },
+      "prevControl": {
+        "x": 4.604052350635495,
+        "y": 4.2864902520119195
+      },
+      "nextControl": {
+        "x": 5.147917304381616,
+        "y": 5.215592881328213
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.81,
+        "y": 5.908353479414798
+      },
+      "prevControl": {
+        "x": 4.025278477907382,
+        "y": 4.677661776975976
+      },
+      "nextControl": {
+        "x": 3.7152459932429585,
+        "y": 6.450037771417701
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.9317252423678632,
+        "y": 5.908353479414798
+      },
+      "prevControl": {
+        "x": 3.9434193968103033,
+        "y": 5.905547993432169
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -5.190914464022158,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.2000000000000002,
+      "rotationDegrees": -33.840968418146474,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 2.0,
+      "rotationDegrees": 0,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "shoot2",
+      "waypointRelativePos": 1.8499999999999996,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivot2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "AiAmp2",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

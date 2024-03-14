@@ -4,7 +4,6 @@
 
 package frc.robot.commands.Pivot;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.GlobalVariables;
 import frc.robot.subsystems.PivotSubsystem;
 
 public class PivotToSpeaker extends Command {
@@ -21,7 +20,7 @@ public class PivotToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_pivotSubsystem.autoAdjust(GlobalVariables.distanceToSpeaker);
+    m_pivotSubsystem.setPosition();
   }
 
   // Called once the command ends or is interrupted.

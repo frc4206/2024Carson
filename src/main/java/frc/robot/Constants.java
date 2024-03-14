@@ -323,9 +323,9 @@ public final class Constants {
 		 **/
 		public static final int servo_center = 1500; // in microseconds
 		public static final int microsecond_degrees_of_freedom = 300; // 40.5 angular degrees
-		public static final int servo_right_engage = 1700;
+		public static final int servo_right_engage = 1670;
 		public static final int servo_right_disengage = 1350;
-		public static final int servo_left_engage = 1420;//servo_center - (microsecond_degrees_of_freedom / 2);
+		public static final int servo_left_engage = 1475;//servo_center - (microsecond_degrees_of_freedom / 2);
 		public static final int servo_left_disengage = 1700; //servo_center + (microsecond_degrees_of_freedom / 2);
 
 		public static final double climberTopSetpoint = 15;

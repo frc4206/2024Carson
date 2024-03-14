@@ -43,44 +43,10 @@ public class LightEmittingDiodeSubsystem extends SubsystemBase {
         leds.start();
     }
 
-    public boolean setupController(XboxController controller) {
-        if(controller == null) return false;
-        this.controller = controller;
-        return true;
-    }
-
     public void setLEDs(int red, int green, int blue) {
         for(int i = 0; i < this.buffer.getLength(); i++) {
             this.buffer.setRGB(i, red, green, blue);
         }
         this.leds.setData(buffer);
     }
-
-    public void periodic() {
-        // A button pressed
-        boolean aButtonPressed = this.controller.getAButton();
-
-        // B button pressed
-        boolean bButtonPressed = this.controller.getBButton();
-
-        // X button pressed
-        boolean xButtonPressed = this.controller.getXButton();
-
-        // Y button pressed
-        boolean yButtonPressed = this.controller.getYButton();
-
-        // Test controller for inputs
-        if(aButtonPressed) {
-            this.setLEDs(0, 50, 0);
-        } else if(bButtonPressed) {
-            this.setLEDs(50, 0, 0);
-        } else if(xButtonPressed) {
-            this.setLEDs(0, 0, 50);
-        } else if(yButtonPressed) {
-            this.setLEDs(50, 50, 0);
-        } else {
-            return;
-        }
-    }
-
 }

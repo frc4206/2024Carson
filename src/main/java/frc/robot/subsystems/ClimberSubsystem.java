@@ -78,7 +78,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public double quadratic(double val) {
-		return val >= 0.0d ? (val * val) : -(val * val);
+		return val * val * val;
 	}
 
 	public double map(double val, double in_min, double in_max, double out_min, double out_max) {
@@ -140,11 +140,6 @@ public class ClimberSubsystem extends SubsystemBase {
 		if (currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
 			motor_speed_set = 0.0d;
 		}
-
-		// set the speed to half for now
-		motor_speed_set *= 0.5;
-
-		//motor_speed_set = 0.0d;
 
 		// set motor
 		climber_motor.set(motor_speed_set);

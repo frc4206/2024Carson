@@ -21,4 +21,6 @@ public class GlobalVariables {
     
     public static double teleopTimeStart = 0;
     public static double teleopTimeElapsed = 0;
+
+    public static double rotationMultiplier = 1;
 }

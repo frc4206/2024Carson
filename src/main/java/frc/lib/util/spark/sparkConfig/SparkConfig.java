@@ -30,10 +30,10 @@ public class SparkConfig {
      * @param shouldRestore whether the motor should restore to factory default upon intialization
      * @param shouldBurn whether the motor should burn the current configuration to flash
      */
-    public SparkConfig(MotorConfig motorConfig, PIDConfig pidConfig, FeedbackConfig feedbackConfig, CANSparkFlex motor, RelativeEncoder encoder, SparkPIDController pidController, boolean shouldRestore, boolean shouldBurn){
+    public SparkConfig(FeedbackConfig feedbackConfig, MotorConfig motorConfig, PIDConfig pidConfig, CANSparkFlex motor, RelativeEncoder encoder, SparkPIDController pidController, boolean shouldRestore, boolean shouldBurn){
+        this.feedbackConfig = feedbackConfig;
         this.motorConfig = motorConfig;
         this.pidConfig = pidConfig;
-        this.feedbackConfig = feedbackConfig;
         this.motor = motor;
         this.encoder = encoder;
         this.pidController = pidController;
@@ -55,6 +55,9 @@ public class SparkConfig {
         motor.setInverted(motorConfig.motorIsInverted);
         motor.setIdleMode(motorConfig.idleMode);
         motor.setSmartCurrentLimit(motorConfig.currentLimit);
+        if (motorConfig.closedLoopRampRate != 0){
+            motor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
+        }
 
         pidController.setFeedbackDevice(encoder);
 

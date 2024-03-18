@@ -21,13 +21,13 @@ import frc.robot.commands.Pivot.PivotToPosition;
 import frc.robot.commands.Pivot.ResetPivot;
 import frc.robot.commands.Pivot.TogglePivotMode;
 import frc.robot.commands.SYSTEMCHECK.SystemCheck;
-import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.commands.Shooter.ShooterToVelocity;
 import frc.robot.commands.Shooter.ToggleShooterToVelocity;
 import frc.robot.commands.Swerve.PID_to_game_Piece;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ToggleAimed;
 import frc.robot.commands.Swerve.ToggleAmped;
+import frc.robot.commands.Swerve.ToggleFastRotate;
 import frc.robot.commands.Swerve.TogglePickup;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
@@ -45,12 +45,11 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -83,9 +82,8 @@ public class RobotContainer {
   private final XboxController shootertesta = new XboxController(Constants.OperatorConstants.shootertestaPort);
   private final XboxController elevatortesta = new XboxController(Constants.OperatorConstants.elevatortestaPort);
   
-  final static SendableChooser<String> autoChooser = new SendableChooser<String>();
-
   public RobotContainer() {
+    NamedCommands.registerCommand("pivotSubwoofer", new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition));
     NamedCommands.registerCommand("shoot", new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(1.5));
     NamedCommands.registerCommand("intakeshort", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.6));
     NamedCommands.registerCommand("conveyorshort", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.4));
@@ -103,20 +101,6 @@ public class RobotContainer {
     
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driva, translationAxis, strafeAxis, rotationAxis, true, true));
 
-    autoChooser.addOption("FourPieceLeftRed", "FourPieceLeftRed");
-    autoChooser.addOption("FourPieceLeftBlue", "FourPieceLeftBlue");
-    autoChooser.addOption("FourPieceMiddleRed", "FourPieceMiddleRed");
-    autoChooser.addOption("FourPieceMiddleBlue", "FourPieceMiddleBlue");
-    autoChooser.addOption("TwoPieceMiddleRed", "TwoPieceMiddleRed");
-    autoChooser.addOption("TwoPieceMiddleBlue", "TwoPieceMiddleBlue");
-    autoChooser.addOption("ThreePieceRightRed", "ThreePieceRightRed");
-    autoChooser.addOption("ThreePieceRightBlue", "ThreePieceRightBlue");
-    autoChooser.addOption("SixPieceRed", "SixPieceRed");
-    autoChooser.addOption("SixPieceBlue", "SixPieceBlue");
-    autoChooser.addOption("JustLeave", "JustLeave");
-    autoChooser.setDefaultOption("Nothing", "Nothing");
-
-    SmartDashboard.putData(autoChooser);
     configureBindings();
   }
 
@@ -150,6 +134,7 @@ public class RobotContainer {
     new Trigger(() -> this.getRightTrigger(driva)).onTrue(new InstantCommand(() -> m_pivotSubsystem.toggleSubwoofer()));//, new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, 3325, 1725)));
     new JoystickButton(driva, 7).onTrue(new TogglePickup(m_swerveSubsystem));
     new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
+    new POVButton(driva, 90).onTrue(new ToggleFastRotate());
 
 
     new JoystickButton(operata, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));
@@ -168,7 +153,6 @@ public class RobotContainer {
     
     new JoystickButton(shootertesta, 1).whileTrue(new PivotToPosition(m_pivotSubsystem, 1));
     new JoystickButton(shootertesta, 2).onTrue(new ShooterToVelocity(m_flywheelSubsystem, 4000));
-    new JoystickButton(shootertesta, 3).onTrue(new ShooterStop(m_flywheelSubsystem));
     new JoystickButton(shootertesta, 4).whileTrue(new PivotToPosition(m_pivotSubsystem, 5));
     new JoystickButton(shootertesta, 5).onTrue(new ConveyorToPosition(m_conveyorSubsystem, 10));
     new JoystickButton(shootertesta, 6).onTrue(new ConveyorToPosition(m_conveyorSubsystem, 20));
@@ -188,7 +172,6 @@ public class RobotContainer {
   }
 
 
-  
   public Command getAutonomousCommand() {
     return new PathPlannerAuto("Amp3");
   }

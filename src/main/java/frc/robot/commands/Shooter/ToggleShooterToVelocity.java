@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.GlobalVariables;
 import frc.robot.subsystems.FlywheelSubsystem;
@@ -23,6 +24,7 @@ public class ToggleShooterToVelocity extends Command {
   @Override
   public void initialize() {
     toVelo = GlobalVariables.veloCounter % 2 == 0;
+    SmartDashboard.putBoolean("SHOOTER ACTIVE", toVelo);
     if (toVelo){
       m_flywheel.setVelocity(m_desiredVelocity);
     } else {

@@ -58,7 +58,6 @@ public class Robot extends LoggedRobot {
 
 	@Override
 	public void disabledInit() {
-		GlobalVariables.isEnabled = false;
 		for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
 			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 			mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
@@ -74,7 +73,6 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-		GlobalVariables.isEnabled = true;
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.schedule();
 		}
@@ -98,7 +96,6 @@ public class Robot extends LoggedRobot {
 			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 			mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
 		}
-		GlobalVariables.isEnabled = true;
 	}
 
 	/** This function is called periodically during operator control. */

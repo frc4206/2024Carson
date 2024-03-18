@@ -202,5 +202,7 @@ public class TeleopSwerve extends Command {
         SmartDashboard.putNumber("yawSet", yawSet);
         SmartDashboard.putNumber("yawOutput", outputYaw);
         SmartDashboard.putNumber("yawError", errorYaw);
+        SmartDashboard.putNumber("translationX", translation.getX());
+        SmartDashboard.putNumber("translationY", translation.getY());
     }
 }

@@ -23,7 +23,8 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	SparkConfiguration pivotConfig;
 
 	public enum ShooterPositions {
-		NONE,
+		AUTO,
+		SUBWOOFER,
 		CLOSE,
 		SPIKE,
 		PODIUM,
@@ -33,7 +34,7 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		AMPLIFIER
 	}
 
-	public ShooterPositions position = ShooterPositions.NONE;
+	public ShooterPositions position = ShooterPositions.AUTO;
 
 	public PivotSubsystem() {
 		pivotConfig = new SparkConfiguration(
@@ -69,19 +70,29 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		motorGoToPosition(pivotController, angle);
 	}
 
-	public void setPosition() {
-		motorGoToPosition(pivotController, SmartDashboard.getNumber("DesPos", 9.8));
+	public void autoPivot() {
+		motorGoToPosition(pivotController, SmartDashboard.getNumber("DesPos", 2) < 0.5 ? 2 : SmartDashboard.getNumber("DesPos", 2));
 	}
 	
+	public void pivotWithMove(){
+		motorGoToPosition(
+			pivotController, 
+			SmartDashboard.getNumber("DesPos", 2) - (1/3)*Math.sqrt(
+				Math.pow(SmartDashboard.getNumber("translationX", 0), 2) + 
+				Math.pow(SmartDashboard.getNumber("translationY", 0), 2)
+			)
+		);
+	}
+
 	public void changePosition(ShooterPositions newPosition){
 		position = newPosition;
 	}
 
 	public void togglePivotMode(){
-		if (position == ShooterPositions.NONE){
-			position = ShooterPositions.PODIUM;
+		if (position == ShooterPositions.AUTO){
+			position = ShooterPositions.CLOSE;
 		} else {
-			position = ShooterPositions.NONE;
+			position = ShooterPositions.AUTO;
 		}
 	}
 
@@ -89,7 +100,15 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		if (position != ShooterPositions.AMPLIFIER){
 			position = ShooterPositions.AMPLIFIER;
 		} else {
-			position = ShooterPositions.NONE;
+			position = ShooterPositions.AUTO;
+		} 
+	}
+
+	public void toggleSubwoofer(){
+		if (position != ShooterPositions.SUBWOOFER){
+			position = ShooterPositions.SUBWOOFER;
+		} else {
+			position = ShooterPositions.AUTO;
 		} 
 	}
 
@@ -109,6 +128,10 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 				break;
 			case AMPLIFIER:
 				setPosition(Constants.Pivot.ampPosition);
+				break;
+			case SUBWOOFER:
+				setPosition(Constants.Pivot.subwooferPosition);
+				break;
 			default:
 				break;
 			}
@@ -118,10 +141,11 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public void periodic() {
 		SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
 
-		if(position != ShooterPositions.NONE) {
+		if(position != ShooterPositions.AUTO) {
 			setFieldRelativePosition();
 		} else {
-			setPosition();
+			autoPivot();
+			// pivotWithMove();
 		}
 	}
 }

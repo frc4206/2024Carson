@@ -24,7 +24,6 @@ import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.commands.Shooter.ShooterToVelocity;
 import frc.robot.commands.Shooter.ToggleShooterToVelocity;
-import frc.robot.commands.Shooter.ToggleShooterToVelocityIndividual;
 import frc.robot.commands.Swerve.PID_to_game_Piece;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ToggleAimed;
@@ -62,9 +61,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   private final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(
-    Constants.Climber.climberLeftFollowID, true, 40, Constants.Climber.servoLeftID);
+    Constants.Climber.climberLeftFollowID, true, 60, Constants.Climber.servoLeftID);
   private final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(
-    Constants.Climber.climberRightLeadID, false, 40, Constants.Climber.servoRightID);  
+    Constants.Climber.climberRightLeadID, false, 60, Constants.Climber.servoRightID);  
   private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
@@ -83,7 +82,6 @@ public class RobotContainer {
   private final XboxController operata2 = new XboxController(Constants.OperatorConstants.operata2Port);
   private final XboxController shootertesta = new XboxController(Constants.OperatorConstants.shootertestaPort);
   private final XboxController elevatortesta = new XboxController(Constants.OperatorConstants.elevatortestaPort);
-  private final XboxController climbertesta = new XboxController(Constants.OperatorConstants.climbertestaPort);
   
   final static SendableChooser<String> autoChooser = new SendableChooser<String>();
 
@@ -98,6 +96,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("conveyorlong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.6));
     NamedCommands.registerCommand("conveyorlonglong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.8));
     NamedCommands.registerCommand("setupnote", new SetupNote(m_conveyorSubsystem, m_intakeSubsystem).withTimeout(0.8));
+    NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, 6500));
     NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2.5));//2.5
     NamedCommands.registerCommand("Ai Pickup long", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 3));//2.5
     NamedCommands.registerCommand("print", new InstantCommand(() -> System.out.println("Ran command in auto")));
@@ -148,7 +147,7 @@ public class RobotContainer {
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));
     new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, 1), new ConveyorToDuty(m_conveyorSubsystem, 0.9)));
     new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleShooterToVelocity(m_flywheelSubsystem, 6500));
-    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ParallelCommandGroup(new InstantCommand(() -> m_pivotSubsystem.toggleAmpMode()), new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, 3100, 1700)));
+    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new InstantCommand(() -> m_pivotSubsystem.toggleSubwoofer()));//, new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, 3325, 1725)));
     new JoystickButton(driva, 7).onTrue(new TogglePickup(m_swerveSubsystem));
     new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
 
@@ -166,6 +165,7 @@ public class RobotContainer {
     new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));
 
 
+    
     new JoystickButton(shootertesta, 1).whileTrue(new PivotToPosition(m_pivotSubsystem, 1));
     new JoystickButton(shootertesta, 2).onTrue(new ShooterToVelocity(m_flywheelSubsystem, 4000));
     new JoystickButton(shootertesta, 3).onTrue(new ShooterStop(m_flywheelSubsystem));
@@ -190,6 +190,6 @@ public class RobotContainer {
 
   
   public Command getAutonomousCommand() {
-    return new ParallelCommandGroup(new PathPlannerAuto("Source1"), new ShooterToVelocity(m_flywheelSubsystem, 6500));
+    return new PathPlannerAuto("Amp3");
   }
 }

@@ -41,9 +41,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double rotations = 0;
     public SwerveDrivePoseEstimator poseEstimator;
     public SwerveDrivePoseEstimator poseInvertEstimator;
-    double[] OdometryArray = new double[3];
-    double maxJitter = 0.4;
-    
+    double[] OdometryArray = new double[3];    
 
     boolean aprilInit = false;
     double aprilStartTrackTime = 0;
@@ -51,9 +49,6 @@ public class SwerveSubsystem extends SubsystemBase {
     boolean badpose = true;
     Pose2d previousPose;
     
-
-    double desiredVelo;
-
     public enum HeadingState {
         PICKUP,
         BACKWARD,
@@ -80,21 +75,6 @@ public class SwerveSubsystem extends SubsystemBase {
         poseEstimator = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions(), getPose());
         swerveInvertOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYawInverted(), getModulePositionsInverted());
         poseInvertEstimator = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getYawInverted(), getModulePositionsInverted(), getPoseInverted());
-
-        /* 
-         private final KalmanFilter<N1, N1, N1> m_observer =
-      new KalmanFilter<>(
-          Nat.N1(),
-          Nat.N1(),
-          m_flywheelPlant,
-          VecBuilder.fill(3.0), // How accurate we think our model is
-          VecBuilder.fill(0.01), // How accurate we think our encoder
-          // data is
-          0.020);
-*/
-
-        //Matrix<N3, N1> test = new Matrix<>(VecBuilder.fill(0.01, 0.01, 0.01));
-        //poseEstimator.setVisionMeasurementStdDevs(test);
         
         AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier
@@ -568,10 +548,9 @@ public class SwerveSubsystem extends SubsystemBase {
         //}
         //GlobalVariables.desiredVelo = desiredVelo;
         double distanceToSpeaker = Math.sqrt(((Limelight.limelightshooter.aprilTagResult[0]) * (Limelight.limelightshooter.aprilTagResult[0]))    +      ((Limelight.limelightshooter.aprilTagResult[2]) * (Limelight.limelightshooter.aprilTagResult[2])));
-        double DesiredPivot = 14.5*Math.pow(.78, distanceToSpeaker);
+        double DesiredPivot = 14.5*Math.pow(.76, distanceToSpeaker);
         SmartDashboard.putNumber("distance to speaker", distanceToSpeaker);
         SmartDashboard.putNumberArray("limelight distance array", Limelight.limelightshooter.aprilTagResult);
-
         SmartDashboard.putNumber("DesPos", DesiredPivot);
     }
 }

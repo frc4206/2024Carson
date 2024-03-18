@@ -40,8 +40,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		servo = new PWM(servo_id);
 
-		//servo.setBoundsMicroseconds(2500, 2100, 1500, 500, 700);
-
 		climber_motor.restoreFactoryDefaults();
 		climber_motor.setIdleMode(IdleMode.kBrake);
 		climber_motor.setInverted(invert_motor);

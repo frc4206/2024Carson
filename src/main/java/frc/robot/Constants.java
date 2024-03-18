@@ -28,7 +28,7 @@ public final class Constants {
 	}
 
 	public static final class Swerve {
-				public static final int pigeonID = 55;
+		public static final int pigeonID = 55;
 		public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
 		/* Drivetrain Constants */
@@ -56,13 +56,13 @@ public final class Constants {
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
 		/* Swerve Current Limiting */
-		public static final int angleStatorCurrentLimit = 35;
-		public static final int angleSupplyCurrentLimit = 40;
+		public static final int angleStatorCurrentLimit = 40;
+		public static final int angleSupplyCurrentLimit = 35;
 		public static final boolean angleEnableStatorLimit = true;
 		public static final boolean angleEnableSupplyLimit = true; 
 
-		public static final int driveStatorCurrentLimit = 50;
-		public static final int driveSupplyCurrentLimit = 60;
+		public static final int driveStatorCurrentLimit = 55;
+		public static final int driveSupplyCurrentLimit = 50;
 		public static final boolean driveEnableStatorLimit = true;
 		public static final boolean driveEnableSupplyLimit = true;
 
@@ -129,8 +129,8 @@ public final class Constants {
 		public static final double driveKA = (0);
 
 		/* Swerve Profiling Values */
-		public static final double maxSpeed = 5.25; //meters per second
-		public static final double maxAngularVelocity = 4.5;
+		public static final double maxSpeed = 5.5;
+		public static final double maxAngularVelocity = 4.25;
 
 		/* Neutral Modes */
 		public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
@@ -149,7 +149,7 @@ public final class Constants {
 			public static final int driveMotorID = 1; //3
 			public static final int angleMotorID = 2; //4
 			public static final int canCoderID = 3; //9
-			public static double angleOffset = (360-10.46)/360;//314.5 these aren't accurate just refrences
+			public static double angleOffset = (360-11.95)/360;//314.5 these aren't accurate just refrences
 			public static final SwerveModuleConstants constants =
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     	}
@@ -160,7 +160,7 @@ public final class Constants {
 			public static final int driveMotorID = 4; //7
 			public static final int angleMotorID = 5; //8
 			public static final int canCoderID = 6; //11
-			public static double angleOffset = (33.05)/360;//246.7
+			public static double angleOffset = (27.86)/360;//246.7
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -171,7 +171,7 @@ public final class Constants {
 			public static final int driveMotorID = 7; //3
 			public static final int angleMotorID = 8; //4
 			public static final int canCoderID = 9; //9
-			public static double angleOffset = (360-94.92)/360;//.47
+			public static double angleOffset = (360-95.10)/360;//.47
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -182,7 +182,7 @@ public final class Constants {
 			public static final int driveMotorID = 10; //13
 			public static final int angleMotorID = 11; //2
 			public static final int canCoderID = 12; //12
-			public static double angleOffset = (162.16)/360;//257.95
+			public static double angleOffset = (31.29)/360;//257.95
 			public static final SwerveModuleConstants constants =
 				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
@@ -243,10 +243,11 @@ public final class Constants {
 		public static final int pivotMotorID = 27;
 
 		public static final double ampPosition = 11.27;
-		public static final double closePosition = 5.4;
+		public static final double closePosition = 6;
 		public static final double podiumPosition = 3.900;
 		public static final double underPosition = 2.64;
 		public static final double stagePosition = 1.73;
+		public static final double subwooferPosition = 9.8;
 
 		public static final double pivotkP = 0.15; 
 		public static final double pivotkI = 0.00125; 

@@ -21,7 +21,7 @@ public class FlywheelSubsystem extends SubsystemBase {
 
 	public FlywheelSubsystem() {
 		// upperFlyMotor.restoreFactoryDefaults();
-		lowerFlyMotor.restoreFactoryDefaults();
+		// lowerFlyMotor.restoreFactoryDefaults();
 		
 		upperFlyMotor.setInverted(true);
 		lowerFlyMotor.setInverted(true);
@@ -57,6 +57,13 @@ public class FlywheelSubsystem extends SubsystemBase {
 		return (
 			(Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < 50) &&
 			(Math.abs(lowerFlyEncoder.getVelocity() - setVelocity) < 50)
+		);
+	}
+
+	public static boolean shooterAtVelocities(double topSetVelo, double bottomSetVelo){
+		return (
+			(Math.abs(upperFlyEncoder.getVelocity() - topSetVelo) < 50) && 
+			(Math.abs(lowerFlyEncoder.getVelocity() - bottomSetVelo) < 50)
 		);
 	}
 

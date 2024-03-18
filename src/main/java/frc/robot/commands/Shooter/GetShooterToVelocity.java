@@ -4,13 +4,15 @@
 
 package frc.robot.commands.Shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlywheelSubsystem;
 
-public class ShooterToVelocity extends Command {
+public class GetShooterToVelocity extends Command {
 	private FlywheelSubsystem m_flywheelSubsystem;
 	private double m_flySpeed;
-	public ShooterToVelocity(FlywheelSubsystem flywheelSubsystem, double flySpeed) {
+	double shooterMaxError = 100;
+	public GetShooterToVelocity(FlywheelSubsystem flywheelSubsystem, double flySpeed) {
 		m_flywheelSubsystem = flywheelSubsystem;
 		m_flySpeed = flySpeed;
 		addRequirements(m_flywheelSubsystem);
@@ -24,11 +26,16 @@ public class ShooterToVelocity extends Command {
 	@Override
 	public void execute() {
 		m_flywheelSubsystem.setVelocity(m_flySpeed);
+		if (Math.abs(6500 - SmartDashboard.getNumber("bottomVelo", 0)) < shooterMaxError && Math.abs(6500 - SmartDashboard.getNumber("topVelo", 0)) < shooterMaxError) {
+			end(true);
+		}
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
-	public void end(boolean interrupted) {}
+	public void end(boolean interrupted) {
+
+	}
 
 	// Returns true when the command should end.
 	@Override

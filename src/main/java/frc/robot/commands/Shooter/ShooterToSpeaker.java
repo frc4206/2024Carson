@@ -5,7 +5,6 @@
 package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.GlobalVariables;
 import frc.robot.subsystems.FlywheelSubsystem;
 
 public class ShooterToSpeaker extends Command {
@@ -22,7 +21,7 @@ public class ShooterToSpeaker extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		m_flywheelSubsystem.setVelocity(GlobalVariables.desiredVelo);
+		m_flywheelSubsystem.setVelocity(6500);
 	}
 
 	// Called once the command ends or is interrupted.

@@ -27,5 +27,4 @@ public class PIDConfig {
         this.kD = kD;
         this.kFF = kFF;
     }
-
 }

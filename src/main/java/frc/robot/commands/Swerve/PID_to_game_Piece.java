@@ -75,6 +75,7 @@ public class PID_to_game_Piece extends Command {
 		} else {
 			//fieldRelative = false;
 			//X_Output = (Limelight.limelightintake.HasTarget() == 0) ? X_Output : pidx.calculate(Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
+			Y_Output = 0;
 			SmartDashboard.putNumber("distance to game piece in command", Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
 		}
 		//Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0)
@@ -82,7 +83,7 @@ public class PID_to_game_Piece extends Command {
 		rotation = pidyaw.calculate(Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0), 0);
 		SmartDashboard.putNumber("pid output piece ", X_Output);
 
-		translation = new Translation2d(X_Output, 0).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
+		translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
 
 		s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
 		if (current_time > timeout) {

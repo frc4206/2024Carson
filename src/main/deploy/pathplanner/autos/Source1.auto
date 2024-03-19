@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.72394368066646,
-      "y": 4.455639505103239
+      "x": 0.72,
+      "y": 4.46
     },
     "rotation": -60.0
   },
@@ -12,9 +12,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Source1Pt2"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Source1Correct"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "fly"
+                }
+              }
+            ]
           }
         }
       ]

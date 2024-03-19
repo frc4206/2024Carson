@@ -30,10 +30,10 @@ public class SparkConfig {
      * @param shouldRestore whether the motor should restore to factory default upon intialization
      * @param shouldBurn whether the motor should burn the current configuration to flash
      */
-    public SparkConfig(MotorConfig motorConfig, PIDConfig pidConfig, FeedbackConfig feedbackConfig, CANSparkFlex motor, RelativeEncoder encoder, SparkPIDController pidController, boolean shouldRestore, boolean shouldBurn){
+    public SparkConfig(FeedbackConfig feedbackConfig, MotorConfig motorConfig, PIDConfig pidConfig, CANSparkFlex motor, RelativeEncoder encoder, SparkPIDController pidController, boolean shouldRestore, boolean shouldBurn){
+        this.feedbackConfig = feedbackConfig;
         this.motorConfig = motorConfig;
         this.pidConfig = pidConfig;
-        this.feedbackConfig = feedbackConfig;
         this.motor = motor;
         this.encoder = encoder;
         this.pidController = pidController;
@@ -54,7 +54,12 @@ public class SparkConfig {
         }
         motor.setInverted(motorConfig.motorIsInverted);
         motor.setIdleMode(motorConfig.idleMode);
-        motor.setSmartCurrentLimit(motorConfig.currentLimit);
+        if (motorConfig.currentLimit != 0){
+            motor.setSmartCurrentLimit(motorConfig.currentLimit);
+        }
+        if (motorConfig.closedLoopRampRate != 0){
+            motor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
+        }
 
         pidController.setFeedbackDevice(encoder);
 
@@ -62,7 +67,9 @@ public class SparkConfig {
         pidController.setI(pidConfig.kI);
         pidController.setIZone(pidConfig.kIZone);
         pidController.setD(pidConfig.kD);
-        pidController.setFF(pidConfig.kFF);
+        if (pidConfig.kFF != 0){
+            pidController.setFF(pidConfig.kFF);
+        }
         pidController.setOutputRange(feedbackConfig.minDuty, feedbackConfig.maxDuty);
         pidController.setSmartMotionMaxVelocity(feedbackConfig.maxVelo, 0);
         pidController.setSmartMotionMaxAccel(feedbackConfig.maxAcc, 0);

@@ -21,13 +21,13 @@ public class SetBlue extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_leds.setBlue();
+    m_leds.setBlue(0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_leds.setWhite();
+    m_leds.setWhite(0);
   }
 
   // Returns true when the command should end.

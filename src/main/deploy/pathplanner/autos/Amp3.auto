@@ -2,25 +2,39 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4408703461281565,
-      "y": 7.390705607622041
+      "x": 0.79,
+      "y": 6.6
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Amp3Pt1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp3Pt2"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Amp3Pt2"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "fly"
+                }
+              }
+            ]
           }
         }
       ]

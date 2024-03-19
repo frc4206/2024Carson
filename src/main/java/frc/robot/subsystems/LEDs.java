@@ -17,8 +17,8 @@ public class LEDs extends SubsystemBase {
   boolean ledInit = false;
   double initTime = 0;
   double currTime = 0;
-  double flashCycleTime = .1;
-  int shooterLeds = 24;
+  double flashCycleTime = .25;
+  int shooterLeds = 36;
   String LEDstate = "off";
   boolean upToSpeed = false;
   boolean ShooterLedInit = false;
@@ -37,13 +37,6 @@ public class LEDs extends SubsystemBase {
     ledstrip.start();
   }
 
-  public void setRed(){
-    for (var i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 255, 0, 0);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "red";
-  }
   public void setRed(int offFromMax){
     for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 255, 0, 0);
@@ -52,13 +45,6 @@ public class LEDs extends SubsystemBase {
     LEDstate = "red";
   }
 
-  public void setGreen(){
-    for (var i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 0, 255, 0);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "green";
-  }
   public void setGreen(int offFromMax){
     for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 0, 255, 0);
@@ -66,33 +52,27 @@ public class LEDs extends SubsystemBase {
     ledstrip.setData(ledBuffer);
     LEDstate = "green";
   }
+
   public void flashGreen(int offFromMax){
-    for (var i = 0; i < ledBuffer.getLength() - offFromMax; i++) {
+    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 0, 255, 0);
     }
     ledstrip.setData(ledBuffer);
-    for (var i = 0; i < ledBuffer.getLength() - offFromMax; i++) {
-      ledBuffer.setRGB(i, 0, 0, 0);
+    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 255, 255, 255);
     }
     ledstrip.setData(ledBuffer);
+    LEDstate = "green";
   }
   
-
-  public void setBlue(){
-    for (var i = 0; i < ledBuffer.getLength(); i++) {
+  public void setBlue(int offFromMax){
+    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 0, 0, 255);
     }
     ledstrip.setData(ledBuffer);
-    LEDstate = "white";
+    LEDstate = "blue";
   }
 
-  public void setWhite(){
-    for (var i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 100, 100, 100);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "white";
-  }
   public void setWhite(int offFromMax){
     for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 100, 100, 100);
@@ -100,22 +80,15 @@ public class LEDs extends SubsystemBase {
     ledstrip.setData(ledBuffer);
     LEDstate = "white";
   }
-  public void setYellow(){
-    for (var i = 0; i < ledBuffer.getLength(); i++) {
+
+  public void setYellow(int offFromMax){
+    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 100, 100, 0);
     }
     ledstrip.setData(ledBuffer);
     LEDstate = "yellow";
   }
 
-  public void setOff(){
-    for (var i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 255, 255, 255);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "off";
-  }
-  
   public void setOff(int offFromMax){
     for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 255, 255, 255);
@@ -123,59 +96,38 @@ public class LEDs extends SubsystemBase {
     ledstrip.setData(ledBuffer);
     LEDstate = "off";
   }
-
-  public void updateShooterLEDS() {
-    for (var i = 0; i < shooterLeds; i++) {
-        if (LEDstate == "off") {
-          ledBuffer.setRGB(i, 0, 0, 0);
-        } else if (LEDstate == "red") {
-          ledBuffer.setRGB(i, 100, 0, 0);
-        } else if (LEDstate == "green") {
-          ledBuffer.setRGB(i, 0, 100, 0);
-         }else if (LEDstate == "blue") {
-          ledBuffer.setRGB(i, 0, 0, 0);
-        } else if (LEDstate == "white") {
-          ledBuffer.setRGB(i, 100,100, 100);
-        }
-      }
-  }
+  
+  // public void updateShooterLEDS() {
+  //   for (var i = 0; i < shooterLeds; i++) {
+  //       if (LEDstate == "off") {
+  //         ledBuffer.setRGB(i, 0, 0, 0);
+  //       } else if (LEDstate == "red") {
+  //         ledBuffer.setRGB(i, 100, 0, 0);
+  //       } else if (LEDstate == "green") {
+  //         ledBuffer.setRGB(i, 0, 100, 0);
+  //        }else if (LEDstate == "blue") {
+  //         ledBuffer.setRGB(i, 0, 0, 0);
+  //       } else if (LEDstate == "white") {
+  //         ledBuffer.setRGB(i, 100,100, 100);
+  //       }
+  //     }
+  // }
 
   @Override
   public void periodic() {
     if (GlobalVariables.teleopTimeElapsed < 115)  {
-       if (!SmartDashboard.getBoolean("beam broken", false)) {
+      if (!SmartDashboard.getBoolean("beam broken", false)) {
         if (!ledInit) {
           ledInit = true;
           initTime = Timer.getFPGATimestamp();
         }
         currTime = Timer.getFPGATimestamp() - initTime;
 
-        if (currTime < flashCycleTime) {
-          setGreen(shooterLeds);
-        } else if (currTime < flashCycleTime * 2) {
-          setOff(shooterLeds);
-        }if (currTime < flashCycleTime * 3) {
-          setGreen(shooterLeds);
-        } else if (currTime < flashCycleTime * 4) {
-          setOff(shooterLeds);
-        }if (currTime < flashCycleTime * 5) {
-          setGreen(shooterLeds);
-        } else if (currTime < flashCycleTime * 6) {
-          setOff(shooterLeds);
-        }if (currTime < flashCycleTime * 7) {
-          setGreen(shooterLeds);
-        } else if (currTime < flashCycleTime * 8) {
-          setOff(shooterLeds);
-        } if (currTime < flashCycleTime * 9) {
-          setGreen(shooterLeds);
-        } else if (currTime < flashCycleTime * 10) {
-          setOff(shooterLeds);
-        } else {
-          setGreen(shooterLeds);
+        if (currTime < flashCycleTime*50) {
+          flashGreen(0);
         }
-
       } else {
-        setWhite(shooterLeds);
+        setOff(0);
         ledInit = false;
       }
     
@@ -195,7 +147,7 @@ public class LEDs extends SubsystemBase {
             ledBuffer.setRGB(i, 0, 0, 100);
           }
         } else if (shooterCurrTime < shooterFlashCycleTime * 2) {
-          updateShooterLEDS();
+          // updateShooterLEDS();
           
         } else if (shooterCurrTime < shooterFlashCycleTime *3) {
           for (var i = 0; i < shooterLeds; i++) {
@@ -209,16 +161,14 @@ public class LEDs extends SubsystemBase {
         ledstrip.setData(ledBuffer);
           
       } else {
-        updateShooterLEDS();
+        // updateShooterLEDS();
         ShooterLedInit = false;
       }
     } else if (GlobalVariables.teleopTimeElapsed < 130) {
-      setYellow();
+      setYellow(0);
     } else {
-      setRed();
+      setRed(0);
     }
     ledstrip.setData(ledBuffer);
-    // SmartDashboard.putString("LEDstate", LEDstate);
-    // SmartDashboard.putBoolean("up to speed", upToSpeed);
   }
 }

@@ -36,7 +36,7 @@ public class TeleopSwerve extends Command {
     private double outputYaw;
     private PIDController pidyaw = new PIDController(0.01, 0, 0);
     private PIDController pidyawi = new PIDController(0.005, 0, 0);
-    private PIDController pidyaw2 = new PIDController(Constants.Swerve.toGamePieceYawKP, Constants.Swerve.toGamePieceYawKI, Constants.Swerve.toGamePieceYawKD);
+    private PIDController pidyaw2 = new PIDController(0.100, 0, 0);
     private double rAxis;
 
     /**
@@ -188,12 +188,12 @@ public class TeleopSwerve extends Command {
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
 
         translation = new Translation2d(yAxisDeadzoned, xAxisDeadzoned).times(Constants.Swerve.maxSpeed);
-        rotation = rAxis * Constants.Swerve.maxAngularVelocity;
+        rotation = rAxis * Constants.Swerve.maxAngularVelocity * GlobalVariables.rotationMultiplier;
         if (s_Swerve.headingState == HeadingState.AIMED && Limelight.limelightshooter.HasTarget() == 1){
             rotation = pidyaw2.calculate(Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0), 0);
         } else if (s_Swerve.headingState == HeadingState.AIMED && Limelight.limelightshooter.HasTarget() != 1){
             rAxis = -controller.getRawAxis(rotationAxis)*Constants.Swerve.rotationMultiplier;
-            rotation = rAxis * Constants.Swerve.maxAngularVelocity;
+            rotation = rAxis * Constants.Swerve.maxAngularVelocity * GlobalVariables.rotationMultiplier;
         }
         
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
@@ -202,5 +202,7 @@ public class TeleopSwerve extends Command {
         SmartDashboard.putNumber("yawSet", yawSet);
         SmartDashboard.putNumber("yawOutput", outputYaw);
         SmartDashboard.putNumber("yawError", errorYaw);
+        SmartDashboard.putNumber("translationX", translation.getX());
+        SmartDashboard.putNumber("translationY", translation.getY());
     }
 }

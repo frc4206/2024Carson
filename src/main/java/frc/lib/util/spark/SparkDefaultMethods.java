@@ -27,7 +27,7 @@ public interface SparkDefaultMethods {
 
     /**
      * <p>
-     * Resets a motor controller's position.
+     * Resets a motor's relative position.
      * 
      * @param encoder actual encoder object
      */
@@ -38,7 +38,7 @@ public interface SparkDefaultMethods {
     /**
      * <p>
      * Communicates a desired position to the motor's PID controller and 
-     * moves toward the desired position
+     * travels toward the desired position
      * 
      * @param pidController actual PID controller object
      * @param setPosition desired position for the motor to travel towards

@@ -54,7 +54,9 @@ public class SparkConfig {
         }
         motor.setInverted(motorConfig.motorIsInverted);
         motor.setIdleMode(motorConfig.idleMode);
-        motor.setSmartCurrentLimit(motorConfig.currentLimit);
+        if (motorConfig.currentLimit != 0){
+            motor.setSmartCurrentLimit(motorConfig.currentLimit);
+        }
         if (motorConfig.closedLoopRampRate != 0){
             motor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
         }
@@ -65,7 +67,9 @@ public class SparkConfig {
         pidController.setI(pidConfig.kI);
         pidController.setIZone(pidConfig.kIZone);
         pidController.setD(pidConfig.kD);
-        pidController.setFF(pidConfig.kFF);
+        if (pidConfig.kFF != 0){
+            pidController.setFF(pidConfig.kFF);
+        }
         pidController.setOutputRange(feedbackConfig.minDuty, feedbackConfig.maxDuty);
         pidController.setSmartMotionMaxVelocity(feedbackConfig.maxVelo, 0);
         pidController.setSmartMotionMaxAccel(feedbackConfig.maxAcc, 0);

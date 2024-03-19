@@ -21,6 +21,22 @@ public class MotorConfig {
      * @param canID actual can ID of CANSparkFlex
      * @param motorIsInverted whether the motor's output should be inverted
      * @param idleMode whether the motor should brake or coast to zero
+     */
+    public MotorConfig(int canID, boolean motorIsInverted, IdleMode idleMode){
+        this.canID = canID;
+        this.motorIsInverted = motorIsInverted;
+        this.idleMode = idleMode;
+        this.currentLimit = 0;
+        this.closedLoopRampRate = 0;
+    }
+
+    /**
+     * Creates an instance of MotorConfig, a
+     * Utility class for initializing Motor configurations of a CANSparkFlex controller
+     * 
+     * @param canID actual can ID of CANSparkFlex
+     * @param motorIsInverted whether the motor's output should be inverted
+     * @param idleMode whether the motor should brake or coast to zero
      * @param currentLimit how much supply current the motor should use at any time
      */
     public MotorConfig(int canID, boolean motorIsInverted, IdleMode idleMode, int currentLimit){

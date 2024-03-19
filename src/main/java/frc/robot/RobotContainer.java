@@ -5,12 +5,9 @@
 package frc.robot;
 
 import frc.robot.commands.Conveyor.ConveyorToPosition;
+import frc.robot.commands.COMBOS.AutoShootAtSpeakerCommand;
+import frc.robot.commands.COMBOS.LineUpShotCommand;
 import frc.robot.commands.Conveyor.ConveyorToDuty;
-import frc.robot.commands.Elevator.ElevatorDown;
-import frc.robot.commands.Elevator.ElevatorToPosition;
-import frc.robot.commands.Elevator.ElevatorUp;
-import frc.robot.commands.Elevator.ElevatorToDuty;
-import frc.robot.commands.Elevator.ResetElevator;
 import frc.robot.commands.Intake.SetupNote;
 import frc.robot.commands.LEDs.SetBlue;
 import frc.robot.commands.LEDs.SetGreen;
@@ -31,8 +28,6 @@ import frc.robot.commands.Swerve.ToggleAmped;
 import frc.robot.commands.Swerve.ToggleFastRotate;
 import frc.robot.commands.Swerve.TogglePickup;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
-import frc.robot.commands.combos.AutoShootAtSpeakerCommand;
-import frc.robot.commands.combos.LineUpShotCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDs;
@@ -42,7 +37,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -67,7 +61,6 @@ public class RobotContainer {
   private final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(
     Constants.Climber.climberRightLeadID, false, 60, Constants.Climber.servoRightID);  
   private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
-  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
   private final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -83,7 +76,6 @@ public class RobotContainer {
   private final XboxController operata = new XboxController(Constants.OperatorConstants.operataPort);
   private final XboxController operata2 = new XboxController(Constants.OperatorConstants.operata2Port);
   private final XboxController shootertesta = new XboxController(Constants.OperatorConstants.shootertestaPort);
-  private final XboxController elevatortesta = new XboxController(Constants.OperatorConstants.elevatortestaPort);
   
   public RobotContainer() {
     NamedCommands.registerCommand("pivotSubwoofer", new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition));
@@ -149,7 +141,7 @@ public class RobotContainer {
     setupClimberControls(operata);
     
 
-    new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_leftClimberSubsystem, m_rightClimberSubsystem, m_conveyorSubsystem, m_elevatorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
+    new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_leftClimberSubsystem, m_rightClimberSubsystem, m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
     new JoystickButton(operata2, 5).whileTrue(new SetBlue(m_leds));
     new JoystickButton(operata2, 6).whileTrue(new SetGreen(m_leds));
     new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));
@@ -166,15 +158,6 @@ public class RobotContainer {
     new JoystickButton(shootertesta, 9).onTrue(new ResetPivot(m_pivotSubsystem));
     new JoystickButton(shootertesta, 10).whileTrue(new IntakeToDuty(m_intakeSubsystem, 1));
     new POVButton(shootertesta, 90).onTrue(new AutoShootAtSpeakerCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem));
-
-
-    new JoystickButton(elevatortesta, 1).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, -0.1));
-    new JoystickButton(elevatortesta, 2).whileTrue(new ResetElevator(m_elevatorSubsystem));
-    new JoystickButton(elevatortesta, 4).whileTrue(new ElevatorToDuty(m_elevatorSubsystem, 0.1));
-    new JoystickButton(elevatortesta, 5).whileTrue(new ElevatorDown(m_elevatorSubsystem));
-    new JoystickButton(elevatortesta, 6).whileTrue(new ElevatorUp(m_elevatorSubsystem));
-    new JoystickButton(elevatortesta, 7).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
-    new JoystickButton(elevatortesta, 8).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, Constants.Elevator.elevatorTrapPosition+5));
   }
 
 

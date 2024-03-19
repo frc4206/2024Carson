@@ -55,15 +55,16 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 
 	public boolean hasNote() {
 		if (!conveyorBeamBreak.get()) {
-			GlobalVariables.pieceReady = true;
+			SmartDashboard.putBoolean("PIECEREADY", !conveyorBeamBreak.get());
 		}
-		SmartDashboard.putBoolean("PIECEREADY", !conveyorBeamBreak.get());
 		return !conveyorBeamBreak.get();
 	}
 
 	@Override
 	public void periodic() {
+		GlobalVariables.Conveyor.beamBroken = conveyorBeamBreak.get();
+
 		SmartDashboard.putNumber("conveyorPosition", conveyorEncoder.getPosition());
-		SmartDashboard.putBoolean("beam broken", conveyorBeamBreak.get());
+		SmartDashboard.putBoolean("beam broken", GlobalVariables.Conveyor.beamBroken);
 	}	
 }

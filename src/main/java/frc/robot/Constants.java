@@ -211,8 +211,9 @@ public final class Constants {
 	}
 
 	public static final class Shooter {
-		public static final double topAmpVelo = 2950;
-		public static final double bottomAmpVelo = 1800;
+		public static final double speakerVelo = 6500;
+		public static final double topAmpVelo = 3600;
+		public static final double bottomAmpVelo = 2200;
 
 		public static final int shooterLeadMotorID = 25;
 		public static final int shooterFollowerID = 26;

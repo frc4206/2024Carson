@@ -2,23 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Swerve;
+package frc.robot.commands.Pivot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.GlobalVariables;
+import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 
-public class ToggleFastRotate extends Command {
+public class ChangePivotPosition extends Command {
+  private PivotSubsystem m_pivot;
+  private ShooterPositions m_desiredPosition;
   private boolean isFinished = false;
-  public ToggleFastRotate() {}
+  public ChangePivotPosition(PivotSubsystem pivot, ShooterPositions desiredPosition) {
+    m_pivot = pivot;
+    m_desiredPosition = desiredPosition;
+    addRequirements(m_pivot);
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (GlobalVariables.Swerve.rotationMultiplier == 1){
-      GlobalVariables.Swerve.rotationMultiplier = 2.5;
-    } else if (GlobalVariables.Swerve.rotationMultiplier == 2.5){
-      GlobalVariables.Swerve.rotationMultiplier = 1;
-    }
+    m_pivot.changePosition(m_desiredPosition);
     isFinished = true;
     isFinished();
   }

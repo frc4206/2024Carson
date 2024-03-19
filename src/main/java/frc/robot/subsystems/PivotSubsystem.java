@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,9 +20,9 @@ import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 
 public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods {
-	public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Pivot.pivotMotorID, MotorType.kBrushless);
-	public RelativeEncoder pivotEncoder = pivotMotor.getEncoder();
-	public SparkPIDController pivotController = pivotMotor.getPIDController();
+	private CANSparkFlex pivotMotor;
+	private RelativeEncoder pivotEncoder;
+	private SparkPIDController pivotController;
 	SparkConfig pivotConfig;
 
 	public enum ShooterPositions {
@@ -54,6 +53,10 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		);
 	}
 	
+	public boolean pivotWithinRange(double desiredPosition){
+		return Math.abs(pivotEncoder.getPosition() - desiredPosition) < Constants.Pivot.pivotAllowedError;
+	}
+
 	public void resetPivot(){
 		resetMotor(pivotEncoder);
 	}
@@ -67,15 +70,15 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	}
 
 	public void autoPivot() {
-		motorGoToPosition(pivotController, SmartDashboard.getNumber("DesPos", 2) < 0.5 ? 2 : SmartDashboard.getNumber("DesPos", 2));
+		motorGoToPosition(pivotController, GlobalVariables.Pivot.desiredPosition < 0.5 ? 2 : GlobalVariables.Pivot.desiredPosition);
 	}
 	
 	public void pivotWithMove(){
 		motorGoToPosition(
 			pivotController, 
-			SmartDashboard.getNumber("DesPos", 2) - (1/3)*Math.sqrt(
-				Math.pow(SmartDashboard.getNumber("translationX", 0), 2) + 
-				Math.pow(SmartDashboard.getNumber("translationY", 0), 2)
+			GlobalVariables.Pivot.desiredPosition - (1/3)*Math.sqrt(
+				Math.pow(GlobalVariables.Swerve.translationX, 2) + 
+				Math.pow(GlobalVariables.Swerve.translationY, 2)
 			)
 		);
 	}
@@ -103,10 +106,10 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public void toggleAmpMode(){
 		if (position != ShooterPositions.AMPLIFIER){
 			position = ShooterPositions.AMPLIFIER;
-			GlobalVariables.toAmpVelo = true;
+			GlobalVariables.Shooter.toAmpVelo = true;
 		} else {
 			position = ShooterPositions.AUTO;
-			GlobalVariables.toAmpVelo = false;
+			GlobalVariables.Shooter.toAmpVelo = false;
 		} 
 	}
 

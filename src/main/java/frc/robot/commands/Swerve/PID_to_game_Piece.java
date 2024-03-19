@@ -7,9 +7,9 @@ package frc.robot.commands.Swerve;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -65,9 +65,6 @@ public class PID_to_game_Piece extends Command {
 		double X_Output = 0.2;
 		double Y_Output = 0;
 
-		SmartDashboard.putNumber("x game piece pos", x_set);
-		SmartDashboard.putNumber("y game piece pos", y_set);
-
 		if(advanced_setpoints) {
 			fieldRelative = true;
 			X_Output = pidx.calculate(s_Swerve.swerveOdometry.getPoseMeters().getX(), x_set);
@@ -76,13 +73,9 @@ public class PID_to_game_Piece extends Command {
 			//fieldRelative = false;
 			//X_Output = (Limelight.limelightintake.HasTarget() == 0) ? X_Output : pidx.calculate(Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
 			Y_Output = 0;
-			SmartDashboard.putNumber("distance to game piece in command", Limelight.limelightManger.cameraList[1].GetDistanceToGamePiece());
 		}
-		//Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0)
-		SmartDashboard.putNumber("angle", SmartDashboard.getNumber("tx", 10));
-		rotation = pidyaw.calculate(Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0), 0);
-		SmartDashboard.putNumber("pid output piece ", X_Output);
 
+		rotation = pidyaw.calculate(Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0), 0);
 		translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
 
 		s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
@@ -90,7 +83,7 @@ public class PID_to_game_Piece extends Command {
 			fin = true;
 			isFinished();
 		}
-		if (!SmartDashboard.getBoolean("beam broken", false)) {
+		if (!GlobalVariables.Conveyor.beamBroken) {
 			System.out.println("The beam broke");
 			fin = true;
 			isFinished();

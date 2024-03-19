@@ -1,7 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class LimelightCameraManagerClass {
     public LimelightCameraClass[] cameraList;
 
@@ -56,13 +54,12 @@ public class LimelightCameraManagerClass {
               gamePiecePos = cameraList[1].GetGamePiecePosition(pos, angle);
               break;
             case 3:
-                gamePiecePos = cameraList[2].GetGamePiecePosition(pos, angle);
+              gamePiecePos = cameraList[2].GetGamePiecePosition(pos, angle);
               break;       
           }
-        SmartDashboard.putNumber("closest game piece X", gamePiecePos[0]);
-        SmartDashboard.putNumber("closest game piece Y", gamePiecePos[1]);
-
-        SmartDashboard.putNumber("camid", closestCam);
+        // SmartDashboard.putNumber("closest game piece X", gamePiecePos[0]);
+        // SmartDashboard.putNumber("closest game piece Y", gamePiecePos[1]);
+        // SmartDashboard.putNumber("camid", closestCam);
 
         return gamePiecePos;
     }
@@ -76,7 +73,7 @@ public class LimelightCameraManagerClass {
                     cameraList[i].aprilTagResult[2] = 150;
                 }
                 
-                SmartDashboard.putNumber(i + " X", cameraList[i].aprilTagResult[2]);
+                // SmartDashboard.putNumber(i + " X", cameraList[i].aprilTagResult[2]);
                 for (int ii = 0; ii < cameraList.length; ii++) {
                     try {
                         if (cameraList[ii].aprilTagResult[2] < cameraList[ii + 1].aprilTagResult[2] && cameraList[ii].GetPipeline() == 2) {

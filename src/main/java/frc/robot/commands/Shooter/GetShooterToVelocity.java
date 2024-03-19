@@ -4,8 +4,8 @@
 
 package frc.robot.commands.Shooter;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.GlobalVariables;
 import frc.robot.subsystems.FlywheelSubsystem;
 
 public class GetShooterToVelocity extends Command {
@@ -27,7 +27,7 @@ public class GetShooterToVelocity extends Command {
 	@Override
 	public void execute() {
 		m_flywheelSubsystem.setVelocity(m_flySpeed);
-		if (Math.abs(6500 - SmartDashboard.getNumber("bottomVelo", 0)) < shooterMaxError && Math.abs(6500 - SmartDashboard.getNumber("topVelo", 0)) < shooterMaxError) {
+		if (Math.abs(6500 - GlobalVariables.Shooter.topVelo) < shooterMaxError && Math.abs(6500 - GlobalVariables.Shooter.bottomVelo) < shooterMaxError) {
 			isFinished = true;
 			isFinished();
 		}

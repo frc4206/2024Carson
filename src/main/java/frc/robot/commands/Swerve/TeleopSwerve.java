@@ -188,21 +188,24 @@ public class TeleopSwerve extends Command {
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
 
         translation = new Translation2d(yAxisDeadzoned, xAxisDeadzoned).times(Constants.Swerve.maxSpeed);
-        rotation = rAxis * Constants.Swerve.maxAngularVelocity * GlobalVariables.rotationMultiplier;
+        rotation = rAxis * Constants.Swerve.maxAngularVelocity * GlobalVariables.Swerve.rotationMultiplier;
         if (s_Swerve.headingState == HeadingState.AIMED && Limelight.limelightshooter.HasTarget() == 1){
             rotation = pidyaw2.calculate(Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0), 0);
         } else if (s_Swerve.headingState == HeadingState.AIMED && Limelight.limelightshooter.HasTarget() != 1){
             rAxis = -controller.getRawAxis(rotationAxis)*Constants.Swerve.rotationMultiplier;
-            rotation = rAxis * Constants.Swerve.maxAngularVelocity * GlobalVariables.rotationMultiplier;
+            rotation = rAxis * Constants.Swerve.maxAngularVelocity * GlobalVariables.Swerve.rotationMultiplier;
         }
         
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
 
-        SmartDashboard.putNumber("yawNominal", botYaw);
-        SmartDashboard.putNumber("yawSet", yawSet);
-        SmartDashboard.putNumber("yawOutput", outputYaw);
-        SmartDashboard.putNumber("yawError", errorYaw);
-        SmartDashboard.putNumber("translationX", translation.getX());
-        SmartDashboard.putNumber("translationY", translation.getY());
+        // SmartDashboard.putNumber("yawNominal", botYaw);
+        // SmartDashboard.putNumber("yawSet", yawSet);
+        // SmartDashboard.putNumber("yawOutput", outputYaw);
+        // SmartDashboard.putNumber("yawError", errorYaw);
+        GlobalVariables.Swerve.translationX = yAxisDeadzoned;
+        GlobalVariables.Swerve.translationY = xAxisDeadzoned;
+
+        SmartDashboard.putNumber("translationX", GlobalVariables.Swerve.translationX);
+        SmartDashboard.putNumber("translationY", GlobalVariables.Swerve.translationY);
     }
 }

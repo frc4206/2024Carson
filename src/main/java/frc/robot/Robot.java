@@ -88,7 +88,7 @@ public class Robot extends LoggedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		GlobalVariables.teleopTimeStart = Timer.getFPGATimestamp();
+		GlobalVariables.Timing.teleopTimeStart = Timer.getFPGATimestamp();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
@@ -101,7 +101,7 @@ public class Robot extends LoggedRobot {
 	/** This function is called periodically during operator control. */
 	@Override
 	public void teleopPeriodic() {
-		GlobalVariables.teleopTimeElapsed = Timer.getFPGATimestamp() - GlobalVariables.teleopTimeStart;
+		GlobalVariables.Timing.teleopTimeElapsed = Timer.getFPGATimestamp() - GlobalVariables.Timing.teleopTimeStart;
 	}
 
 	@Override

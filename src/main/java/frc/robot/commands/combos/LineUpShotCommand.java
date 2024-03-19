@@ -4,8 +4,8 @@
 
 package frc.robot.commands.COMBOS;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.GlobalVariables;
 import frc.robot.commands.Pivot.GetPivotToPosition;
 import frc.robot.commands.Shooter.GetShooterToVelocity;
 import frc.robot.commands.Swerve.AlignWithSpeakerCommand;
@@ -20,7 +20,7 @@ public class LineUpShotCommand extends SequentialCommandGroup {
   public LineUpShotCommand(SwerveSubsystem swerve, FlywheelSubsystem flywheelSubsystem, PivotSubsystem pivotsubsystem) {
     addCommands(
       new GetShooterToVelocity(flywheelSubsystem, 6500),
-      new GetPivotToPosition(pivotsubsystem, SmartDashboard.getNumber("DesPos", 0)), 
+      new GetPivotToPosition(pivotsubsystem, GlobalVariables.Pivot.desiredPosition), 
       new AlignWithSpeakerCommand(swerve)
     );
   }

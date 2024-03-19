@@ -523,20 +523,15 @@ public class SwerveSubsystem extends SubsystemBase {
             Limelight.limelightManger.GetClosestGamePiecePositions(OdometryArray, getYaw().getDegrees());
         }
 
-        double[] ypr = new double[3];
-        ypr[0] = gyro.getYaw().getValueAsDouble();
-
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
         }
 
-        double angle = gyro.getYaw().getValueAsDouble() % 360;
-        angle = (angle < 0) ? 360 + angle : angle;
+        GlobalVariables.Position.distanceToSpeaker = Math.sqrt(((Limelight.limelightshooter.aprilTagResult[0]) * (Limelight.limelightshooter.aprilTagResult[0]))    +      ((Limelight.limelightshooter.aprilTagResult[2]) * (Limelight.limelightshooter.aprilTagResult[2])));
+        GlobalVariables.Pivot.desiredPosition = 16*Math.pow(.755, GlobalVariables.Position.distanceToSpeaker);
 
-        double distanceToSpeaker = Math.sqrt(((Limelight.limelightshooter.aprilTagResult[0]) * (Limelight.limelightshooter.aprilTagResult[0]))    +      ((Limelight.limelightshooter.aprilTagResult[2]) * (Limelight.limelightshooter.aprilTagResult[2])));
-        double DesiredPivot = 16*Math.pow(.755, distanceToSpeaker);
-        SmartDashboard.putNumber("distance to speaker", distanceToSpeaker);
+        SmartDashboard.putNumber("distance to speaker", GlobalVariables.Position.distanceToSpeaker);
         SmartDashboard.putNumberArray("limelight distance array", Limelight.limelightshooter.aprilTagResult);
-        SmartDashboard.putNumber("DesPos", DesiredPivot);
+        SmartDashboard.putNumber("DesPos", GlobalVariables.Pivot.desiredPosition);
     }
 }

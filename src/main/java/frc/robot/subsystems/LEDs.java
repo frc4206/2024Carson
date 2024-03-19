@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.GlobalVariables;
 
@@ -115,8 +114,8 @@ public class LEDs extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (GlobalVariables.teleopTimeElapsed < 115)  {
-      if (!SmartDashboard.getBoolean("beam broken", false)) {
+    if (GlobalVariables.Timing.teleopTimeElapsed < 115)  {
+      if (!GlobalVariables.Conveyor.beamBroken) {
         if (!ledInit) {
           ledInit = true;
           initTime = Timer.getFPGATimestamp();
@@ -131,7 +130,7 @@ public class LEDs extends SubsystemBase {
         ledInit = false;
       }
     
-      if (Math.abs(6500 - SmartDashboard.getNumber("bottomVelo", currTime)) < shooterMaxError && Math.abs(6500 - SmartDashboard.getNumber("topVelo", currTime)) < shooterMaxError) {
+      if (Math.abs(6500 - GlobalVariables.Shooter.topVelo) < shooterMaxError && Math.abs(6500 - GlobalVariables.Shooter.bottomVelo) < shooterMaxError) {
         upToSpeed = true;
       } else {
         upToSpeed = false;
@@ -164,7 +163,7 @@ public class LEDs extends SubsystemBase {
         // updateShooterLEDS();
         ShooterLedInit = false;
       }
-    } else if (GlobalVariables.teleopTimeElapsed < 130) {
+    } else if (GlobalVariables.Timing.teleopTimeElapsed < 130) {
       setYellow(0);
     } else {
       setRed(0);

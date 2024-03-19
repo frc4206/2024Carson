@@ -25,13 +25,13 @@ public class ShooterToDutyIndividual extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_flywheel.percentShooter2(m_upperPercent, m_lowerPercent);
+    m_flywheel.shooterToDuty(m_upperPercent, m_lowerPercent);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_flywheel.percentShooter2(0, 0);
+    m_flywheel.shooterToDuty(0, 0);
   }
 
   // Returns true when the command should end.

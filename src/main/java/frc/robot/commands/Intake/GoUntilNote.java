@@ -5,7 +5,6 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.GlobalVariables;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -20,11 +19,7 @@ public class GoUntilNote extends Command {
 
 	// Called when the command is initially scheduled.
 	@Override
-	public void initialize() {
-		GlobalVariables.intakingPiece = true;
-		GlobalVariables.pieceReady = false;
-		GlobalVariables.ampReady = false;
-	}
+	public void initialize() {}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override

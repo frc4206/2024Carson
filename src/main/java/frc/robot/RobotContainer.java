@@ -13,6 +13,7 @@ import frc.robot.commands.LEDs.SetBlue;
 import frc.robot.commands.LEDs.SetGreen;
 import frc.robot.commands.LEDs.SetRed;
 import frc.robot.commands.Intake.IntakeToDuty;
+import frc.robot.commands.Pivot.ChangePivotPosition;
 import frc.robot.commands.Pivot.PivotToDuty;
 import frc.robot.commands.Pivot.PivotToPosition;
 import frc.robot.commands.Pivot.ResetPivot;
@@ -45,6 +46,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -89,10 +91,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("conveyorlong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.6));
     NamedCommands.registerCommand("conveyorlonglong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.8));
     NamedCommands.registerCommand("setupnote", new SetupNote(m_conveyorSubsystem, m_intakeSubsystem).withTimeout(0.8));
-    NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, 6500));
+    NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, Constants.Shooter.speakerVelo));
     NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2.5));//2.5
     NamedCommands.registerCommand("Ai Pickup long", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 3));//2.5
-    NamedCommands.registerCommand("print", new InstantCommand(() -> System.out.println("Ran command in auto")));
+    NamedCommands.registerCommand("print", new PrintCommand("command running"));
     NamedCommands.registerCommand("startshot", new AutoShootAtSpeakerCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem).withTimeout(1));
     NamedCommands.registerCommand("lineupshot", new LineUpShotCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem));
     
@@ -126,18 +128,18 @@ public class RobotContainer {
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     new JoystickButton(driva, 4).onTrue(new ToggleAmped(m_swerveSubsystem));
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));
-    new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, GlobalVariables.toAmpVelo ? 9/50 : 1), new ConveyorToDuty(m_conveyorSubsystem, 0.9)));
-    new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleShooterToVelocity(m_flywheelSubsystem, 6500));
-    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ParallelCommandGroup(new InstantCommand(() -> m_pivotSubsystem.toggleAmpMode()), new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, 3600, 2200)));
+    new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, GlobalVariables.Shooter.toAmpVelo ? 9/50 : 1), new ConveyorToDuty(m_conveyorSubsystem, 0.9)));
+    new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleShooterToVelocity(m_flywheelSubsystem, Constants.Shooter.speakerVelo));
+    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ParallelCommandGroup(new InstantCommand(() -> m_pivotSubsystem.toggleAmpMode()), new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, Constants.Shooter.topAmpVelo, Constants.Shooter.bottomAmpVelo)));
     new JoystickButton(driva, 7).onTrue(new TogglePickup(m_swerveSubsystem));
     new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
     new POVButton(driva, 90).onTrue(new ToggleFastRotate());
 
 
-    new JoystickButton(operata, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));
-    new JoystickButton(operata, 2).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.PODIUM)));
-    new JoystickButton(operata, 3).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.UNDER)));
-    new JoystickButton(operata, 4).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.STAGE)));
+    new JoystickButton(operata, 1).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.SUBWOOFER));
+    new JoystickButton(operata, 2).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.PODIUM));
+    new JoystickButton(operata, 3).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.UNDER));
+    new JoystickButton(operata, 4).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.STAGE));
     setupClimberControls(operata);
     
 

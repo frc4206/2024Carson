@@ -4,7 +4,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimelightCameraClass {
 
@@ -77,22 +76,22 @@ public class LimelightCameraClass {
 		angle %= 360;
 		angle = (angle < 0) ? 360 + angle: angle;
 
-		double limelightXangle = limelightTable.getEntry("tx").getDouble(0);
+		// double limelightXangle = limelightTable.getEntry("tx").getDouble(0);
 
 		//limelightXangle = (limelightXangle < 0) ? 360 + limelightXangle : limelightXangle;
-		double finalAngle = angle + limelightXangle;
+		// double finalAngle = angle + limelightXangle;
 
 		
 
-		gamePiecePos[0] = OdometryArray[0] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.cos(finalAngle * (3.14159 / 180.0));
-		gamePiecePos[1] = OdometryArray[1] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.sin(finalAngle * (3.14159 / 180.0)); 
+		// gamePiecePos[0] = OdometryArray[0] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.cos(finalAngle * (3.14159 / 180.0));
+		// gamePiecePos[1] = OdometryArray[1] + SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.sin(finalAngle * (3.14159 / 180.0)); 
 
-		SmartDashboard.putNumber(limelightName + "  X",  SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.cos(finalAngle*(3.14159 / 180.0)));
-		SmartDashboard.putNumber(limelightName + " Y",SmartDashboard.getNumber(limelightName + " ai distance: ", 0)* Math.sin(finalAngle*(3.14159 / 180.0)));
+		// SmartDashboard.putNumber(limelightName + "X", gamePiecePos[0]);
+		// SmartDashboard.putNumber(limelightName + "Y", gamePiecePos[1]);
 
 
-		SmartDashboard.putNumber(limelightName + " final angle", finalAngle);
-		SmartDashboard.putNumberArray(limelightName + " game peice array", gamePiecePos);
+		// SmartDashboard.putNumber(limelightName + " final angle", finalAngle);
+		// SmartDashboard.putNumberArray(limelightName + " game piece array", gamePiecePos);
 
 		return gamePiecePos;
 	}
@@ -117,7 +116,7 @@ public class LimelightCameraClass {
 				init = false;
 			}
 		} else if (limelightTable.getEntry("pipeline").getDouble(0) == 1) {
-			SmartDashboard.putNumber(limelightName + " ai distance: ", GetDistanceToGamePiece());
+			// SmartDashboard.putNumber(limelightName + " ai distance: ", GetDistanceToGamePiece());
 		}
 	}
 }

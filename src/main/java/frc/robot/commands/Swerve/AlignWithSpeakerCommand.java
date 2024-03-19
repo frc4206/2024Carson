@@ -47,7 +47,6 @@ public class AlignWithSpeakerCommand extends Command {
 
 		s_Swerve.drive(translation, rotation, true, true);
 
-		//SmartDashboard.putNumber("Distance to Speaker", Math.sqrt((Limelight.limelightshooter.aprilTagResult[0] * Limelight.limelightshooter.aprilTagResult[0]) + (Limelight.limelightshooter.aprilTagResult[1] * Limelight.limelightshooter.aprilTagResult[1])));
 		if (Math.abs(Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0)) < 3) {
 			end(true);
 		}

@@ -5,8 +5,8 @@
 package frc.robot;
 
 import frc.robot.commands.Conveyor.ConveyorToPosition;
-import frc.robot.commands.COMBOS.AutoShootAtSpeakerCommand;
-import frc.robot.commands.COMBOS.LineUpShotCommand;
+import frc.robot.commands.combos.AutoShootAtSpeakerCommand;
+import frc.robot.commands.combos.LineUpShotCommand;
 import frc.robot.commands.Conveyor.ConveyorToDuty;
 import frc.robot.commands.Intake.SetupNote;
 import frc.robot.commands.LEDs.SetBlue;

@@ -94,7 +94,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		// ignore if both right and left trigger are pressed
 		if (rght_trigger_speed > 0.0d && left_trigger_speed > 0.0d) {
-			climber_motor.set(0.0d); // safe to zero for safety
+			climber_motor.set(0.0d);
 			return; // return early, multiple inputs are unclear so ignore
 		}
 

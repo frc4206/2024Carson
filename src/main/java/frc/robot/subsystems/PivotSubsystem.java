@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
 import frc.lib.util.spark.sparkConfig.SparkConfiguration;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 
 public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods {
 	public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Pivot.pivotMotorID, MotorType.kBrushless);
@@ -24,6 +25,7 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 
 	public enum ShooterPositions {
 		AUTO,
+		MANUAL,
 		SUBWOOFER,
 		CLOSE,
 		SPIKE,
@@ -88,6 +90,14 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		position = newPosition;
 	}
 
+	public void toggleManual(){
+		if (position != ShooterPositions.MANUAL){
+			position = ShooterPositions.MANUAL;
+		} else {
+			position = ShooterPositions.AUTO;
+		}
+	}
+
 	public void togglePivotMode(){
 		if (position == ShooterPositions.AUTO){
 			position = ShooterPositions.CLOSE;
@@ -99,8 +109,10 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public void toggleAmpMode(){
 		if (position != ShooterPositions.AMPLIFIER){
 			position = ShooterPositions.AMPLIFIER;
+			GlobalVariables.toAmpVelo = true;
 		} else {
 			position = ShooterPositions.AUTO;
+			GlobalVariables.toAmpVelo = false;
 		} 
 	}
 
@@ -132,6 +144,8 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 			case SUBWOOFER:
 				setPosition(Constants.Pivot.subwooferPosition);
 				break;
+			case MANUAL:
+				break;
 			default:
 				break;
 			}
@@ -145,7 +159,6 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 			setFieldRelativePosition();
 		} else {
 			autoPivot();
-			// pivotWithMove();
 		}
 	}
 }

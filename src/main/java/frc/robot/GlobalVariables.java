@@ -18,6 +18,7 @@ public class GlobalVariables {
 
     public static double topVelo = 0.52;
     public static double bottomVelo = 0.28;
+    public static boolean toAmpVelo = false;
     
     public static double teleopTimeStart = 0;
     public static double teleopTimeElapsed = 0;

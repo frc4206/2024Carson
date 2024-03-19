@@ -242,7 +242,7 @@ public final class Constants {
 	public static final class Pivot {
 		public static final int pivotMotorID = 27;
 
-		public static final double ampPosition = 11.27;
+		public static final double ampPosition = 10;
 		public static final double closePosition = 6;
 		public static final double podiumPosition = 3.900;
 		public static final double underPosition = 2.64;

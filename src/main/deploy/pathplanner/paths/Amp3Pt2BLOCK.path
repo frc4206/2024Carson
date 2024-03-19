@@ -93,19 +93,7 @@
       "rotateFast": true
     }
   ],
-  "constraintZones": [
-    {
-      "name": "slow1",
-      "minWaypointRelativePos": 2.9,
-      "maxWaypointRelativePos": 3.1,
-      "constraints": {
-        "maxVelocity": 0.5,
-        "maxAcceleration": 4.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,

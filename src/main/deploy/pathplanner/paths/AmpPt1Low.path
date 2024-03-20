@@ -1,0 +1,120 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7708024187978201,
+        "y": 6.63
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.6130898938990863,
+        "y": 7.127175246982073
+      },
+      "isLocked": false,
+      "linkedName": "ampstart"
+    },
+    {
+      "anchor": {
+        "x": 2.194519827636147,
+        "y": 6.98
+      },
+      "prevControl": {
+        "x": 1.7158741818809502,
+        "y": 6.98
+      },
+      "nextControl": {
+        "x": 2.464519827636146,
+        "y": 6.98
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.7,
+        "y": 6.699999999999999
+      },
+      "prevControl": {
+        "x": 2.892776136429466,
+        "y": 7.079038719480948
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "amppt1lowend"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.4000000000000001,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.9500000000000002,
+      "rotationDegrees": 17.25,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "slow",
+      "minWaypointRelativePos": 1.35,
+      "maxWaypointRelativePos": 1.8,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "pickup1",
+      "waypointRelativePos": 1.4500000000000002,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intakelong"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "conveyorlong"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 17.93193768098013,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Amp",
+  "previewStartingState": {
+    "rotation": 59.859982390173414,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

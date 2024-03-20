@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.74,
-  "robotLength": 0.81,
+  "robotWidth": 0.76,
+  "robotLength": 0.84,
   "holonomicMode": true,
   "pathFolders": [
     "AiAmp1",
@@ -8,15 +8,17 @@
     "AiAmp3",
     "AiPartSource1",
     "AiSource1",
-    "Amp1",
-    "Amp2",
-    "Amp3",
+    "Amp",
     "Cleanup",
-    "TestPath",
-    "Source1",
-    "Source2"
+    "Tele Paths",
+    "Source"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Amp",
+    "Cleanup",
+    "AI",
+    "Source"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

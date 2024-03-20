@@ -17,6 +17,7 @@ import frc.robot.Constants.Swerve.Mod0;
 import frc.robot.Constants.Swerve.Mod1;
 import frc.robot.Constants.Swerve.Mod2;
 import frc.robot.Constants.Swerve.Mod3;
+import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -72,6 +73,7 @@ public class Robot extends LoggedRobot {
 	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
 	@Override
 	public void autonomousInit() {
+		m_robotContainer.m_pivotSubsystem.changePosition(ShooterPositions.MANUAL);
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.schedule();
@@ -88,6 +90,7 @@ public class Robot extends LoggedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		m_robotContainer.m_pivotSubsystem.changePosition(ShooterPositions.AUTO);
 		GlobalVariables.Timing.teleopTimeStart = Timer.getFPGATimestamp();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();

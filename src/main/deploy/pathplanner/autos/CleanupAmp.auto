@@ -2,24 +2,68 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4454257887138118,
-      "y": 7.370817211943212
+      "x": 0.7708024187978201,
+      "y": 6.63
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "CleanupAmp"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "fly"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "pivotsub"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CleanupAmp"
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Cleanup",
   "choreoAuto": false
 }

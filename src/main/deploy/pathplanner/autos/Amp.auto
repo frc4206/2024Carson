@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8,
-      "y": 4.51
+      "x": 0.7708024187978201,
+      "y": 6.625625531952818
     },
-    "rotation": -60.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -59,11 +59,11 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "CleanupSource"
+                        "pathName": "AmpPt1High"
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "parallel",
                       "data": {
                         "commands": [
                           {
@@ -75,13 +75,57 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "pivotsub"
+                              "name": "pivotamp1"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "AmpPt2High"
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shoot"
                             }
                           },
                           {
-                            "type": "wait",
+                            "type": "named",
                             "data": {
-                              "waitTime": 0.5
+                              "name": "pivotamp1"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "AmpPt3High"
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shoot"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "pivotamp2"
                             }
                           }
                         ]
@@ -96,6 +140,6 @@
       ]
     }
   },
-  "folder": "Cleanup",
+  "folder": "Amp",
   "choreoAuto": false
 }

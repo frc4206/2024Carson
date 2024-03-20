@@ -48,7 +48,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -60,17 +59,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private final AmpBarSubsystem m_ampBarSubsystem = new AmpBarSubsystem();
-  private final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(
+  public final AmpBarSubsystem m_ampBarSubsystem = new AmpBarSubsystem();
+  public final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(
     Constants.Climber.climberLeftFollowID, true, 60, Constants.Climber.servoLeftID);
-  private final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(
+  public final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(
     Constants.Climber.climberRightLeadID, false, 60, Constants.Climber.servoRightID);  
-  private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
-  private final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
-  private final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  public final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
+  public final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
+  public final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
+  public final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
-  private final LEDs m_leds = new LEDs();
+  public final LEDs m_leds = new LEDs();
   public final Limelight m_Limelight = new Limelight();
 
   public static final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -84,8 +83,14 @@ public class RobotContainer {
   private final XboxController ampBartesta = new XboxController(Constants.OperatorConstants.ampBartestaPort);
   
   public RobotContainer() {
-    NamedCommands.registerCommand("pivotSubwoofer", new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition));
+    NamedCommands.registerCommand("pivotsub", new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition));
+    NamedCommands.registerCommand("pivotamp1", new PivotToPosition(m_pivotSubsystem, 6.5));
+    NamedCommands.registerCommand("pivotamp2", new PivotToPosition(m_pivotSubsystem, 5.875));
+    NamedCommands.registerCommand("pivotsource1", new PivotToPosition(m_pivotSubsystem, 7));
+    NamedCommands.registerCommand("pivotsource2", new PivotToPosition(m_pivotSubsystem, 8));
+
     NamedCommands.registerCommand("shoot", new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(1.5));
+
     NamedCommands.registerCommand("intakeshort", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.6));
     NamedCommands.registerCommand("conveyorshort", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.4));
     NamedCommands.registerCommand("intake", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.75));
@@ -94,14 +99,16 @@ public class RobotContainer {
     NamedCommands.registerCommand("intakelonglong", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(1.9));
     NamedCommands.registerCommand("conveyorlong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.6));
     NamedCommands.registerCommand("conveyorlonglong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.8));
+
     NamedCommands.registerCommand("setupnote", new SetupNote(m_conveyorSubsystem, m_intakeSubsystem).withTimeout(0.8));
+
     NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, Constants.Shooter.speakerVelo));
+    
     NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2.5));//2.5
     NamedCommands.registerCommand("Ai Pickup long", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 3));//2.5
-    NamedCommands.registerCommand("print", new PrintCommand("command running"));
-    // NamedCommands.registerCommand("startshot", new AutoShootAtSpeakerCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem).withTimeout(1));
-    // NamedCommands.registerCommand("lineupshot", new LineUpShotCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem));
     
+
+
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driva, translationAxis, strafeAxis, rotationAxis, true, true));
 
     configureBindings();

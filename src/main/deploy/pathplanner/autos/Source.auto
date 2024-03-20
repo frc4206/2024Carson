@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8,
-      "y": 4.51
+      "x": 0.77,
+      "y": 4.47
     },
     "rotation": -60.0
   },
@@ -59,11 +59,11 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "CleanupSource"
+                        "pathName": "SourcePt1Low"
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "parallel",
                       "data": {
                         "commands": [
                           {
@@ -75,13 +75,57 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "pivotsub"
+                              "name": "pivotsource1"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "SourcePt2Low"
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shoot"
                             }
                           },
                           {
-                            "type": "wait",
+                            "type": "named",
                             "data": {
-                              "waitTime": 0.5
+                              "name": "pivotsource1"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "SourcePickup"
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shoot"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "pivotsource2"
                             }
                           }
                         ]
@@ -96,6 +140,6 @@
       ]
     }
   },
-  "folder": "Cleanup",
+  "folder": "Source",
   "choreoAuto": false
 }

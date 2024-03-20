@@ -5,8 +5,9 @@
 package frc.robot;
 
 import frc.robot.commands.Conveyor.ConveyorToPosition;
-import frc.robot.commands.COMBOS.AutoShootAtSpeakerCommand;
-import frc.robot.commands.COMBOS.LineUpShotCommand;
+import frc.robot.commands.AmpBar.AmpBarToDuty;
+import frc.robot.commands.AmpBar.AmpBarToPosition;
+import frc.robot.commands.AmpBar.ResetAmpBar;
 import frc.robot.commands.Conveyor.ConveyorToDuty;
 import frc.robot.commands.Intake.SetupNote;
 import frc.robot.commands.LEDs.SetBlue;
@@ -36,6 +37,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
+import frc.robot.subsystems.AmpBarSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 
@@ -58,6 +60,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private final AmpBarSubsystem m_ampBarSubsystem = new AmpBarSubsystem();
   private final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(
     Constants.Climber.climberLeftFollowID, true, 60, Constants.Climber.servoLeftID);
   private final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(
@@ -78,6 +81,7 @@ public class RobotContainer {
   private final XboxController operata = new XboxController(Constants.OperatorConstants.operataPort);
   private final XboxController operata2 = new XboxController(Constants.OperatorConstants.operata2Port);
   private final XboxController shootertesta = new XboxController(Constants.OperatorConstants.shootertestaPort);
+  private final XboxController ampBartesta = new XboxController(Constants.OperatorConstants.ampBartestaPort);
   
   public RobotContainer() {
     NamedCommands.registerCommand("pivotSubwoofer", new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition));
@@ -95,8 +99,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2.5));//2.5
     NamedCommands.registerCommand("Ai Pickup long", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 3));//2.5
     NamedCommands.registerCommand("print", new PrintCommand("command running"));
-    NamedCommands.registerCommand("startshot", new AutoShootAtSpeakerCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem).withTimeout(1));
-    NamedCommands.registerCommand("lineupshot", new LineUpShotCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem));
+    // NamedCommands.registerCommand("startshot", new AutoShootAtSpeakerCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem).withTimeout(1));
+    // NamedCommands.registerCommand("lineupshot", new LineUpShotCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem));
     
     m_swerveSubsystem.setDefaultCommand(new TeleopSwerve(m_swerveSubsystem, driva, translationAxis, strafeAxis, rotationAxis, true, true));
 
@@ -107,11 +111,11 @@ public class RobotContainer {
     m_leftClimberSubsystem.setupController(controller, XboxController.Axis.kLeftY.value);
     m_rightClimberSubsystem.setupController(controller, XboxController.Axis.kRightY.value);
 
-    m_leftClimberSubsystem.engageServoPos = Constants.Climber.servo_left_engage;
-    m_leftClimberSubsystem.disengageServoPos = Constants.Climber.servo_left_disengage;
+    m_leftClimberSubsystem.engageServoPos = Constants.Climber.servoLeftEngage;
+    m_leftClimberSubsystem.disengageServoPos = Constants.Climber.servoLeftDisengage;
 
-    m_rightClimberSubsystem.engageServoPos = Constants.Climber.servo_right_engage;
-    m_rightClimberSubsystem.disengageServoPos = Constants.Climber.servo_right_disengage;
+    m_rightClimberSubsystem.engageServoPos = Constants.Climber.servoRightEngage;
+    m_rightClimberSubsystem.disengageServoPos = Constants.Climber.servoRightDisengage;
   } 
 
 	private boolean getLeftTrigger(XboxController controller) {
@@ -149,6 +153,7 @@ public class RobotContainer {
     new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));
 
 
+
     
     new JoystickButton(shootertesta, 1).whileTrue(new PivotToPosition(m_pivotSubsystem, 1));
     new JoystickButton(shootertesta, 2).onTrue(new ShooterToVelocity(m_flywheelSubsystem, 4000));
@@ -159,7 +164,14 @@ public class RobotContainer {
     new JoystickButton(shootertesta, 8).whileTrue(new PivotToDuty(m_pivotSubsystem, 0.08));
     new JoystickButton(shootertesta, 9).onTrue(new ResetPivot(m_pivotSubsystem));
     new JoystickButton(shootertesta, 10).whileTrue(new IntakeToDuty(m_intakeSubsystem, 1));
-    new POVButton(shootertesta, 90).onTrue(new AutoShootAtSpeakerCommand(m_swerveSubsystem, m_flywheelSubsystem, m_pivotSubsystem));
+
+    new JoystickButton(ampBartesta, 1).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, -0.1));
+    new JoystickButton(ampBartesta, 2).onTrue(new ResetAmpBar(m_ampBarSubsystem));
+    new JoystickButton(ampBartesta, 4).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.1));
+    new JoystickButton(ampBartesta, 5).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.35));
+    new JoystickButton(ampBartesta, 6).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.35));
+    new JoystickButton(ampBartesta, 7).onTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.stowPosition));
+    new JoystickButton(ampBartesta, 8).onTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.ampPosition));
   }
 
 

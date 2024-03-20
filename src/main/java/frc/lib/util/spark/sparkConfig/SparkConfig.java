@@ -45,10 +45,6 @@ public class SparkConfig {
      * Applies all configurations to the motor controller
      */
     public void applyConfig(){
-        motor = new CANSparkFlex(motorConfig.canID, motorConfig.motorType);
-        encoder = motor.getEncoder();
-        pidController = motor.getPIDController();
-
         if (shouldRestore){
             motor.restoreFactoryDefaults();
         }

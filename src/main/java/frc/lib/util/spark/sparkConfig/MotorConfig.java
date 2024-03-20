@@ -1,14 +1,12 @@
 package frc.lib.util.spark.sparkConfig;
 
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 /**
  * Utility class for initializing Motor configurations of a CANSparkFlex controller
  */
 public class MotorConfig {
     int canID;
-    MotorType motorType;
     boolean motorIsInverted;
     IdleMode idleMode;
     int currentLimit;

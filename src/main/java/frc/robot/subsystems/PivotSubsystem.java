@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
+import frc.lib.util.spark.sparkConfig.ControllerConfig;
 import frc.lib.util.spark.sparkConfig.FeedbackConfig;
 import frc.lib.util.spark.sparkConfig.MotorConfig;
 import frc.lib.util.spark.sparkConfig.PIDConfig;
@@ -24,6 +25,7 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	private RelativeEncoder pivotEncoder;
 	private SparkPIDController pivotController;
 	SparkConfig pivotConfig;
+	ControllerConfig controllerConfig;
 
 	public enum ShooterPositions {
 		AUTO,
@@ -41,6 +43,11 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public ShooterPositions position = ShooterPositions.AUTO;
 
 	public PivotSubsystem() {
+		controllerConfig = new ControllerConfig(Constants.Pivot.pivotMotorID, pivotMotor, pivotEncoder, pivotController);
+		pivotMotor = controllerConfig.getMotor();
+		pivotEncoder = controllerConfig.getEncoder();
+		pivotController = controllerConfig.getPIDController();
+
 		pivotConfig = new SparkConfig(
 			new FeedbackConfig(-1, 1, Constants.Pivot.pivotMaxVel, Constants.Pivot.pivotMaxAccel, Constants.Pivot.pivotAllowedError), 
 			new MotorConfig(Constants.Pivot.pivotMotorID, false, IdleMode.kBrake, 40, 0.25), 
@@ -51,6 +58,7 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 			true, 
 			false
 		);
+		pivotConfig.applyConfig();
 	}
 	
 	public boolean pivotWithinRange(double desiredPosition){

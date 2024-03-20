@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.util.spark.sparkConfig.ControllerConfig;
 import frc.lib.util.spark.sparkConfig.FeedbackConfig;
 import frc.lib.util.spark.sparkConfig.MotorConfig;
 import frc.lib.util.spark.sparkConfig.PIDConfig;
@@ -23,6 +24,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	private RelativeEncoder climberEncoder;
 	private SparkPIDController climberPIDController;
 	SparkConfig climberConfig;
+	ControllerConfig controllerConfig;
 	PWM servo;
 
 	private XboxController controller;
@@ -36,6 +38,11 @@ public class ClimberSubsystem extends SubsystemBase {
 	private long disengageDuractionMilliseconds = 180;
 
 	public ClimberSubsystem(int motorID, boolean motorIsInverted, int currentLimit, int servoID) {
+		controllerConfig = new ControllerConfig(motorID, climberMotor, climberEncoder, climberPIDController);
+		climberMotor = controllerConfig.getMotor();
+		climberEncoder = controllerConfig.getEncoder();
+		climberPIDController = controllerConfig.getPIDController();
+
 		climberConfig = new SparkConfig(
 			new FeedbackConfig(-1, 1, Constants.Climber.climberMaxVelo, Constants.Climber.climberMaxAcc, Constants.Climber.climberAllowedError), 
 			new MotorConfig(motorID, motorIsInverted, IdleMode.kBrake, currentLimit), 
@@ -46,6 +53,7 @@ public class ClimberSubsystem extends SubsystemBase {
 			false, 
 			true
 		);
+		climberConfig.applyConfig();
 
 		servo = new PWM(servoID);
 	}

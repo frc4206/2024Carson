@@ -263,25 +263,23 @@ public final class Constants {
 		public static final double pivotDistanceToRobotCenter = 3.25;
 	}
 
-	public static final class Elevator {
-		public static final int elevatorLeaderID = 30;
-		public static final int elevatorFollowerID = 31;
-		public static final boolean elevatorLeaderisInverted = true;
-		public static final boolean elevatorFollowisInverted = false;
-		public static final int elevatorTopLimitSwitch = 2;
-		public static final int elevatorBottomLimitSwitch = 3;
-    
-		public static final double elevatorkP = 0.005;
-		public static final double elevatorkI = 0.000005;
-		public static final double elevatorkIZone = 30;
-		public static final double elevatorkD = 0.0;
-		public static final double elevatorMaxVelo = 5000;
-		public static final double elevatorMaxAcc = 5000;
-		public static final double elevatorMaxError = 2.5;
+	public static final class AmpBar {
+		public static final int ampBarMotorID = 40;
 
-		public static final double elevatorDownPosition = 5;
-		public static final double elevatorTrapPosition = 90;
-	}	
+		public static final double ampPosition = 10;
+		public static final double stowPosition = 0;
+		
+		public static final double ampBarkP = 0.15; 
+		public static final double ampBarkI = 0.00125; 
+		public static final double ampBarkIZone = 0.1;
+		public static final double ampBarkD = 0.0;
+		public static final double ampBarkFF = 0.0;
+		public static final double ampBarMaxVelo = 4000; 
+		public static final double ampBarMinVelo = -4000; 
+		public static final double ampBarMaxAcc = 4000;
+		public static final double ampBarMaxError = 0.01; 
+		public static final double ampBarCurrLimit = 40; 
+	}
 
 	public static final class Climber {
 		public static final int climberRightLeadID = 35;
@@ -297,12 +295,12 @@ public final class Constants {
 		public static final double climberMaxVelo = 4000;
 		public static final double climberMaxAcc = 4000;
 
-		public static final int servo_center = 1500; // in microseconds
-		public static final int microsecond_degrees_of_freedom = 300; // 40.5 angular degrees
-		public static final int servo_right_engage = 1670;
-		public static final int servo_right_disengage = 1350;
-		public static final int servo_left_engage = 1475;//servo_center - (microsecond_degrees_of_freedom / 2);
-		public static final int servo_left_disengage = 1700; //servo_center + (microsecond_degrees_of_freedom / 2);
+		public static final int servoCenter = 1500; // in microseconds
+		public static final int microsecondDegreesofFreedom = 300; // 40.5 angular degrees
+		public static final int servoRightEngage = 1670;
+		public static final int servoRightDisengage = 1350;
+		public static final int servoLeftEngage = 1475;//servoCenter - (microsecondDegreesofFreedom / 2);
+		public static final int servoLeftDisengage = 1700; //servoCenter + (microsecondDegreesofFreedom / 2);
 	}
 
 	public static final class LEDS{
@@ -332,8 +330,7 @@ public final class Constants {
 		public static final int operataPort = 1;
 		public static final int operata2Port = 2;
 		public static final int shootertestaPort = 3;
-		public static final int elevatortestaPort = 4;
-		public static final int climbertestaPort = 5;
+		public static final int ampBartestaPort = 4;
 	}
 
 	public static final class AutoConstants {

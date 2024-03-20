@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
+import frc.lib.util.spark.sparkConfig.ControllerConfig;
 import frc.lib.util.spark.sparkConfig.FeedbackConfig;
 import frc.lib.util.spark.sparkConfig.MotorConfig;
 import frc.lib.util.spark.sparkConfig.PIDConfig;
@@ -26,8 +27,15 @@ public class FlywheelSubsystem extends SubsystemBase implements SparkDefaultMeth
 	private SparkPIDController lowerFlyPIDController;
 	SparkConfig upperConfig;
 	SparkConfig lowerConfig;
+	ControllerConfig upperControllerConfig;
+	ControllerConfig lowerControllerConfig;
 
 	public FlywheelSubsystem() {
+		upperControllerConfig = new ControllerConfig(Constants.Shooter.shooterLeadMotorID, upperFlyMotor, upperFlyEncoder, upperFlyPIDController);
+		upperFlyMotor = upperControllerConfig.getMotor();
+		upperFlyEncoder = upperControllerConfig.getEncoder();
+		upperFlyPIDController = upperControllerConfig.getPIDController();
+
 		upperConfig = new SparkConfig(
 			new FeedbackConfig(-1, 1, Constants.Shooter.topFlyWheelMaxVel, Constants.Shooter.topFlyWheelMaxAccel, Constants.Shooter.topFlyWheelAllowedError), 
 			new MotorConfig(Constants.Shooter.shooterLeadMotorID, false, IdleMode.kCoast), 
@@ -38,6 +46,12 @@ public class FlywheelSubsystem extends SubsystemBase implements SparkDefaultMeth
 			false, 
 			true
 		);
+		upperConfig.applyConfig();
+
+		lowerControllerConfig = new ControllerConfig(Constants.Shooter.shooterFollowerID, lowerFlyMotor, lowerFlyEncoder, lowerFlyPIDController);
+		lowerFlyMotor = lowerControllerConfig.getMotor();
+		lowerFlyEncoder = lowerControllerConfig.getEncoder();
+		lowerFlyPIDController = lowerControllerConfig.getPIDController();
 
 		lowerConfig = new SparkConfig(
 			new FeedbackConfig(-1, 1, Constants.Shooter.bottomFlyWheelMaxVel, Constants.Shooter.bottomFlyWheelMaxAccel, Constants.Shooter.bottomFlyWheelAllowedError), 
@@ -49,6 +63,7 @@ public class FlywheelSubsystem extends SubsystemBase implements SparkDefaultMeth
 			false, 
 			true
 		);
+		lowerConfig.applyConfig();
 	}
 
 

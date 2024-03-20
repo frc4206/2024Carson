@@ -16,7 +16,7 @@ public class IntakeSubsystem extends SubsystemBase implements SparkDefaultMethod
 	public IntakeSubsystem() {}
 
 	public void intakeGo(double setSpeed) {
-		setMotorSpeed(intakeMotor, setSpeed);
+		motorToDuty(intakeMotor, setSpeed);
 	}
 
 	@Override

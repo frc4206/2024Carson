@@ -96,23 +96,23 @@ public class FlywheelSubsystem extends SubsystemBase implements SparkDefaultMeth
 	}
 
 	public void setVelocity(double setVelocity) {
-		motorGoToVelocity(upperFlyPIDController, setVelocity);
-		motorGoToVelocity(lowerFlyPIDController, setVelocity);
+		motorToVelocity(upperFlyPIDController, setVelocity);
+		motorToVelocity(lowerFlyPIDController, setVelocity);
 	}
 
 	public void setVelocity(double setVelocityUpper, double setVelocityLower) {
-		motorGoToVelocity(upperFlyPIDController, setVelocityUpper);
-		motorGoToVelocity(lowerFlyPIDController, setVelocityLower);
+		motorToVelocity(upperFlyPIDController, setVelocityUpper);
+		motorToVelocity(lowerFlyPIDController, setVelocityLower);
 	}
 
 	public void shooterToDuty(double percent) {
-		setMotorSpeed(upperFlyMotor, percent);
-		setMotorSpeed(lowerFlyMotor, percent);
+		motorToDuty(upperFlyMotor, percent);
+		motorToDuty(lowerFlyMotor, percent);
 	} 
 
 	public void shooterToDuty(double upperPercent, double lowerPercent){
-		setMotorSpeed(upperFlyMotor, upperPercent);
-		setMotorSpeed(lowerFlyMotor, lowerPercent);
+		motorToDuty(upperFlyMotor, upperPercent);
+		motorToDuty(lowerFlyMotor, lowerPercent);
 	}
 
 	@Override

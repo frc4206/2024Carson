@@ -21,7 +21,7 @@ public interface SparkDefaultMethods {
      * @param motor actual motor object
      * @param motorSpeed desired duty cycle of the motor (range: [-1, 1])
      */
-    public default void setMotorSpeed(CANSparkFlex motor, double motorSpeed){
+    public default void motorToDuty(CANSparkFlex motor, double motorSpeed){
         motor.set(motorSpeed);
     }
 
@@ -31,7 +31,7 @@ public interface SparkDefaultMethods {
      * 
      * @param encoder actual encoder object
      */
-    public default void resetMotor(RelativeEncoder encoder){
+    public default void resetEncoder(RelativeEncoder encoder){
         encoder.setPosition(0);
     }
 
@@ -43,7 +43,7 @@ public interface SparkDefaultMethods {
      * @param pidController actual PID controller object
      * @param setPosition desired position for the motor to travel towards
      */
-    public default void motorGoToPosition(SparkPIDController pidController, double setPosition){
+    public default void motorToPosition(SparkPIDController pidController, double setPosition){
         pidController.setReference(setPosition, ControlType.kPosition);
     }
 
@@ -55,7 +55,7 @@ public interface SparkDefaultMethods {
      * @param pidController actual PID controller object
      * @param setVelocity desired velocity for the motor to approach
      */
-    public default void motorGoToVelocity(SparkPIDController pidController, double setVelocity){
+    public default void motorToVelocity(SparkPIDController pidController, double setVelocity){
         pidController.setReference(setVelocity, ControlType.kVelocity);
     }
 }

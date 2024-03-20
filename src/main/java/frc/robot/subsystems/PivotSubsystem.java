@@ -66,23 +66,23 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	}
 
 	public void resetPivot(){
-		resetMotor(pivotEncoder);
+		resetEncoder(pivotEncoder);
 	}
 	
 	public void runPivot(double speed) {
-		setMotorSpeed(pivotMotor, speed);
+		motorToDuty(pivotMotor, speed);
 	}
 	
 	public void setPosition(double angle) {
-		motorGoToPosition(pivotController, angle);
+		motorToPosition(pivotController, angle);
 	}
 
 	public void autoPivot() {
-		motorGoToPosition(pivotController, GlobalVariables.Pivot.desiredPosition < 0.5 ? 2 : GlobalVariables.Pivot.desiredPosition);
+		motorToPosition(pivotController, GlobalVariables.Pivot.desiredPosition < 0.5 ? 2 : GlobalVariables.Pivot.desiredPosition);
 	}
 	
 	public void pivotWithMove(){
-		motorGoToPosition(
+		motorToPosition(
 			pivotController, 
 			GlobalVariables.Pivot.desiredPosition - (1/3)*Math.sqrt(
 				Math.pow(GlobalVariables.Swerve.translationX, 2) + 

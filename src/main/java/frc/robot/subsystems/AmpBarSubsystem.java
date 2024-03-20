@@ -50,15 +50,15 @@ public class AmpBarSubsystem extends SubsystemBase implements SparkDefaultMethod
   }
 
   public void resetAmpBar(){
-    resetMotor(ampBarEncoder);
+    resetEncoder(ampBarEncoder);
   }
 
   public void runAmpBar(double speed){
-    setMotorSpeed(ampBarMotor, speed);
+    motorToDuty(ampBarMotor, speed);
   }
 
   public void setPosition(double desiredPosition){
-    motorGoToPosition(ampBarPIDController, desiredPosition);
+    motorToPosition(ampBarPIDController, desiredPosition);
   }
 
   @Override

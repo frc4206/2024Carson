@@ -8,10 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
-import frc.lib.util.spark.sparkConfig.FeedbackConfig;
-import frc.lib.util.spark.sparkConfig.MotorConfig;
-import frc.lib.util.spark.sparkConfig.PIDConfig;
-import frc.lib.util.spark.sparkConfig.SparkConfig;
+import frc.lib.util.spark.sparkConfig.SparkConfiguration;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 
@@ -19,27 +16,34 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMethods {
-  	private CANSparkFlex conveyorMotor;
-	private RelativeEncoder conveyorEncoder;
-	private SparkPIDController conveyorPIDController;
-	SparkConfig conveyorConfig;
-
-	private DigitalInput conveyorBeamBreak = new DigitalInput(Constants.Conveyor.conveyerBeamBreakID);
+  	private CANSparkFlex conveyorMotor = new CANSparkFlex(Constants.Conveyor.conveyorMotorID, MotorType.kBrushless);
+	private RelativeEncoder conveyorEncoder = conveyorMotor.getEncoder();
+	private SparkPIDController conveyorPIDController = conveyorMotor.getPIDController();
+  	private DigitalInput conveyorBeamBreak = new DigitalInput(Constants.Conveyor.conveyerBeamBreakID);
+	SparkConfiguration conveyorConfig;
 
   	public ConveyorSubsystem() {
-		conveyorConfig = new SparkConfig(
-			new FeedbackConfig(-1, 1, Constants.Conveyor.conveyorMaxVelo, Constants.Conveyor.conveyorMaxAcc, Constants.Conveyor.conveyorMaxError),
-			new MotorConfig(Constants.Conveyor.conveyorMotorID, Constants.Conveyor.conveyorInverted, IdleMode.kBrake, 40),
-			new PIDConfig(Constants.Conveyor.conveyorkP, Constants.Conveyor.conveyorkI, Constants.Conveyor.conveyorkIzone, Constants.Conveyor.conveyorkD, 0),
+		conveyorConfig = new SparkConfiguration(
+			false,
+			false,
 			conveyorMotor,
+			Constants.Conveyor.conveyorInverted,
+			IdleMode.kBrake,
+			40,
 			conveyorEncoder,
 			conveyorPIDController,
-			false,
-			false
+			Constants.Conveyor.conveyorkP,
+			Constants.Conveyor.conveyorkI,
+			Constants.Conveyor.conveyorkIzone,
+			Constants.Conveyor.conveyorkD,
+			0,
+			Constants.Conveyor.conveyorMaxVelo,
+			Constants.Conveyor.conveyorMaxAcc,
+			Constants.Conveyor.conveyorMaxError
 		);
-		conveyorConfig.applyConfig();
 	}
 
 	public void conveyorGoToPosition(double desiredPosition){

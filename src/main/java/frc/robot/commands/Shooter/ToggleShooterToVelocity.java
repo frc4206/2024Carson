@@ -26,7 +26,7 @@ public class ToggleShooterToVelocity extends Command {
     toVelo = GlobalVariables.Shooter.veloCounter % 2 == 0;
     SmartDashboard.putBoolean("SHOOTER ACTIVE", toVelo);
     if (toVelo){
-      m_flywheel.setVelocity(m_desiredVelocity);
+      m_flywheel.shooterToVelocity(m_desiredVelocity);
     } else {
       m_flywheel.shooterToDuty(0);
     }

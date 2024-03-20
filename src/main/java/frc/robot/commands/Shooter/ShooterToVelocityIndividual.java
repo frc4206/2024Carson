@@ -25,7 +25,7 @@ public class ShooterToVelocityIndividual extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_flywheel.setVelocity(m_topDesiredVelo, m_bottomDesiredVelo);
+    m_flywheel.shooterToVelocity(m_topDesiredVelo, m_bottomDesiredVelo);
   }
 
   // Called once the command ends or is interrupted.

@@ -23,7 +23,7 @@ public class AmpBarToPosition extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ampBar.setPosition(m_desiredPosition);
+    m_ampBar.ampBarToPosition(m_desiredPosition);
   }
 
   // Called once the command ends or is interrupted.

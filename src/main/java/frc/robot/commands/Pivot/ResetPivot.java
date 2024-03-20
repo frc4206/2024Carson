@@ -18,7 +18,7 @@ public class ResetPivot extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		m_pivot.resetPivot();
+		m_pivot.resetPivotEncoder();
 		isFinished = true;
 		isFinished();
 	}

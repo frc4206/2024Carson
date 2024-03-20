@@ -18,7 +18,7 @@ public class ResetAmpBar extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_ampBar.resetAmpBar();
+    m_ampBar.resetAmpBarEncoder();
     isFinished = true;
     isFinished();
   }

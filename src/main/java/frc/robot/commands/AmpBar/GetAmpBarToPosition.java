@@ -24,7 +24,7 @@ public class GetAmpBarToPosition extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ampBar.setPosition(m_desiredPosition);
+    m_ampBar.ampBarToPosition(m_desiredPosition);
     if (m_ampBar.ampBarWithinRange(m_desiredPosition)){
       isFinished = true;
       isFinished();

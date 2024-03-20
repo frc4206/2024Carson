@@ -65,25 +65,24 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		return Math.abs(pivotEncoder.getPosition() - desiredPosition) < Constants.Pivot.pivotAllowedError;
 	}
 
-	public void resetPivot(){
+	public void resetPivotEncoder(){
 		resetEncoder(pivotEncoder);
 	}
 	
-	public void runPivot(double speed) {
+	public void pivotToDuty(double speed) {
 		motorToDuty(pivotMotor, speed);
 	}
 	
-	public void setPosition(double angle) {
+	public void pivotToPosition(double angle) {
 		motorToPosition(pivotController, angle);
 	}
 
 	public void autoPivot() {
-		motorToPosition(pivotController, GlobalVariables.Pivot.desiredPosition < 0.5 ? 2 : GlobalVariables.Pivot.desiredPosition);
+		pivotToPosition(GlobalVariables.Pivot.desiredPosition < 0.5 ? 2 : GlobalVariables.Pivot.desiredPosition);
 	}
 	
 	public void pivotWithMove(){
-		motorToPosition(
-			pivotController, 
+		pivotToPosition(
 			GlobalVariables.Pivot.desiredPosition - (1/3)*Math.sqrt(
 				Math.pow(GlobalVariables.Swerve.translationX, 2) + 
 				Math.pow(GlobalVariables.Swerve.translationY, 2)
@@ -132,22 +131,22 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public void setFieldRelativePosition() {
 		switch (position){
 			case STAGE:
-				setPosition(Constants.Pivot.stagePosition);
+				pivotToPosition(Constants.Pivot.stagePosition);
 				break;
 			case UNDER:
-				setPosition(Constants.Pivot.underPosition);
+				pivotToPosition(Constants.Pivot.underPosition);
 				break;
 			case PODIUM:
-				setPosition(Constants.Pivot.podiumPosition); 
+				pivotToPosition(Constants.Pivot.podiumPosition); 
 				break;
 			case CLOSE:
-				setPosition(Constants.Pivot.closePosition);
+				pivotToPosition(Constants.Pivot.closePosition);
 				break;
 			case AMPLIFIER:
-				setPosition(Constants.Pivot.ampPosition);
+				pivotToPosition(Constants.Pivot.ampPosition);
 				break;
 			case SUBWOOFER:
-				setPosition(Constants.Pivot.subwooferPosition);
+				pivotToPosition(Constants.Pivot.subwooferPosition);
 				break;
 			case MANUAL:
 				break;

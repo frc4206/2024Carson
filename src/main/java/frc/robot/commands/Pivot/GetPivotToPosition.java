@@ -24,7 +24,7 @@ public class GetPivotToPosition extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		m_pivot.setPosition(m_position);
+		m_pivot.pivotToPosition(m_position);
 		if (m_pivot.pivotWithinRange(m_position)) {
 			isFinished = true;
 			isFinished();

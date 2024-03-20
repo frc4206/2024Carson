@@ -49,7 +49,7 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 		conveyorConfig.applyConfig();
 	}
 
-	public void conveyorGoToPosition(double desiredPosition){
+	public void conveyorToPosition(double desiredPosition){
 		motorToPosition(conveyorPIDController, desiredPosition);
 	}
 
@@ -57,7 +57,7 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 		motorToDuty(conveyorMotor, desiredDuty);
 	}
 
-	public void resetConveyor(){
+	public void resetConveyorEncoder(){
 		resetEncoder(conveyorEncoder);
 	}
 

@@ -23,7 +23,7 @@ public class ConveyorToPosition extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_conveyor.conveyorGoToPosition(m_desiredPosition);
+    m_conveyor.conveyorToPosition(m_desiredPosition);
   }
 
   // Called once the command ends or is interrupted.

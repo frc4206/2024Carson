@@ -49,15 +49,15 @@ public class AmpBarSubsystem extends SubsystemBase implements SparkDefaultMethod
     return Math.abs(ampBarEncoder.getPosition() - desiredPosition) < Constants.AmpBar.ampBarMaxError;
   }
 
-  public void resetAmpBar(){
+  public void resetAmpBarEncoder(){
     resetEncoder(ampBarEncoder);
   }
 
-  public void runAmpBar(double speed){
+  public void ampBarToDuty(double speed){
     motorToDuty(ampBarMotor, speed);
   }
 
-  public void setPosition(double desiredPosition){
+  public void ampBarToPosition(double desiredPosition){
     motorToPosition(ampBarPIDController, desiredPosition);
   }
 

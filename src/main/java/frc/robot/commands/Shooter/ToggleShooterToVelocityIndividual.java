@@ -26,7 +26,7 @@ public class ToggleShooterToVelocityIndividual extends Command {
   public void initialize() {
     toVelo = GlobalVariables.Shooter.veloCounter % 2 == 0;
     if (toVelo){
-      m_flywheel.setVelocity(m_topDesiredVelo, m_bottomDesiredVelo);
+      m_flywheel.shooterToVelocity(m_topDesiredVelo, m_bottomDesiredVelo);
     } else {
       m_flywheel.shooterToDuty(0);
     }

@@ -25,10 +25,10 @@ public class GoUntilNote extends Command {
 	@Override
 	public void execute() {
 		if(!m_conveyor.hasNote()) {
-			m_intake.intakeGo(0.75);
+			m_intake.intakeToDuty(0.75);
 			m_conveyor.conveyorToDuty(0.4);
 		} else {
-			m_intake.intakeGo(0);
+			m_intake.intakeToDuty(0);
 			m_conveyor.conveyorToDuty(0);
 		}
 	}
@@ -36,7 +36,7 @@ public class GoUntilNote extends Command {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		m_conveyor.resetConveyor();
+		m_conveyor.resetConveyorEncoder();
 	}
 
 	// Returns true when the command should end.

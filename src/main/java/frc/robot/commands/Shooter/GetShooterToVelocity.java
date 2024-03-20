@@ -26,7 +26,7 @@ public class GetShooterToVelocity extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		m_flywheelSubsystem.setVelocity(m_flySpeed);
+		m_flywheelSubsystem.shooterToVelocity(m_flySpeed);
 		if (Math.abs(6500 - GlobalVariables.Shooter.topVelo) < shooterMaxError && Math.abs(6500 - GlobalVariables.Shooter.bottomVelo) < shooterMaxError) {
 			isFinished = true;
 			isFinished();

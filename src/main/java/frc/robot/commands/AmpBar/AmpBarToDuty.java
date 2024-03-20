@@ -23,13 +23,13 @@ public class AmpBarToDuty extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ampBar.runAmpBar(m_desiredDuty);
+    m_ampBar.ampBarToDuty(m_desiredDuty);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ampBar.runAmpBar(0);
+    m_ampBar.ampBarToDuty(0);
   }
 
   // Returns true when the command should end.

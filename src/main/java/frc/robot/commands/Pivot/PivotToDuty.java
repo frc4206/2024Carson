@@ -24,13 +24,13 @@ public class PivotToDuty extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		pivot.runPivot(m_percent);
+		pivot.pivotToDuty(m_percent);
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		pivot.runPivot(0);
+		pivot.pivotToDuty(0);
 	}
 
 	// Returns true when the command should end.

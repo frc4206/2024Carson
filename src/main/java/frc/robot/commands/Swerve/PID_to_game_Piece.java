@@ -99,7 +99,11 @@ public class PID_to_game_Piece extends Command {
 
 	// Called once the command ends or is interrupted.
 	@Override
-	public void end(boolean interrupted) {}
+	public void end(boolean interrupted) {
+		translation = new Translation2d(0, 0).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
+		rotation = 0;
+		s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
+	}
 
 	// Returns true when the command should end.
 	@Override

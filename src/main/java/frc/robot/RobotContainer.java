@@ -5,8 +5,6 @@
 package frc.robot;
 
 import frc.robot.commands.Conveyor.ConveyorToPosition;
-import frc.robot.commands.combos.AutoShootAtSpeakerCommand;
-import frc.robot.commands.combos.LineUpShotCommand;
 import frc.robot.commands.Conveyor.ConveyorToDuty;
 import frc.robot.commands.Intake.SetupNote;
 import frc.robot.commands.LEDs.SetBlue;
@@ -28,6 +26,8 @@ import frc.robot.commands.Swerve.ToggleAmped;
 import frc.robot.commands.Swerve.ToggleFastRotate;
 import frc.robot.commands.Swerve.TogglePickup;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
+import frc.robot.commands.combos.AutoShootAtSpeakerCommand;
+import frc.robot.commands.combos.LineUpShotCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDs;
@@ -162,6 +162,6 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("Amp3");
+    return new PathPlannerAuto("FirstShotTest");
   }
 }

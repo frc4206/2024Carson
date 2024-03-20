@@ -73,62 +73,62 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		double motorSetSpeed = 0.0d;
+		// double motorSetSpeed = 0.0d;
 
-		// trigger input
-		double rightTriggerSpeed = this.controller.getRightTriggerAxis();
-		double leftTriggerSpeed = this.controller.getLeftTriggerAxis();
+		// // trigger input
+		// double rightTriggerSpeed = this.controller.getRightTriggerAxis();
+		// double leftTriggerSpeed = this.controller.getLeftTriggerAxis();
 
-		// joystick input, negative because y axis on XBoxController is upside down
-		double joystickSpeed = -this.controller.getRawAxis(this.motorAxis);
-		joystickSpeed = squareDeadzone(joystickSpeed, this.DEADZONE); // apply deadzone anyway
+		// // joystick input, negative because y axis on XBoxController is upside down
+		// double joystickSpeed = -this.controller.getRawAxis(this.motorAxis);
+		// joystickSpeed = squareDeadzone(joystickSpeed, this.DEADZONE); // apply deadzone anyway
 
-		// ignore if both right and left trigger are pressed
-		if (rightTriggerSpeed > 0.0d && leftTriggerSpeed > 0.0d) {
-			climberMotor.set(0.0d); // safe to zero for safety
-			return; // return early, multiple inputs are unclear so ignore
-		}
+		// // ignore if both right and left trigger are pressed
+		// if (rightTriggerSpeed > 0.0d && leftTriggerSpeed > 0.0d) {
+		// 	climberMotor.set(0.0d); // safe to zero for safety
+		// 	return; // return early, multiple inputs are unclear so ignore
+		// }
 
-		// by this point, either one is these is NOT zero or both are
-		if (leftTriggerSpeed > 0.0d) {
-			motorSetSpeed = -leftTriggerSpeed;
-		}
-		if (rightTriggerSpeed > 0.0d) {
-			motorSetSpeed = rightTriggerSpeed; // opposite direction
-		}
+		// // by this point, either one is these is NOT zero or both are
+		// if (leftTriggerSpeed > 0.0d) {
+		// 	motorSetSpeed = -leftTriggerSpeed;
+		// }
+		// if (rightTriggerSpeed > 0.0d) {
+		// 	motorSetSpeed = rightTriggerSpeed; // opposite direction
+		// }
 
-		// if nothing set, safe to use joystick input
-		if (motorSetSpeed == 0.0d && joystickSpeed != 0.0d) {
-			joystickSpeed = quadratic(joystickSpeed); // apply response curve to user input
-			motorSetSpeed = joystickSpeed;
-		}
+		// // if nothing set, safe to use joystick input
+		// if (motorSetSpeed == 0.0d && joystickSpeed != 0.0d) {
+		// 	joystickSpeed = quadratic(joystickSpeed); // apply response curve to user input
+		// 	motorSetSpeed = joystickSpeed;
+		// }
 
-		// if spinning against the pawl, open the pawl servo
-		if (motorSetSpeed < 0.0d) {
-			servo.setPulseTimeMicroseconds(this.disengageServoPos);
-			//servo.setPosition(this.disengageServoPos);
-			// start a timer if we are just now pressing the button
-			if (!this.servoDisengaged) {
-				this.startServoTime = System.currentTimeMillis();
-				this.servoDisengaged = true;
-			}
-		} else {
-			// spinning with from pawl
-			servo.setPulseTimeMicroseconds(this.engageServoPos);
-			//servo.setPosition(this.engageServoPos);
-			this.servoDisengaged = false;
-		}
+		// // if spinning against the pawl, open the pawl servo
+		// if (motorSetSpeed < 0.0d) {
+		// 	servo.setPulseTimeMicroseconds(this.disengageServoPos);
+		// 	//servo.setPosition(this.disengageServoPos);
+		// 	// start a timer if we are just now pressing the button
+		// 	if (!this.servoDisengaged) {
+		// 		this.startServoTime = System.currentTimeMillis();
+		// 		this.servoDisengaged = true;
+		// 	}
+		// } else {
+		// 	// spinning with from pawl
+		// 	servo.setPulseTimeMicroseconds(this.engageServoPos);
+		// 	//servo.setPosition(this.engageServoPos);
+		// 	this.servoDisengaged = false;
+		// }
 
-		long currentTime = System.currentTimeMillis();
+		// long currentTime = System.currentTimeMillis();
 
-		// if not enough time has passed for the servos to disengage
-		// then we should not start moving the motors yetq
-		if (currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
-			motorSetSpeed = 0.0d;
-		}
+		// // if not enough time has passed for the servos to disengage
+		// // then we should not start moving the motors yetq
+		// if (currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
+		// 	motorSetSpeed = 0.0d;
+		// }
 
-		// set motor
-		climberMotor.set(motorSetSpeed);
+		// // set motor
+		// climberMotor.set(motorSetSpeed);
 
 	}
 }

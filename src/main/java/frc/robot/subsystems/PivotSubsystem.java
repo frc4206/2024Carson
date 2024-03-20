@@ -147,12 +147,12 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
+		// SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
 
-		if(position != ShooterPositions.AUTO) {
-			setFieldRelativePosition();
-		} else {
-			autoPivot();
-		}
+		// if(position != ShooterPositions.AUTO) {
+		// 	setFieldRelativePosition();
+		// } else {
+		// 	autoPivot();
+		// }
 	}
 }

@@ -39,6 +39,7 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 			false,
 			false
 		);
+		conveyorConfig.applyConfig();
 	}
 
 	public void conveyorGoToPosition(double desiredPosition){

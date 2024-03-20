@@ -85,10 +85,10 @@ public class FlywheelSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("topVelo", upperFlyEncoder.getVelocity());
-		SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
-		SmartDashboard.putNumber("topcurr", upperFlyMotor.getOutputCurrent());
-		SmartDashboard.putNumber("bottomcurr", lowerFlyMotor.getOutputCurrent());
+		// SmartDashboard.putNumber("topVelo", upperFlyEncoder.getVelocity());
+		// SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
+		// SmartDashboard.putNumber("topcurr", upperFlyMotor.getOutputCurrent());
+		// SmartDashboard.putNumber("bottomcurr", lowerFlyMotor.getOutputCurrent());
 
 		// setVelocity(SmartDashboard.getNumber("top velo", 0), SmartDashboard.getNumber("bottom velo", 0));
 	}

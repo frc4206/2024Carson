@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 
 public class LEDs extends SubsystemBase { 
@@ -28,9 +29,9 @@ public class LEDs extends SubsystemBase {
   double endGameFlashCycleTime = .3;
 
   public LEDs() {
-    ledstrip = new AddressableLED(9);
-    ledBuffer = new AddressableLEDBuffer(48);
-    ledstrip.setBitTiming(400, 850, 800, 450);
+    ledstrip = new AddressableLED(Constants.LEDS.LEDPort);
+    ledBuffer = new AddressableLEDBuffer(Constants.LEDS.numLEDs);
+    ledstrip.setBitTiming(Constants.LEDS.highZero, Constants.LEDS.lowZero, Constants.LEDS.highOne, Constants.LEDS.lowOne);
     ledstrip.setLength(ledBuffer.getLength());
     ledstrip.setData(ledBuffer);
     ledstrip.start();
@@ -130,7 +131,7 @@ public class LEDs extends SubsystemBase {
         ledInit = false;
       }
     
-      if (Math.abs(6500 - GlobalVariables.Shooter.topVelo) < shooterMaxError && Math.abs(6500 - GlobalVariables.Shooter.bottomVelo) < shooterMaxError) {
+      if (Math.abs(Constants.Flywheel.speakerVelo - GlobalVariables.Shooter.topVelo) < shooterMaxError && Math.abs(Constants.Flywheel.speakerVelo - GlobalVariables.Shooter.bottomVelo) < shooterMaxError) {
         upToSpeed = true;
       } else {
         upToSpeed = false;

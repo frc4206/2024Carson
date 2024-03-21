@@ -43,17 +43,6 @@ public class Conversions {
         double wheelMPS = (wheelRPM * circumference) / 60;
         return wheelMPS;
     }
-    
-    /**
-     * @param RPM RPM of mechanism
-     * @param gearRatio Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
-     * @return RPM of motor
-     */
-    public static double WheelRPMToMotorRPS(double RPM, double gearRatio) {
-        double motorRPM = RPM * gearRatio;
-        double motorRPS = motorRPM/60;
-        return motorRPS;
-    }
 
     /**
      * @param velocity Velocity MPS
@@ -61,10 +50,8 @@ public class Conversions {
      * @param gearRatio Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
      * @return Falcon Velocity Counts
      */
-    public static double MPSToFalcon(double velocity, double circumference, double gearRatio){
-        double wheelRPM = ((velocity * 60) / circumference);
-        double motorVelocity = WheelRPMToMotorRPS(wheelRPM, gearRatio);
-        return motorVelocity;
+    public static double WheelMPStoMotorRPS(double velocity, double circumference, double gearRatio){
+        return velocity/(circumference*gearRatio);
     }
 
     public static double falconToMeters(double positionCounts, double circumference, double gearRatio){

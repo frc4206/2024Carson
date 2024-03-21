@@ -19,7 +19,7 @@ public class SwerveModule {
     public int moduleNumber;
     private double angleOffset;
 
-    private PositionDutyCycle turnControl = new PositionDutyCycle(0, 1, false, 0, 0, false, false, false);
+    private PositionDutyCycle turnControl = new PositionDutyCycle(0, 0, false, 0, 0, false, false, false);
     private VelocityVoltage velocityControl = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
 
     public TalonFX mAngleMotor;
@@ -34,15 +34,15 @@ public class SwerveModule {
         angleOffset = moduleConstants.angleOffset;
         
         /* Angle Encoder Config */
-        angleEncoder = new CANcoder(moduleConstants.cancoderID, Constants.Canivore1);
+        angleEncoder = new CANcoder(moduleConstants.cancoderID, Constants.canivoreName);
         configAngleEncoder();
 
         /* Angle Motor Config */
-        mAngleMotor = new TalonFX(moduleConstants.angleMotorID, Constants.Canivore1);
+        mAngleMotor = new TalonFX(moduleConstants.angleMotorID, Constants.canivoreName);
         configAngleMotor();
 
         /* Drive Motor Config */
-        mDriveMotor = new TalonFX(moduleConstants.driveMotorID, Constants.Canivore1);
+        mDriveMotor = new TalonFX(moduleConstants.driveMotorID, Constants.canivoreName);
         configDriveMotor();
     }
 
@@ -54,7 +54,7 @@ public class SwerveModule {
             mDriveMotor.set(percentOutput);
         }
         else {
-            double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio);
+            double velocity = Conversions.WheelMPStoMotorRPS(desiredState.speedMetersPerSecond, Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio);
             mDriveMotor.setControl(velocityControl.withVelocity(velocity).withFeedForward(0.00008));
         }
     }

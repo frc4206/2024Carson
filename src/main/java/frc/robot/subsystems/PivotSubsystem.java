@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -49,14 +48,14 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		pivotController = controllerConfig.getPIDController();
 
 		pivotConfig = new SparkConfig(
-			new FeedbackConfig(-1, 1, Constants.Pivot.pivotMaxVel, Constants.Pivot.pivotMaxAccel, Constants.Pivot.pivotAllowedError), 
-			new MotorConfig(Constants.Pivot.pivotMotorID, false, IdleMode.kBrake, 40, 0.25), 
-			new PIDConfig(Constants.Pivot.pivotkP, Constants.Pivot.pivotkI, Constants.Pivot.pivotkIZone, Constants.Pivot.pivotkD, 0), 
+			new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, Constants.Pivot.pivotMaxVel, Constants.Pivot.pivotMaxAccel, Constants.Pivot.pivotAllowedError), 
+			new MotorConfig(Constants.Pivot.pivotMotorID, Constants.Pivot.pivotIsInverted, Constants.Pivot.idleMode, Constants.Pivot.pivotCurrentLimit, Constants.Pivot.pivotClosedLoopRampRate), 
+			new PIDConfig(Constants.Pivot.pivotkP, Constants.Pivot.pivotkI, Constants.Pivot.pivotkIZone, Constants.Pivot.pivotkD, Constants.Pivot.pivotkFF), 
 			pivotMotor, 
 			pivotEncoder, 
 			pivotController, 
-			true, 
-			false
+			Constants.Pivot.shouldRestore, 
+			Constants.Pivot.shouldBurn
 		);
 		pivotConfig.applyConfig();
 	}
@@ -78,7 +77,7 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	}
 
 	public void autoPivot() {
-		pivotToPosition(GlobalVariables.Pivot.desiredPosition < 0.5 ? 2 : GlobalVariables.Pivot.desiredPosition);
+		pivotToPosition(GlobalVariables.Pivot.desiredPosition < Constants.Pivot.allowableThreshold ? Constants.Pivot.defaultPosition : GlobalVariables.Pivot.desiredPosition);
 	}
 	
 	public void pivotWithMove(){

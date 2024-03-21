@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.XboxController;
@@ -29,13 +28,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	private XboxController controller;
 	private int motorAxis;
-	private final double DEADZONE = 0.1;
 
 	public int engageServoPos = 0;
 	public int disengageServoPos = 0;
 	private boolean servoDisengaged = false;
 	private long startServoTime = 0;
-	private long disengageDuractionMilliseconds = 180;
+	private long disengageDurationMilliseconds = 180;
 
 	public ClimberSubsystem(int motorID, boolean motorIsInverted, int currentLimit, int servoID) {
 		controllerConfig = new ControllerConfig(motorID, climberMotor, climberEncoder, climberPIDController);
@@ -44,14 +42,14 @@ public class ClimberSubsystem extends SubsystemBase {
 		climberPIDController = controllerConfig.getPIDController();
 
 		climberConfig = new SparkConfig(
-			new FeedbackConfig(-1, 1, Constants.Climber.climberMaxVelo, Constants.Climber.climberMaxAcc, Constants.Climber.climberAllowedError), 
-			new MotorConfig(motorID, motorIsInverted, IdleMode.kBrake, currentLimit), 
-			new PIDConfig(Constants.Climber.climberkP, Constants.Climber.climberkI, Constants.Climber.climberkIZone, Constants.Climber.climberkD, 0), 
+			new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, Constants.Climber.climberMaxVelo, Constants.Climber.climberMaxAcc, Constants.Climber.climberMaxError), 
+			new MotorConfig(motorID, motorIsInverted, Constants.Climber.idleMode, currentLimit), 
+			new PIDConfig(Constants.Climber.climberkP, Constants.Climber.climberkI, Constants.Climber.climberkIZone, Constants.Climber.climberkD, Constants.Climber.climberkFF), 
 			climberMotor, 
 			climberEncoder, 
 			climberPIDController, 
-			false, 
-			true
+			Constants.Climber.shouldRestore, 
+			Constants.Climber.shouldBurn
 		);
 		climberConfig.applyConfig();
 
@@ -89,7 +87,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		// joystick input, negative because y axis on XBoxController is upside down
 		double joystickSpeed = -this.controller.getRawAxis(this.motorAxis);
-		joystickSpeed = squareDeadzone(joystickSpeed, this.DEADZONE); // apply deadzone anyway
+		joystickSpeed = squareDeadzone(joystickSpeed, Constants.OperatorConstants.stickDeadband); // apply deadzone anyway
 
 		// ignore if both right and left trigger are pressed
 		if (rightTriggerSpeed > 0.0d && leftTriggerSpeed > 0.0d) {
@@ -131,7 +129,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		// if not enough time has passed for the servos to disengage
 		// then we should not start moving the motors yetq
-		if (currentTime - startServoTime <= this.disengageDuractionMilliseconds && this.servoDisengaged) {
+		if (currentTime - startServoTime <= this.disengageDurationMilliseconds && this.servoDisengaged) {
 			motorSetSpeed = 0.0d;
 		}
 

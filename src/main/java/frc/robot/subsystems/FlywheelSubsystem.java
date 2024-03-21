@@ -8,45 +8,41 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants; 
 import com.revrobotics.*;
-import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class FlywheelSubsystem extends SubsystemBase {
-	private static CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.shooterLeadMotorID, MotorType.kBrushless); 
-	private static CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.shooterFollowerID, MotorType.kBrushless);
+	private static CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Flywheel.topFlywheelMotorID, MotorType.kBrushless); 
+	private static CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Flywheel.bottomFlywheelMotorID, MotorType.kBrushless);
 	private static RelativeEncoder upperFlyEncoder = upperFlyMotor.getEncoder();
 	private static RelativeEncoder lowerFlyEncoder = lowerFlyMotor.getEncoder();
 	private SparkPIDController upperFlyPIDController = upperFlyMotor.getPIDController();
 	private SparkPIDController lowerFlyPIDController = lowerFlyMotor.getPIDController();
 
 	public FlywheelSubsystem() {
-		// upperFlyMotor.restoreFactoryDefaults();
-		// lowerFlyMotor.restoreFactoryDefaults();
-		
-		upperFlyMotor.setInverted(true);
-		lowerFlyMotor.setInverted(true);
-		upperFlyMotor.setIdleMode(IdleMode.kCoast);
-		lowerFlyMotor.setIdleMode(IdleMode.kCoast);
+		upperFlyMotor.setInverted(Constants.Flywheel.topIsInverted);
+		lowerFlyMotor.setInverted(Constants.Flywheel.bottomIsInverted);
+		upperFlyMotor.setIdleMode(Constants.Flywheel.idleMode);
+		lowerFlyMotor.setIdleMode(Constants.Flywheel.idleMode);
 
 		upperFlyPIDController.setFeedbackDevice(upperFlyEncoder);
-		upperFlyPIDController.setP(Constants.Shooter.topFlyWheelKP);
-		upperFlyPIDController.setI(Constants.Shooter.topFlyWheelKI);
+		upperFlyPIDController.setP(Constants.Flywheel.topFlywheelkP);
+		upperFlyPIDController.setI(Constants.Flywheel.topFlywheelkI);
 		upperFlyPIDController.setIZone(0);
-		upperFlyPIDController.setD(Constants.Shooter.topFlyWheelKD);
-		upperFlyPIDController.setOutputRange(-1, 1, 0);
-		upperFlyPIDController.setSmartMotionMaxVelocity(Constants.Shooter.topFlyWheelMaxVel, 0);
-		upperFlyPIDController.setSmartMotionMaxAccel(Constants.Shooter.topFlyWheelMaxAccel, 0);
-		upperFlyPIDController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.topFlyWheelAllowedError, 0);
+		upperFlyPIDController.setD(Constants.Flywheel.topFlywheelkD);
+		upperFlyPIDController.setOutputRange(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, 0);
+		upperFlyPIDController.setSmartMotionMaxVelocity(Constants.Flywheel.topFlywheelMaxVelo, 0);
+		upperFlyPIDController.setSmartMotionMaxAccel(Constants.Flywheel.topFlywheelMaxAcc, 0);
+		upperFlyPIDController.setSmartMotionAllowedClosedLoopError(Constants.Flywheel.topFlywheelMaxError, 0);
 
 		lowerFlyPIDController.setFeedbackDevice(lowerFlyEncoder);
-		lowerFlyPIDController.setP(Constants.Shooter.bottomFlyWheelKP);
-		lowerFlyPIDController.setI(Constants.Shooter.bottomFlyWheelKI);
+		lowerFlyPIDController.setP(Constants.Flywheel.bottomFlywheelkP);
+		lowerFlyPIDController.setI(Constants.Flywheel.bottomFlywheelkI);
 		lowerFlyPIDController.setIZone(0);
-		lowerFlyPIDController.setD(Constants.Shooter.bottomFlyWheelKD);
-		lowerFlyPIDController.setOutputRange(-1, 1, 0);
-		lowerFlyPIDController.setSmartMotionMaxVelocity(Constants.Shooter.bottomFlyWheelMaxVel, 0);
-		lowerFlyPIDController.setSmartMotionMaxAccel(Constants.Shooter.bottomFlyWheelMaxAccel, 0);
-		lowerFlyPIDController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.bottomFlyWheelAllowedError, 0);
+		lowerFlyPIDController.setD(Constants.Flywheel.bottomFlywheelkD);
+		lowerFlyPIDController.setOutputRange(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, 0);
+		lowerFlyPIDController.setSmartMotionMaxVelocity(Constants.Flywheel.bottomFlywheelMaxVelo, 0);
+		lowerFlyPIDController.setSmartMotionMaxAccel(Constants.Flywheel.bottomFlywheelMaxAcc, 0);
+		lowerFlyPIDController.setSmartMotionAllowedClosedLoopError(Constants.Flywheel.bottomFlywheelMaxError, 0);
 
 		upperFlyMotor.burnFlash();
 		lowerFlyMotor.burnFlash();
@@ -93,7 +89,5 @@ public class FlywheelSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
 		SmartDashboard.putNumber("topcurr", upperFlyMotor.getOutputCurrent());
 		SmartDashboard.putNumber("bottomcurr", lowerFlyMotor.getOutputCurrent());
-
-		// setVelocity(SmartDashboard.getNumber("top velo", 0), SmartDashboard.getNumber("bottom velo", 0));
 	}
 }

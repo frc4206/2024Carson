@@ -61,9 +61,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   public final AmpBarSubsystem m_ampBarSubsystem = new AmpBarSubsystem();
   public final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(
-    Constants.Climber.climberLeftFollowID, true, 60, Constants.Climber.servoLeftID);
+    Constants.Climber.climberLeftID, true, 60, Constants.Climber.servoLeftID);
   public final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(
-    Constants.Climber.climberRightLeadID, false, 60, Constants.Climber.servoRightID);  
+    Constants.Climber.climberRightID, false, 60, Constants.Climber.servoRightID);  
   public final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
   public final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
   public final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
@@ -102,7 +102,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("setupnote", new SetupNote(m_conveyorSubsystem, m_intakeSubsystem).withTimeout(0.8));
 
-    NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, Constants.Shooter.speakerVelo));
+    NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo));
     
     NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2.5));//2.5
     NamedCommands.registerCommand("Ai Pickup long", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 3));//2.5
@@ -140,8 +140,8 @@ public class RobotContainer {
     new JoystickButton(driva, 4).onTrue(new ToggleAmped(m_swerveSubsystem));
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));
     new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, GlobalVariables.Shooter.toAmpVelo ? 9/50 : 1), new ConveyorToDuty(m_conveyorSubsystem, 0.9)));
-    new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleShooterToVelocity(m_flywheelSubsystem, Constants.Shooter.speakerVelo));
-    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ParallelCommandGroup(new InstantCommand(() -> m_pivotSubsystem.toggleAmpMode()), new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, Constants.Shooter.topAmpVelo, Constants.Shooter.bottomAmpVelo)));
+    new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo));
+    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ParallelCommandGroup(new InstantCommand(() -> m_pivotSubsystem.toggleAmpMode()), new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, Constants.Flywheel.topAmpVelo, Constants.Flywheel.bottomAmpVelo)));
     new JoystickButton(driva, 7).onTrue(new TogglePickup(m_swerveSubsystem));
     new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
     new POVButton(driva, 90).onTrue(new ToggleFastRotate());

@@ -19,7 +19,6 @@ import frc.robot.GlobalVariables;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.IdleMode;
 
 public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMethods {
   	private CANSparkFlex conveyorMotor;
@@ -37,14 +36,14 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 		conveyorPIDController = controllerConfig.getPIDController();
 
 		conveyorConfig = new SparkConfig(
-			new FeedbackConfig(-1, 1, Constants.Conveyor.conveyorMaxVelo, Constants.Conveyor.conveyorMaxAcc, Constants.Conveyor.conveyorMaxError),
-			new MotorConfig(Constants.Conveyor.conveyorMotorID, Constants.Conveyor.conveyorInverted, IdleMode.kBrake, 40),
-			new PIDConfig(Constants.Conveyor.conveyorkP, Constants.Conveyor.conveyorkI, Constants.Conveyor.conveyorkIzone, Constants.Conveyor.conveyorkD, 0),
+			new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, Constants.Conveyor.conveyorMaxVelo, Constants.Conveyor.conveyorMaxAcc, Constants.Conveyor.conveyorMaxError),
+			new MotorConfig(Constants.Conveyor.conveyorMotorID, Constants.Conveyor.conveyorIsInverted, Constants.Conveyor.idleMode, Constants.Conveyor.conveyorCurrentLimit),
+			new PIDConfig(Constants.Conveyor.conveyorkP, Constants.Conveyor.conveyorkI, Constants.Conveyor.conveyorkIzone, Constants.Conveyor.conveyorkD, Constants.Conveyor.conveyorkFF),
 			conveyorMotor,
 			conveyorEncoder,
 			conveyorPIDController,
-			false,
-			false
+			Constants.Conveyor.shouldRestore,
+			Constants.Conveyor.shouldBurn
 		);
 		conveyorConfig.applyConfig();
 	}

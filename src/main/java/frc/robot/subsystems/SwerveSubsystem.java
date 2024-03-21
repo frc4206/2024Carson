@@ -60,7 +60,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public HeadingState headingState = HeadingState.FREE;
     
     public SwerveSubsystem() {
-        gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Canivore1);
+        gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.canivoreName);
         gyro.getConfigurator();
         zeroGyro();
         

@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,14 +32,14 @@ public class AmpBarSubsystem extends SubsystemBase implements SparkDefaultMethod
     ampBarPIDController = controllerConfig.getPIDController();
 
     ampBarConfig = new SparkConfig(
-      new FeedbackConfig(-1, 1, Constants.AmpBar.ampBarMaxVelo, Constants.AmpBar.ampBarMaxAcc, Constants.AmpBar.ampBarMaxError), 
-      new MotorConfig(Constants.AmpBar.ampBarMotorID, true, IdleMode.kBrake), 
+      new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, Constants.AmpBar.ampBarMaxVelo, Constants.AmpBar.ampBarMaxAcc, Constants.AmpBar.ampBarMaxError), 
+      new MotorConfig(Constants.AmpBar.ampBarMotorID, Constants.AmpBar.ampBarIsInverted, Constants.AmpBar.idleMode, Constants.AmpBar.ampBarCurrLimit), 
       new PIDConfig(Constants.AmpBar.ampBarkP, Constants.AmpBar.ampBarkI, Constants.AmpBar.ampBarkIZone, Constants.AmpBar.ampBarkD, Constants.AmpBar.ampBarkFF), 
       ampBarMotor,
       ampBarEncoder, 
       ampBarPIDController, 
-      true, 
-      true
+      Constants.AmpBar.shouldRestore, 
+      Constants.AmpBar.shouldBurn
     );
     ampBarConfig.applyConfig();
   }

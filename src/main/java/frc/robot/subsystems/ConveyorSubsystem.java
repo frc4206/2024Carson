@@ -70,7 +70,7 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
 
 	@Override
 	public void periodic() {
-		GlobalVariables.Conveyor.beamBroken = conveyorBeamBreak.get();
+		GlobalVariables.Conveyor.beamBroken = !conveyorBeamBreak.get();
 
 		SmartDashboard.putNumber("conveyorPosition", conveyorEncoder.getPosition());
 		SmartDashboard.putBoolean("beam broken", GlobalVariables.Conveyor.beamBroken);

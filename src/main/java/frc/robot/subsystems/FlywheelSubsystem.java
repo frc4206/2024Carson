@@ -6,64 +6,50 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.spark.SparkDefaultMethods;
-import frc.lib.util.spark.sparkConfig.ControllerConfig;
-import frc.lib.util.spark.sparkConfig.FeedbackConfig;
-import frc.lib.util.spark.sparkConfig.MotorConfig;
-import frc.lib.util.spark.sparkConfig.PIDConfig;
-import frc.lib.util.spark.sparkConfig.SparkConfig;
-import frc.robot.Constants;
-import frc.robot.GlobalVariables;
-
+import frc.robot.Constants; 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
-public class FlywheelSubsystem extends SubsystemBase implements SparkDefaultMethods {
-	private static CANSparkFlex upperFlyMotor; 
-	private static CANSparkFlex lowerFlyMotor;
-	private static RelativeEncoder upperFlyEncoder;
-	private static RelativeEncoder lowerFlyEncoder;
-	private SparkPIDController upperFlyPIDController;
-	private SparkPIDController lowerFlyPIDController;
-	SparkConfig upperConfig;
-	SparkConfig lowerConfig;
-	ControllerConfig upperControllerConfig;
-	ControllerConfig lowerControllerConfig;
+public class FlywheelSubsystem extends SubsystemBase {
+	private static CANSparkFlex upperFlyMotor = new CANSparkFlex(Constants.Shooter.shooterLeadMotorID, MotorType.kBrushless); 
+	private static CANSparkFlex lowerFlyMotor = new CANSparkFlex(Constants.Shooter.shooterFollowerID, MotorType.kBrushless);
+	private static RelativeEncoder upperFlyEncoder = upperFlyMotor.getEncoder();
+	private static RelativeEncoder lowerFlyEncoder = lowerFlyMotor.getEncoder();
+	private SparkPIDController upperFlyPIDController = upperFlyMotor.getPIDController();
+	private SparkPIDController lowerFlyPIDController = lowerFlyMotor.getPIDController();
 
 	public FlywheelSubsystem() {
-		upperControllerConfig = new ControllerConfig(Constants.Shooter.shooterLeadMotorID, upperFlyMotor, upperFlyEncoder, upperFlyPIDController);
-		upperFlyMotor = upperControllerConfig.getMotor();
-		upperFlyEncoder = upperControllerConfig.getEncoder();
-		upperFlyPIDController = upperControllerConfig.getPIDController();
+		// upperFlyMotor.restoreFactoryDefaults();
+		// lowerFlyMotor.restoreFactoryDefaults();
+		
+		upperFlyMotor.setInverted(true);
+		lowerFlyMotor.setInverted(true);
+		upperFlyMotor.setIdleMode(IdleMode.kCoast);
+		lowerFlyMotor.setIdleMode(IdleMode.kCoast);
 
-		upperConfig = new SparkConfig(
-			new FeedbackConfig(-1, 1, Constants.Shooter.topFlyWheelMaxVel, Constants.Shooter.topFlyWheelMaxAccel, Constants.Shooter.topFlyWheelAllowedError), 
-			new MotorConfig(Constants.Shooter.shooterLeadMotorID, false, IdleMode.kCoast), 
-			new PIDConfig(Constants.Shooter.topFlyWheelKP, Constants.Shooter.topFlyWheelKI, Constants.Shooter.topFlyWheelKIZone, Constants.Shooter.topFlyWheelKD, 0), 
-			upperFlyMotor, 
-			upperFlyEncoder, 
-			upperFlyPIDController, 
-			false, 
-			true
-		);
-		upperConfig.applyConfig();
+		upperFlyPIDController.setFeedbackDevice(upperFlyEncoder);
+		upperFlyPIDController.setP(Constants.Shooter.topFlyWheelKP);
+		upperFlyPIDController.setI(Constants.Shooter.topFlyWheelKI);
+		upperFlyPIDController.setIZone(0);
+		upperFlyPIDController.setD(Constants.Shooter.topFlyWheelKD);
+		upperFlyPIDController.setOutputRange(-1, 1, 0);
+		upperFlyPIDController.setSmartMotionMaxVelocity(Constants.Shooter.topFlyWheelMaxVel, 0);
+		upperFlyPIDController.setSmartMotionMaxAccel(Constants.Shooter.topFlyWheelMaxAccel, 0);
+		upperFlyPIDController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.topFlyWheelAllowedError, 0);
 
-		lowerControllerConfig = new ControllerConfig(Constants.Shooter.shooterFollowerID, lowerFlyMotor, lowerFlyEncoder, lowerFlyPIDController);
-		lowerFlyMotor = lowerControllerConfig.getMotor();
-		lowerFlyEncoder = lowerControllerConfig.getEncoder();
-		lowerFlyPIDController = lowerControllerConfig.getPIDController();
+		lowerFlyPIDController.setFeedbackDevice(lowerFlyEncoder);
+		lowerFlyPIDController.setP(Constants.Shooter.bottomFlyWheelKP);
+		lowerFlyPIDController.setI(Constants.Shooter.bottomFlyWheelKI);
+		lowerFlyPIDController.setIZone(0);
+		lowerFlyPIDController.setD(Constants.Shooter.bottomFlyWheelKD);
+		lowerFlyPIDController.setOutputRange(-1, 1, 0);
+		lowerFlyPIDController.setSmartMotionMaxVelocity(Constants.Shooter.bottomFlyWheelMaxVel, 0);
+		lowerFlyPIDController.setSmartMotionMaxAccel(Constants.Shooter.bottomFlyWheelMaxAccel, 0);
+		lowerFlyPIDController.setSmartMotionAllowedClosedLoopError(Constants.Shooter.bottomFlyWheelAllowedError, 0);
 
-		lowerConfig = new SparkConfig(
-			new FeedbackConfig(-1, 1, Constants.Shooter.bottomFlyWheelMaxVel, Constants.Shooter.bottomFlyWheelMaxAccel, Constants.Shooter.bottomFlyWheelAllowedError), 
-			new MotorConfig(Constants.Shooter.shooterFollowerID, true, IdleMode.kCoast), 
-			new PIDConfig(Constants.Shooter.bottomFlyWheelKP, Constants.Shooter.bottomFlyWheelKI, Constants.Shooter.bottomFlyWheelKIZone, Constants.Shooter.bottomFlyWheelKD, 0), 
-			lowerFlyMotor, 
-			lowerFlyEncoder, 
-			lowerFlyPIDController, 
-			false, 
-			true
-		);
-		lowerConfig.applyConfig();
+		upperFlyMotor.burnFlash();
+		lowerFlyMotor.burnFlash();
 	}
 
 
@@ -74,13 +60,6 @@ public class FlywheelSubsystem extends SubsystemBase implements SparkDefaultMeth
 		);
 	}
 
-	public static boolean shooterAtVelocity(double setVelocity, double allowableError){
-		return (
-			(Math.abs(upperFlyEncoder.getVelocity() - setVelocity) < allowableError) &&
-			(Math.abs(lowerFlyEncoder.getVelocity() - setVelocity) < allowableError)
-		);
-	}
-	
 	public static boolean shooterAtVelocities(double topSetVelo, double bottomSetVelo){
 		return (
 			(Math.abs(upperFlyEncoder.getVelocity() - topSetVelo) < 50) && 
@@ -88,41 +67,33 @@ public class FlywheelSubsystem extends SubsystemBase implements SparkDefaultMeth
 		);
 	}
 
-	public static boolean shooterAtVelocities(double topSetVelo, double bottomSetVelo, double allowableError){
-		return (
-			(Math.abs(upperFlyEncoder.getVelocity() - topSetVelo) < allowableError) && 
-			(Math.abs(lowerFlyEncoder.getVelocity() - bottomSetVelo) < allowableError)
-		);
-	}
-
 	public void shooterToVelocity(double setVelocity) {
-		motorToVelocity(upperFlyPIDController, setVelocity);
-		motorToVelocity(lowerFlyPIDController, setVelocity);
+		upperFlyPIDController.setReference(setVelocity, CANSparkFlex.ControlType.kVelocity);
+		lowerFlyPIDController.setReference(setVelocity, CANSparkFlex.ControlType.kVelocity);
 	}
 
 	public void shooterToVelocity(double setVelocityUpper, double setVelocityLower) {
-		motorToVelocity(upperFlyPIDController, setVelocityUpper);
-		motorToVelocity(lowerFlyPIDController, setVelocityLower);
+		upperFlyPIDController.setReference(setVelocityUpper, CANSparkFlex.ControlType.kVelocity);
+		lowerFlyPIDController.setReference(setVelocityLower, CANSparkFlex.ControlType.kVelocity);
 	}
 
 	public void shooterToDuty(double percent) {
-		motorToDuty(upperFlyMotor, percent);
-		motorToDuty(lowerFlyMotor, percent);
-	} 
+		upperFlyMotor.set(percent);
+		lowerFlyMotor.set(percent);
+	}
 
 	public void shooterToDuty(double upperPercent, double lowerPercent){
-		motorToDuty(upperFlyMotor, upperPercent);
-		motorToDuty(lowerFlyMotor, lowerPercent);
+		upperFlyMotor.set(upperPercent);
+		lowerFlyMotor.set(lowerPercent);
 	}
 
 	@Override
 	public void periodic() {
-		GlobalVariables.Shooter.topVelo = upperFlyEncoder.getVelocity();
-		GlobalVariables.Shooter.bottomVelo = lowerFlyEncoder.getVelocity();
-		
-		SmartDashboard.putNumber("topVelo", GlobalVariables.Shooter.topVelo);
-		SmartDashboard.putNumber("bottomVelo", GlobalVariables.Shooter.bottomVelo);
+		SmartDashboard.putNumber("topVelo", upperFlyEncoder.getVelocity());
+		SmartDashboard.putNumber("bottomVelo", lowerFlyEncoder.getVelocity());
 		SmartDashboard.putNumber("topcurr", upperFlyMotor.getOutputCurrent());
 		SmartDashboard.putNumber("bottomcurr", lowerFlyMotor.getOutputCurrent());
+
+		// setVelocity(SmartDashboard.getNumber("top velo", 0), SmartDashboard.getNumber("bottom velo", 0));
 	}
 }

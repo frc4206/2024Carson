@@ -30,21 +30,27 @@ public class SparkConfig {
      * @param shouldRestore whether the motor should restore to factory default upon intialization
      * @param shouldBurn whether the motor should burn the current configuration to flash
      */
-    public SparkConfig(FeedbackConfig feedbackConfig, MotorConfig motorConfig, PIDConfig pidConfig, CANSparkFlex motor, RelativeEncoder encoder, SparkPIDController pidController, boolean shouldRestore, boolean shouldBurn){
+    public SparkConfig(FeedbackConfig feedbackConfig, MotorConfig motorConfig, PIDConfig pidConfig, boolean shouldRestore, boolean shouldBurn){
         this.feedbackConfig = feedbackConfig;
         this.motorConfig = motorConfig;
         this.pidConfig = pidConfig;
-        this.motor = motor;
-        this.encoder = encoder;
-        this.pidController = pidController;
         this.shouldRestore = shouldRestore;
         this.shouldBurn = shouldBurn;
     }
 
     /**
-     * Applies all configurations to the motor controller
+     * Configures the motor controller to be accessed by the applyConfig() method.
      */
-    public void applyConfig(){
+    public void configureController(CANSparkFlex motor, RelativeEncoder encoder, SparkPIDController pidController){
+        this.motor = motor;
+        this.encoder = encoder;
+        this.pidController = pidController;
+    }
+
+    /**
+     * Applies all configurations to the motor controller.
+     */
+    public void applyConfigurations(){
         if (shouldRestore){
             motor.restoreFactoryDefaults();
         }

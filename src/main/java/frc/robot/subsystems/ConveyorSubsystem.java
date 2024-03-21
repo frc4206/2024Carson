@@ -8,10 +8,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
-import frc.lib.util.spark.sparkConfig.ControllerConfig;
-import frc.lib.util.spark.sparkConfig.FeedbackConfig;
-import frc.lib.util.spark.sparkConfig.MotorConfig;
-import frc.lib.util.spark.sparkConfig.PIDConfig;
 import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
@@ -19,33 +15,20 @@ import frc.robot.GlobalVariables;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMethods {
-  	private CANSparkFlex conveyorMotor;
-	private RelativeEncoder conveyorEncoder;
-	private SparkPIDController conveyorPIDController;
+  	private CANSparkFlex conveyorMotor = new CANSparkFlex(Constants.Conveyor.conveyorMotorID, MotorType.kBrushless);
+	private RelativeEncoder conveyorEncoder = conveyorMotor.getEncoder();
+	private SparkPIDController conveyorPIDController = conveyorMotor.getPIDController();
 	SparkConfig conveyorConfig;
-	ControllerConfig controllerConfig;
 
 	private DigitalInput conveyorBeamBreak = new DigitalInput(Constants.Conveyor.conveyerBeamBreakID);
 
   	public ConveyorSubsystem() {
-		controllerConfig = new ControllerConfig(Constants.Conveyor.conveyorMotorID, conveyorMotor, conveyorEncoder, conveyorPIDController);
-		conveyorMotor = controllerConfig.getMotor();
-		conveyorEncoder = controllerConfig.getEncoder();
-		conveyorPIDController = controllerConfig.getPIDController();
-
-		conveyorConfig = new SparkConfig(
-			new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, Constants.Conveyor.conveyorMaxVelo, Constants.Conveyor.conveyorMaxAcc, Constants.Conveyor.conveyorMaxError),
-			new MotorConfig(Constants.Conveyor.conveyorMotorID, Constants.Conveyor.conveyorIsInverted, Constants.Conveyor.idleMode, Constants.Conveyor.conveyorCurrentLimit),
-			new PIDConfig(Constants.Conveyor.conveyorkP, Constants.Conveyor.conveyorkI, Constants.Conveyor.conveyorkIzone, Constants.Conveyor.conveyorkD, Constants.Conveyor.conveyorkFF),
-			conveyorMotor,
-			conveyorEncoder,
-			conveyorPIDController,
-			Constants.Conveyor.shouldRestore,
-			Constants.Conveyor.shouldBurn
-		);
-		conveyorConfig.applyConfig();
+		conveyorConfig = Constants.Conveyor.conveyorConfig;
+		conveyorConfig.configureController(conveyorMotor, conveyorEncoder, conveyorPIDController);
+		conveyorConfig.applyConfigurations();
 	}
 
 	public void conveyorToPosition(double desiredPosition){

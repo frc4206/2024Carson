@@ -7,14 +7,12 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.sparkConfig.ControllerConfig;
-import frc.lib.util.spark.sparkConfig.FeedbackConfig;
-import frc.lib.util.spark.sparkConfig.MotorConfig;
-import frc.lib.util.spark.sparkConfig.PIDConfig;
 import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
 
@@ -35,25 +33,24 @@ public class ClimberSubsystem extends SubsystemBase {
 	private long startServoTime = 0;
 	private long disengageDurationMilliseconds = 180;
 
-	public ClimberSubsystem(int motorID, boolean motorIsInverted, int currentLimit, int servoID) {
-		controllerConfig = new ControllerConfig(motorID, climberMotor, climberEncoder, climberPIDController);
-		climberMotor = controllerConfig.getMotor();
-		climberEncoder = controllerConfig.getEncoder();
-		climberPIDController = controllerConfig.getPIDController();
+	public enum SIDE {
+		LEFT,
+		RIGHT
+	}
 
-		climberConfig = new SparkConfig(
-			new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, Constants.Climber.climberMaxVelo, Constants.Climber.climberMaxAcc, Constants.Climber.climberMaxError), 
-			new MotorConfig(motorID, motorIsInverted, Constants.Climber.idleMode, currentLimit), 
-			new PIDConfig(Constants.Climber.climberkP, Constants.Climber.climberkI, Constants.Climber.climberkIZone, Constants.Climber.climberkD, Constants.Climber.climberkFF), 
-			climberMotor, 
-			climberEncoder, 
-			climberPIDController, 
-			Constants.Climber.shouldRestore, 
-			Constants.Climber.shouldBurn
-		);
-		climberConfig.applyConfig();
-
+	public ClimberSubsystem(int motorID, int servoID, SIDE side) {
+		climberMotor = new CANSparkFlex(motorID, MotorType.kBrushless);
+		climberEncoder = climberMotor.getEncoder();
+		climberPIDController = climberMotor.getPIDController();
 		servo = new PWM(servoID);
+		
+		if (side == SIDE.LEFT){
+			climberConfig = Constants.Climber.climberLeftConfig;
+		} else if (side == SIDE.RIGHT){
+			climberConfig = Constants.Climber.climberRightConfig;
+		}
+		climberConfig.configureController(climberMotor, climberEncoder, climberPIDController);
+		climberConfig.applyConfigurations();
 	}
 
 	public boolean setupController(XboxController controller, int axis) {

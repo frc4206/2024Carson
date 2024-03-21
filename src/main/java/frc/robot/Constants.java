@@ -10,6 +10,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import frc.lib.util.SwerveModuleConstants;
+import frc.lib.util.spark.sparkConfig.FeedbackConfig;
+import frc.lib.util.spark.sparkConfig.MotorConfig;
+import frc.lib.util.spark.sparkConfig.PIDConfig;
+import frc.lib.util.spark.sparkConfig.SparkConfig;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -41,6 +45,15 @@ public final class Constants {
 
 		public static final boolean shouldRestore = false;
 		public static final boolean shouldBurn = false;
+
+		
+		public static final SparkConfig ampBarConfig = new SparkConfig(
+			new FeedbackConfig(Feedback.defaultMinDuty, Feedback.defaultMaxDuty, ampBarMaxVelo, ampBarMaxAcc, ampBarMaxError), 
+			new MotorConfig(ampBarMotorID, ampBarIsInverted, idleMode, ampBarCurrLimit), 
+			new PIDConfig(ampBarkP, ampBarkI, ampBarkIZone, ampBarkD, ampBarkFF), 
+			shouldRestore,
+			shouldBurn
+		);
 	}
 	
 	public static final class Climber {
@@ -52,8 +65,11 @@ public final class Constants {
 		public static final int servoLeftDisengage = 1700; //servoCenter + (microsecondDegreesofFreedom / 2);
 
 		public static final int climberRightID = 35;
+		public static final boolean climberRightIsInverted = false;
 		public static final int climberLeftID = 36;
+		public static final boolean climberLeftIsInverted = true;
 		public static final IdleMode idleMode = IdleMode.kBrake;
+		public static final int climberCurrentLimit = 60;
 
 		public static final int servoRightID = 1;
 		public static final int servoLeftID = 2;
@@ -69,6 +85,23 @@ public final class Constants {
 
 		public static final boolean shouldRestore = false;
 		public static final boolean shouldBurn = true;
+
+
+		public static final SparkConfig climberLeftConfig = new SparkConfig(
+			new FeedbackConfig(Feedback.defaultMinDuty, Feedback.defaultMaxDuty, climberMaxVelo, climberMaxAcc, climberMaxError), 
+			new MotorConfig(climberLeftID, climberLeftIsInverted, idleMode, climberCurrentLimit), 
+			new PIDConfig(climberkP, climberkI, climberkIZone, climberkD, climberkFF), 
+			shouldRestore, 
+			shouldBurn
+		);
+
+		public static final SparkConfig climberRightConfig = new SparkConfig(
+			new FeedbackConfig(Feedback.defaultMinDuty, Feedback.defaultMaxDuty, climberMaxVelo, climberMaxAcc, climberMaxError), 
+			new MotorConfig(climberRightID, climberRightIsInverted, idleMode, climberCurrentLimit), 
+			new PIDConfig(climberkP, climberkI, climberkIZone, climberkD, climberkFF), 
+			shouldRestore, 
+			shouldBurn
+		);
 	}
 	
 	public static final class Conveyor {
@@ -90,6 +123,15 @@ public final class Constants {
 
 		public static final boolean shouldRestore = false;
 		public static final boolean shouldBurn = false;
+
+
+		public static final SparkConfig conveyorConfig = new SparkConfig(
+			new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, conveyorMaxVelo, conveyorMaxAcc, conveyorMaxError),
+			new MotorConfig(conveyorMotorID, conveyorIsInverted, idleMode, conveyorCurrentLimit),
+			new PIDConfig(conveyorkP, conveyorkI, conveyorkIzone, conveyorkD, conveyorkFF),
+			shouldRestore,
+			shouldBurn
+		);
 	}
 	
 	public static final class Feedback {
@@ -205,6 +247,15 @@ public final class Constants {
 
 		public static final boolean shouldRestore = true;
 		public static final boolean shouldBurn = false;
+
+
+		public static final SparkConfig pivotConfig = new SparkConfig(
+			new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, pivotMaxVel, pivotMaxAccel, pivotAllowedError), 
+			new MotorConfig(pivotMotorID, pivotIsInverted, idleMode, pivotCurrentLimit, pivotClosedLoopRampRate), 
+			new PIDConfig(pivotkP, pivotkI, pivotkIZone, pivotkD, pivotkFF), 
+			shouldRestore, 
+			shouldBurn
+		);
 	}
 	
 	public static final class Swerve {

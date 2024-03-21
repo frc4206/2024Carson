@@ -7,41 +7,24 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
-import frc.lib.util.spark.sparkConfig.ControllerConfig;
-import frc.lib.util.spark.sparkConfig.FeedbackConfig;
-import frc.lib.util.spark.sparkConfig.MotorConfig;
-import frc.lib.util.spark.sparkConfig.PIDConfig;
 import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
 
 public class AmpBarSubsystem extends SubsystemBase implements SparkDefaultMethods {
-  private CANSparkFlex ampBarMotor;
-  private RelativeEncoder ampBarEncoder;
-  private SparkPIDController ampBarPIDController;
+  private CANSparkFlex ampBarMotor = new CANSparkFlex(Constants.AmpBar.ampBarMotorID, MotorType.kBrushless);
+  private RelativeEncoder ampBarEncoder = ampBarMotor.getEncoder();
+  private SparkPIDController ampBarPIDController = ampBarMotor.getPIDController();
   SparkConfig ampBarConfig;
-  ControllerConfig controllerConfig;
 
   public AmpBarSubsystem() {
-    controllerConfig = new ControllerConfig(Constants.AmpBar.ampBarMotorID, ampBarMotor, ampBarEncoder, ampBarPIDController);
-    ampBarMotor = controllerConfig.getMotor();
-    ampBarEncoder = controllerConfig.getEncoder();
-    ampBarPIDController = controllerConfig.getPIDController();
-
-    ampBarConfig = new SparkConfig(
-      new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, Constants.AmpBar.ampBarMaxVelo, Constants.AmpBar.ampBarMaxAcc, Constants.AmpBar.ampBarMaxError), 
-      new MotorConfig(Constants.AmpBar.ampBarMotorID, Constants.AmpBar.ampBarIsInverted, Constants.AmpBar.idleMode, Constants.AmpBar.ampBarCurrLimit), 
-      new PIDConfig(Constants.AmpBar.ampBarkP, Constants.AmpBar.ampBarkI, Constants.AmpBar.ampBarkIZone, Constants.AmpBar.ampBarkD, Constants.AmpBar.ampBarkFF), 
-      ampBarMotor,
-      ampBarEncoder, 
-      ampBarPIDController, 
-      Constants.AmpBar.shouldRestore, 
-      Constants.AmpBar.shouldBurn
-    );
-    ampBarConfig.applyConfig();
+    ampBarConfig = Constants.AmpBar.ampBarConfig;
+    ampBarConfig.configureController(ampBarMotor, ampBarEncoder, ampBarPIDController);
+    ampBarConfig.applyConfigurations();
   }
 
   public boolean ampBarWithinRange(double desiredPosition){

@@ -7,24 +7,20 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
-import frc.lib.util.spark.sparkConfig.ControllerConfig;
-import frc.lib.util.spark.sparkConfig.FeedbackConfig;
-import frc.lib.util.spark.sparkConfig.MotorConfig;
-import frc.lib.util.spark.sparkConfig.PIDConfig;
 import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 
 public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods {
-	private CANSparkFlex pivotMotor;
-	private RelativeEncoder pivotEncoder;
-	private SparkPIDController pivotController;
+	private CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Pivot.pivotMotorID, MotorType.kBrushless);
+	private RelativeEncoder pivotEncoder = pivotMotor.getEncoder();
+	private SparkPIDController pivotController = pivotMotor.getPIDController();
 	SparkConfig pivotConfig;
-	ControllerConfig controllerConfig;
 
 	public enum ShooterPositions {
 		AUTO,
@@ -42,22 +38,9 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public ShooterPositions position = ShooterPositions.AUTO;
 
 	public PivotSubsystem() {
-		controllerConfig = new ControllerConfig(Constants.Pivot.pivotMotorID, pivotMotor, pivotEncoder, pivotController);
-		pivotMotor = controllerConfig.getMotor();
-		pivotEncoder = controllerConfig.getEncoder();
-		pivotController = controllerConfig.getPIDController();
-
-		pivotConfig = new SparkConfig(
-			new FeedbackConfig(Constants.Feedback.defaultMinDuty, Constants.Feedback.defaultMaxDuty, Constants.Pivot.pivotMaxVel, Constants.Pivot.pivotMaxAccel, Constants.Pivot.pivotAllowedError), 
-			new MotorConfig(Constants.Pivot.pivotMotorID, Constants.Pivot.pivotIsInverted, Constants.Pivot.idleMode, Constants.Pivot.pivotCurrentLimit, Constants.Pivot.pivotClosedLoopRampRate), 
-			new PIDConfig(Constants.Pivot.pivotkP, Constants.Pivot.pivotkI, Constants.Pivot.pivotkIZone, Constants.Pivot.pivotkD, Constants.Pivot.pivotkFF), 
-			pivotMotor, 
-			pivotEncoder, 
-			pivotController, 
-			Constants.Pivot.shouldRestore, 
-			Constants.Pivot.shouldBurn
-		);
-		pivotConfig.applyConfig();
+		pivotConfig = Constants.Pivot.pivotConfig;
+		pivotConfig.configureController(pivotMotor, pivotEncoder, pivotController);
+		pivotConfig.applyConfigurations();
 	}
 	
 	public boolean pivotWithinRange(double desiredPosition){

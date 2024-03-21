@@ -36,6 +36,7 @@ import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.ClimberSubsystem.SIDE;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import frc.robot.subsystems.AmpBarSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -60,10 +61,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   public final AmpBarSubsystem m_ampBarSubsystem = new AmpBarSubsystem();
-  public final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(
-    Constants.Climber.climberLeftID, true, 60, Constants.Climber.servoLeftID);
-  public final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(
-    Constants.Climber.climberRightID, false, 60, Constants.Climber.servoRightID);  
+  public final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberLeftID, Constants.Climber.servoLeftID, SIDE.LEFT);
+  public final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberRightID, Constants.Climber.servoRightID, SIDE.RIGHT);  
   public final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
   public final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
   public final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();

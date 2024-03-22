@@ -25,7 +25,7 @@ public class ElevatorToPosition extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		m_VortexElevatorSubsystem.GoToSetpoint(m_setpoint);
+		m_VortexElevatorSubsystem.goToSetpoint(m_setpoint);
 	}
 
 	// Called once the command ends or is interrupted.

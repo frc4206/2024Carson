@@ -27,9 +27,9 @@ public class ToggleElevatorAmp extends Command {
   @Override
   public void execute() {
     if (toTop){
-      m_elevator.GoToSetpoint(Constants.Elevator.elevatorTrapPosition);
+      m_elevator.goToSetpoint(Constants.Elevator.elevatorTrapPosition);
     } else {
-      m_elevator.GoToSetpoint(5);
+      m_elevator.goToSetpoint(5);
     }
   }
 

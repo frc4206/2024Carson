@@ -40,7 +40,7 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public PivotSubsystem() {
 		pivotConfig = Constants.Pivot.pivotConfig;
 		pivotConfig.configureController(pivotMotor, pivotEncoder, pivotController);
-		pivotConfig.applyConfigurations();
+		pivotConfig.applyAllConfigurations();
 	}
 	
 	public boolean pivotAtPosition(double desiredPosition){

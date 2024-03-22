@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.spark.sparkConfig.ControllerConfig;
 import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
 
@@ -21,7 +20,6 @@ public class ClimberSubsystem extends SubsystemBase {
 	private RelativeEncoder climberEncoder;
 	private SparkPIDController climberPIDController;
 	SparkConfig climberConfig;
-	ControllerConfig controllerConfig;
 	PWM servo;
 
 	private XboxController controller;
@@ -50,7 +48,7 @@ public class ClimberSubsystem extends SubsystemBase {
 			climberConfig = Constants.Climber.climberRightConfig;
 		}
 		climberConfig.configureController(climberMotor, climberEncoder, climberPIDController);
-		climberConfig.applyConfigurations();
+		climberConfig.applyAllConfigurations();
 	}
 
 	public boolean setupController(XboxController controller, int axis) {

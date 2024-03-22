@@ -6,17 +6,19 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
+import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase implements SparkDefaultMethods {
 	private CANSparkFlex intakeMotor = new CANSparkFlex(Constants.Intake.intakeDriveMotorID, MotorType.kBrushless);
+	SparkConfig intakeConfig;
 
 	public IntakeSubsystem() {
-		intakeMotor.setInverted(Constants.Intake.intakeIsInverted); 
-		intakeMotor.setIdleMode(Constants.Intake.idleMode);
-		intakeMotor.setSmartCurrentLimit(Constants.Intake.intakeCurrentLimit);
+		intakeConfig = Constants.Intake.intakeConfig;
+		intakeConfig.configureController(intakeMotor);
+		intakeConfig.applyMotorConfigurations();
 	}
 
 	public void intakeToDuty(double setSpeed) {

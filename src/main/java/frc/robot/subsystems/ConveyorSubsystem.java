@@ -28,7 +28,7 @@ public class ConveyorSubsystem extends SubsystemBase implements SparkDefaultMeth
   	public ConveyorSubsystem() {
 		conveyorConfig = Constants.Conveyor.conveyorConfig;
 		conveyorConfig.configureController(conveyorMotor, conveyorEncoder, conveyorPIDController);
-		conveyorConfig.applyConfigurations();
+		conveyorConfig.applyAllConfigurations();
 	}
 
 	public void conveyorToPosition(double desiredPosition){

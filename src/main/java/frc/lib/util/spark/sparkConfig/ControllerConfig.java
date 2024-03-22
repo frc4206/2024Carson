@@ -15,7 +15,21 @@ public class ControllerConfig {
     SparkPIDController pidController;
 
     /**
-     * Creates an instance of Controller, a
+     * Creates an instance of ControllerConfig, a
+     * Utility class for initializing a CANSparkFlex controller.
+     * @param motor actual motor object
+     * @param encoder actual encoder object 
+     * @param pidController actual pidController object
+     */
+    public ControllerConfig(int canID, CANSparkFlex motor){
+        this.canID = canID;
+        this.motor = motor;
+        this.encoder = null;
+        this.pidController = null;
+    }
+
+    /**
+     * Creates an instance of ControllerConfig, a
      * Utility class for initializing a CANSparkFlex controller.
      * @param motor actual motor object
      * @param encoder actual encoder object 

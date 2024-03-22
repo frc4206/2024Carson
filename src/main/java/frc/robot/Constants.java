@@ -176,8 +176,17 @@ public final class Constants {
 	public static final class Intake {
 		public static final int intakeDriveMotorID = 20;
 		public static final boolean intakeIsInverted = false;
-		public static IdleMode idleMode = IdleMode.kBrake;
+		public static final IdleMode idleMode = IdleMode.kBrake;
 		public static final int intakeCurrentLimit = 60;
+
+		public static final boolean shouldRestore = false;
+		public static final boolean shouldBurn = false;
+
+		public static final SparkConfig intakeConfig = new SparkConfig(
+			new MotorConfig(intakeDriveMotorID, intakeIsInverted, idleMode, intakeCurrentLimit), 
+			shouldRestore, 
+			shouldBurn
+		);
 	}
 	
 	public static final class LEDS{

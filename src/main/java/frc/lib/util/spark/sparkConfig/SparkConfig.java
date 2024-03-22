@@ -22,11 +22,24 @@ public class SparkConfig {
      * Utility class for initializing all configurations of a CANSparkFlex controller.
      * 
      * @param motorConfig actual motorconfig object
-     * @param pidConfig actual pidconfig object
+     * @param shouldRestore whether the motor should restore to factory default upon intialization
+     * @param shouldBurn whether the motor should burn the current configuration to flash
+     */
+    public SparkConfig(MotorConfig motorConfig, boolean shouldRestore, boolean shouldBurn){
+        this.feedbackConfig = null;
+        this.motorConfig = motorConfig;
+        this.pidConfig = null;
+        this.shouldRestore = shouldRestore;
+        this.shouldBurn = shouldBurn;
+    }
+    
+    /**
+     * Creates an instance of SparkConfig, a
+     * Utility class for initializing all configurations of a CANSparkFlex controller.
+     * 
      * @param feedbackConfig actual feedbackConfig object
-     * @param motor actual motor object
-     * @param encoder actual encoder object
-     * @param pidController actual PIDController object
+     * @param motorConfig actual motorconfig object
+     * @param pidConfig actual pidconfig object
      * @param shouldRestore whether the motor should restore to factory default upon intialization
      * @param shouldBurn whether the motor should burn the current configuration to flash
      */
@@ -41,6 +54,15 @@ public class SparkConfig {
     /**
      * Configures the motor controller to be accessed by the applyConfig() method.
      */
+    public void configureController(CANSparkFlex motor){
+        this.motor = motor;
+        this.encoder = null;
+        this.pidController = null;
+    } 
+
+    /**
+     * Configures the motor controller to be accessed by the applyConfig() method.
+     */
     public void configureController(CANSparkFlex motor, RelativeEncoder encoder, SparkPIDController pidController){
         this.motor = motor;
         this.encoder = encoder;
@@ -50,10 +72,33 @@ public class SparkConfig {
     /**
      * Applies all configurations to the motor controller.
      */
-    public void applyConfigurations(){
+    public void applyMotorConfigurations(){
         if (shouldRestore){
             motor.restoreFactoryDefaults();
         }
+
+        motor.setInverted(motorConfig.motorIsInverted);
+        motor.setIdleMode(motorConfig.idleMode);
+        if (motorConfig.currentLimit != 0){
+            motor.setSmartCurrentLimit(motorConfig.currentLimit);
+        }
+        if (motorConfig.closedLoopRampRate != 0){
+            motor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
+        }
+
+        if (shouldBurn){
+            motor.burnFlash();
+        }
+    }
+
+    /**
+     * Applies all configurations to the motor controller.
+     */
+    public void applyAllConfigurations(){
+        if (shouldRestore){
+            motor.restoreFactoryDefaults();
+        }
+        
         motor.setInverted(motorConfig.motorIsInverted);
         motor.setIdleMode(motorConfig.idleMode);
         if (motorConfig.currentLimit != 0){

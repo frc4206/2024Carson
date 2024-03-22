@@ -24,7 +24,7 @@ public class AmpBarSubsystem extends SubsystemBase implements SparkDefaultMethod
   public AmpBarSubsystem() {
     ampBarConfig = Constants.AmpBar.ampBarConfig;
     ampBarConfig.configureController(ampBarMotor, ampBarEncoder, ampBarPIDController);
-    ampBarConfig.applyConfigurations();
+    ampBarConfig.applyAllConfigurations();
   }
 
   public boolean ampBarAtPosition(double desiredPosition){

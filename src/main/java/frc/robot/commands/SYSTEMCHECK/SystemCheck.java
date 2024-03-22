@@ -25,7 +25,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SystemCheck extends SequentialCommandGroup {
-  public SystemCheck(ClimberSubsystem leftClimber, ClimberSubsystem rightClimber, ConveyorSubsystem conveyor, FlywheelSubsystem flywheel, IntakeSubsystem intake, PivotSubsystem pivot, SwerveSubsystem swerve, XboxController controller) {
+  public SystemCheck(ClimberSubsystem climber, ConveyorSubsystem conveyor, FlywheelSubsystem flywheel, IntakeSubsystem intake, PivotSubsystem pivot, SwerveSubsystem swerve, XboxController controller) {
     addCommands(
       new IntakeToDuty(intake, -1).withTimeout(0.25),
       new IntakeToDuty(intake, 1).withTimeout(0.25),

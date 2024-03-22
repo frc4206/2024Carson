@@ -38,7 +38,6 @@ import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.ClimberSubsystem.SIDE;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import frc.robot.subsystems.AmpBarSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -61,8 +60,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   public final AmpBarSubsystem m_ampBarSubsystem = new AmpBarSubsystem();
-  public final ClimberSubsystem m_leftClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberLeftID, Constants.Climber.servoLeftID, SIDE.LEFT);
-  public final ClimberSubsystem m_rightClimberSubsystem = new ClimberSubsystem(Constants.Climber.climberRightID, Constants.Climber.servoRightID, SIDE.RIGHT);  
+  public final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   public final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
   public final FlywheelSubsystem m_flywheelSubsystem = new FlywheelSubsystem();
   public final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
@@ -113,17 +111,6 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private void setupClimberControls(XboxController controller) {
-    m_leftClimberSubsystem.setupController(controller, XboxController.Axis.kLeftY.value);
-    m_rightClimberSubsystem.setupController(controller, XboxController.Axis.kRightY.value);
-
-    m_leftClimberSubsystem.engageServoPos = Constants.Climber.servoLeftEngage;
-    m_leftClimberSubsystem.disengageServoPos = Constants.Climber.servoLeftDisengage;
-
-    m_rightClimberSubsystem.engageServoPos = Constants.Climber.servoRightEngage;
-    m_rightClimberSubsystem.disengageServoPos = Constants.Climber.servoRightDisengage;
-  } 
-
 	private boolean getLeftTrigger(XboxController controller) {
 		return controller.getLeftTriggerAxis() > Constants.OperatorConstants.triggerDeadzone;
 	}
@@ -150,10 +137,10 @@ public class RobotContainer {
     new JoystickButton(operata, 2).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.PODIUM));
     new JoystickButton(operata, 3).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.UNDER));
     new JoystickButton(operata, 4).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.STAGE));
-    setupClimberControls(operata);
+    m_climberSubsystem.setupController(operata, XboxController.Axis.kLeftY.value);
     
 
-    new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_leftClimberSubsystem, m_rightClimberSubsystem, m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
+    new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_climberSubsystem, m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
     new JoystickButton(operata2, 5).whileTrue(new SetBlue(m_leds));
     new JoystickButton(operata2, 6).whileTrue(new SetGreen(m_leds));
     new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));

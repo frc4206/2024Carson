@@ -16,37 +16,22 @@ import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
-	private CANSparkFlex climberMotor;
-	private RelativeEncoder climberEncoder;
-	private SparkPIDController climberPIDController;
+	private CANSparkFlex climberMotor = new CANSparkFlex(Constants.Climber.climberMotorID, MotorType.kBrushless);
+	private RelativeEncoder climberEncoder = climberMotor.getEncoder();
+	private SparkPIDController climberPIDController = climberMotor.getPIDController();
 	SparkConfig climberConfig;
-	PWM servo;
+
+	PWM servo = new PWM(Constants.Climber.servoID);
 
 	private XboxController controller;
 	private int motorAxis;
 
-	public int engageServoPos = 0;
-	public int disengageServoPos = 0;
 	private boolean servoDisengaged = false;
 	private long startServoTime = 0;
 	private long disengageDurationMilliseconds = 180;
 
-	public enum SIDE {
-		LEFT,
-		RIGHT
-	}
-
-	public ClimberSubsystem(int motorID, int servoID, SIDE side) {
-		climberMotor = new CANSparkFlex(motorID, MotorType.kBrushless);
-		climberEncoder = climberMotor.getEncoder();
-		climberPIDController = climberMotor.getPIDController();
-		servo = new PWM(servoID);
-		
-		if (side == SIDE.LEFT){
-			climberConfig = Constants.Climber.climberLeftConfig;
-		} else if (side == SIDE.RIGHT){
-			climberConfig = Constants.Climber.climberRightConfig;
-		}
+	public ClimberSubsystem() {
+		climberConfig = Constants.Climber.climberConfig;
 		climberConfig.configureController(climberMotor, climberEncoder, climberPIDController);
 		climberConfig.applyAllConfigurations();
 	}
@@ -106,7 +91,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		// if spinning against the pawl, open the pawl servo
 		if (motorSetSpeed < 0.0d) {
-			servo.setPulseTimeMicroseconds(this.disengageServoPos);
+			servo.setPulseTimeMicroseconds(Constants.Climber.servoDisengage);
 			//servo.setPosition(this.disengageServoPos);
 			// start a timer if we are just now pressing the button
 			if (!this.servoDisengaged) {
@@ -115,7 +100,7 @@ public class ClimberSubsystem extends SubsystemBase {
 			}
 		} else {
 			// spinning with from pawl
-			servo.setPulseTimeMicroseconds(this.engageServoPos);
+			servo.setPulseTimeMicroseconds(Constants.Climber.servoEngage);
 			//servo.setPosition(this.engageServoPos);
 			this.servoDisengaged = false;
 		}

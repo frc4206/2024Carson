@@ -59,20 +59,15 @@ public final class Constants {
 	public static final class Climber {
 		public static final int servoCenter = 1500; // in microseconds
 		public static final int microsecondDegreesofFreedom = 300; // 40.5 angular degrees
-		public static final int servoRightEngage = 1670;
-		public static final int servoRightDisengage = 1350;
-		public static final int servoLeftEngage = 1475;//servoCenter - (microsecondDegreesofFreedom / 2);
-		public static final int servoLeftDisengage = 1700; //servoCenter + (microsecondDegreesofFreedom / 2);
+		public static final int servoEngage = 1670;
+		public static final int servoDisengage = 1350;
 
-		public static final int climberRightID = 35;
-		public static final boolean climberRightIsInverted = false;
-		public static final int climberLeftID = 36;
-		public static final boolean climberLeftIsInverted = true;
+		public static final int climberMotorID = 35;
+		public static final boolean climberIsInverted = false;
 		public static final IdleMode idleMode = IdleMode.kBrake;
 		public static final int climberCurrentLimit = 60;
 
-		public static final int servoRightID = 1;
-		public static final int servoLeftID = 2;
+		public static final int servoID = 1;
 		
 		public static final double climberkP = 0.002;
 		public static final double climberkI = 0.00002;
@@ -87,17 +82,9 @@ public final class Constants {
 		public static final boolean shouldBurn = true;
 
 
-		public static final SparkConfig climberLeftConfig = new SparkConfig(
+		public static final SparkConfig climberConfig = new SparkConfig(
 			new FeedbackConfig(Feedback.defaultMinDuty, Feedback.defaultMaxDuty, climberMaxVelo, climberMaxAcc, climberMaxError), 
-			new MotorConfig(climberLeftID, climberLeftIsInverted, idleMode, climberCurrentLimit), 
-			new PIDConfig(climberkP, climberkI, climberkIZone, climberkD, climberkFF), 
-			shouldRestore, 
-			shouldBurn
-		);
-
-		public static final SparkConfig climberRightConfig = new SparkConfig(
-			new FeedbackConfig(Feedback.defaultMinDuty, Feedback.defaultMaxDuty, climberMaxVelo, climberMaxAcc, climberMaxError), 
-			new MotorConfig(climberRightID, climberRightIsInverted, idleMode, climberCurrentLimit), 
+			new MotorConfig(climberMotorID, climberIsInverted, idleMode, climberCurrentLimit), 
 			new PIDConfig(climberkP, climberkI, climberkIZone, climberkD, climberkFF), 
 			shouldRestore, 
 			shouldBurn

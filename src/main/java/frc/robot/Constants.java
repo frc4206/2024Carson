@@ -26,8 +26,8 @@ public final class Constants {
 	public static final String canivoreName = "Canivore1";
 	
 	public static final class AmpBar {
-		public static final double ampPosition = 16;
-		public static final double stowPosition = 7;
+		public static final double ampPosition = 23;
+		public static final double stowPosition = 3;
 
 		public static final int ampBarMotorID = 40;
 		public static final boolean ampBarIsInverted = false;
@@ -145,19 +145,41 @@ public final class Constants {
 				
 		public static final double topFlywheelkP = 0.00000625;
 		public static final double topFlywheelkI = 0.000000325*1.25;
-		public static final double topFlywheelkIZone = 2000;
+		public static final double topFlywheelkIZone = 0;
 		public static final double topFlywheelkD = 0; 
+		public static final double topFlywheelkFF = 0;
 		public static final double topFlywheelMaxVelo = 6500;
 		public static final double topFlywheelMaxAcc = 6500;
 		public static final double topFlywheelMaxError = 50; 
 		
 		public static final double bottomFlywheelkP = 0.0000003125; 
 		public static final double bottomFlywheelkI = 0.000000325*1.25; 
-		public static final double bottomFlywheelkIZone = 2000;
-		public static final double bottomFlywheelkD = 0.0; 
+		public static final double bottomFlywheelkIZone = 0;
+		public static final double bottomFlywheelkD = 0; 
+		public static final double bottomFlywheelkFF = 0;
 		public static final double bottomFlywheelMaxVelo = 6500;
 		public static final double bottomFlywheelMaxAcc = 6500;
 		public static final double bottomFlywheelMaxError = 50;
+
+		public static final boolean shouldRestore = false;
+		public static final boolean shouldBurn = true;
+
+
+		public static final SparkConfig topFlywheelConfig = new SparkConfig(
+			new FeedbackConfig(Feedback.defaultMinDuty, Feedback.defaultMaxDuty, topFlywheelMaxVelo, topFlywheelMaxAcc, topFlywheelMaxError), 
+			new MotorConfig(topFlywheelMotorID, topIsInverted, idleMode), 
+			new PIDConfig(topFlywheelkP, topFlywheelkI, topFlywheelkIZone, topFlywheelkD, topFlywheelkFF), 
+			shouldRestore, 
+			shouldBurn
+		);
+
+		public static final SparkConfig bottomFlywheelConfig = new SparkConfig(
+			new FeedbackConfig(Feedback.defaultMinDuty, Feedback.defaultMaxDuty, bottomFlywheelMaxVelo, bottomFlywheelMaxAcc, bottomFlywheelMaxError), 
+			new MotorConfig(bottomFlywheelMotorID, bottomIsInverted, idleMode), 
+			new PIDConfig(bottomFlywheelkP, bottomFlywheelkI, bottomFlywheelkIZone, bottomFlywheelkD, bottomFlywheelkFF), 
+			shouldRestore, 
+			shouldBurn
+		); 
 	}
 	
 	public static final class Intake {

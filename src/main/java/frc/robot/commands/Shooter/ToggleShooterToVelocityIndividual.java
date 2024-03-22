@@ -24,7 +24,7 @@ public class ToggleShooterToVelocityIndividual extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    toVelo = GlobalVariables.Shooter.veloCounter % 2 == 0;
+    toVelo = GlobalVariables.Flywheel.veloCounter % 2 == 0;
     if (toVelo){
       m_flywheel.shooterToVelocity(m_topDesiredVelo, m_bottomDesiredVelo);
     } else {
@@ -41,7 +41,7 @@ public class ToggleShooterToVelocityIndividual extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    GlobalVariables.Shooter.veloCounter++;
+    GlobalVariables.Flywheel.veloCounter++;
   }
 
   // Returns true when the command should end.

@@ -26,8 +26,10 @@ public final class Constants {
 	public static final String canivoreName = "Canivore1";
 	
 	public static final class AmpBar {
-		public static final double ampPosition = 23;
-		public static final double stowPosition = 3;
+		public static final double stowPosition = 23;
+		public static final double ampPosition = 0;
+
+		public static final int ampBarLimitSwitchID = 2;
 
 		public static final int ampBarMotorID = 40;
 		public static final boolean ampBarIsInverted = false;
@@ -193,7 +195,7 @@ public final class Constants {
 
 		public static final SparkConfig intakeConfig = new SparkConfig(
 			new MotorConfig(intakeDriveMotorID, intakeIsInverted, idleMode, intakeCurrentLimit), 
-			shouldRestore, 
+			shouldRestore,
 			shouldBurn
 		);
 	}

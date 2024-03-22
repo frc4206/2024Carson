@@ -7,15 +7,17 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.sparkConfig.SparkConfig;
-import frc.robot.Constants; 
+import frc.robot.Constants;
+import frc.robot.GlobalVariables;
+
 import com.revrobotics.*;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class FlywheelSubsystem extends SubsystemBase {
-	private static CANSparkFlex topFlyMotor = new CANSparkFlex(Constants.Flywheel.topFlywheelMotorID, MotorType.kBrushless); 
-	private static CANSparkFlex bottomFlyMotor = new CANSparkFlex(Constants.Flywheel.bottomFlywheelMotorID, MotorType.kBrushless);
-	private static RelativeEncoder topFlyEncoder = topFlyMotor.getEncoder();
-	private static RelativeEncoder bottomFlyEncoder = bottomFlyMotor.getEncoder();
+	private CANSparkFlex topFlyMotor = new CANSparkFlex(Constants.Flywheel.topFlywheelMotorID, MotorType.kBrushless); 
+	private CANSparkFlex bottomFlyMotor = new CANSparkFlex(Constants.Flywheel.bottomFlywheelMotorID, MotorType.kBrushless);
+	private RelativeEncoder topFlyEncoder = topFlyMotor.getEncoder();
+	private RelativeEncoder bottomFlyEncoder = bottomFlyMotor.getEncoder();
 	private SparkPIDController topFlyPIDController = topFlyMotor.getPIDController();
 	private SparkPIDController bottomFlyPIDController = bottomFlyMotor.getPIDController();
 	SparkConfig topFlyConfig;
@@ -31,14 +33,14 @@ public class FlywheelSubsystem extends SubsystemBase {
 		bottomFlyConfig.applyAllConfigurations();
 	}
 
-	public static boolean shooterAtVelocity(double setVelocity){
+	public boolean shooterAtVelocity(double setVelocity){
 		return (
 			(Math.abs(topFlyEncoder.getVelocity() - setVelocity) < 50) &&
 			(Math.abs(bottomFlyEncoder.getVelocity() - setVelocity) < 50)
 		);
 	}
 
-	public static boolean shooterAtVelocities(double topSetVelo, double bottomSetVelo){
+	public boolean shooterAtVelocities(double topSetVelo, double bottomSetVelo){
 		return (
 			(Math.abs(topFlyEncoder.getVelocity() - topSetVelo) < 50) && 
 			(Math.abs(bottomFlyEncoder.getVelocity() - bottomSetVelo) < 50)
@@ -67,9 +69,9 @@ public class FlywheelSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("topVelo", topFlyEncoder.getVelocity());
-		SmartDashboard.putNumber("bottomVelo", bottomFlyEncoder.getVelocity());
-		SmartDashboard.putNumber("topcurr", topFlyMotor.getOutputCurrent());
-		SmartDashboard.putNumber("bottomcurr", bottomFlyMotor.getOutputCurrent());
+		GlobalVariables.Flywheel.topVelo = topFlyEncoder.getVelocity();
+		GlobalVariables.Flywheel.bottomVelo = bottomFlyEncoder.getVelocity();
+		SmartDashboard.putNumber("topVelo", GlobalVariables.Flywheel.topVelo);
+		SmartDashboard.putNumber("bottomVelo", GlobalVariables.Flywheel.bottomVelo);
 	}
 }

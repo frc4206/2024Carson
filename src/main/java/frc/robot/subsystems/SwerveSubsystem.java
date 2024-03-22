@@ -82,22 +82,22 @@ public class SwerveSubsystem extends SubsystemBase {
             this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::setModuleSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(Constants.Swerve.driveKP, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(Constants.Swerve.angleKP, 0.0, 0.0), // Rotation PID constants
-                    Constants.Swerve.maxSpeed, // Max module speed, in m/s
-                    Constants.Swerve.wheelBase, // Drive base radius in meters. Distance from robot center to furthest module.
-                    new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
+                new PIDConstants(Constants.Swerve.driveKP, 0.0, 0.0), // Translation PID constants
+                new PIDConstants(Constants.Swerve.angleKP, 0.0, 0.0), // Rotation PID constants
+                Constants.Swerve.maxSpeed, // Max module speed, in m/s
+                Constants.Swerve.wheelBase, // Drive base radius in meters. Distance from robot center to furthest module.
+                new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
             ),
             () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
-              // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE ClimberSide
+                // Boolean supplier that controls when the path will be mirrored for the red alliance
+                // This will flip the path being followed to the red side of the field.
+                // THE ORIGIN WILL REMAIN ON THE BLUE ClimberSide
 
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
             },
             this // Reference to this subsystem to set requirements
     );
@@ -137,7 +137,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
         int i = 0;
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(Constants.Swerve.swerveKinematics.toSwerveModuleStates(desiredSpeeds)[i], false);
+            mod.setDesiredState(Constants.Swerve.swerveKinematics.toSwerveModuleStates(desiredSpeeds)[i], true);
             i += 1;
         }
     }

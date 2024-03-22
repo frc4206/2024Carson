@@ -18,7 +18,7 @@ public class Shoot extends ParallelCommandGroup {
   public Shoot(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
     addCommands(
       new ConveyorToDuty(conveyor, 0.9),
-      new IntakeToDuty(intake, GlobalVariables.Shooter.toAmpVelo ? 9/50 : 1)
+      new IntakeToDuty(intake, GlobalVariables.Flywheel.toAmpVelo ? 9/50 : 1)
     );
   }
 }

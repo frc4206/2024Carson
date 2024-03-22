@@ -95,10 +95,10 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public void toggleAmpMode(){
 		if (position != ShooterPositions.AMPLIFIER){
 			position = ShooterPositions.AMPLIFIER;
-			GlobalVariables.Shooter.toAmpVelo = true;
+			GlobalVariables.Flywheel.toAmpVelo = true;
 		} else {
 			position = ShooterPositions.AUTO;
-			GlobalVariables.Shooter.toAmpVelo = false;
+			GlobalVariables.Flywheel.toAmpVelo = false;
 		} 
 	}
 
@@ -131,7 +131,8 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Pivot position", pivotEncoder.getPosition());
+		GlobalVariables.Pivot.pivotPosition = pivotEncoder.getPosition();
+		SmartDashboard.putNumber("Pivot position", GlobalVariables.Pivot.pivotPosition);
 
 		if(position != ShooterPositions.AUTO) {
 			setFieldRelativePosition();

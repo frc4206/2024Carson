@@ -6,6 +6,7 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.GlobalVariables;
 import frc.robot.commands.Conveyor.ConveyorToDuty;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -16,7 +17,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class SetupNote extends SequentialCommandGroup {
   public SetupNote(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
     addCommands(
-      new GoUntilNote(conveyor, intake).until(() -> conveyor.hasNote()),
+      new GoUntilNote(conveyor, intake).until(() -> GlobalVariables.Conveyor.beamBroken),
       // new ConveyerToPosition(conveyor, 18).withTimeout(2),
       // new ConveyerToPosition(conveyor, 17.5).withTimeout(2)
       new ParallelCommandGroup(

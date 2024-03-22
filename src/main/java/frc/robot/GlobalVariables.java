@@ -5,11 +5,17 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 public class GlobalVariables {
     public static Alliance alliance;
 
+    public static class AmpBar{
+        public static double ampBarPosition = 0;
+        public static boolean ampBarAtZero = false;
+    }
+
     public static class Conveyor{
+        public static double conveyorPosition = 0;
         public static boolean beamBroken = false;
     }
 
-    public static class Shooter{
+    public static class Flywheel{
         public static double ampCounter = 2;
         public static double veloCounter = 2;
         public static double climbCounter = 2;
@@ -21,6 +27,7 @@ public class GlobalVariables {
 
     public static class Pivot{
         public static double desiredPosition = 0;
+        public static double pivotPosition = 0;
     }
 
     public static class Position{

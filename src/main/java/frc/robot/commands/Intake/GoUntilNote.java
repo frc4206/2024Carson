@@ -5,6 +5,7 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.GlobalVariables;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -24,7 +25,7 @@ public class GoUntilNote extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if(!m_conveyor.hasNote()) {
+		if(!GlobalVariables.Conveyor.beamBroken) {
 			m_intake.intakeToDuty(0.75);
 			m_conveyor.conveyorToDuty(0.4);
 		} else {

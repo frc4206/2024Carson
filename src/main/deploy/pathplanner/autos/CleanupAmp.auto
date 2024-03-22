@@ -12,50 +12,19 @@
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "shoot"
+                  "pathName": "CleanupAmp"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "fly"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "pivotsub"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shoot"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "CleanupAmp"
                 }
               }
             ]
@@ -64,6 +33,6 @@
       ]
     }
   },
-  "folder": "Cleanup",
+  "folder": null,
   "choreoAuto": false
 }

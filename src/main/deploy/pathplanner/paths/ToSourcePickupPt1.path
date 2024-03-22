@@ -60,7 +60,7 @@
   "eventMarkers": [
     {
       "name": "pickup",
-      "waypointRelativePos": 1.95,
+      "waypointRelativePos": 0.8,
       "command": {
         "type": "parallel",
         "data": {
@@ -68,13 +68,19 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
+                "name": "intakelong"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "conveyor"
+                "name": "conveyorlong"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivotsource2"
               }
             }
           ]

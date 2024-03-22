@@ -11,23 +11,23 @@
         "x": 1.5314755201440227,
         "y": 7.063697400728136
       },
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "ampstart"
     },
     {
       "anchor": {
-        "x": 2.194519827636147,
-        "y": 6.988356081975322
+        "x": 2.2449059624960115,
+        "y": 7.097823981871242
       },
       "prevControl": {
-        "x": 1.7158755664879755,
-        "y": 6.989507372698957
+        "x": 1.76626170134784,
+        "y": 7.098975272594877
       },
       "nextControl": {
-        "x": 2.4645190465909192,
-        "y": 6.987706648520452
+        "x": 2.514905181450784,
+        "y": 7.097174548416372
       },
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": null
     },
     {
@@ -36,11 +36,11 @@
         "y": 7.260000000000001
       },
       "prevControl": {
-        "x": 2.9925270376856545,
-        "y": 6.852332125716883
+        "x": 2.956638312326507,
+        "y": 7.039325432570105
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "amppt1highend"
     }
   ],
@@ -52,7 +52,7 @@
     },
     {
       "waypointRelativePos": 1.9500000000000002,
-      "rotationDegrees": 25.169999999999987,
+      "rotationDegrees": 42.0,
       "rotateFast": false
     },
     {
@@ -77,7 +77,7 @@
   "eventMarkers": [
     {
       "name": "pickup1",
-      "waypointRelativePos": 1.4500000000000002,
+      "waypointRelativePos": 0.9,
       "command": {
         "type": "parallel",
         "data": {
@@ -93,6 +93,12 @@
               "data": {
                 "name": "conveyorlong"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivotamp1"
+              }
             }
           ]
         }
@@ -106,14 +112,14 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 26.56505117707802,
+    "velocity": 0.375,
+    "rotation": 42.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Amp",
   "previewStartingState": {
-    "rotation": 59.859982390173414,
+    "rotation": 60.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

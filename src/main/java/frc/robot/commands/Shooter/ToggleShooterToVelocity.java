@@ -23,7 +23,7 @@ public class ToggleShooterToVelocity extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    toVelo = GlobalVariables.Shooter.veloCounter % 2 == 0;
+    toVelo = GlobalVariables.Flywheel.veloCounter % 2 == 0;
     SmartDashboard.putBoolean("SHOOTER ACTIVE", toVelo);
     if (toVelo){
       m_flywheel.shooterToVelocity(m_desiredVelocity);
@@ -41,7 +41,7 @@ public class ToggleShooterToVelocity extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    GlobalVariables.Shooter.veloCounter++;
+    GlobalVariables.Flywheel.veloCounter++;
   }
 
   // Returns true when the command should end.

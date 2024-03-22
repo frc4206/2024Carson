@@ -61,19 +61,7 @@
       "rotateFast": false
     }
   ],
-  "constraintZones": [
-    {
-      "name": "slow",
-      "minWaypointRelativePos": 1.35,
-      "maxWaypointRelativePos": 1.8,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [
     {
       "name": "pickup1",
@@ -92,6 +80,12 @@
               "type": "named",
               "data": {
                 "name": "conveyorlong"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivotamp1"
               }
             }
           ]

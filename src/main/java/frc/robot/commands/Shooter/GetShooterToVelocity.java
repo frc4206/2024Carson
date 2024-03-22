@@ -27,7 +27,7 @@ public class GetShooterToVelocity extends Command {
 	@Override
 	public void execute() {
 		m_flywheelSubsystem.shooterToVelocity(m_flySpeed);
-		if (Math.abs(6500 - GlobalVariables.Shooter.topVelo) < shooterMaxError && Math.abs(6500 - GlobalVariables.Shooter.bottomVelo) < shooterMaxError) {
+		if (Math.abs(6500 - GlobalVariables.Flywheel.topVelo) < shooterMaxError && Math.abs(6500 - GlobalVariables.Flywheel.bottomVelo) < shooterMaxError) {
 			isFinished = true;
 			isFinished();
 		}

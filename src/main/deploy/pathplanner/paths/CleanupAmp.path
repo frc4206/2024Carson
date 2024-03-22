@@ -127,23 +127,6 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "shoot1",
-      "waypointRelativePos": 0.75,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "shoot"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "pickup1",
       "waypointRelativePos": 0.95,
       "command": {
@@ -161,6 +144,12 @@
               "data": {
                 "name": "conveyor"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivotcleanup1"
+              }
             }
           ]
         }
@@ -168,7 +157,7 @@
     },
     {
       "name": "shoot2",
-      "waypointRelativePos": 1.9500000000000002,
+      "waypointRelativePos": 1.75,
       "command": {
         "type": "parallel",
         "data": {
@@ -208,7 +197,7 @@
     },
     {
       "name": "shoot3",
-      "waypointRelativePos": 2.75,
+      "waypointRelativePos": 2.6500000000000004,
       "command": {
         "type": "parallel",
         "data": {

@@ -62,7 +62,37 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "pickup1",
+      "waypointRelativePos": 0.85,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intakelong"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "conveyorlong"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "pivotsource1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 2.5,

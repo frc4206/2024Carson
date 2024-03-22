@@ -6,8 +6,6 @@ package frc.robot.subsystems;
 
 import java.util.Arrays;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 /**
  * linearInterpolator - given a table of x and y values, will interpolate values
  * of y between known values of x using linear interpolation.
@@ -18,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * double y = lt.getInterpolatedValue(1.5); // returns 15.25
  */
 
-public class InterpolatingTreeTableSubsystem extends SubsystemBase {
+public class InterpolatingTreeTableSubsystem {
 	/** Creates a new InterpolatingTreeTableSubsystem. */
 	
 	// https://therevisionist.org/software-engineering/java/tutorials/passing-2d-arrays/
@@ -102,10 +100,4 @@ public class InterpolatingTreeTableSubsystem extends SubsystemBase {
 
 		return (low_y + (x - low_x) * (high_y - low_y) / (high_x - low_x));
 	}
-
-	@Override
-	public void periodic() {
-		// This method will be called once per scheduler run
-	}
 }
-

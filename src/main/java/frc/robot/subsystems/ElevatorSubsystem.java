@@ -14,7 +14,7 @@ import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
-import frc.lib.util.spark.sparkConfig.SparkConfiguration;
+// import frc.lib.util.spark.sparkConfig.SparkConfiguration;
 import frc.robot.Constants;
 import frc.robot.Constants.Elevator;
 
@@ -35,7 +35,7 @@ public class ElevatorSubsystem extends SubsystemBase implements SparkDefaultMeth
 	private CANSparkFlex elevatorMotor;
 	private RelativeEncoder elevatorEncoder;
 	private SparkPIDController elevatorPIDController;
-	SparkConfiguration elevConfig;
+	// SparkConfiguration elevConfig;
 
 	public ElevatorSubsystem() {}
 
@@ -56,23 +56,23 @@ public class ElevatorSubsystem extends SubsystemBase implements SparkDefaultMeth
 		elevatorPIDController.setSmartMotionMaxAccel(Constants.Elevator.elevatorMaxAcc, motorCanId);
 		elevatorPIDController.setSmartMotionAllowedClosedLoopError(Constants.Elevator.elevatorMaxError, motorCanId);
 
-		elevConfig = new SparkConfiguration(
-			true,
-			false,
-			elevatorMotor,
-			invertMotor,
-			idleMode,
-			40,
-			elevatorEncoder,
-			elevatorPIDController,
-			Elevator.elevatorkP,
-			Elevator.elevatorkI,
-			Elevator.elevatorkIZone,
-			Elevator.elevatorkD,
-			0,
-			Elevator.elevatorMaxVelo,
-			Elevator.elevatorMaxAcc,
-			Elevator.elevatorMaxError);
+		// elevConfig = new SparkConfiguration(
+			// true,
+			// false,
+			// elevatorMotor,
+			// invertMotor,
+			// idleMode,
+			// 40,
+			// elevatorEncoder,
+			// elevatorPIDController,
+			// Elevator.elevatorkP,
+			// Elevator.elevatorkI,
+			// Elevator.elevatorkIZone,
+			// Elevator.elevatorkD,
+			// 0,
+			// Elevator.elevatorMaxVelo,
+			// Elevator.elevatorMaxAcc,
+			// Elevator.elevatorMaxError);
 
 		//leaderConfig = new SparkConfiguration(
 		// true,

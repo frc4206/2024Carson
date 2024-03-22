@@ -13,17 +13,22 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
-import frc.lib.util.spark.sparkConfig.SparkConfiguration;
+import frc.lib.util.spark.sparkConfig.FeedbackConfig;
+import frc.lib.util.spark.sparkConfig.MotorConfig;
+import frc.lib.util.spark.sparkConfig.PIDConfig;
+import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 
 public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods {
 	public CANSparkFlex pivotMotor = new CANSparkFlex(Constants.Pivot.pivotMotorID, MotorType.kBrushless);
 	public RelativeEncoder pivotEncoder = pivotMotor.getEncoder();
 	public SparkPIDController pivotController = pivotMotor.getPIDController();
-	SparkConfiguration pivotConfig;
+	SparkConfig pivotConfig;
 
 	public enum ShooterPositions {
 		AUTO,
+		MANUAL,
 		SUBWOOFER,
 		CLOSE,
 		SPIKE,
@@ -37,25 +42,16 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public ShooterPositions position = ShooterPositions.AUTO;
 
 	public PivotSubsystem() {
-		pivotConfig = new SparkConfiguration(
-			true,
-			false,
+		pivotConfig = new SparkConfig(
+			new FeedbackConfig(-1, 1, Constants.Pivot.pivotMaxVel, Constants.Pivot.pivotMaxAccel, Constants.Pivot.pivotAllowedError), 
+			new MotorConfig(Constants.Pivot.pivotMotorID, false, IdleMode.kBrake, 40, 0.25), 
+			new PIDConfig(Constants.Pivot.pivotkP, Constants.Pivot.pivotkI, Constants.Pivot.pivotkIZone, Constants.Pivot.pivotkD, 0), 
 			pivotMotor, 
-			false, 
-			IdleMode.kBrake, 
-			40, 
 			pivotEncoder, 
 			pivotController, 
-			Constants.Pivot.pivotkP, 
-			Constants.Pivot.pivotkI, 
-			Constants.Pivot.pivotkIZone, 
-			Constants.Pivot.pivotkD, 
-			0, 
-			Constants.Pivot.pivotMaxVel, 
-			Constants.Pivot.pivotMaxAccel, 
-			Constants.Pivot.pivotAllowedError
+			true, 
+			false
 		);
-		pivotMotor.setClosedLoopRampRate(0.25);
 	}
 	
 	public void resetPivot(){
@@ -88,6 +84,14 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		position = newPosition;
 	}
 
+	public void toggleManual(){
+		if (position != ShooterPositions.MANUAL){
+			position = ShooterPositions.MANUAL;
+		} else {
+			position = ShooterPositions.AUTO;
+		}
+	}
+
 	public void togglePivotMode(){
 		if (position == ShooterPositions.AUTO){
 			position = ShooterPositions.CLOSE;
@@ -99,8 +103,10 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public void toggleAmpMode(){
 		if (position != ShooterPositions.AMPLIFIER){
 			position = ShooterPositions.AMPLIFIER;
+			GlobalVariables.toAmpVelo = true;
 		} else {
 			position = ShooterPositions.AUTO;
+			GlobalVariables.toAmpVelo = false;
 		} 
 	}
 
@@ -132,6 +138,8 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 			case SUBWOOFER:
 				setPosition(Constants.Pivot.subwooferPosition);
 				break;
+			case MANUAL:
+				break;
 			default:
 				break;
 			}
@@ -145,7 +153,6 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 			setFieldRelativePosition();
 		} else {
 			autoPivot();
-			// pivotWithMove();
 		}
 	}
 }

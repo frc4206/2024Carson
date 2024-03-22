@@ -25,7 +25,7 @@ public class GetPivotToPosition extends Command {
 	@Override
 	public void execute() {
 		m_pivot.pivotToPosition(m_position);
-		if (m_pivot.pivotWithinRange(m_position)) {
+		if (m_pivot.pivotAtPosition(m_position)) {
 			isFinished = true;
 			isFinished();
 		}

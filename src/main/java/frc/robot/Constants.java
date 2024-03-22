@@ -26,25 +26,25 @@ public final class Constants {
 	public static final String canivoreName = "Canivore1";
 	
 	public static final class AmpBar {
-		public static final double ampPosition = 10;
-		public static final double stowPosition = 0;
+		public static final double ampPosition = 16;
+		public static final double stowPosition = 7;
 
 		public static final int ampBarMotorID = 40;
 		public static final boolean ampBarIsInverted = false;
 		public static final IdleMode idleMode = IdleMode.kBrake;
 		public static final int ampBarCurrLimit = 40; 
 		
-		public static final double ampBarkP = 0.15; 
-		public static final double ampBarkI = 0.00125; 
+		public static final double ampBarkP = 0.25;//0.45; 
+		public static final double ampBarkI = 0.00375; 
 		public static final double ampBarkIZone = 0.1;
 		public static final double ampBarkD = 0.0;
 		public static final double ampBarkFF = 0.0;
-		public static final double ampBarMaxVelo = 4000; 
-		public static final double ampBarMaxAcc = 4000;
+		public static final double ampBarMaxVelo = 5000; 
+		public static final double ampBarMaxAcc = 5000;
 		public static final double ampBarMaxError = 0.01; 
 
-		public static final boolean shouldRestore = false;
-		public static final boolean shouldBurn = false;
+		public static final boolean shouldRestore = true;
+		public static final boolean shouldBurn = true;
 
 		
 		public static final SparkConfig ampBarConfig = new SparkConfig(
@@ -147,8 +147,8 @@ public final class Constants {
 
 	public static final class Flywheel {
 		public static final double speakerVelo = 6500;
-		public static final double topAmpVelo = 3600;
-		public static final double bottomAmpVelo = 2200;
+		public static final double topAmpVelo = 3800;
+		public static final double bottomAmpVelo = 2325;
 		
 		public static final int topFlywheelMotorID = 25;
 		public static final boolean topIsInverted = true;
@@ -177,7 +177,7 @@ public final class Constants {
 		public static final int intakeDriveMotorID = 20;
 		public static final boolean intakeIsInverted = false;
 		public static IdleMode idleMode = IdleMode.kBrake;
-		public static final int intakeCurrentLimit = 50;
+		public static final int intakeCurrentLimit = 60;
 	}
 	
 	public static final class LEDS{
@@ -208,7 +208,8 @@ public final class Constants {
 	}
 
 	public static final class OperatorConstants {
-		public static final double stickDeadband = 0.1;
+		public static final double joystickDeadzone = 0.1;
+		public static final double triggerDeadzone = 0.05;
 		
 		public static final int drivaPort = 0;
 		public static final int operataPort = 1;

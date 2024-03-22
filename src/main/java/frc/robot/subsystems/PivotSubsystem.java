@@ -43,7 +43,7 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		pivotConfig.applyConfigurations();
 	}
 	
-	public boolean pivotWithinRange(double desiredPosition){
+	public boolean pivotAtPosition(double desiredPosition){
 		return Math.abs(pivotEncoder.getPosition() - desiredPosition) < Constants.Pivot.pivotAllowedError;
 	}
 
@@ -84,9 +84,9 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		}
 	}
 
-	public void togglePivotMode(){
+	public void toggleAutoMode(){
 		if (position == ShooterPositions.AUTO){
-			position = ShooterPositions.CLOSE;
+			position = ShooterPositions.SUBWOOFER;
 		} else {
 			position = ShooterPositions.AUTO;
 		}
@@ -99,14 +99,6 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		} else {
 			position = ShooterPositions.AUTO;
 			GlobalVariables.Shooter.toAmpVelo = false;
-		} 
-	}
-
-	public void toggleSubwoofer(){
-		if (position != ShooterPositions.SUBWOOFER){
-			position = ShooterPositions.SUBWOOFER;
-		} else {
-			position = ShooterPositions.AUTO;
 		} 
 	}
 

@@ -27,7 +27,7 @@ public class AmpBarSubsystem extends SubsystemBase implements SparkDefaultMethod
     ampBarConfig.applyConfigurations();
   }
 
-  public boolean ampBarWithinRange(double desiredPosition){
+  public boolean ampBarAtPosition(double desiredPosition){
     return Math.abs(ampBarEncoder.getPosition() - desiredPosition) < Constants.AmpBar.ampBarMaxError;
   }
 

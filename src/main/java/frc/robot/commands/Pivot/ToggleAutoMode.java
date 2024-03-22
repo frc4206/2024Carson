@@ -7,10 +7,10 @@ package frc.robot.commands.Pivot;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.PivotSubsystem;
 
-public class TogglePivotMode extends Command {
+public class ToggleAutoMode extends Command {
   private PivotSubsystem m_pivot;
   private boolean isFinished = false;
-  public TogglePivotMode(PivotSubsystem pivot) {
+  public ToggleAutoMode(PivotSubsystem pivot) {
     m_pivot = pivot;
     addRequirements(m_pivot);
   }
@@ -18,7 +18,7 @@ public class TogglePivotMode extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_pivot.togglePivotMode();
+    m_pivot.toggleAutoMode();
     isFinished = true;
     isFinished();
   }

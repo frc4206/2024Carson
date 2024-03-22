@@ -5,6 +5,10 @@
 package frc.robot;
 
 import frc.robot.commands.Conveyor.ConveyorToPosition;
+import frc.robot.COMBOS.Outtake;
+import frc.robot.COMBOS.Shoot;
+import frc.robot.COMBOS.ShooterToAmp;
+import frc.robot.COMBOS.ShooterToSpeaker;
 import frc.robot.commands.AmpBar.AmpBarToDuty;
 import frc.robot.commands.AmpBar.AmpBarToPosition;
 import frc.robot.commands.AmpBar.ResetAmpBar;
@@ -18,11 +22,9 @@ import frc.robot.commands.Pivot.ChangePivotPosition;
 import frc.robot.commands.Pivot.PivotToDuty;
 import frc.robot.commands.Pivot.PivotToPosition;
 import frc.robot.commands.Pivot.ResetPivot;
-import frc.robot.commands.Pivot.TogglePivotMode;
+import frc.robot.commands.Pivot.ToggleAutoMode;
 import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterToVelocity;
-import frc.robot.commands.Shooter.ToggleShooterToVelocity;
-import frc.robot.commands.Shooter.ToggleShooterToVelocityIndividual;
 import frc.robot.commands.Swerve.PID_to_game_Piece;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ToggleAimed;
@@ -47,8 +49,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -125,22 +125,22 @@ public class RobotContainer {
   } 
 
 	private boolean getLeftTrigger(XboxController controller) {
-		return controller.getLeftTriggerAxis() > 0.05;
+		return controller.getLeftTriggerAxis() > Constants.OperatorConstants.triggerDeadzone;
 	}
 
   private boolean getRightTrigger(XboxController controller){
-    return controller.getRightTriggerAxis() > 0.05;
+    return controller.getRightTriggerAxis() > Constants.OperatorConstants.triggerDeadzone;
   }
   
   private void configureBindings() {
-    new JoystickButton(driva, 1).onTrue(new TogglePivotMode(m_pivotSubsystem));
-    new JoystickButton(driva, 2).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, -1), new ConveyorToDuty(m_conveyorSubsystem, -0.65)));
+    new JoystickButton(driva, 1).onTrue(new ToggleAutoMode(m_pivotSubsystem));
+    new JoystickButton(driva, 2).whileTrue(new Outtake(m_conveyorSubsystem, m_intakeSubsystem));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     new JoystickButton(driva, 4).onTrue(new ToggleAmped(m_swerveSubsystem));
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));
-    new JoystickButton(driva, 6).whileTrue(new ParallelCommandGroup(new IntakeToDuty(m_intakeSubsystem, GlobalVariables.Shooter.toAmpVelo ? 9/50 : 1), new ConveyorToDuty(m_conveyorSubsystem, 0.9)));
-    new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo));
-    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ParallelCommandGroup(new InstantCommand(() -> m_pivotSubsystem.toggleAmpMode()), new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, Constants.Flywheel.topAmpVelo, Constants.Flywheel.bottomAmpVelo)));
+    new JoystickButton(driva, 6).whileTrue(new Shoot(m_conveyorSubsystem, m_intakeSubsystem));
+    new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ShooterToSpeaker(m_flywheelSubsystem));
+    new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ShooterToAmp(m_flywheelSubsystem, m_pivotSubsystem));
     new JoystickButton(driva, 7).onTrue(new TogglePickup(m_swerveSubsystem));
     new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
     new POVButton(driva, 90).onTrue(new ToggleFastRotate());
@@ -174,7 +174,7 @@ public class RobotContainer {
     new JoystickButton(ampBartesta, 1).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, -0.1));
     new JoystickButton(ampBartesta, 2).onTrue(new ResetAmpBar(m_ampBarSubsystem));
     new JoystickButton(ampBartesta, 4).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.1));
-    new JoystickButton(ampBartesta, 5).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.35));
+    new JoystickButton(ampBartesta, 5).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, -0.35));
     new JoystickButton(ampBartesta, 6).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.35));
     new JoystickButton(ampBartesta, 7).onTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.stowPosition));
     new JoystickButton(ampBartesta, 8).onTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.ampPosition));

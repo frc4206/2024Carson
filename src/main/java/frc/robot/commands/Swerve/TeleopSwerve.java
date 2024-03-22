@@ -177,12 +177,12 @@ public class TeleopSwerve extends Command {
         double yAxis = (-controller.getRawAxis(translationAxis)*Constants.Swerve.translationMultiplier);
         double xAxis = (-controller.getRawAxis(strafeAxis)*Constants.Swerve.translationMultiplier);
 
-        yAxisDeadzoned = (Math.abs(yAxis) < Constants.OperatorConstants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(yAxis), Constants.OperatorConstants.stickDeadband, 1.0, 0.0, 1.0);
+        yAxisDeadzoned = (Math.abs(yAxis) < Constants.OperatorConstants.joystickDeadzone) ? 0 : s_Swerve.map(Math.abs(yAxis), Constants.OperatorConstants.joystickDeadzone, 1.0, 0.0, 1.0);
         yAxisDeadzoned = yAxis >= 0.0 ? yAxisDeadzoned : -yAxisDeadzoned;
         yAxisDeadzoned = yAxisDeadzoned * yAxisDeadzoned; //(Math.cos(Math.PI*(yAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;
         yAxisDeadzoned = yAxis >= 0.0 ? yAxisDeadzoned : -yAxisDeadzoned; 
 
-        xAxisDeadzoned = (Math.abs(xAxis) < Constants.OperatorConstants.stickDeadband) ? 0 : s_Swerve.map(Math.abs(xAxis), Constants.OperatorConstants.stickDeadband, 1.0, 0.0, 1.0);
+        xAxisDeadzoned = (Math.abs(xAxis) < Constants.OperatorConstants.joystickDeadzone) ? 0 : s_Swerve.map(Math.abs(xAxis), Constants.OperatorConstants.joystickDeadzone, 1.0, 0.0, 1.0);
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
         xAxisDeadzoned = xAxisDeadzoned * xAxisDeadzoned; //(Math.cos(Math.PI*(xAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;

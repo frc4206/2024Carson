@@ -289,15 +289,6 @@ public class SwerveSubsystem extends SubsystemBase {
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw().getValueAsDouble()) : Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble() - 180);
     }
 
-
-
-
-
-
-
-
-
-
     public void updatePoseEstimatorWithVisionBotPose() {
         double latency = Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0);
         // invalid LL data
@@ -347,7 +338,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
 
 
-         
+
 
 
 

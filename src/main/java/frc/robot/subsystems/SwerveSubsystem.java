@@ -15,6 +15,7 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
@@ -32,6 +33,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
     private final SwerveRequest.RobotCentric driveRobotCentricNoDeadband = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
+    double HeadingState;
 
     public SwerveSubsystem(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
@@ -70,6 +72,43 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
         withVelocityY(speeds.vyMetersPerSecond).
         withRotationalRate(speeds.omegaRadiansPerSecond).
         withDriveRequestType(DriveRequestType.Velocity));
+    }
+
+
+    public double goToNoteOutput() {
+        PIDController yawController = new PIDController (0, 0, 0);
+
+        return yawController.calculate(Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0));
+    }
+
+    public double goToSpeakerOutput() {
+        PIDController yawController = new PIDController (0, 0, 0);
+
+        return yawController.calculate(Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0));
+    }
+
+
+    public void fromChassisSpeedsAutoAlign(ChassisSpeeds speeds) {
+        if (HeadingState == 1) {
+            applyRequest1(() -> driveRobotCentricNoDeadband.
+            withVelocityX(speeds.vxMetersPerSecond).
+            withVelocityY(speeds.vyMetersPerSecond).
+            withRotationalRate(goToNoteOutput()).
+            withDriveRequestType(DriveRequestType.Velocity));
+        } else if (HeadingState == 2) {
+            applyRequest1(() -> driveRobotCentricNoDeadband.
+            withVelocityX(speeds.vxMetersPerSecond).
+            withVelocityY(speeds.vyMetersPerSecond).
+            withRotationalRate(goToSpeakerOutput()).
+            withDriveRequestType(DriveRequestType.Velocity));
+        } else if (HeadingState == 3) {
+            applyRequest1(() -> driveRobotCentricNoDeadband.
+            withVelocityX(speeds.vxMetersPerSecond).
+            withVelocityY(speeds.vyMetersPerSecond).
+            withRotationalRate(speeds.omegaRadiansPerSecond).
+            withDriveRequestType(DriveRequestType.Velocity));
+        }
+        
     }
 
     public void configurePathPlanner() {

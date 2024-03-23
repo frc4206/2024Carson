@@ -9,15 +9,10 @@ import frc.robot.COMBOS.Outtake;
 import frc.robot.COMBOS.Shoot;
 import frc.robot.COMBOS.ShooterToAmp;
 import frc.robot.COMBOS.ShooterToSpeaker;
-import frc.robot.commands.AmpBar.AmpBarToAmp;
 import frc.robot.commands.AmpBar.AmpBarToDuty;
 import frc.robot.commands.AmpBar.AmpBarToPosition;
-import frc.robot.commands.AmpBar.ResetAmpBar;
 import frc.robot.commands.Conveyor.ConveyorToDuty;
 import frc.robot.commands.Intake.SetupNote;
-import frc.robot.commands.LEDs.SetBlue;
-import frc.robot.commands.LEDs.SetGreen;
-import frc.robot.commands.LEDs.SetRed;
 import frc.robot.commands.Intake.IntakeToDuty;
 import frc.robot.commands.Pivot.ChangePivotPosition;
 import frc.robot.commands.Pivot.PivotToDuty;
@@ -25,6 +20,7 @@ import frc.robot.commands.Pivot.PivotToPosition;
 import frc.robot.commands.Pivot.ResetPivot;
 import frc.robot.commands.Pivot.ToggleAutoMode;
 import frc.robot.commands.SYSTEMCHECK.SystemCheck;
+import frc.robot.commands.Shooter.ShooterToDuty;
 import frc.robot.commands.Shooter.ShooterToVelocity;
 import frc.robot.commands.Swerve.PID_to_game_Piece;
 import frc.robot.commands.Swerve.TeleopSwerve;
@@ -106,8 +102,9 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("setupnote", new SetupNote(m_conveyorSubsystem, m_intakeSubsystem).withTimeout(0.8));
 
-    NamedCommands.registerCommand("fly", new ShooterToSpeaker(m_flywheelSubsystem));
-    NamedCommands.registerCommand("flytimed", new ShooterToSpeaker(m_flywheelSubsystem).withTimeout(1));
+    NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo));
+    NamedCommands.registerCommand("flytimed", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo).withTimeout(1));
+    NamedCommands.registerCommand("stopfly", new ShooterToDuty(m_flywheelSubsystem, 0).withTimeout(0.05));
     
     NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2.5));//2.5
     NamedCommands.registerCommand("Ai Pickup long", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 3));//2.5
@@ -140,19 +137,13 @@ public class RobotContainer {
     new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
     new POVButton(driva, 90).onTrue(new ToggleFastRotate());
 
-
     new JoystickButton(operata, 1).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.SUBWOOFER));
     new JoystickButton(operata, 2).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.PODIUM));
     new JoystickButton(operata, 3).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.UNDER));
     new JoystickButton(operata, 4).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.STAGE));
     m_climberSubsystem.setupController(operata, XboxController.Axis.kLeftY.value);
     
-
     new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_ampBarSubsystem, m_climberSubsystem, m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
-    new JoystickButton(operata2, 5).whileTrue(new SetBlue(m_leds));
-    new JoystickButton(operata2, 6).whileTrue(new SetGreen(m_leds));
-    new JoystickButton(operata2, 4).whileTrue(new SetRed(m_leds));
-
 
 
     
@@ -167,11 +158,9 @@ public class RobotContainer {
     new JoystickButton(shootertesta, 10).whileTrue(new IntakeToDuty(m_intakeSubsystem, 1));
 
     new JoystickButton(ampBartesta, 1).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, -0.1));
-    new JoystickButton(ampBartesta, 2).onTrue(new ResetAmpBar(m_ampBarSubsystem));
-    new JoystickButton(ampBartesta, 3).onTrue(new AmpBarToAmp(m_ampBarSubsystem));
     new JoystickButton(ampBartesta, 4).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.1));
-    new JoystickButton(ampBartesta, 5).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, -0.35));
-    new JoystickButton(ampBartesta, 6).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.35));
+    new JoystickButton(ampBartesta, 5).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, -0.5));
+    new JoystickButton(ampBartesta, 6).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.5));
     new JoystickButton(ampBartesta, 7).onTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.stowPosition));
     new JoystickButton(ampBartesta, 8).onTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.ampPosition));
   }
@@ -180,15 +169,16 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return new SequentialCommandGroup(
       new ParallelCommandGroup(
-        new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition).withTimeout(0.75),
-        new ShooterToSpeaker(m_flywheelSubsystem).withTimeout(0.75)
-      ).withTimeout(0.75),
+        new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition).withTimeout(1),
+        new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo).withTimeout(1)
+      ).withTimeout(1),
       new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(0.25),
+      new ShooterToDuty(m_flywheelSubsystem, 0).withTimeout(0.05),
 
-      new ParallelCommandGroup(
-        new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo),
-        new PathPlannerAuto("Amp")
-      )
+      // new ParallelCommandGroup(
+        // new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo),
+        new PathPlannerAuto("Source")
+      // )
     );
   }
 }

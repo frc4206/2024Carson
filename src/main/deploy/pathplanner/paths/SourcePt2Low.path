@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.743352426613611,
-        "y": 0.06243293709514308
+        "x": 5.072335845384281,
+        "y": -0.4874879108428046
       },
       "isLocked": false,
       "linkedName": "sourcept1end"
     },
     {
       "anchor": {
-        "x": 8.57857750803221,
-        "y": 2.5811798992012203
+        "x": 8.689496143837895,
+        "y": 2.3984405213466022
       },
       "prevControl": {
-        "x": 8.351870914268144,
-        "y": 2.463292470443223
+        "x": 8.462789550073829,
+        "y": 2.280553092588605
       },
       "nextControl": {
-        "x": 10.33526677447454,
-        "y": 3.4946583177565254
+        "x": 10.446185410280226,
+        "y": 3.3119189399019073
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,8 @@
         "y": 3.225026625491848
       },
       "prevControl": {
-        "x": 4.744995221731761,
-        "y": -0.5490890934808674
+        "x": 5.017297943158365,
+        "y": -0.9684352844778359
       },
       "nextControl": null,
       "isLocked": false,
@@ -65,7 +65,7 @@
   "eventMarkers": [
     {
       "name": "pickup1",
-      "waypointRelativePos": 0.95,
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "parallel",
         "data": {
@@ -94,8 +94,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

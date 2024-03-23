@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
@@ -49,7 +50,15 @@ public class ClimberSubsystem extends SubsystemBase {
 		return val >= 0.0d ? deadzoned : -deadzoned;
 	}
 
-	public double quadratic(double val) {
+	public double quadratic(double val){
+		if (val < 0){
+			return -(val * val);
+		} else {
+			return val * val;
+		}
+	}
+
+	public double cubic(double val) {
 		return val * val * val;
 	}
 
@@ -62,8 +71,8 @@ public class ClimberSubsystem extends SubsystemBase {
 		double motorSetSpeed = 0.0d;
 
 		// trigger input
-		double rightTriggerSpeed = this.controller.getRightTriggerAxis();
-		double leftTriggerSpeed = this.controller.getLeftTriggerAxis();
+		double rightTriggerSpeed = quadratic(-this.controller.getRightTriggerAxis());
+		double leftTriggerSpeed = quadratic(this.controller.getLeftTriggerAxis());
 
 		// joystick input, negative because y axis on XBoxController is upside down
 		double joystickSpeed = -this.controller.getRawAxis(this.motorAxis);
@@ -85,7 +94,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		// if nothing set, safe to use joystick input
 		if (motorSetSpeed == 0.0d && joystickSpeed != 0.0d) {
-			joystickSpeed = quadratic(joystickSpeed); // apply response curve to user input
+			joystickSpeed = cubic(joystickSpeed); // apply response curve to user input
 			motorSetSpeed = joystickSpeed;
 		}
 
@@ -116,5 +125,6 @@ public class ClimberSubsystem extends SubsystemBase {
 		// set motor
 		climberMotor.set(motorSetSpeed);
 
+		SmartDashboard.putNumber("climberCurrent", climberMotor.getOutputCurrent());
 	}
 }

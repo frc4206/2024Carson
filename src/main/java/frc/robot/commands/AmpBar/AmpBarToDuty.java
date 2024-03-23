@@ -5,6 +5,7 @@
 package frc.robot.commands.AmpBar;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.GlobalVariables;
 import frc.robot.subsystems.AmpBarSubsystem;
 
 public class AmpBarToDuty extends Command {
@@ -23,7 +24,23 @@ public class AmpBarToDuty extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ampBar.ampBarToDuty(m_desiredDuty);
+    if (!GlobalVariables.AmpBar.ampBarAtLimitSwitch){
+      m_ampBar.ampBarToDuty(m_desiredDuty);
+    } else {
+      if (GlobalVariables.AmpBar.ampBarAtAmp){
+        if (m_desiredDuty < 0){
+          m_ampBar.ampBarToDuty(m_desiredDuty);
+        } else {
+          m_ampBar.ampBarToDuty(0);
+        }
+      } else if (GlobalVariables.AmpBar.ampBarAtZero){
+        if (m_desiredDuty > 0){
+          m_ampBar.ampBarToDuty(m_desiredDuty);
+        } else {
+          m_ampBar.ampBarToDuty(0);
+        }
+      }
+    }
   }
 
   // Called once the command ends or is interrupted.

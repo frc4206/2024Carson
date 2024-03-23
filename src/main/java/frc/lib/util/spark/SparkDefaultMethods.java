@@ -37,6 +37,17 @@ public interface SparkDefaultMethods {
 
     /**
      * <p>
+     * Resets a motor's relative position.
+     * 
+     * @param encoder actual encoder object
+     * @param position position to set the encoder to
+     */
+    public default void resetEncoder(RelativeEncoder encoder, double position){
+        encoder.setPosition(position);
+    }
+
+    /**
+     * <p>
      * Communicates a desired position to the motor's PID controller and 
      * travels toward the desired position
      * 

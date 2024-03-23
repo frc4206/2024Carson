@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+
 /**
  * Utility class for initializing all configurations of a CANSparkFlex controller.
  */
@@ -12,7 +14,8 @@ public class SparkConfig {
     PIDConfig pidConfig;
     FeedbackConfig feedbackConfig;
     CANSparkFlex motor;
-    RelativeEncoder encoder;
+    RelativeEncoder relativeEncoder;
+    DutyCycleEncoder absoluteEncoder;
     SparkPIDController pidController;
     boolean shouldRestore;
     boolean shouldBurn;
@@ -56,7 +59,8 @@ public class SparkConfig {
      */
     public void configureController(CANSparkFlex motor){
         this.motor = motor;
-        this.encoder = null;
+        this.relativeEncoder = null;
+        this.absoluteEncoder = null;
         this.pidController = null;
     } 
 
@@ -65,7 +69,18 @@ public class SparkConfig {
      */
     public void configureController(CANSparkFlex motor, RelativeEncoder encoder, SparkPIDController pidController){
         this.motor = motor;
-        this.encoder = encoder;
+        this.relativeEncoder = encoder;
+        this.absoluteEncoder = null;
+        this.pidController = pidController;
+    }
+
+    /**
+     * Configures the motor controller to be accessed by the applyConfig() method.
+     */
+    public void configureController(CANSparkFlex motor, DutyCycleEncoder absoluteEncoder, SparkPIDController pidController){
+        this.motor = motor;
+        this.relativeEncoder = null;
+        this.absoluteEncoder = absoluteEncoder;
         this.pidController = pidController;
     }
 
@@ -108,7 +123,9 @@ public class SparkConfig {
             motor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
         }
 
-        pidController.setFeedbackDevice(encoder);
+        if (relativeEncoder != null){
+            pidController.setFeedbackDevice(relativeEncoder);
+        }
 
         pidController.setP(pidConfig.kP);
         pidController.setI(pidConfig.kI);

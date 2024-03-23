@@ -7,6 +7,8 @@ public class GlobalVariables {
 
     public static class AmpBar{
         public static double ampBarPosition = 0;
+        public static boolean ampBarAtLimitSwitch = false;
+        public static boolean ampBarAtAmp = false;
         public static boolean ampBarAtZero = false;
     }
 

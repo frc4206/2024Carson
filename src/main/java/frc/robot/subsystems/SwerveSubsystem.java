@@ -86,7 +86,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 new PIDConstants(Constants.Swerve.angleKP, 0.0, 0.0), // Rotation PID constants
                 Constants.Swerve.maxSpeed, // Max module speed, in m/s
                 Constants.Swerve.wheelBase, // Drive base radius in meters. Distance from robot center to furthest module.
-                new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
+                new ReplanningConfig(true, false) // Default path replanning config. See the API for the options here
             ),
             () -> {
                 // Boolean supplier that controls when the path will be mirrored for the red alliance
@@ -123,21 +123,13 @@ public class SwerveSubsystem extends SubsystemBase {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
     } 
-    
-    public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
-        
-        for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(desiredStates[mod.moduleNumber], false);
-        }
-    }    
 
     public void setModuleSpeeds(ChassisSpeeds desiredSpeeds){
         SwerveDriveKinematics.desaturateWheelSpeeds(Constants.Swerve.swerveKinematics.toSwerveModuleStates(desiredSpeeds), Constants.Swerve.maxSpeed);
 
         int i = 0;
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(Constants.Swerve.swerveKinematics.toSwerveModuleStates(desiredSpeeds)[i], true);
+            mod.setDesiredState(Constants.Swerve.swerveKinematics.toSwerveModuleStates(desiredSpeeds)[i], false);
             i += 1;
         }
     }
@@ -528,7 +520,7 @@ public class SwerveSubsystem extends SubsystemBase {
         }
 
         GlobalVariables.Position.distanceToSpeaker = Math.sqrt(((Limelight.limelightshooter.aprilTagResult[0]) * (Limelight.limelightshooter.aprilTagResult[0]))    +      ((Limelight.limelightshooter.aprilTagResult[2]) * (Limelight.limelightshooter.aprilTagResult[2])));
-        GlobalVariables.Pivot.desiredPosition = 16*Math.pow(.755, GlobalVariables.Position.distanceToSpeaker);
+        GlobalVariables.Pivot.desiredPosition = 15.25*Math.pow(.755, GlobalVariables.Position.distanceToSpeaker);
 
         SmartDashboard.putNumber("distance to speaker", GlobalVariables.Position.distanceToSpeaker);
         SmartDashboard.putNumberArray("limelight distance array", Limelight.limelightshooter.aprilTagResult);

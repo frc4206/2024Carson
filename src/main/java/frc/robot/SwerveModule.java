@@ -55,7 +55,7 @@ public class SwerveModule {
         }
         else {
             double velocity = Conversions.WheelMPStoMotorRPS(desiredState.speedMetersPerSecond, Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio);
-            mDriveMotor.setControl(velocityControl.withVelocity(velocity).withFeedForward(0.0008));
+            mDriveMotor.setControl(velocityControl.withVelocity(velocity).withFeedForward(0));
         }
     }
 

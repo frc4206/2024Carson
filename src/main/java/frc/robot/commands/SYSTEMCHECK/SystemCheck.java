@@ -7,7 +7,6 @@ package frc.robot.commands.SYSTEMCHECK;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.commands.AmpBar.AmpBarToAmp;
 import frc.robot.commands.AmpBar.AmpBarToPosition;
 import frc.robot.commands.Conveyor.ConveyorToDuty;
 import frc.robot.commands.Intake.IntakeToDuty;
@@ -30,8 +29,8 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class SystemCheck extends SequentialCommandGroup {
   public SystemCheck(AmpBarSubsystem ampBar, ClimberSubsystem climber, ConveyorSubsystem conveyor, FlywheelSubsystem flywheel, IntakeSubsystem intake, PivotSubsystem pivot, SwerveSubsystem swerve, XboxController controller) {
     addCommands(
+      new AmpBarToPosition(ampBar, Constants.AmpBar.ampPosition).withTimeout(0.75),
       new AmpBarToPosition(ampBar, Constants.AmpBar.stowPosition).withTimeout(0.75),
-      new AmpBarToAmp(ampBar).withTimeout(0.75),
       new IntakeToDuty(intake, Constants.Feedback.defaultMinDuty).withTimeout(1),
       new IntakeToDuty(intake, Constants.Feedback.defaultMaxDuty).withTimeout(1),
       new ConveyorToDuty(conveyor, Constants.Feedback.defaultMinDuty).withTimeout(1),

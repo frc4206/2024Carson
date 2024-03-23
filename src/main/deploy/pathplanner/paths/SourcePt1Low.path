@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 8.05261821049958,
-        "y": 0.7675271490893864
+        "x": 8.660246869187326,
+        "y": 0.10724734038541887
       },
       "prevControl": {
-        "x": 3.3535422834250292,
-        "y": 0.7675271490893864
+        "x": 3.961365106769067,
+        "y": 0.06453023345434676
       },
       "nextControl": {
-        "x": 9.30261821049958,
-        "y": 0.7675271490893864
+        "x": 10.805193676895666,
+        "y": 0.12674685681912967
       },
       "isLocked": false,
       "linkedName": "sourcebottompiece"
@@ -36,8 +36,8 @@
         "y": 3.225026625491848
       },
       "prevControl": {
-        "x": 4.806179787798173,
-        "y": 0.232499587806193
+        "x": 5.7499935530179815,
+        "y": -0.3885560514116535
       },
       "nextControl": null,
       "isLocked": false,
@@ -65,7 +65,7 @@
   "eventMarkers": [
     {
       "name": "pickup1",
-      "waypointRelativePos": 0.95,
+      "waypointRelativePos": 0.9,
       "command": {
         "type": "parallel",
         "data": {
@@ -94,8 +94,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -107,7 +107,7 @@
   "reversed": false,
   "folder": "Source",
   "previewStartingState": {
-    "rotation": -52.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

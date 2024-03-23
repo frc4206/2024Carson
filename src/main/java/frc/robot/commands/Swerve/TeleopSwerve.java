@@ -174,8 +174,8 @@ public class TeleopSwerve extends Command {
 
         double yAxisDeadzoned = 0;
         double xAxisDeadzoned = 0;
-        double yAxis = (-controller.getRawAxis(translationAxis)*Constants.Swerve.translationMultiplier);
-        double xAxis = (-controller.getRawAxis(strafeAxis)*Constants.Swerve.translationMultiplier);
+        double yAxis = -controller.getRawAxis(translationAxis);//*Constants.Swerve.translationMultiplier);
+        double xAxis = -controller.getRawAxis(strafeAxis);//*Constants.Swerve.translationMultiplier);
 
         yAxisDeadzoned = (Math.abs(yAxis) < Constants.OperatorConstants.joystickDeadzone) ? 0 : s_Swerve.map(Math.abs(yAxis), Constants.OperatorConstants.joystickDeadzone, 1.0, 0.0, 1.0);
         yAxisDeadzoned = yAxis >= 0.0 ? yAxisDeadzoned : -yAxisDeadzoned;
@@ -186,6 +186,8 @@ public class TeleopSwerve extends Command {
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
         xAxisDeadzoned = xAxisDeadzoned * xAxisDeadzoned; //(Math.cos(Math.PI*(xAxisDeadzoned + 1.0d)/2.0d)) + 0.5d;
         xAxisDeadzoned = xAxis >= 0.0 ? xAxisDeadzoned : -xAxisDeadzoned;
+        yAxisDeadzoned = yAxisDeadzoned > 1 ? 1 : yAxisDeadzoned;
+        xAxisDeadzoned = xAxisDeadzoned > 1 ? 1 : xAxisDeadzoned;
 
         translation = new Translation2d(yAxisDeadzoned, xAxisDeadzoned).times(Constants.Swerve.maxSpeed);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity * GlobalVariables.Swerve.rotationMultiplier;
@@ -202,8 +204,8 @@ public class TeleopSwerve extends Command {
         // SmartDashboard.putNumber("yawSet", yawSet);
         // SmartDashboard.putNumber("yawOutput", outputYaw);
         // SmartDashboard.putNumber("yawError", errorYaw);
-        GlobalVariables.Swerve.translationX = yAxisDeadzoned;
-        GlobalVariables.Swerve.translationY = xAxisDeadzoned;
+        GlobalVariables.Swerve.translationX = yAxisDeadzoned*Constants.Swerve.maxSpeed;
+        GlobalVariables.Swerve.translationY = xAxisDeadzoned*Constants.Swerve.maxSpeed;
 
         SmartDashboard.putNumber("translationX", GlobalVariables.Swerve.translationX);
         SmartDashboard.putNumber("translationY", GlobalVariables.Swerve.translationY);

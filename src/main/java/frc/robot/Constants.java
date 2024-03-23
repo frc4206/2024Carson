@@ -26,10 +26,13 @@ public final class Constants {
 	public static final String canivoreName = "Canivore1";
 	
 	public static final class AmpBar {
-		public static final double stowPosition = 23;
-		public static final double ampPosition = 0;
+		public static final double stowPosition = 0;
+		public static final double ampPosition = 1/3;
 
-		public static final int ampBarLimitSwitchID = 2;
+		public static final int ampLimitSwitchID = 1;
+		public static final int hallZeroLimitSwitchID = 2;
+		public static final int zeroLimitSwitchID = 3;
+
 
 		public static final int ampBarMotorID = 40;
 		public static final boolean ampBarIsInverted = false;
@@ -67,7 +70,7 @@ public final class Constants {
 		public static final int climberMotorID = 35;
 		public static final boolean climberIsInverted = false;
 		public static final IdleMode idleMode = IdleMode.kBrake;
-		public static final int climberCurrentLimit = 60;
+		public static final int climberCurrentLimit = 100;
 
 		public static final int servoID = 1;
 		
@@ -136,8 +139,8 @@ public final class Constants {
 
 	public static final class Flywheel {
 		public static final double speakerVelo = 6500;
-		public static final double topAmpVelo = 3800;
-		public static final double bottomAmpVelo = 2325;
+		public static final double topAmpVelo = 3850;
+		public static final double bottomAmpVelo = 2350;
 		
 		public static final int topFlywheelMotorID = 25;
 		public static final boolean topIsInverted = true;
@@ -381,8 +384,8 @@ public final class Constants {
 		public static final double driveKA = (0);
 
 		/* Swerve Profiling Values */
-		public static final double maxSpeed = 5.5;
-		public static final double maxAngularVelocity = 4.25;
+		public static final double maxSpeed = 6.22; //6.00 when FOC, 6.22 when non-FOC
+		public static final double maxAngularVelocity = 4;
 
 		/* Neutral Modes */
 		public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;

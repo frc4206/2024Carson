@@ -12,46 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "fly"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "pivotsub"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "fly"
-                }
-              },
               {
                 "type": "sequential",
                 "data": {
@@ -63,13 +26,19 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "flytimed"
+                      }
+                    },
+                    {
                       "type": "parallel",
                       "data": {
                         "commands": [
                           {
                             "type": "named",
                             "data": {
-                              "name": "shoot"
+                              "name": "shootshort"
                             }
                           },
                           {
@@ -79,6 +48,12 @@
                             }
                           }
                         ]
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "stopfly"
                       }
                     },
                     {
@@ -88,13 +63,19 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "flytimed"
+                      }
+                    },
+                    {
                       "type": "parallel",
                       "data": {
                         "commands": [
                           {
                             "type": "named",
                             "data": {
-                              "name": "shoot"
+                              "name": "shootshort"
                             }
                           },
                           {
@@ -107,9 +88,21 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "stopfly"
+                      }
+                    },
+                    {
                       "type": "path",
                       "data": {
                         "pathName": "SourcePickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "flytimed"
                       }
                     },
                     {
@@ -119,7 +112,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "shoot"
+                              "name": "shootshort"
                             }
                           },
                           {
@@ -129,6 +122,12 @@
                             }
                           }
                         ]
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "stopfly"
                       }
                     }
                   ]

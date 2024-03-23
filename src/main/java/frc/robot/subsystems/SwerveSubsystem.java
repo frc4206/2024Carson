@@ -6,23 +6,25 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import frc.robot.SwerveModule;
-import frc.robot.Constants;
-import frc.robot.GlobalVariables;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.GlobalVariables;
+import frc.robot.SwerveModule;
 
 
 public class SwerveSubsystem extends SubsystemBase {
@@ -288,178 +290,84 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
 
-    // public void resetWithApriltags(SwerveDriveOdometry swerveOdo, SwerveDrivePoseEstimator poseEst, SwerveModulePosition[] modPos, Rotation2d yaw) {
-    //     double distanceToApriTag = 0;
-    //     if (Limelight.limelightshooter.GetPipeline() == 2) {
-    //         double[] rawcords = Limelight.limelightshooter.fieldResult;
-    //         Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
-    //         AprilCords = fieldcords;
-            
-    //         if (Limelight.limelightshooter.HasTarget() != 0) {
-    //             distanceToApriTag = Math.abs(Math.sqrt(Limelight.limelightshooter.aprilTagResult[2] * Limelight.limelightshooter.aprilTagResult[2]) + (Limelight.limelightshooter.aprilTagResult[1] * Limelight.limelightshooter.aprilTagResult[1]));
-    //             resetOdometry(fieldcords);
-    //             poseEst.addVisionMeasurement(fieldcords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
 
-            
-            
-    //         if (distanceToApriTag < 4) {
-    //             if (!aprilInit) {
-    //                 aprilInit = true;
-    //                 aprilStartTrackTime = Timer.getFPGATimestamp();
-    //                 previousPose = swerveOdo.getPoseMeters();
-    //             }
 
-    //             aprilCurrTrackTime = Timer.getFPGATimestamp() - aprilStartTrackTime;
-    //             swerveOdo.resetPosition(yaw, modPos, AprilCords);
-    //             double yError = Math.abs(swerveOdo.getPoseMeters().getY()) - Math.abs(previousPose.getY());
-    //             double xError = Math.abs(swerveOdo.getPoseMeters().getX()) - Math.abs(previousPose.getX());
-    //             SmartDashboard.putNumber("xError", xError);
-    //             SmartDashboard.putNumber("yError", yError);
 
-    //             if (yError < maxJitter && xError < maxJitter) {
-    //                 if (aprilCurrTrackTime > .3) {
-    //                     poseEst.resetPosition(yaw, modPos, AprilCords);
-    //                     System.out.println(" RESETI SPAGETTI");
-    //                 }
-    //                 //if (yError + xError > .2 || aprilCurrTrackTime > 5) {
-    //                 //    aprilCurrTrackTime = 0;
-    //                 //    aprilInit = false;
-    //                 //}
-    //             } else {
-    //                 aprilCurrTrackTime = 0;
-    //                 aprilInit = false;
-    //             }
-    //         }
-    //         SmartDashboard.putNumber("distance to apriltag", distanceToApriTag);
-    //         previousPose = swerveOdo.getPoseMeters();
-    //         } else {
-    //             aprilInit = false;
-    //             aprilCurrTrackTime = 0;
-    //             aprilStartTrackTime = 0;
-    //             badpose = true;
-                
-    //     }
-    //     } 
-    //     SmartDashboard.putNumber("AprilTag time since tracking", aprilCurrTrackTime);
-    // }
 
-    // public void resetOdometryLLFieldCords() {
-    //     double distanceToApriTag = 0;
-    //     if (Limelight.limelightshooter.GetPipeline() == 2) {
-    //         double[] rawcords = Limelight.limelightshooter.fieldResult;
-    //         Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
-    //         AprilCords = fieldcords;
-            
-    //         if (Limelight.limelightshooter.HasTarget() != 0) {
-    //             distanceToApriTag = Math.abs(Math.sqrt(Limelight.limelightshooter.aprilTagResult[2] * Limelight.limelightshooter.aprilTagResult[2]) + (Limelight.limelightshooter.aprilTagResult[1] * Limelight.limelightshooter.aprilTagResult[1]));
-    //             resetOdometry(fieldcords);
-    //             poseEstimator.addVisionMeasurement(fieldcords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
 
-    //         if (!aprilInit) {
-    //             aprilInit = true;
-    //             aprilStartTrackTime = Timer.getFPGATimestamp();
-    //             previousPose = swerveOdometry.getPoseMeters();
-    //         }
-    //         aprilCurrTrackTime = Timer.getFPGATimestamp() - aprilStartTrackTime;
 
-    //         if ( distanceToApriTag < 3 && aprilCurrTrackTime > .3) {
-    //             //swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
-    //             //poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
-    //         }
-    //         else if (distanceToApriTag < 4) {
-    //             swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
-    //             double yError = Math.abs(swerveOdometry.getPoseMeters().getY() - previousPose.getY());
-    //             double xError = Math.abs(swerveOdometry.getPoseMeters().getX() - previousPose.getX());
-    //             if ( ((yError < maxJitter && aprilCurrTrackTime > .3) || (Math.abs(swerveOdometry.getPoseMeters().getY() - poseEstimator.getEstimatedPosition().getY()) < .5 && yError < maxJitter && aprilCurrTrackTime > .1))       &&          (xError < .3 && aprilCurrTrackTime > .3) || (Math.abs(swerveOdometry.getPoseMeters().getX() - poseEstimator.getEstimatedPosition().getX()) < .5 && xError < maxJitter && aprilCurrTrackTime > .1)) {
-    //                 poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
-    //                 if (yError + xError > .2 || aprilCurrTrackTime > 5) {
-    //                     aprilCurrTrackTime = 0;
-    //                     aprilInit = false;
-    //                 }
-    //             }
-    //         }
-    //         SmartDashboard.putNumber("distance to apriltag", distanceToApriTag);
-    //         previousPose = AprilCords;
-    //         } else {
-    //             aprilInit = false;
-    //             aprilCurrTrackTime = 0;
-    //             aprilStartTrackTime = 0;
-    //             badpose = true;
-                
-    //     }
-    //     } 
-    //     SmartDashboard.putNumber("AprilTag time since tracking", aprilCurrTrackTime);
-    // }
 
-    // public void resetOdometryRED() {
-    //     double distanceToApriTag = 0;
-    //     if (Limelight.limelightshooter.GetPipeline() == 2) {
-    //         double[] rawcords = Limelight.limelightshooter.fieldResult;
-    //         Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYaw());
-    //         AprilCords = fieldcords;
-            
-    //         if (Limelight.limelightshooter.HasTarget() != 0) {
-    //             distanceToApriTag = Math.abs(Math.sqrt(Limelight.limelightshooter.aprilTagResult[2] * Limelight.limelightshooter.aprilTagResult[2]) + (Limelight.limelightshooter.aprilTagResult[1] * Limelight.limelightshooter.aprilTagResult[1]));
-    //             resetOdometry(fieldcords);
-    //             poseInvertEstimator.addVisionMeasurement(fieldcords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
 
-    //         if (!aprilInit) {
-    //             aprilInit = true;
-    //             aprilStartTrackTime = Timer.getFPGATimestamp();
-    //             previousPose = swerveInvertOdometry.getPoseMeters();
-    //         }
-    //         aprilCurrTrackTime = Timer.getFPGATimestamp() - aprilStartTrackTime;
+    public void updatePoseEstimatorWithVisionBotPose() {
+        double latency = Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0);
+        // invalid LL data
+        Pose2d llpose = new Pose2d(Limelight.limelightshooter.fieldResult[0], Limelight.limelightshooter.fieldResult[1], getYaw());
+        if (llpose.getX() == 0.0) {
+        return;
+        }
 
-    //         if ( distanceToApriTag < 3 && aprilCurrTrackTime > .3) {
-    //             //swerveOdometry.resetPosition(getYaw(), getModulePositions(), AprilCords);
-    //             //poseEstimator.resetPosition(getYaw(), getModulePositions(), AprilCords);
-    //         }
-    //         else if (distanceToApriTag < 4) {
-    //             swerveInvertOdometry.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
-    //             double yError = Math.abs(swerveInvertOdometry.getPoseMeters().getY() - previousPose.getY());
-    //             double xError = Math.abs(swerveInvertOdometry.getPoseMeters().getX() - previousPose.getX());
-    //             if ( yError < maxJitter  &&  xError < maxJitter  && aprilCurrTrackTime > 0.3) {
-    //                 poseInvertEstimator.resetPosition(getYawInverted(), getModulePositionsInverted(), AprilCords);
-    //                 if (yError + xError > .2 || Math.abs(swerveInvertOdometry.getPoseMeters().getY() - poseInvertEstimator.getEstimatedPosition().getY()) < .5 ) {
-    //                     aprilCurrTrackTime = 0;
-    //                     aprilInit = false;
-    //                 }
-    //             }
-    //         }
-    //         SmartDashboard.putNumber("distance to apriltag", distanceToApriTag);
-    //         previousPose = AprilCords;
-    //         } else {
-    //             aprilInit = false;
-    //             aprilCurrTrackTime = 0;
-    //             aprilStartTrackTime = 0;
-    //             badpose = true;
-                
-    //     }
-    //     } 
-    //     SmartDashboard.putNumber("AprilTag time since tracking", aprilCurrTrackTime);
-    // }
+        // distance from current pose to vision estimated pose
+        double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
+            .getDistance(llpose.getTranslation());
 
-    // public void resetOdometryLLFieldCordsInverted(){
-    //     boolean reset = false;
-    //     if (Limelight.limelightshooter.GetPipeline() == 2 && Math.abs(Limelight.limelightshooter.aprilTagResult[2]) < 3.5) {
-    //         double[] rawcords = Limelight.limelightshooter.fieldResult;
-    //         Pose2d fieldcords = new Pose2d(rawcords[0], rawcords[1], getYawInverted());
-    //         AprilCords = fieldcords;
-    //         if (Limelight.limelightshooter.HasTarget() != 0) {
-    //             resetOdometryInverted(fieldcords);
-    //             reset = true;
-    //             poseInvertEstimator.addVisionMeasurement(fieldcords, Limelight.limelightshooter.limelightTable.getEntry("tl").getDouble(0));
-    //             //poseInvertEstimator.resetPosition(getYawInverted(), getModulePositions(), fieldcords);
-    //             SmartDashboard.putBoolean("is resetting", reset);
-    //             if (Math.abs(Math.sqrt(Limelight.limelightshooter.aprilTagResult[2] * Limelight.limelightshooter.aprilTagResult[2]) + (Limelight.limelightshooter.aprilTagResult[1] * Limelight.limelightshooter.aprilTagResult[1])) < 3) {
-    //                 swerveInvertOdometry.resetPosition(getYaw(), getModulePositionsInverted(), AprilCords);
-    //                 poseInvertEstimator.resetPosition(getYawInverted(), getModulePositions(), AprilCords);
-    //             }
-    //             SmartDashboard.putNumber("distance to apriltag", Math.abs(Math.sqrt(Limelight.limelightshooter.aprilTagResult[2] * Limelight.limelightshooter.aprilTagResult[2]) + (Limelight.limelightshooter.aprilTagResult[1] * Limelight.limelightshooter.aprilTagResult[1])));
-    //         }
-    //     }
-    // }
+        if (Limelight.limelightshooter.HasTarget() == 1) {
+        double xyStds = 0.5;
+        double degStds = 0;
 
+
+
+
+
+        //Changes standard deviation based on number of tag and distance
+
+
+
+        /*
+        // multiple targets detected
+        if (m_visionSystem.getNumberOfTargetsVisible() >= 2) {
+            xyStds = 0.5;
+            degStds = 6;
+        }
+        // 1 target with large area and close to estimated pose
+        else if (m_visionSystem.getBestTargetArea() > 0.8 && poseDifference < 0.5) {
+            xyStds = 1.0;
+            degStds = 12;
+        }
+        // 1 target farther away and estimated pose is close
+        else if (m_visionSystem.getBestTargetArea() > 0.1 && poseDifference < 0.3) {
+            xyStds = 2.0;
+            degStds = 30;
+        }
+        // conditions don't match to add a vision measurement
+        else {
+            return;
+        }
+         */
+
+
+
+
+         
+
+
+
+        poseEstimator.setVisionMeasurementStdDevs(
+            VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds)));
+        poseEstimator.addVisionMeasurement(llpose,
+            Timer.getFPGATimestamp() - latency);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    
     public double map(double val, double inMin, double inMax, double outMin, double outMax) {
         return ((val-inMin)*(outMax-outMin)
             /(inMax-inMin))

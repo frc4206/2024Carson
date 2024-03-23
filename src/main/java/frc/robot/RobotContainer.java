@@ -31,7 +31,7 @@ import frc.robot.commands.Swerve.TogglePickup;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDS;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -65,7 +65,7 @@ public class RobotContainer {
   public final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
   public final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
-  public final LEDS m_leds = new LEDS();
+  public final LEDs m_leds = new LEDs();
   public final Limelight m_Limelight = new Limelight();
 
   private static final int translationAxis = XboxController.Axis.kLeftY.value;

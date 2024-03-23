@@ -7,8 +7,6 @@ package frc.robot;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 
-import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -34,10 +32,10 @@ public class Robot extends LoggedRobot {
 		setUseTiming(false);
 		Logger.start(); 
 		m_robotContainer = new RobotContainer();
-		Mod0.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[0].getCanCoder().getDegrees();
-		Mod1.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[1].getCanCoder().getDegrees();
-		Mod2.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[2].getCanCoder().getDegrees();
-		Mod3.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[3].getCanCoder().getDegrees();
+		// Mod0.angleOffset = m_robotContainer.m_swerveSubsystem.getModule(0).getCANcoder().getDegrees();
+		// Mod1.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[1].getCanCoder().getDegrees();
+		// Mod2.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[2].getCanCoder().getDegrees();
+		// Mod3.angleOffset = m_robotContainer.m_swerveSubsystem.mSwerveMods[3].getCanCoder().getDegrees();
 		m_robotContainer.m_Limelight.ChangePipelines(2);
 	}
 
@@ -59,10 +57,10 @@ public class Robot extends LoggedRobot {
 
 	@Override
 	public void disabledInit() {
-		for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
-			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-			mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
-		}
+		// for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
+		// 	mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+		// 	mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
+		// }
 	}
 
 	@Override
@@ -95,10 +93,10 @@ public class Robot extends LoggedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-		for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
-			mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-			mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
-		}
+		// for (SwerveModule mod : m_robotContainer.m_swerveSubsystem.mSwerveMods){
+		// 	mod.ctreConfigs.swerveDriveFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+		// 	mod.mDriveMotor.getConfigurator().apply(mod.ctreConfigs.swerveDriveFXConfig);
+		// }
 	}
 
 	/** This function is called periodically during operator control. */

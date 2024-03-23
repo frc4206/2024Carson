@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Swerve;
 
 public class PID_Distance_Object_Detection extends Command {
     /** Creates a new PID_DistanceOdometry2. */
@@ -20,7 +20,7 @@ public class PID_Distance_Object_Detection extends Command {
     private boolean openLoop;
     private boolean isFinished;
     
-    private SwerveSubsystem s_Swerve;
+    private Swerve s_Swerve;
 
     private double x_set;
     private double y_set;
@@ -36,7 +36,7 @@ public class PID_Distance_Object_Detection extends Command {
 
     double Go_to_Target_Distance;
 
-    public PID_Distance_Object_Detection(SwerveSubsystem s_Swerve, boolean fieldRelative, boolean openLoop, double x_set, double y_set, double yaw_set, double timeout, double Go_to_Target_Distance) {
+    public PID_Distance_Object_Detection(Swerve s_Swerve, boolean fieldRelative, boolean openLoop, double x_set, double y_set, double yaw_set, double timeout, double Go_to_Target_Distance) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
         this.fieldRelative = fieldRelative;

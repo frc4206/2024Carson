@@ -21,13 +21,13 @@ import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Swerve;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SystemCheck extends SequentialCommandGroup {
-  public SystemCheck(AmpBarSubsystem ampBar, ClimberSubsystem climber, ConveyorSubsystem conveyor, FlywheelSubsystem flywheel, IntakeSubsystem intake, PivotSubsystem pivot, SwerveSubsystem swerve, XboxController controller) {
+  public SystemCheck(AmpBarSubsystem ampBar, ClimberSubsystem climber, ConveyorSubsystem conveyor, FlywheelSubsystem flywheel, IntakeSubsystem intake, PivotSubsystem pivot, Swerve swerve, XboxController controller) {
     addCommands(
       new AmpBarToPosition(ampBar, Constants.AmpBar.ampPosition).withTimeout(0.75),
       new AmpBarToPosition(ampBar, Constants.AmpBar.stowPosition).withTimeout(0.75),

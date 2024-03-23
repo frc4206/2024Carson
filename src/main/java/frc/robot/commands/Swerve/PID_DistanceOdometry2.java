@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Swerve;
 
 public class PID_DistanceOdometry2 extends Command {
 	private double rotation;
@@ -20,7 +20,7 @@ public class PID_DistanceOdometry2 extends Command {
 	private boolean openLoop;
 	private boolean isFinished = false;
 	
-	private SwerveSubsystem s_Swerve;
+	private Swerve s_Swerve;
 
 	private double x_set;
 	private double y_set;
@@ -44,7 +44,7 @@ public class PID_DistanceOdometry2 extends Command {
 	double yaw_error;
 
 	/** Creates a new PID_DistanceOdometry2. */
-	public PID_DistanceOdometry2(SwerveSubsystem s_Swerve, boolean fieldRelative, boolean openLoop, double x_set, double y_set, double yaw_set, double timeout, boolean stop) {
+	public PID_DistanceOdometry2(Swerve s_Swerve, boolean fieldRelative, boolean openLoop, double x_set, double y_set, double yaw_set, double timeout, boolean stop) {
 		this.s_Swerve = s_Swerve;
 		addRequirements(s_Swerve);
 		this.fieldRelative = fieldRelative;

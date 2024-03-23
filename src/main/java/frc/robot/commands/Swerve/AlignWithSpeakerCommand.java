@@ -12,18 +12,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.SwerveModule;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Swerve;
 
 public class AlignWithSpeakerCommand extends Command {
 	/** Creates a new PID_DistanceOdometry2. */
 	private double rotation;
 	private Translation2d translation;
 	
-	private SwerveSubsystem s_Swerve;
+	private Swerve s_Swerve;
 
 	public PIDController pidyaw = new PIDController(0.01, Constants.Swerve.toGamePieceYawKI, Constants.Swerve.toGamePieceYawKD);
 
-	public AlignWithSpeakerCommand(SwerveSubsystem s_Swerve) {
+	public AlignWithSpeakerCommand(Swerve s_Swerve) {
 		this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
         for(SwerveModule mod : s_Swerve.mSwerveMods) {

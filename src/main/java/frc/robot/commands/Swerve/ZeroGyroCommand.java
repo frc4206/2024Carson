@@ -5,13 +5,13 @@
 package frc.robot.commands.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Swerve;
 
 public class ZeroGyroCommand extends Command {
-	private SwerveSubsystem swerveSubsystem;
+	private Swerve swerveSubsystem;
 	private boolean isfinished = false;
 	
-	public ZeroGyroCommand(SwerveSubsystem m_swerveSubsystem) {
+	public ZeroGyroCommand(Swerve m_swerveSubsystem) {
 		swerveSubsystem = m_swerveSubsystem;
 		addRequirements(swerveSubsystem);
 	}

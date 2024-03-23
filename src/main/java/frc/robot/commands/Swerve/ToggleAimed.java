@@ -5,12 +5,12 @@
 package frc.robot.commands.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Swerve;
 
 public class ToggleAimed extends Command {
-  private SwerveSubsystem m_swerve;
+  private Swerve m_swerve;
   private boolean isFinished = false;
-  public ToggleAimed(SwerveSubsystem swerve) {
+  public ToggleAimed(Swerve swerve) {
     m_swerve = swerve;
     addRequirements(m_swerve);
   }

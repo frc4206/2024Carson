@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 
-public class LEDS extends SubsystemBase { 
+public class LEDs extends SubsystemBase { 
   private AddressableLED ledstrip;
   private AddressableLEDBuffer ledBuffer;
   boolean ledInit = false;
@@ -28,7 +28,7 @@ public class LEDS extends SubsystemBase {
   double shooterMaxError = 100;
   double endGameFlashCycleTime = .3;
 
-  public LEDS() {
+  public LEDs() {
     ledstrip = new AddressableLED(Constants.LEDS.LEDPort);
     ledBuffer = new AddressableLEDBuffer(Constants.LEDS.numLEDs);
     ledstrip.setBitTiming(Constants.LEDS.highZero, Constants.LEDS.lowZero, Constants.LEDS.highOne, Constants.LEDS.lowOne);

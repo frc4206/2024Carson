@@ -5,11 +5,11 @@
 package frc.robot.commands.LEDs;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.LEDS;
+import frc.robot.subsystems.LEDs;
 
 public class SetBlue extends Command {
-  private LEDS m_leds;
-  public SetBlue(LEDS leds) {
+  private LEDs m_leds;
+  public SetBlue(LEDs leds) {
     m_leds = leds;
     addRequirements(m_leds);
   }

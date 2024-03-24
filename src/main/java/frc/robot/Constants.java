@@ -255,7 +255,8 @@ public final class Constants {
 		public static final double podiumPosition = 3.900;
 		public static final double underPosition = 2.64;
 		public static final double stagePosition = 1.73;
-		public static final double subwooferPosition = 11;
+		public static final double subwooferPosition = 10.75;
+		public static final double passPosition = 8;
 		public static final double defaultPosition = 2;
 		
 		public static final double pivotkP = 0.15; 

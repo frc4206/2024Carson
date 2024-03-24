@@ -20,11 +20,11 @@ import frc.robot.commands.Pivot.PivotToDuty;
 import frc.robot.commands.Pivot.PivotToPosition;
 import frc.robot.commands.Pivot.ResetPivot;
 import frc.robot.commands.Pivot.ToggleAutoMode;
+import frc.robot.commands.Pivot.TogglePassMode;
 import frc.robot.commands.SYSTEMCHECK.SystemCheck;
 import frc.robot.commands.Shooter.ShooterToDuty;
 import frc.robot.commands.Shooter.ShooterToVelocity;
 import frc.robot.commands.Swerve.PID_to_game_Piece;
-import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ToggleAimed;
 import frc.robot.commands.Swerve.ToggleAmped;
 import frc.robot.commands.Swerve.ToggleFastRotate;
@@ -35,7 +35,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PivotSubsystem;
-import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 import frc.robot.subsystems.AmpBarSubsystem;
@@ -72,16 +71,11 @@ public class RobotContainer {
   public final LEDs m_leds = new LEDs();
   public final Limelight m_Limelight = new Limelight();
 
-  private static final int translationAxis = XboxController.Axis.kLeftY.value;
-  private static final int strafeAxis = XboxController.Axis.kLeftX.value;
-  private static final int rotationAxis = XboxController.Axis.kRightX.value;
-
-  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
-  private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps;
+  private double MaxAngularRate = 1.5 * Math.PI;
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-                                                               // driving in open loop
+      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
@@ -95,12 +89,15 @@ public class RobotContainer {
     NamedCommands.registerCommand("pivotsub", new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition).withTimeout(0.25));
     NamedCommands.registerCommand("pivotamp1", new PivotToPosition(m_pivotSubsystem, 4.25).withTimeout(0.25));
     NamedCommands.registerCommand("pivotamp2", new PivotToPosition(m_pivotSubsystem, 4.5).withTimeout(0.25));
-    NamedCommands.registerCommand("pivotcleanup1", new PivotToPosition(m_pivotSubsystem, 8).withTimeout(0.25));
-    NamedCommands.registerCommand("pivotsource1", new PivotToPosition(m_pivotSubsystem, 7).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotcleanup1", new PivotToPosition(m_pivotSubsystem, 8.375).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotcleanup2", new PivotToPosition(m_pivotSubsystem, 4.625).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotcleanup3", new PivotToPosition(m_pivotSubsystem, 4.25).withTimeout(0.25));
+
+    NamedCommands.registerCommand("pivotsource1", new PivotToPosition(m_pivotSubsystem, 5.5).withTimeout(0.25));
     NamedCommands.registerCommand("pivotsource2", new PivotToPosition(m_pivotSubsystem, 8).withTimeout(0.25));
     NamedCommands.registerCommand("pivotsource3", new PivotToPosition(m_pivotSubsystem, 3.5).withTimeout(0.25));
 
-    NamedCommands.registerCommand("shootshort", new ParallelCommandGroup(new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(0.5), new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.5)));
+    NamedCommands.registerCommand("shootshort", new ParallelCommandGroup(new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(0.75), new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.75)));
     NamedCommands.registerCommand("shoot", new ParallelCommandGroup(new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(1.5), new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(1.5)));
 
     NamedCommands.registerCommand("intakeshort", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.6));
@@ -116,7 +113,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("setupnote", new SetupNote(m_conveyorSubsystem, m_intakeSubsystem).withTimeout(0.8));
 
     NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo));
-    NamedCommands.registerCommand("flytimed", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo).withTimeout(1));
+    NamedCommands.registerCommand("flytimed", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo).withTimeout(1.5));
     NamedCommands.registerCommand("stopfly", new ShooterToDuty(m_flywheelSubsystem, 0).withTimeout(0.05));
     
     // NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2.5));//2.5
@@ -124,14 +121,43 @@ public class RobotContainer {
     
 
 
-    m_swerveSubsystem.setDefaultCommand( // Drivetrain will execute this command periodically
-        m_swerveSubsystem.applyRequest(() -> drive.withVelocityX(-driva.getLeftY() * MaxSpeed) // Drive forward with
-                                                                                           // negative Y (forward)
-            .withVelocityY(-driva.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(-driva.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        ));
+    m_swerveSubsystem.setDefaultCommand(
+        m_swerveSubsystem.applyRequest(
+          () -> drive.withVelocityX(getDriverSticks()[0] * MaxSpeed)
+                .withVelocityY(getDriverSticks()[1] * MaxSpeed)
+                .withRotationalRate(getDriverSticks()[2] * MaxAngularRate)
+        )
+    );
 
     configureBindings();
+  }
+
+  private double map(double val, double inMin, double inMax, double outMin, double outMax) {
+    return ((val-inMin)*(outMax-outMin)
+        /(inMax-inMin))
+        +outMin;
+  }
+
+  private double[] getDriverSticks(){
+    double[] driverSticks = new double[3];
+    double axisZero = -driva.getLeftY();
+    double axisOne = -driva.getLeftX();
+    double axisTwo = -driva.getRightX();
+
+    driverSticks[0] = (Math.abs(axisZero) < Constants.OperatorConstants.joystickDeadzone) ? 0 : map(Math.abs(axisZero), Constants.OperatorConstants.joystickDeadzone, 1.0, 0.0, 1.0);
+    driverSticks[0] = axisZero >= 0.0 ? driverSticks[0] : -driverSticks[0];
+    driverSticks[0] = driverSticks[0] * driverSticks[0];
+    driverSticks[0] = axisZero >= 0.0 ? driverSticks[0] : -driverSticks[0];
+    driverSticks[0] = driverSticks[0] > 1 ? 1 : driverSticks[0];
+
+    driverSticks[1] = (Math.abs(axisOne) < Constants.OperatorConstants.joystickDeadzone) ? 0 : map(Math.abs(axisOne), Constants.OperatorConstants.joystickDeadzone, 1.0, 0.0, 1.0);
+    driverSticks[1] = axisOne >= 0.0 ? driverSticks[1] : -driverSticks[1];
+    driverSticks[1] = driverSticks[1] * driverSticks[1];
+    driverSticks[1] = axisOne >= 0.0 ? driverSticks[1] : -driverSticks[1];
+    driverSticks[1] = driverSticks[1] > 1 ? 1 : driverSticks[1];
+
+    driverSticks[2] = axisTwo;
+    return driverSticks;
   }
 
 	private boolean getLeftTrigger(XboxController controller) {
@@ -146,7 +172,7 @@ public class RobotContainer {
     new JoystickButton(driva, 1).onTrue(new ToggleAutoMode(m_pivotSubsystem));
     new JoystickButton(driva, 2).whileTrue(new Outtake(m_conveyorSubsystem, m_intakeSubsystem));
     new JoystickButton(driva, 3).onTrue(m_swerveSubsystem.runOnce(() -> m_swerveSubsystem.seedFieldRelative()));
-    // new JoystickButton(driva, 4).onTrue(new ToggleAmped(m_swerveSubsystem));
+    new JoystickButton(driva, 4).onTrue(new TogglePassMode(m_pivotSubsystem));
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));
     new JoystickButton(driva, 6).whileTrue(new Shoot(m_conveyorSubsystem, m_intakeSubsystem));
     new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ShooterToSpeaker(m_flywheelSubsystem));
@@ -187,16 +213,16 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return new SequentialCommandGroup(
       new ParallelCommandGroup(
-        new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition).withTimeout(1),
-        new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo).withTimeout(1)
+        new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition).withTimeout(1.5),
+        new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo).withTimeout(1.5)
       ).withTimeout(1),
       new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(0.25),
       new ShooterToDuty(m_flywheelSubsystem, 0).withTimeout(0.05),
 
-      // new ParallelCommandGroup(
-        // new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo),
-        new PathPlannerAuto("Source")
-      // )
+      new ParallelCommandGroup(
+        new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo),
+        new PathPlannerAuto("Amp")
+      )
     );
   }
 }

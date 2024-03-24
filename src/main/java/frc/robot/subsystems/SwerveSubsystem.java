@@ -39,16 +39,15 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
         if (Utils.isSimulation()) {
             startSimThread();
         }
-
-
     }
+    
     public SwerveSubsystem(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
         if (Utils.isSimulation()) {
             startSimThread();
         }
 
-
+        configurePathPlanner();
     }
 
     public ChassisSpeeds getCurrentRobotChassisSpeeds() {
@@ -88,7 +87,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
                 new PIDConstants(10, 0.0, 0.0), // Rotation PID constants
                 TunerConstants.kSpeedAt12VoltsMps, // Max module speed, in m/s
                 driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
-                new ReplanningConfig(true, false) // Default path replanning config. See the API for the options here
+                new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
             ),
             () -> {
                 // Boolean supplier that controls when the path will be mirrored for the red alliance

@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6196218710746,
-        "y": 6.503088730644515
+        "x": 3.9608634086626853,
+        "y": 6.6493351038958615
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.860589370301549,
-        "y": 6.797922543213508
+        "x": 7.353779268128609,
+        "y": 7.30256890442522
       },
       "isLocked": false,
-      "linkedName": "amppt2end"
+      "linkedName": "cleanupsourceend"
     },
     {
       "anchor": {
-        "x": 8.445752188416492,
-        "y": 5.693858798643963
+        "x": 8.289756056946795,
+        "y": 5.781606622595669
       },
       "prevControl": {
-        "x": 7.086173228965373,
-        "y": 6.573018250009773
+        "x": 8.328755089814218,
+        "y": 5.7523573479451
       },
       "nextControl": {
-        "x": 9.19145334693532,
-        "y": 5.211657881331346
+        "x": 7.454630217123598,
+        "y": 6.407951002463104
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.6196218710746,
-        "y": 6.503088730644515
+        "x": 3.9608634086626853,
+        "y": 6.6493351038958615
       },
       "prevControl": {
-        "x": 7.07324572543882,
-        "y": 7.133448301984323
+        "x": 7.207532894875768,
+        "y": 7.029575674353249
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,20 +46,15 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.34999999999999964,
-      "rotationDegrees": -17.456003751928993,
-      "rotateFast": true
-    },
-    {
-      "waypointRelativePos": 0.9000000000000004,
-      "rotationDegrees": -26.600000000000023,
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -36.56648064363161,
       "rotateFast": true
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "pickup3",
+      "name": "pickup6",
       "waypointRelativePos": 0.75,
       "command": {
         "type": "parallel",
@@ -68,19 +63,13 @@
             {
               "type": "named",
               "data": {
-                "name": "intakelong"
+                "name": "intake"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "conveyorlong"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "pivotamp2"
+                "name": "conveyor"
               }
             }
           ]
@@ -90,19 +79,19 @@
   ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 4.5,
+    "maxAcceleration": 6.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 19.0,
+    "velocity": 0,
+    "rotation": 11.31,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp",
+  "folder": "Cleanup",
   "previewStartingState": {
-    "rotation": 25.0,
+    "rotation": 11.31,
     "velocity": 0
   },
   "useDefaultConstraints": false

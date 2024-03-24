@@ -3,32 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.294270728892335,
-        "y": 3.225026625491848
+        "x": 0.77,
+        "y": 4.47
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.072335845384281,
-        "y": -0.4874879108428046
+        "x": 3.2645749502025323,
+        "y": 1.9010601179097104
       },
       "isLocked": false,
-      "linkedName": "sourcept1end"
+      "linkedName": "sourcestart"
     },
     {
       "anchor": {
-        "x": 8.689496143837895,
-        "y": 2.3984405213466022
+        "x": 7.77,
+        "y": 0.72
       },
       "prevControl": {
-        "x": 8.462789550073829,
-        "y": 2.280553092588605
+        "x": 3.070924072925467,
+        "y": 0.72
       },
       "nextControl": {
-        "x": 10.446185410280226,
-        "y": 3.3119189399019073
+        "x": 10.460933267852283,
+        "y": 0.72
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "sourcebottompiece"
     },
     {
       "anchor": {
@@ -36,8 +36,8 @@
         "y": 3.225026625491848
       },
       "prevControl": {
-        "x": 5.017297943158365,
-        "y": -0.9684352844778359
+        "x": 5.404421270605416,
+        "y": -0.027197783721303104
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,18 +46,18 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 23.0,
+      "waypointRelativePos": 0.8,
+      "rotationDegrees": 0,
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 1.55,
-      "rotationDegrees": 23.0,
+      "waypointRelativePos": 1.6,
+      "rotationDegrees": 0,
       "rotateFast": false
     },
     {
       "waypointRelativePos": 1.95,
-      "rotationDegrees": -52.20999999999998,
+      "rotationDegrees": -50.0,
       "rotateFast": false
     }
   ],
@@ -65,7 +65,7 @@
   "eventMarkers": [
     {
       "name": "pickup1",
-      "waypointRelativePos": 0.7,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -94,20 +94,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 1080.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -52.0,
+    "rotation": -50.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Source",
   "previewStartingState": {
-    "rotation": -52.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

@@ -32,7 +32,8 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		UNDER,
 		STAGE,
 		WING,
-		AMPLIFIER
+		AMPLIFIER,
+		PASS
 	}
 
 	public ShooterPositions position = ShooterPositions.AUTO;
@@ -92,6 +93,14 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		}
 	}
 
+	public void togglePassMode(){
+		if (position != ShooterPositions.PASS){
+			position = ShooterPositions.PASS;
+		} else {
+			position = ShooterPositions.AUTO;
+		}
+	}
+
 	public void toggleAmpMode(){
 		if (position != ShooterPositions.AMPLIFIER){
 			position = ShooterPositions.AMPLIFIER;
@@ -122,6 +131,8 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 			case SUBWOOFER:
 				pivotToPosition(Constants.Pivot.subwooferPosition);
 				break;
+			case PASS:
+				pivotToPosition(Constants.Pivot.passPosition);
 			case MANUAL:
 				break;
 			default:
@@ -133,6 +144,9 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public void periodic() {
 		GlobalVariables.Pivot.pivotPosition = pivotEncoder.getPosition();
 		SmartDashboard.putNumber("Pivot position", GlobalVariables.Pivot.pivotPosition);
+
+		GlobalVariables.Position.distanceToSpeaker = Math.sqrt(((Limelight.limelightshooter.aprilTagResult[0]) * (Limelight.limelightshooter.aprilTagResult[0]))    +      ((Limelight.limelightshooter.aprilTagResult[2]) * (Limelight.limelightshooter.aprilTagResult[2])));
+        GlobalVariables.Pivot.desiredPosition = 14.5*Math.pow(.755, GlobalVariables.Position.distanceToSpeaker);
 
 		if(position != ShooterPositions.AUTO) {
 			setFieldRelativePosition();

@@ -2,15 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Swerve;
+package frc.robot.commands.SwerveOLD;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveOLD;
 
-public class ToggleAmped extends Command {
-  private SwerveSubsystem m_swerve;
+public class TogglePickup extends Command {
+  private SwerveOLD m_swerve;
   private boolean isFinished = false;
-  public ToggleAmped(SwerveSubsystem swerve) {
+  public TogglePickup(SwerveOLD swerve) {
     m_swerve = swerve;
     addRequirements(m_swerve);
   }
@@ -18,7 +18,7 @@ public class ToggleAmped extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_swerve.toggleAmped();
+    m_swerve.toggleSource();
     isFinished = true;
     isFinished();
   }

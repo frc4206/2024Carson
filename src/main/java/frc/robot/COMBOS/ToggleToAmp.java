@@ -4,18 +4,21 @@
 
 package frc.robot.COMBOS;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants;
-import frc.robot.commands.Shooter.ToggleShooterToVelocity;
+import frc.robot.commands.Pivot.ToggleAmpMode;
+import frc.robot.commands.Shooter.ToggleShooterToVelocityIndividual;
 import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShooterToSpeaker extends SequentialCommandGroup {
-  public ShooterToSpeaker(FlywheelSubsystem shooter) {
+public class ToggleToAmp extends ParallelCommandGroup {
+  public ToggleToAmp(FlywheelSubsystem shooter, PivotSubsystem pivot) {
     addCommands(
-      new ToggleShooterToVelocity(shooter, Constants.Flywheel.speakerVelo)
+      new ToggleShooterToVelocityIndividual(shooter, Constants.Flywheel.topAmpVelo, Constants.Flywheel.bottomAmpVelo),
+      new ToggleAmpMode(pivot)
     );
   }
 }

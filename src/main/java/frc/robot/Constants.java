@@ -3,13 +3,18 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
-import frc.lib.util.SwerveModuleConstants;
 import frc.lib.util.spark.sparkConfig.FeedbackConfig;
 import frc.lib.util.spark.sparkConfig.MotorConfig;
 import frc.lib.util.spark.sparkConfig.PIDConfig;
@@ -402,45 +407,164 @@ public final class Constants {
 		/* Module Specific Constants */
 		/* Front Left Module - Module 0 */
 		public static final class Mod0 {
-			public static final int driveMotorID = 1; //3
-			public static final int angleMotorID = 2; //4
-			public static final int canCoderID = 3; //9
-			public static double angleOffset = (360-11.95)/360;//314.5 these aren't accurate just refrences
-			public static final SwerveModuleConstants constants =
-				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+			public static final int driveMotorID = 1; 
+			public static final int angleMotorID = 2; 
+			public static final int canCoderID = 3;
+			public static double angleOffset = (360-11.95)/360;
+			public static final frc.lib.util.SwerveModuleConstants constants =
+				new frc.lib.util.SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
 
 
 		/* Front Right Module - Module 1 */
 		public static final class Mod1 {
-			public static final int driveMotorID = 4; //7
-			public static final int angleMotorID = 5; //8
-			public static final int canCoderID = 6; //11
-			public static double angleOffset = (27.86)/360;//246.7
-			public static final SwerveModuleConstants constants =
-				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+			public static final int driveMotorID = 4;
+			public static final int angleMotorID = 5;
+			public static final int canCoderID = 6;
+			public static double angleOffset = (27.86)/360;
+			public static final frc.lib.util.SwerveModuleConstants constants =
+				new frc.lib.util.SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
 
 
 		/* Back Left Module - Module 2 */
 		public static final class Mod2 {
-			public static final int driveMotorID = 7; //3
-			public static final int angleMotorID = 8; //4
-			public static final int canCoderID = 9; //9
-			public static double angleOffset = (360-95.10)/360;//.47
-			public static final SwerveModuleConstants constants =
-				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+			public static final int driveMotorID = 7; 
+			public static final int angleMotorID = 8; 
+			public static final int canCoderID = 9;
+			public static double angleOffset = (360-95.10)/360;
+			public static final frc.lib.util.SwerveModuleConstants constants =
+				new frc.lib.util.SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
 
 
 		/* Back Right Module - Module 3 */
 		public static final class Mod3 {
-			public static final int driveMotorID = 10; //13
-			public static final int angleMotorID = 11; //2
-			public static final int canCoderID = 12; //12
-			public static double angleOffset = (31.29)/360;//257.95
-			public static final SwerveModuleConstants constants =
-				new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+			public static final int driveMotorID = 10; 
+			public static final int angleMotorID = 11; 
+			public static final int canCoderID = 12;
+			public static double angleOffset = (31.29)/360;
+			public static final frc.lib.util.SwerveModuleConstants constants =
+				new frc.lib.util.SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
 		}
+
+
+
+
+
+		
+		private static final double steerkP = 100;
+		private static final double steerkI = 0;
+		private static final double steerkD = 0.2;
+		private static final double steerkS = 0;
+		private static final double steerkV = 1.5;
+		private static final double steerkA = 0;
+
+		private static final double drivekP = 50;
+		private static final double drivekI = 0;
+		private static final double drivekD = 0;
+		private static final double drivekS = 0;
+		private static final double drivekV = 0;
+		private static final double drivekA = 0;
+
+		private static final Slot0Configs steerGains = new Slot0Configs()
+        	.withKP(steerkP).withKI(steerkI).withKD(steerkD)
+        	.withKS(steerkS).withKV(steerkV).withKA(steerkA
+		);
+
+		private static final Slot0Configs driveGains = new Slot0Configs()
+			.withKP(drivekP).withKI(drivekI).withKD(drivekD)
+			.withKS(drivekS).withKV(drivekV).withKA(drivekA
+		);
+
+		private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
+		private static final ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
+
+		private static final double slipCurrent = 80;
+		private static final double supplyCurrent = 40;
+
+		public static final double maxTranslationVelocity = 6.21;
+		public static final double maxRotationalVelocity = 1.5 * Math.PI;
+
+		private static final double coupleRatio = 3;
+
+		private static final double driveRatio = 5.142857142857142;
+		private static final double steerRatio = 12.8;
+		private static final double wheelRadius = 2;
+
+		private static final boolean steerInverted = false;
+		private static final boolean leftIsInverted = false;
+		private static final boolean rightIsInverted = true;
+
+		private static final String CANBusName = "Canivore1";
+		private static final int PigeonID = 55;
+
+		private static final double steerInertia = 0.00001;
+		private static final double driveInertia = 0.001;
+		private static final double steerFrictionVoltage = 0.25;
+		private static final double driveFrictionVoltage = 0.25;
+
+		public static final SwerveDrivetrainConstants drivetrainConstants = new SwerveDrivetrainConstants()
+			.withPigeon2Id(PigeonID)
+			.withCANbusName(CANBusName
+		);
+
+		private static final SwerveModuleConstantsFactory constantsCreator = new SwerveModuleConstantsFactory()
+			.withDriveMotorGearRatio(driveRatio)
+			.withSteerMotorGearRatio(steerRatio)
+			.withWheelRadius(wheelRadius)
+			.withSlipCurrent(slipCurrent)
+			.withSteerMotorGains(steerGains)
+			.withDriveMotorGains(driveGains)
+			.withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
+			.withDriveMotorClosedLoopOutput(driveClosedLoopOutput)
+			.withSpeedAt12VoltsMps(maxTranslationVelocity)
+			.withSteerInertia(steerInertia)
+			.withDriveInertia(driveInertia)
+			.withSteerFrictionVoltage(steerFrictionVoltage)
+			.withDriveFrictionVoltage(driveFrictionVoltage)
+			.withFeedbackSource(SteerFeedbackType.FusedCANcoder)
+			.withCouplingGearRatio(coupleRatio)
+			.withSteerMotorInverted(steerInverted
+		);
+
+
+		private static final int FLDriveMotorID = 1;
+		private static final int FLSteerMotorID = 2;
+		private static final int FLEncoderID = 3;
+		private static final double FLEncoderOffset = 0.04052734375;
+		private static final double FLXPosition = 9.5;
+		private static final double FLYPosition = 10.5;
+
+		private static final int FRDriveMotorID = 4;
+		private static final int FRSteerMotorID = 5;
+		private static final int FREncoderID = 6;
+		private static final double FREncoderOffset = 0.40771484375;
+		private static final double FRXPosition = 9.5;
+		private static final double FRYPosition = -10.5;
+
+		private static final int BLDriveMotorID = 7;
+		private static final int BLSteerMotorID = 8;
+		private static final int BLEncoderID = 9;
+		private static final double BLEncoderOffset = 0.261962890625;
+		private static final double BLXPosition = -9.5;
+		private static final double BLYPosition = 10.5;
+
+		private static final int BRDriveMotorID = 10;
+		private static final int BRSteerMotorID = 11;
+		private static final int BREncoderID = 12;
+		private static final double BREncoderOffset = 0.415283203125;
+		private static final double BRXPosition = -9.5;
+		private static final double BRYPosition = -10.5;
+
+
+		public static final SwerveModuleConstants FrontLeft = constantsCreator.createModuleConstants(
+				FLSteerMotorID, FLDriveMotorID, FLEncoderID, FLEncoderOffset, Units.inchesToMeters(FLXPosition), Units.inchesToMeters(FLYPosition), leftIsInverted);
+		public static final SwerveModuleConstants FrontRight = constantsCreator.createModuleConstants(
+				FRSteerMotorID, FRDriveMotorID, FREncoderID, FREncoderOffset, Units.inchesToMeters(FRXPosition), Units.inchesToMeters(FRYPosition), rightIsInverted);
+		public static final SwerveModuleConstants BackLeft = constantsCreator.createModuleConstants(
+				BLSteerMotorID, BLDriveMotorID, BLEncoderID, BLEncoderOffset, Units.inchesToMeters(BLXPosition), Units.inchesToMeters(BLYPosition), leftIsInverted);
+		public static final SwerveModuleConstants BackRight = constantsCreator.createModuleConstants(
+				BRSteerMotorID, BRDriveMotorID, BREncoderID, BREncoderOffset, Units.inchesToMeters(BRXPosition), Units.inchesToMeters(BRYPosition), rightIsInverted);
 	}
 }

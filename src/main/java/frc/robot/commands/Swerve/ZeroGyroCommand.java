@@ -7,10 +7,10 @@ package frc.robot.commands.Swerve;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class ToggleAmped extends Command {
+public class ZeroGyroCommand extends Command {
   private SwerveSubsystem m_swerve;
   private boolean isFinished = false;
-  public ToggleAmped(SwerveSubsystem swerve) {
+  public ZeroGyroCommand(SwerveSubsystem swerve) {
     m_swerve = swerve;
     addRequirements(m_swerve);
   }
@@ -18,7 +18,7 @@ public class ToggleAmped extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_swerve.toggleAmped();
+    m_swerve.seedFieldRelative();
     isFinished = true;
     isFinished();
   }

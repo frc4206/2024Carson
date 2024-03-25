@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Swerve;
+package frc.robot.commands.SwerveOLD;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.GlobalVariables;
+import frc.robot.subsystems.SwerveOLD;
 
-public class ToggleFastRotate extends Command {
+public class ToggleAmped extends Command {
+  private SwerveOLD m_swerve;
   private boolean isFinished = false;
-  public ToggleFastRotate() {}
+  public ToggleAmped(SwerveOLD swerve) {
+    m_swerve = swerve;
+    addRequirements(m_swerve);
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (GlobalVariables.Swerve.rotationMultiplier == 1){
-      GlobalVariables.Swerve.rotationMultiplier = 2.5;
-    } else if (GlobalVariables.Swerve.rotationMultiplier == 2.5){
-      GlobalVariables.Swerve.rotationMultiplier = 1;
-    }
+    m_swerve.toggleAmped();
     isFinished = true;
     isFinished();
   }

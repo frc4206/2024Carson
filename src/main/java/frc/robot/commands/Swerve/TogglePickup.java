@@ -5,12 +5,12 @@
 package frc.robot.commands.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SwerveOLD;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class TogglePickup extends Command {
-  private SwerveOLD m_swerve;
+  private SwerveSubsystem m_swerve;
   private boolean isFinished = false;
-  public TogglePickup(SwerveOLD swerve) {
+  public TogglePickup(SwerveSubsystem swerve) {
     m_swerve = swerve;
     addRequirements(m_swerve);
   }

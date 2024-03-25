@@ -5,13 +5,13 @@
 package frc.robot.commands.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.SwerveOLD;
 
 public class SetHeadingState extends Command {
-	private Swerve m_swerve;
+	private SwerveOLD m_swerve;
 	private boolean isFinished = false;
 	
-	public SetHeadingState(Swerve swerve) {
+	public SetHeadingState(SwerveOLD swerve) {
 		m_swerve = swerve;
 		addRequirements(m_swerve);
 	}

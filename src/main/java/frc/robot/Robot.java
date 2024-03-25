@@ -11,10 +11,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.Swerve.Mod0;
-import frc.robot.Constants.Swerve.Mod1;
-import frc.robot.Constants.Swerve.Mod2;
-import frc.robot.Constants.Swerve.Mod3;
 import frc.robot.subsystems.PivotSubsystem.ShooterPositions;
 
 /**

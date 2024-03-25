@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.SwerveOLD;
 
 public class PID_to_game_Piece extends Command {
 	/** Creates a new PID_DistanceOdometry2. */
@@ -20,7 +20,7 @@ public class PID_to_game_Piece extends Command {
 	private boolean fieldRelative;
 	private boolean openLoop;
 	
-	private Swerve s_Swerve;
+	private SwerveOLD s_Swerve;
 
 	private double x_set;
 	private double y_set;
@@ -36,7 +36,7 @@ public class PID_to_game_Piece extends Command {
 	public PIDController pidy = new PIDController(Constants.Swerve.toGamePieceYKP, Constants.Swerve.toGamePieceYKI, Constants.Swerve.toGamePieceYKD);
 	public PIDController pidyaw = new PIDController(Constants.Swerve.toGamePieceYawKP, Constants.Swerve.toGamePieceYawKI, Constants.Swerve.toGamePieceYawKD);
 
-	public PID_to_game_Piece(Swerve s_Swerve, boolean fieldRelative, boolean openLoop, boolean advanced_setpoints, double timeout) {
+	public PID_to_game_Piece(SwerveOLD s_Swerve, boolean fieldRelative, boolean openLoop, boolean advanced_setpoints, double timeout) {
 		this.s_Swerve = s_Swerve;
 		addRequirements(s_Swerve);
 		this.fieldRelative = fieldRelative;

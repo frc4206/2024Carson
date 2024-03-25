@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7,
-        "y": 6.699999999999999
+        "x": 3.6196218710746,
+        "y": 6.503088730644515
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.422821722836429,
-        "y": 3.7781907142761657
+        "x": 5.342443593911028,
+        "y": 3.581279444920681
       },
       "isLocked": false,
-      "linkedName": "amppt1lowend"
+      "linkedName": "amppt2end"
     },
     {
       "anchor": {
@@ -89,8 +89,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

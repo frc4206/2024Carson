@@ -4,8 +4,8 @@ import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 import frc.robot.SwerveModule;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Swerve.HeadingState;
+import frc.robot.subsystems.SwerveOLD;
+import frc.robot.subsystems.SwerveOLD.HeadingState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,7 +24,7 @@ public class TeleopSwerve extends Command {
     private boolean fieldRelative;
     private boolean openLoop;
     
-    private Swerve s_Swerve;
+    private SwerveOLD s_Swerve;
     private XboxController controller;
     private int translationAxis;
     private int strafeAxis;
@@ -42,7 +42,7 @@ public class TeleopSwerve extends Command {
     /**
      * Driver control
      */
-    public TeleopSwerve(Swerve s_Swerve, XboxController controller, int translationAxis, int strafeAxis, int rotationAxis, boolean fieldRelative, boolean openLoop) {
+    public TeleopSwerve(SwerveOLD s_Swerve, XboxController controller, int translationAxis, int strafeAxis, int rotationAxis, boolean fieldRelative, boolean openLoop) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 

@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7,
-        "y": 6.699999999999999
+        "x": 3.6196218710746,
+        "y": 6.503088730644515
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.940967499226948,
-        "y": 6.994833812568992
+        "x": 4.860589370301549,
+        "y": 6.797922543213508
       },
       "isLocked": false,
-      "linkedName": "amppt1lowend"
+      "linkedName": "amppt2end"
     },
     {
       "anchor": {
-        "x": 8.868761948050214,
-        "y": 5.619048255640371
+        "x": 8.445752188416492,
+        "y": 5.703608556860819
       },
       "prevControl": {
-        "x": 7.509182988599095,
-        "y": 6.498207707006181
+        "x": 7.297171994334633,
+        "y": 6.450185683014021
       },
       "nextControl": {
-        "x": 9.614463106569042,
-        "y": 5.136847338327755
+        "x": 8.640747352753614,
+        "y": 5.5768617000416905
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.7,
-        "y": 6.699999999999999
+        "x": 3.6196218710746,
+        "y": 6.503088730644515
       },
       "prevControl": {
-        "x": 6.5382181641556265,
-        "y": 7.278540521993325
+        "x": 6.457840035230227,
+        "y": 7.08162925263784
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "amppt2end"
     }
   ],
   "rotationTargets": [
@@ -89,8 +89,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

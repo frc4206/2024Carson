@@ -29,7 +29,6 @@ import frc.robot.commands.Swerve.ToggleAimed;
 import frc.robot.commands.Swerve.ToggleAmped;
 import frc.robot.commands.Swerve.ToggleFastRotate;
 import frc.robot.commands.Swerve.TogglePickup;
-import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDs;
@@ -76,8 +75,6 @@ public class RobotContainer {
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
   private final XboxController driva = new XboxController(Constants.OperatorConstants.drivaPort);
   private final XboxController operata = new XboxController(Constants.OperatorConstants.operataPort);
@@ -88,10 +85,12 @@ public class RobotContainer {
   public RobotContainer() {
     NamedCommands.registerCommand("pivotsub", new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition).withTimeout(0.25));
     NamedCommands.registerCommand("pivotamp1", new PivotToPosition(m_pivotSubsystem, 4.25).withTimeout(0.25));
-    NamedCommands.registerCommand("pivotamp2", new PivotToPosition(m_pivotSubsystem, 4.5).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotamp2", new PivotToPosition(m_pivotSubsystem, 5).withTimeout(0.25));
     NamedCommands.registerCommand("pivotcleanup1", new PivotToPosition(m_pivotSubsystem, 8.375).withTimeout(0.25));
     NamedCommands.registerCommand("pivotcleanup2", new PivotToPosition(m_pivotSubsystem, 4.625).withTimeout(0.25));
     NamedCommands.registerCommand("pivotcleanup3", new PivotToPosition(m_pivotSubsystem, 4.25).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotmiddle1", new PivotToPosition(m_pivotSubsystem, 5.175).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotmiddle2", new PivotToPosition(m_pivotSubsystem, 5).withTimeout(0.25));
 
     NamedCommands.registerCommand("pivotsource1", new PivotToPosition(m_pivotSubsystem, 5.5).withTimeout(0.25));
     NamedCommands.registerCommand("pivotsource2", new PivotToPosition(m_pivotSubsystem, 8).withTimeout(0.25));
@@ -100,12 +99,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("shootshort", new ParallelCommandGroup(new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(0.75), new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.75)));
     NamedCommands.registerCommand("shoot", new ParallelCommandGroup(new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(1.5), new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(1.5)));
 
-    NamedCommands.registerCommand("intakeshort", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.6));
+    NamedCommands.registerCommand("intakeshort", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.5));
     NamedCommands.registerCommand("intake", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.75));
     NamedCommands.registerCommand("intakelong", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(1.5));
     NamedCommands.registerCommand("intakelonglong", new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(1.9));
 
-    NamedCommands.registerCommand("conveyorshort", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.4));
+    NamedCommands.registerCommand("conveyorshort", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.3));
     NamedCommands.registerCommand("conveyor", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.5));
     NamedCommands.registerCommand("conveyorlong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.6));
     NamedCommands.registerCommand("conveyorlonglong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.8));
@@ -187,7 +186,7 @@ public class RobotContainer {
     new JoystickButton(operata, 4).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.STAGE));
     m_climberSubsystem.setupController(operata, XboxController.Axis.kLeftY.value);
     
-    // new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_ampBarSubsystem, m_climberSubsystem, m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_swerveSubsystem, operata2));
+    new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_ampBarSubsystem, m_climberSubsystem, m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem));
 
 
     
@@ -221,7 +220,7 @@ public class RobotContainer {
 
       new ParallelCommandGroup(
         new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo),
-        new PathPlannerAuto("Amp")
+        new PathPlannerAuto("Middle")
       )
     );
   }

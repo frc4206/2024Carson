@@ -20,6 +20,9 @@ import frc.robot.Constants;
 
 public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
     private final SwerveRequest.RobotCentric driveRobotCentricNoDeadband = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
+    private double realYaw = 0;
+    private double rotations = 0;
+    private double nomYaw = 0;
     
     public enum HeadingState {
         FREE,
@@ -84,6 +87,27 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
             },
             this
         );
+    }
+
+    public double getNominalYaw() {
+        realYaw = getState().Pose.getRotation().getDegrees();
+        rotations = Math.round((realYaw/360));
+        if (realYaw < 0){
+            nomYaw = -realYaw;
+            if (nomYaw > 360){
+                nomYaw += (360*rotations);
+            }
+            if (nomYaw < 0){
+                nomYaw += 360;
+            }
+            nomYaw = 360 - nomYaw;
+        } else {
+            nomYaw = realYaw - (360*rotations);
+            if (nomYaw < 0){
+                nomYaw += 360;
+            }
+        }
+        return nomYaw;
     }
 
     public void changeHeadingState(HeadingState newState){

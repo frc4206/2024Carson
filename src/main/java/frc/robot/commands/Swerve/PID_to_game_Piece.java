@@ -49,6 +49,7 @@ public class PID_to_game_Piece extends Command {
 	@Override
 	public void initialize() {
 		init_time = Timer.getFPGATimestamp();
+		fin = false;
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
@@ -81,7 +82,7 @@ public class PID_to_game_Piece extends Command {
 		//Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0)
 		SmartDashboard.putNumber("angle", SmartDashboard.getNumber("tx", 10));
 		rotation = pidyaw.calculate(Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0), 0);
-		SmartDashboard.putNumber("pid output piece ", X_Output);
+		SmartDashboard.putNumber("pid output piece ", rotation);
 
 		translation = new Translation2d(X_Output, Y_Output).times(Constants.Swerve.maxSpeed).times(s_Swerve.currPercent);
 

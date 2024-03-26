@@ -26,6 +26,7 @@ import frc.robot.commands.Swerve.ToggleAmped;
 import frc.robot.commands.Swerve.ToggleFastRotate;
 import frc.robot.commands.Swerve.TogglePickup;
 import frc.robot.commands.Swerve.ZeroGyroCommand;
+import frc.robot.commands.combos.AutoIntakeCommand;
 import frc.robot.commands.combos.AutoShootAtSpeakerCommand;
 import frc.robot.commands.combos.LineUpShotCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
@@ -131,7 +132,7 @@ public class RobotContainer {
     new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ParallelCommandGroup(new InstantCommand(() -> m_pivotSubsystem.toggleAmpMode()), new ToggleShooterToVelocityIndividual(m_flywheelSubsystem, 3600, 2200)));
     new JoystickButton(driva, 7).onTrue(new TogglePickup(m_swerveSubsystem));
     new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
-    new POVButton(driva, 90).onTrue(new ToggleFastRotate());
+    new POVButton(driva, 90).onTrue(new AutoIntakeCommand(m_conveyorSubsystem, m_intakeSubsystem, m_swerveSubsystem));
 
 
     new JoystickButton(operata, 1).onTrue(new InstantCommand(() -> m_pivotSubsystem.changePosition(ShooterPositions.CLOSE)));

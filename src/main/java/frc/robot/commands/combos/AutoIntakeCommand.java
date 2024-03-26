@@ -19,6 +19,6 @@ public class AutoIntakeCommand extends ParallelCommandGroup {
   public AutoIntakeCommand(ConveyorSubsystem conveyor, IntakeSubsystem intake, SwerveSubsystem swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new SetupNote(conveyor, intake), new PID_to_game_Piece(swerve, false, true, false, 0));
+    addCommands(new SetupNote(conveyor, intake), new PID_to_game_Piece(swerve, false, true, false, 10));
   }
 }

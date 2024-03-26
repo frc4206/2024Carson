@@ -27,6 +27,7 @@ import frc.robot.commands.Swerve.ZeroGyroCommand;
 import frc.robot.commands.Swerve.TogglePickup;
 import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.commands.Swerve.ToggleAimed;
+import frc.robot.commands.Swerve.ToggleFastRotate;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDs;
@@ -46,6 +47,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -80,10 +82,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("pivotcleanup3", new PivotToPosition(m_pivotSubsystem, 4.25).withTimeout(0.25));
     NamedCommands.registerCommand("pivotmiddle1", new PivotToPosition(m_pivotSubsystem, 5.175).withTimeout(0.25));
     NamedCommands.registerCommand("pivotmiddle2", new PivotToPosition(m_pivotSubsystem, 5).withTimeout(0.25));
-
-    NamedCommands.registerCommand("pivotsource1", new PivotToPosition(m_pivotSubsystem, 5.5).withTimeout(0.25));
-    NamedCommands.registerCommand("pivotsource2", new PivotToPosition(m_pivotSubsystem, 8).withTimeout(0.25));
-    NamedCommands.registerCommand("pivotsource3", new PivotToPosition(m_pivotSubsystem, 3.5).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotsource1", new PivotToPosition(m_pivotSubsystem, 5.25).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotsource2", new PivotToPosition(m_pivotSubsystem, 7.75).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotsource3", new PivotToPosition(m_pivotSubsystem, 3.75).withTimeout(0.25));
 
     NamedCommands.registerCommand("shootshort", new ParallelCommandGroup(new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(0.75), new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(0.75)));
     NamedCommands.registerCommand("shoot", new ParallelCommandGroup(new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(1.5), new IntakeToDuty(m_intakeSubsystem, 1).withTimeout(1.5)));
@@ -131,7 +132,7 @@ public class RobotContainer {
     new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ToggleToAmp(m_flywheelSubsystem, m_pivotSubsystem));
     new JoystickButton(driva, 7).onTrue(new TogglePickup(m_swerveSubsystem));
     new JoystickButton(driva, 8).onTrue(new ToggleAimed(m_swerveSubsystem));
-    // new POVButton(driva, 90).onTrue(new ToggleFastRotate());
+    new POVButton(driva, 90).onTrue(new ToggleFastRotate());
 
     new JoystickButton(operata, 1).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.SUBWOOFER));
     new JoystickButton(operata, 2).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.PODIUM));
@@ -169,11 +170,10 @@ public class RobotContainer {
         new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo).withTimeout(1.5)
       ).withTimeout(1),
       new ConveyorToDuty(m_conveyorSubsystem, 1).withTimeout(0.25),
-      new ShooterToDuty(m_flywheelSubsystem, 0).withTimeout(0.05),
 
       new ParallelCommandGroup(
         new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo),
-        new PathPlannerAuto("Middle")
+        new PathPlannerAuto("SourceROCK")
       )
     );
   }

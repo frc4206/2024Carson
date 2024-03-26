@@ -6,6 +6,7 @@ package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 import frc.robot.subsystems.FlywheelSubsystem;
 
@@ -13,6 +14,7 @@ public class ToggleShooterToVelocity extends Command {
   private FlywheelSubsystem m_flywheel;
   private double m_desiredVelocity;
   private boolean toVelo;
+  private boolean toDesiredVelo;
   private boolean isFinished = false;
   public ToggleShooterToVelocity(FlywheelSubsystem flywheel, double desiredVelocity) {
     m_flywheel = flywheel;
@@ -23,10 +25,19 @@ public class ToggleShooterToVelocity extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (m_desiredVelocity == Constants.Flywheel.speakerVelo){
+      toDesiredVelo = true;
+    } else {
+      toDesiredVelo = false;
+    }
     toVelo = GlobalVariables.Flywheel.veloCounter % 2 == 0;
     SmartDashboard.putBoolean("SHOOTER ACTIVE", toVelo);
     if (toVelo){
-      m_flywheel.shooterToVelocity(m_desiredVelocity);
+      if (GlobalVariables.Flywheel.toPassVelo == true && toDesiredVelo == true){
+        m_flywheel.shooterToVelocity(6000);
+      } else {
+        m_flywheel.shooterToVelocity(m_desiredVelocity);
+      }
     } else {
       m_flywheel.shooterToDuty(0);
     }

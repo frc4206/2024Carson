@@ -14,6 +14,7 @@ public class GlobalVariables {
 
     public static class Conveyor{
         public static double conveyorPosition = 0;
+        public static double conveyorVelocity = 0;
         public static boolean beamBroken = false;
     }
 
@@ -22,6 +23,7 @@ public class GlobalVariables {
         public static double veloCounter = 2;
         public static double climbCounter = 2;
         public static boolean toAmpVelo = false;
+        public static boolean toPassVelo = false;
 
         public static double topVelo = 0;
         public static double bottomVelo = 0;

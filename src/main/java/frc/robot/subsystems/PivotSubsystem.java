@@ -80,24 +80,36 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 	public void toggleManual(){
 		if (position != ShooterPositions.MANUAL){
 			position = ShooterPositions.MANUAL;
+			GlobalVariables.Flywheel.toAmpVelo = false;
+			GlobalVariables.Flywheel.toPassVelo = false;
 		} else {
 			position = ShooterPositions.AUTO;
+			GlobalVariables.Flywheel.toAmpVelo = false;
+			GlobalVariables.Flywheel.toPassVelo = false;
 		}
 	}
 
 	public void toggleAutoMode(){
 		if (position == ShooterPositions.AUTO){
 			position = ShooterPositions.SUBWOOFER;
+			GlobalVariables.Flywheel.toAmpVelo = false;
+			GlobalVariables.Flywheel.toPassVelo = false;
 		} else {
 			position = ShooterPositions.AUTO;
+			GlobalVariables.Flywheel.toAmpVelo = false;
+			GlobalVariables.Flywheel.toPassVelo = false;
 		}
 	}
 
 	public void togglePassMode(){
 		if (position != ShooterPositions.PASS){
 			position = ShooterPositions.PASS;
+			GlobalVariables.Flywheel.toAmpVelo = false;
+			GlobalVariables.Flywheel.toPassVelo = true;
 		} else {
 			position = ShooterPositions.AUTO;
+			GlobalVariables.Flywheel.toAmpVelo = false;
+			GlobalVariables.Flywheel.toPassVelo = false;
 		}
 	}
 
@@ -105,9 +117,11 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		if (position != ShooterPositions.AMPLIFIER){
 			position = ShooterPositions.AMPLIFIER;
 			GlobalVariables.Flywheel.toAmpVelo = true;
+			GlobalVariables.Flywheel.toPassVelo = false;
 		} else {
 			position = ShooterPositions.AUTO;
 			GlobalVariables.Flywheel.toAmpVelo = false;
+			GlobalVariables.Flywheel.toPassVelo = false;
 		} 
 	}
 
@@ -133,6 +147,7 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 				break;
 			case PASS:
 				pivotToPosition(Constants.Pivot.passPosition);
+				break;
 			case MANUAL:
 				break;
 			default:
@@ -146,7 +161,7 @@ public class PivotSubsystem extends SubsystemBase implements SparkDefaultMethods
 		SmartDashboard.putNumber("Pivot position", GlobalVariables.Pivot.pivotPosition);
 
 		GlobalVariables.Position.distanceToSpeaker = Math.sqrt(((Limelight.limelightshooter.aprilTagResult[0]) * (Limelight.limelightshooter.aprilTagResult[0]))    +      ((Limelight.limelightshooter.aprilTagResult[2]) * (Limelight.limelightshooter.aprilTagResult[2])));
-        GlobalVariables.Pivot.desiredPosition = 14.5*Math.pow(.755, GlobalVariables.Position.distanceToSpeaker);
+        GlobalVariables.Pivot.desiredPosition = 14.8*Math.pow(.76, GlobalVariables.Position.distanceToSpeaker);
 
 		if(position != ShooterPositions.AUTO) {
 			setFieldRelativePosition();

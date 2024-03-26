@@ -4,21 +4,51 @@
 
 package frc.robot.COMBOS;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.GlobalVariables;
-import frc.robot.commands.Conveyor.ConveyorToDuty;
-import frc.robot.commands.Intake.IntakeToDuty;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Shoot extends ParallelCommandGroup {
+public class Shoot extends Command {
+  private ConveyorSubsystem m_conveyor;
+  private IntakeSubsystem m_intake;
+  private double m_desiredConveyorDuty;
+  private double m_desiredIntakeDuty;
   public Shoot(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
-    addCommands(
-      new ConveyorToDuty(conveyor, 0.9),
-      new IntakeToDuty(intake, GlobalVariables.Flywheel.toAmpVelo ? 9/50 : 1)
-    );
+    m_conveyor = conveyor;
+    m_intake = intake;
+    addRequirements(m_conveyor, m_intake);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    if (GlobalVariables.Flywheel.toAmpVelo){
+      m_desiredConveyorDuty = 0.45;
+      m_desiredIntakeDuty = 0.5;
+    } else {
+      m_desiredConveyorDuty = 0.9;
+      m_desiredIntakeDuty = 1;
+    }
+
+    m_conveyor.conveyorToDuty(m_desiredConveyorDuty);
+    m_intake.intakeToDuty(m_desiredIntakeDuty);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_conveyor.conveyorToDuty(0);
+    m_intake.intakeToDuty(0);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }

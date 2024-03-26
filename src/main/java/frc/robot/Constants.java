@@ -141,8 +141,8 @@ public final class Constants {
 
 	public static final class Flywheel {
 		public static final double speakerVelo = 6500;
-		public static final double topAmpVelo = 3850;
-		public static final double bottomAmpVelo = 2350;
+		public static final double topAmpVelo = 3400;//3850
+		public static final double bottomAmpVelo = 2100;//2350
 		
 		public static final int topFlywheelMotorID = 25;
 		public static final boolean topIsInverted = true;
@@ -252,7 +252,7 @@ public final class Constants {
 		
 		public static final double allowableThreshold = 0.5;
 
-		public static final double ampPosition = 10;
+		public static final double ampPosition = 10.5;//10;
 		public static final double closePosition = 6;
 		public static final double podiumPosition = 3.900;
 		public static final double underPosition = 2.64;
@@ -314,7 +314,6 @@ public final class Constants {
 		private static final ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
 
 		private static final double slipCurrent = 80;
-		private static final double supplyCurrent = 40;
 
 		public static final double maxTranslationVelocity = 6.21;
 		public static final double maxRotationalVelocity = 1.5 * Math.PI;

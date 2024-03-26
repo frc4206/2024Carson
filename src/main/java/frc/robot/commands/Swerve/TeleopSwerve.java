@@ -10,6 +10,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
@@ -30,8 +31,8 @@ public class TeleopSwerve extends Command {
   );
 
   private final SwerveRequest.FieldCentricFacingAngle driveAtAngle = new SwerveRequest.FieldCentricFacingAngle()
-    .withDeadband(0)
-    .withRotationalDeadband(0)
+    .withDeadband(Constants.Swerve.maxTranslationVelocity * Constants.OperatorConstants.joystickDeadzone)
+    .withRotationalDeadband(Constants.Swerve.maxRotationalVelocity * Constants.OperatorConstants.joystickDeadzone)
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage
   );
 
@@ -84,6 +85,7 @@ public class TeleopSwerve extends Command {
       case AIMED:
         angleFromTag = Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0);
         yawSet = botYaw - angleFromTag;
+        break;
       case AMPED:
         if (GlobalVariables.alliance == Alliance.Blue) {
           if (botYaw > 0 && botYaw < 270) {
@@ -98,12 +100,14 @@ public class TeleopSwerve extends Command {
             yawSet = -90;
           }
         }
+        break;
       case BACKWARD:
         if (botYaw > 0 && botYaw < 180) {
           yawSet = 0;
         } else {
           yawSet = 360;
         }
+        break;
       case PICKUP:
         if (GlobalVariables.alliance == Alliance.Blue) {
           if (botYaw > 0 && botYaw < 180) {
@@ -118,6 +122,7 @@ public class TeleopSwerve extends Command {
             yawSet = -300;
           }
         }
+        break;
       case FREE:
         break;
       default:
@@ -130,7 +135,7 @@ public class TeleopSwerve extends Command {
       m_swerve.applyRequest(
         () -> drive.withVelocityX(driverStickData[0] * Constants.Swerve.maxTranslationVelocity)
                    .withVelocityY(driverStickData[1] * Constants.Swerve.maxTranslationVelocity)
-                   .withRotationalRate(driverStickData[2] * Constants.Swerve.maxRotationalVelocity)
+                   .withRotationalRate(driverStickData[2] * Constants.Swerve.maxRotationalVelocity * GlobalVariables.Swerve.rotationMultiplier)
       );
     } else {
       m_swerve.applyRequest(
@@ -139,5 +144,8 @@ public class TeleopSwerve extends Command {
                           .withTargetDirection(new Rotation2d(yawSet))
       );  
     }
+
+    SmartDashboard.putNumber("translationX", driverStickData[0] * Constants.Swerve.maxTranslationVelocity);
+    SmartDashboard.putNumber("translationY", driverStickData[1] * Constants.Swerve.maxTranslationVelocity);
   }
 }

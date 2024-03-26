@@ -20,9 +20,11 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.lib.util.TunerConstants;
+import frc.robot.GlobalVariables;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements subsystem
@@ -168,5 +170,22 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
+    }
+    @Override
+    public void periodic() {
+        // TODO Auto-generated method stub
+        Subsystem.super.periodic();
+        
+    }
+    @Override
+    public void simulationPeriodic() {
+        // TODO Auto-generated method stub
+        Subsystem.super.simulationPeriodic();
+
+        if (GlobalVariables.Timing.teleopTimeElapsed > 1) {
+            double[] odoArray =  {this.getState().Pose.getX(), this.getState().Pose.getY(), this.getState().Pose.getRotation().getDegrees()};
+            SmartDashboard.putNumberArray("odo", odoArray);
+        }
+        
     }
 }

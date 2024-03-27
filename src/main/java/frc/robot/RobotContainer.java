@@ -100,7 +100,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("conveyorlong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.6));
     NamedCommands.registerCommand("conveyorlonglong", new ConveyorToDuty(m_conveyorSubsystem, 0.8).withTimeout(0.8));
 
-    NamedCommands.registerCommand("setupnote", new SetupNote(m_conveyorSubsystem, m_intakeSubsystem).withTimeout(0.8));
+    NamedCommands.registerCommand("setupnote", new SetupNote(m_conveyorSubsystem, m_intakeSubsystem, 3));
 
     NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo));
     NamedCommands.registerCommand("flytimed", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo).withTimeout(1.5));
@@ -127,7 +127,7 @@ public class RobotContainer {
     new JoystickButton(driva, 2).whileTrue(new Outtake(m_conveyorSubsystem, m_intakeSubsystem));
     new JoystickButton(driva, 3).onTrue(new ZeroGyroCommand(m_swerveSubsystem));
     new JoystickButton(driva, 4).onTrue(new TogglePassMode(m_pivotSubsystem));
-    new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));
+    new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem, 100));
     new JoystickButton(driva, 6).whileTrue(new Shoot(m_conveyorSubsystem, m_intakeSubsystem));
     new Trigger(() -> this.getLeftTrigger(driva)).onTrue(new ToggleToSpeaker(m_flywheelSubsystem));
     new Trigger(() -> this.getRightTrigger(driva)).onTrue(new ToggleToAmp(m_flywheelSubsystem, m_pivotSubsystem));

@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 4.23487917151273,
-        "y": 5.029611111853803
+        "x": 3.980362925096398,
+        "y": 5.2063708878011585
       },
       "prevControl": {
-        "x": 5.069159436564488,
-        "y": 3.397323636752537
+        "x": 4.814643190148156,
+        "y": 3.574083412699893
       },
       "nextControl": null,
       "isLocked": false,
@@ -68,13 +68,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intakelong"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "conveyorlong"
+                "name": "setupnote"
               }
             },
             {

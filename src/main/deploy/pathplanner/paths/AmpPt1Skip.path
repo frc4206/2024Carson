@@ -20,12 +20,12 @@
         "y": 7.429315761244349
       },
       "prevControl": {
-        "x": 0.8409407792687331,
-        "y": 8.209296418592837
+        "x": 0.8311910210518777,
+        "y": 8.10204907820742
       },
       "nextControl": {
-        "x": 8.329733709901348,
-        "y": 7.424101878028474
+        "x": 8.329803621684237,
+        "y": 7.424818359040361
       },
       "isLocked": false,
       "linkedName": null
@@ -64,14 +64,21 @@
       "command": {
         "type": "parallel",
         "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "setupnote"
+              }
+            }
+          ]
         }
       }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

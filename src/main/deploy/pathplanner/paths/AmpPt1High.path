@@ -73,19 +73,13 @@
             {
               "type": "named",
               "data": {
-                "name": "intakelong"
+                "name": "pivotamp2"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "conveyorlong"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "pivotamp1"
+                "name": "setupnote"
               }
             }
           ]

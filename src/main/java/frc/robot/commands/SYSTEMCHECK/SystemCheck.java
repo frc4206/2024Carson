@@ -32,7 +32,7 @@ public class SystemCheck extends SequentialCommandGroup {
       new IntakeToDuty(intake, Constants.Feedback.defaultMaxDuty).withTimeout(1),
       new ConveyorToDuty(conveyor, Constants.Feedback.defaultMinDuty).withTimeout(1),
       new ConveyorToDuty(conveyor, Constants.Feedback.defaultMaxDuty).withTimeout(1),
-      new SetupNote(conveyor, intake),
+      new SetupNote(conveyor, intake, 5),
       new ShooterToVelocity(flywheel, Constants.Flywheel.speakerVelo).until(() -> flywheel.shooterAtVelocity(Constants.Flywheel.speakerVelo)),
       new ShooterToVelocityIndividual(flywheel, Constants.Flywheel.topAmpVelo, Constants.Flywheel.bottomAmpVelo).until(() -> flywheel.shooterAtVelocities(Constants.Flywheel.topAmpVelo, Constants.Flywheel.bottomAmpVelo)),
       new PivotToPosition(pivot, Constants.Pivot.stagePosition).withTimeout(0.5),

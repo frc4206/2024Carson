@@ -70,13 +70,10 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void periodic() {
 		double motorSetSpeed = 0.0d;
 
-		// trigger input
 		double rightTriggerSpeed = quadratic(-this.controller.getRightTriggerAxis());
 		double leftTriggerSpeed = quadratic(this.controller.getLeftTriggerAxis());
-
-		// joystick input, negative because y axis on XBoxController is upside down
 		double joystickSpeed = -this.controller.getRawAxis(this.motorAxis);
-		joystickSpeed = squareDeadzone(joystickSpeed, Constants.OperatorConstants.joystickDeadzone); // apply deadzone anyway
+		joystickSpeed = squareDeadzone(joystickSpeed, Constants.OperatorConstants.joystickDeadzone);
 
 		// ignore if both right and left trigger are pressed
 		if (rightTriggerSpeed > 0.0d && leftTriggerSpeed > 0.0d) {

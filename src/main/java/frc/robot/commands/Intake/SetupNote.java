@@ -15,9 +15,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SetupNote extends SequentialCommandGroup {
-  public SetupNote(ConveyorSubsystem conveyor, IntakeSubsystem intake) {
+  public SetupNote(ConveyorSubsystem conveyor, IntakeSubsystem intake, double timeout) {
     addCommands(
-      new GoUntilNote(conveyor, intake).until(() -> GlobalVariables.Conveyor.beamBroken),
+      new GoUntilNote(conveyor, intake).until(() -> GlobalVariables.Conveyor.beamBroken).withTimeout(timeout),
       // new ConveyerToPosition(conveyor, 18).withTimeout(2),
       // new ConveyerToPosition(conveyor, 17.5).withTimeout(2)
       new ParallelCommandGroup(

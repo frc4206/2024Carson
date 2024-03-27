@@ -1,6 +1,7 @@
 package frc.lib.util.spark;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
@@ -22,6 +23,17 @@ public interface SparkDefaultMethods {
      * @param motorSpeed desired duty cycle of the motor (range: [-1, 1])
      */
     public default void motorToDuty(CANSparkFlex motor, double motorSpeed){
+        motor.set(motorSpeed);
+    }
+
+    /**
+     * <p>
+     * Sets a motor's duty cycle.
+     * 
+     * @param motor actual motor object
+     * @param motorSpeed desired duty cycle of the motor (range: [-1, 1])
+     */
+    public default void motorToDuty(CANSparkMax motor, double motorSpeed){
         motor.set(motorSpeed);
     }
 

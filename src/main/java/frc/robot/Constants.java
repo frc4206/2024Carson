@@ -241,6 +241,7 @@ public final class Constants {
 		public static final int operata2Port = 2;
 		public static final int shootertestaPort = 3;
 		public static final int ampBartestaPort = 4;
+		public static final int newtestaPort = 5;
 	}
 
 	public static final class Pivot {

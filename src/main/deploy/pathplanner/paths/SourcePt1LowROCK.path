@@ -17,27 +17,27 @@
     {
       "anchor": {
         "x": 7.77,
-        "y": 0.72
+        "y": 0.65
       },
       "prevControl": {
         "x": 3.070924072925467,
-        "y": 0.72
+        "y": 0.65
       },
       "nextControl": {
         "x": 10.460933267852283,
-        "y": 0.72
+        "y": 0.65
       },
       "isLocked": false,
       "linkedName": "sourcebottompiece"
     },
     {
       "anchor": {
-        "x": 2.634896291170256,
-        "y": 2.963926497924256
+        "x": 2.6251465329533996,
+        "y": 3.17842117869509
       },
       "prevControl": {
-        "x": 5.399474550470769,
-        "y": 0.07306035640145181
+        "x": 5.389724792253913,
+        "y": 0.2875550371722859
       },
       "nextControl": null,
       "isLocked": false,
@@ -57,7 +57,7 @@
     },
     {
       "waypointRelativePos": 1.95,
-      "rotationDegrees": -50.0,
+      "rotationDegrees": -42.56440946648752,
       "rotateFast": false
     }
   ],
@@ -73,13 +73,13 @@
             {
               "type": "named",
               "data": {
-                "name": "intakelong"
+                "name": "intake"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "conveyorlong"
+                "name": "conveyor"
               }
             },
             {
@@ -101,7 +101,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -50.0,
+    "rotation": -41.729512076816484,
     "rotateFast": false
   },
   "reversed": false,

@@ -72,6 +72,7 @@ public class RobotContainer {
   private final XboxController operata2 = new XboxController(Constants.OperatorConstants.operata2Port);
   private final XboxController shootertesta = new XboxController(Constants.OperatorConstants.shootertestaPort);
   private final XboxController ampBartesta = new XboxController(Constants.OperatorConstants.ampBartestaPort);
+  private final XboxController newtesta = new XboxController(Constants.OperatorConstants.newtestaPort);
   
   public RobotContainer() {
     NamedCommands.registerCommand("pivotsub", new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition).withTimeout(0.25));
@@ -82,7 +83,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("pivotcleanup3", new PivotToPosition(m_pivotSubsystem, 4.25).withTimeout(0.25));
     NamedCommands.registerCommand("pivotmiddle1", new PivotToPosition(m_pivotSubsystem, 5.175).withTimeout(0.25));
     NamedCommands.registerCommand("pivotmiddle2", new PivotToPosition(m_pivotSubsystem, 5).withTimeout(0.25));
-    NamedCommands.registerCommand("pivotsource1", new PivotToPosition(m_pivotSubsystem, 5.25).withTimeout(0.25));
+    NamedCommands.registerCommand("pivotsource1", new PivotToPosition(m_pivotSubsystem, 4.55).withTimeout(0.25));
     NamedCommands.registerCommand("pivotsource2", new PivotToPosition(m_pivotSubsystem, 7.75).withTimeout(0.25));
     NamedCommands.registerCommand("pivotsource3", new PivotToPosition(m_pivotSubsystem, 3.75).withTimeout(0.25));
 

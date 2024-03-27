@@ -1,10 +1,10 @@
 package frc.lib.util.spark.sparkConfig;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 /**
  * Utility class for initializing all configurations of a CANSparkFlex controller.
@@ -14,8 +14,9 @@ public class SparkConfig {
     PIDConfig pidConfig;
     FeedbackConfig feedbackConfig;
     CANSparkFlex motor;
+    CANSparkMax maxMotor;
     RelativeEncoder relativeEncoder;
-    DutyCycleEncoder absoluteEncoder;
+    AbsoluteEncoder absoluteEncoder;
     SparkPIDController pidController;
     boolean shouldRestore;
     boolean shouldBurn;
@@ -59,6 +60,18 @@ public class SparkConfig {
      */
     public void configureController(CANSparkFlex motor){
         this.motor = motor;
+        this.maxMotor = null;
+        this.relativeEncoder = null;
+        this.absoluteEncoder = null;
+        this.pidController = null;
+    } 
+
+    /**
+     * Configures the motor controller to be accessed by the applyConfig() method.
+     */
+    public void configureController(CANSparkMax maxMotor){
+        this.motor = null;
+        this.maxMotor = maxMotor;
         this.relativeEncoder = null;
         this.absoluteEncoder = null;
         this.pidController = null;
@@ -69,6 +82,7 @@ public class SparkConfig {
      */
     public void configureController(CANSparkFlex motor, RelativeEncoder encoder, SparkPIDController pidController){
         this.motor = motor;
+        this.maxMotor = null;
         this.relativeEncoder = encoder;
         this.absoluteEncoder = null;
         this.pidController = pidController;
@@ -77,8 +91,31 @@ public class SparkConfig {
     /**
      * Configures the motor controller to be accessed by the applyConfig() method.
      */
-    public void configureController(CANSparkFlex motor, DutyCycleEncoder absoluteEncoder, SparkPIDController pidController){
+    public void configureController(CANSparkFlex motor, AbsoluteEncoder absoluteEncoder, SparkPIDController pidController){
         this.motor = motor;
+        this.maxMotor = null;
+        this.relativeEncoder = null;
+        this.absoluteEncoder = absoluteEncoder;
+        this.pidController = pidController;
+    }
+
+    /**
+     * Configures the motor controller to be accessed by the applyConfig() method.
+     */
+    public void configureController(CANSparkMax maxMotor, RelativeEncoder encoder, SparkPIDController pidController){
+        this.motor = null;
+        this.maxMotor = maxMotor;
+        this.relativeEncoder = encoder;
+        this.absoluteEncoder = null;
+        this.pidController = pidController;
+    }
+
+    /**
+     * Configures the motor controller to be accessed by the applyConfig() method.
+     */
+    public void configureController(CANSparkMax maxMotor, AbsoluteEncoder absoluteEncoder, SparkPIDController pidController){
+        this.motor = null;
+        this.maxMotor = maxMotor;
         this.relativeEncoder = null;
         this.absoluteEncoder = absoluteEncoder;
         this.pidController = pidController;
@@ -88,21 +125,40 @@ public class SparkConfig {
      * Applies all configurations to the motor controller.
      */
     public void applyMotorConfigurations(){
-        if (shouldRestore){
-            motor.restoreFactoryDefaults();
-        }
+        if (motor != null){
+            if (shouldRestore){
+                motor.restoreFactoryDefaults();
+            }
 
-        motor.setInverted(motorConfig.motorIsInverted);
-        motor.setIdleMode(motorConfig.idleMode);
-        if (motorConfig.currentLimit != 0){
-            motor.setSmartCurrentLimit(motorConfig.currentLimit);
-        }
-        if (motorConfig.closedLoopRampRate != 0){
-            motor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
-        }
+            motor.setInverted(motorConfig.motorIsInverted);
+            motor.setIdleMode(motorConfig.idleMode);
+            if (motorConfig.currentLimit != 0){
+                motor.setSmartCurrentLimit(motorConfig.currentLimit);
+            }
+            if (motorConfig.closedLoopRampRate != 0){
+                motor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
+            }
 
-        if (shouldBurn){
-            motor.burnFlash();
+            if (shouldBurn){
+                motor.burnFlash();
+            }
+        } else {
+            if (shouldRestore){
+                maxMotor.restoreFactoryDefaults();
+            }
+
+            maxMotor.setInverted(motorConfig.motorIsInverted);
+            maxMotor.setIdleMode(motorConfig.idleMode);
+            if (motorConfig.currentLimit != 0){
+                maxMotor.setSmartCurrentLimit(motorConfig.currentLimit);
+            }
+            if (motorConfig.closedLoopRampRate != 0){
+                maxMotor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
+            }
+
+            if (shouldBurn){
+                maxMotor.burnFlash();
+            }
         }
     }
 
@@ -110,21 +166,46 @@ public class SparkConfig {
      * Applies all configurations to the motor controller.
      */
     public void applyAllConfigurations(){
-        if (shouldRestore){
-            motor.restoreFactoryDefaults();
-        }
-        
-        motor.setInverted(motorConfig.motorIsInverted);
-        motor.setIdleMode(motorConfig.idleMode);
-        if (motorConfig.currentLimit != 0){
-            motor.setSmartCurrentLimit(motorConfig.currentLimit);
-        }
-        if (motorConfig.closedLoopRampRate != 0){
-            motor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
+        if (motor != null){
+            if (shouldRestore){
+                motor.restoreFactoryDefaults();
+            }
+
+            motor.setInverted(motorConfig.motorIsInverted);
+            motor.setIdleMode(motorConfig.idleMode);
+            if (motorConfig.currentLimit != 0){
+                motor.setSmartCurrentLimit(motorConfig.currentLimit);
+            }
+            if (motorConfig.closedLoopRampRate != 0){
+                motor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
+            }
+
+            if (shouldBurn){
+                motor.burnFlash();
+            }
+        } else {
+            if (shouldRestore){
+                maxMotor.restoreFactoryDefaults();
+            }
+
+            maxMotor.setInverted(motorConfig.motorIsInverted);
+            maxMotor.setIdleMode(motorConfig.idleMode);
+            if (motorConfig.currentLimit != 0){
+                maxMotor.setSmartCurrentLimit(motorConfig.currentLimit);
+            }
+            if (motorConfig.closedLoopRampRate != 0){
+                maxMotor.setClosedLoopRampRate(motorConfig.closedLoopRampRate);
+            }
+
+            if (shouldBurn){
+                maxMotor.burnFlash();
+            }
         }
 
         if (relativeEncoder != null){
             pidController.setFeedbackDevice(relativeEncoder);
+        } else {
+            pidController.setFeedbackDevice(absoluteEncoder);
         }
 
         pidController.setP(pidConfig.kP);

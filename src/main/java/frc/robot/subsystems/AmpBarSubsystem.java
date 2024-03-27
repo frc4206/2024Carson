@@ -5,11 +5,11 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
@@ -19,7 +19,7 @@ import frc.robot.GlobalVariables;
 
 public class AmpBarSubsystem extends SubsystemBase implements SparkDefaultMethods {
   private CANSparkFlex ampBarMotor = new CANSparkFlex(Constants.AmpBar.ampBarMotorID, MotorType.kBrushless);
-  private DutyCycleEncoder ampBarEncoder = new DutyCycleEncoder(9);
+  private RelativeEncoder ampBarEncoder = ampBarMotor.getEncoder();
   private SparkPIDController ampBarPIDController = ampBarMotor.getPIDController();
   SparkConfig ampBarConfig;
 
@@ -34,7 +34,7 @@ public class AmpBarSubsystem extends SubsystemBase implements SparkDefaultMethod
   }
 
   public boolean ampBarAtPosition(double desiredPosition){
-    return Math.abs(ampBarEncoder.get() - desiredPosition) < Constants.AmpBar.ampBarMaxError;
+    return Math.abs(ampBarEncoder.getPosition() - desiredPosition) < Constants.AmpBar.ampBarMaxError;
   }
 
   public void ampBarToDuty(double speed){
@@ -47,7 +47,7 @@ public class AmpBarSubsystem extends SubsystemBase implements SparkDefaultMethod
 
   @Override
   public void periodic() {
-    GlobalVariables.AmpBar.ampBarPosition = ampBarEncoder.get();
+    GlobalVariables.AmpBar.ampBarPosition = ampBarEncoder.getPosition();
     GlobalVariables.AmpBar.ampBarAtLimitSwitch = !ampLimitSwitch.get() || !zeroLimitSwitch.get() || !hallZeroLimitSwitch.get();
     GlobalVariables.AmpBar.ampBarAtAmp = !ampLimitSwitch.get();
     GlobalVariables.AmpBar.ampBarAtZero = !zeroLimitSwitch.get() || !hallZeroLimitSwitch.get();

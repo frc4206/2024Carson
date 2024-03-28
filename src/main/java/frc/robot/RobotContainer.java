@@ -139,7 +139,7 @@ public class RobotContainer {
     new JoystickButton(operata, 2).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.PODIUM));
     new JoystickButton(operata, 3).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.UNDER));
     new JoystickButton(operata, 4).onTrue(new ChangePivotPosition(m_pivotSubsystem, ShooterPositions.STAGE));
-    m_climberSubsystem.setupController(operata, XboxController.Axis.kLeftY.value);
+    m_climberSubsystem.setupController(operata);
     
     new JoystickButton(operata2, 1).onTrue(new SystemCheck(m_ampBarSubsystem, m_climberSubsystem, m_conveyorSubsystem, m_flywheelSubsystem, m_intakeSubsystem, m_pivotSubsystem));
 
@@ -157,10 +157,10 @@ public class RobotContainer {
 
     new JoystickButton(ampBartesta, 1).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, -0.1));
     new JoystickButton(ampBartesta, 4).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.1));
-    new JoystickButton(ampBartesta, 5).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, -0.5));
-    new JoystickButton(ampBartesta, 6).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 0.5));
-    new JoystickButton(ampBartesta, 7).onTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.stowPosition));
-    new JoystickButton(ampBartesta, 8).onTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.ampPosition));
+    new JoystickButton(ampBartesta, 5).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, -0.6));
+    new JoystickButton(ampBartesta, 6).whileTrue(new AmpBarToDuty(m_ampBarSubsystem, 1));
+    new JoystickButton(ampBartesta, 7).whileTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.stowPosition));
+    new JoystickButton(ampBartesta, 8).whileTrue(new AmpBarToPosition(m_ampBarSubsystem, Constants.AmpBar.ampPosition));
   }
 
 

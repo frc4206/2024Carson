@@ -2,37 +2,38 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.LEDs;
+package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.LEDs;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class SetBlue extends Command {
-  private LEDs m_leds;
-  public SetBlue(LEDs leds) {
-    m_leds = leds;
-    addRequirements(m_leds);
+public class ResetClimber extends Command {
+  private ClimberSubsystem m_climber;
+  private boolean isFinished = false;
+  public ResetClimber(ClimberSubsystem climber) {
+    m_climber = climber;
+    addRequirements(m_climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_climber.resetClimber();
+    isFinished = true;
+    isFinished();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_leds.setBlue(0);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_leds.setWhite(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }

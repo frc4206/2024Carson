@@ -12,6 +12,11 @@ public class GlobalVariables {
         public static boolean ampBarAtZero = false;
     }
 
+    public static class Climber{
+        public static double yPressed = 2;
+        public static double toDown = 2;
+    }
+
     public static class Conveyor{
         public static double conveyorPosition = 0;
         public static double conveyorVelocity = 0;
@@ -27,6 +32,10 @@ public class GlobalVariables {
 
         public static double topVelo = 0;
         public static double bottomVelo = 0;
+    }
+
+    public static class Intake{
+        public static double intakeDuty = 0;
     }
 
     public static class Pivot{

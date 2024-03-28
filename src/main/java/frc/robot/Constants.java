@@ -28,21 +28,20 @@ public final class Constants {
 	public static final String canivoreName = "Canivore1";
 	
 	public static final class AmpBar {
-		public static final double stowPosition = 0;
-		public static final double ampPosition = 1/3;
+		public static final double stowPosition = 0.295;
+		public static final double ampPosition = 0.55;
 
 		public static final int ampLimitSwitchID = 1;
-		public static final int hallZeroLimitSwitchID = 2;
 		public static final int zeroLimitSwitchID = 3;
 
 
-		public static final int ampBarMotorID = 40;
+		public static final int ampBarMotorID = 41;
 		public static final boolean ampBarIsInverted = false;
 		public static final IdleMode idleMode = IdleMode.kBrake;
 		public static final int ampBarCurrLimit = 40; 
 		
-		public static final double ampBarkP = 0.25;//0.45; 
-		public static final double ampBarkI = 0.00375; 
+		public static final double ampBarkP = 0.05;//0.45; 
+		public static final double ampBarkI = 0.01; 
 		public static final double ampBarkIZone = 0.1;
 		public static final double ampBarkD = 0.0;
 		public static final double ampBarkFF = 0.0;
@@ -64,10 +63,14 @@ public final class Constants {
 	}
 	
 	public static final class Climber {
+		public static final int disengageDurationMilliseconds = 180;
 		public static final int servoCenter = 1500; // in microseconds
 		public static final int microsecondDegreesofFreedom = 300; // 40.5 angular degrees
 		public static final int servoEngage = 1670;
 		public static final int servoDisengage = 1350;
+
+		public static final double farPosition = 100;
+		public static final double zeroPosition = 0;
 
 		public static final int climberMotorID = 35;
 		public static final boolean climberIsInverted = false;
@@ -141,8 +144,8 @@ public final class Constants {
 
 	public static final class Flywheel {
 		public static final double speakerVelo = 6500;
-		public static final double topAmpVelo = 3400;//3850
-		public static final double bottomAmpVelo = 2100;//2350
+		public static final double topAmpVelo = 3850;
+		public static final double bottomAmpVelo = 2350;
 		
 		public static final int topFlywheelMotorID = 25;
 		public static final boolean topIsInverted = true;
@@ -206,13 +209,18 @@ public final class Constants {
 	}
 	
 	public static final class LEDS{
-		public static final int LEDPort = 9;
-		public static final int numLEDs = 48;
+		public static final int candleID = 60;
+		public static final int numLEDs = 42;
+		public static final int ledStart = 0;
 
-		public static final int highZero = 400;
-		public static final int lowZero = 850;
-		public static final int highOne = 800;
-		public static final int lowOne = 450;
+		public static final int ledCandleBegin = 0;
+		public static final int numCandleLEDs = 8;
+
+		public static final int ledShooterBegin = 8;
+		public static final int numShooterLEDs = 17;
+
+		public static final int ledFrontBegin = 25;
+		public static final int numFrontLEDs = 17;
 	}
 	
 	public static final class Limelight {
@@ -253,7 +261,7 @@ public final class Constants {
 		
 		public static final double allowableThreshold = 0.5;
 
-		public static final double ampPosition = 10.5;//10;
+		public static final double ampPosition = 9.5;//10;
 		public static final double closePosition = 6;
 		public static final double podiumPosition = 3.900;
 		public static final double underPosition = 2.64;

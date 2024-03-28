@@ -50,23 +50,22 @@ public class InterpolatingTreeTableSubsystem {
 		initialized = true;
 	}
 
-		/**
-		 * getInterpolatedValue() - return the interpolated value of y given x.
-		 * 
-		 * If the value of x is in the table, that value is returned.
-		 * 
-		 * If the value of x is not in the table, the closest two values of x are chosen
-		 * and the value of y returned is interpolated between the corresponding y
-		 * values.
-		 * 
-		 * If the value of x is greater than max x value, the corresponding value of y
-		 * for max x is returned. If the value of x is less than the min x value, the
-		 * corresponding value of y for the min x is returned.
-		 *
-		 * @param x, the value of x to get an interpolated y value for
-		 * @return the linear interpolated value y
-		 */
-
+	/**
+	 * getInterpolatedValue() - return the interpolated value of y given x.
+	 * 
+	 * If the value of x is in the table, that value is returned.
+	 * 
+	 * If the value of x is not in the table, the closest two values of x are chosen
+	 * and the value of y returned is interpolated between the corresponding y
+	 * values.
+	 * 
+	 * If the value of x is greater than max x value, the corresponding value of y
+	 * for max x is returned. If the value of x is less than the min x value, the
+	 * corresponding value of y for the min x is returned.
+	 *
+	 * @param x, the value of x to get an interpolated y value for
+	 * @return the linear interpolated value y
+	 */
 	public double getInterpolatedValue(double x) {
 		if (!initialized) {
 			System.out.println("ERROR: linearInterpolator number of columns should be 2");

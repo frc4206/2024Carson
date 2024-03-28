@@ -4,171 +4,136 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.Timer;
+import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix.led.StrobeAnimation;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 
-public class LEDs extends SubsystemBase { 
-  private AddressableLED ledstrip;
-  private AddressableLEDBuffer ledBuffer;
-  boolean ledInit = false;
-  double initTime = 0;
-  double currTime = 0;
-  double flashCycleTime = .25;
-  int shooterLeds = 36;
-  String LEDstate = "off";
-  boolean upToSpeed = false;
-  boolean ShooterLedInit = false;
-  double shooterInitTime = 0;
-  double shooterCurrTime = 0;
-  double shooterFlashCycleTime = 0.3;
-  double shooterMaxError = 100;
-  double endGameFlashCycleTime = .3;
+public class LEDs extends SubsystemBase {
+	public enum State {
+		ALIGNED,
+		NOTALIGNED,
+		INTAKING,
+		PIECED,
+		ATVELO
+	}
 
-  public LEDs() {
-    ledstrip = new AddressableLED(Constants.LEDS.LEDPort);
-    ledBuffer = new AddressableLEDBuffer(Constants.LEDS.numLEDs);
-    ledstrip.setBitTiming(Constants.LEDS.highZero, Constants.LEDS.lowZero, Constants.LEDS.highOne, Constants.LEDS.lowOne);
-    ledstrip.setLength(ledBuffer.getLength());
-    ledstrip.setData(ledBuffer);
-    ledstrip.start();
-  }
+  protected final CANdle candle;
+  public State state = State.NOTALIGNED;
 
-  public void setRed(int offFromMax){
-    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 255, 0, 0);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "red";
-  }
+	public LEDs() {
+		candle = new CANdle(Constants.LEDS.candleID, "rio");
 
-  public void setGreen(int offFromMax){
-    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 0, 255, 0);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "green";
-  }
+		CANdleConfiguration config = new CANdleConfiguration();
+		config.v5Enabled = false;
+		config.disableWhenLOS = true;
+		config.statusLedOffWhenActive = false;
+		config.vBatOutputMode = CANdle.VBatOutputMode.Off;
 
-  public void flashGreen(int offFromMax){
-    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 0, 255, 0);
-    }
-    ledstrip.setData(ledBuffer);
-    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 255, 255, 255);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "green";
-  }
-  
-  public void setBlue(int offFromMax){
-    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 0, 0, 255);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "blue";
-  }
+		candle.configAllSettings(config);
 
-  public void setWhite(int offFromMax){
-    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 100, 100, 100);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "white";
-  }
+		SmartDashboard.putBoolean("PIECEREADY", false);
+ 	}
+      
+	private StrobeAnimation solidLEDS(int red, int green, int blue, int white, int numLEDs, int ledStart){
+		return new StrobeAnimation(red, green, blue, white, 1, numLEDs, ledStart);
+	}
+	
+	private StrobeAnimation flashLEDS(int red, int green, int blue, int white, int numLEDs, int ledStart){
+		return new StrobeAnimation(red, green, blue, white, 0.1, numLEDs, ledStart);
+	}
 
-  public void setYellow(int offFromMax){
-    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 100, 100, 0);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "yellow";
-  }
+	private void aligned(){
+		if (GlobalVariables.alliance == DriverStation.Alliance.Red) {
+			candle.animate(solidLEDS(255, 0, 0, 0, Constants.LEDS.numCandleLEDs, Constants.LEDS.ledCandleBegin));
+			candle.animate(solidLEDS(0, 255, 0, 0, Constants.LEDS.numShooterLEDs, Constants.LEDS.ledShooterBegin));
+			candle.animate(solidLEDS(255, 0, 0, 0, Constants.LEDS.numFrontLEDs, Constants.LEDS.ledFrontBegin));	
+		} else if (GlobalVariables.alliance == DriverStation.Alliance.Blue){
+			candle.animate(solidLEDS(0, 0, 255, 0, Constants.LEDS.numCandleLEDs, Constants.LEDS.ledCandleBegin));
+			candle.animate(solidLEDS(0, 255, 0, 0, Constants.LEDS.numShooterLEDs, Constants.LEDS.ledShooterBegin));
+			candle.animate(solidLEDS(0, 0, 255, 0, Constants.LEDS.numFrontLEDs, Constants.LEDS.ledFrontBegin));	
+		}
+	}
 
-  public void setOff(int offFromMax){
-    for (var i = offFromMax; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 255, 255, 255);
-    }
-    ledstrip.setData(ledBuffer);
-    LEDstate = "off";
-  }
-  
-  // public void updateShooterLEDS() {
-  //   for (var i = 0; i < shooterLeds; i++) {
-  //       if (LEDstate == "off") {
-  //         ledBuffer.setRGB(i, 0, 0, 0);
-  //       } else if (LEDstate == "red") {
-  //         ledBuffer.setRGB(i, 100, 0, 0);
-  //       } else if (LEDstate == "green") {
-  //         ledBuffer.setRGB(i, 0, 100, 0);
-  //        }else if (LEDstate == "blue") {
-  //         ledBuffer.setRGB(i, 0, 0, 0);
-  //       } else if (LEDstate == "white") {
-  //         ledBuffer.setRGB(i, 100,100, 100);
-  //       }
-  //     }
-  // }
+	private void notAligned(){
+		if (GlobalVariables.alliance == DriverStation.Alliance.Red) {
+			candle.animate(solidLEDS(255, 0, 0, 0, Constants.LEDS.numCandleLEDs, Constants.LEDS.ledCandleBegin));
+			candle.animate(solidLEDS(222, 0, 0, 0, Constants.LEDS.numShooterLEDs, Constants.LEDS.ledShooterBegin));
+			candle.animate(solidLEDS(255, 0, 0, 0, Constants.LEDS.numFrontLEDs, Constants.LEDS.ledFrontBegin));	
+		} else if (GlobalVariables.alliance == DriverStation.Alliance.Blue){
+			candle.animate(solidLEDS(0, 0, 255, 0, Constants.LEDS.numCandleLEDs, Constants.LEDS.ledCandleBegin));
+			candle.animate(solidLEDS(255, 0, 0, 0, Constants.LEDS.numShooterLEDs, Constants.LEDS.ledShooterBegin));
+			candle.animate(solidLEDS(0, 0, 255, 0, Constants.LEDS.numFrontLEDs, Constants.LEDS.ledFrontBegin));	
+		}	
+	}
 
-  @Override
-  public void periodic() {
-    if (GlobalVariables.Timing.teleopTimeElapsed < 115)  {
-      if (!GlobalVariables.Conveyor.beamBroken) {
-        if (!ledInit) {
-          ledInit = true;
-          initTime = Timer.getFPGATimestamp();
-        }
-        currTime = Timer.getFPGATimestamp() - initTime;
+	private void intaking(){
+		candle.animate(solidLEDS(255, 255, 255, 0, Constants.LEDS.numShooterLEDs, Constants.LEDS.ledShooterBegin));
+	}
 
-        if (currTime < flashCycleTime*50) {
-          flashGreen(0);
-        }
-      } else {
-        setOff(0);
-        ledInit = false;
-      }
-    
-      if (Math.abs(Constants.Flywheel.speakerVelo - GlobalVariables.Flywheel.topVelo) < shooterMaxError && Math.abs(Constants.Flywheel.speakerVelo - GlobalVariables.Flywheel.bottomVelo) < shooterMaxError) {
-        upToSpeed = true;
-      } else {
-        upToSpeed = false;
-      }
-      if (upToSpeed) {
-        if (!ShooterLedInit) {
-          ShooterLedInit = true;
-          shooterInitTime = Timer.getFPGATimestamp();
-        }
-        shooterCurrTime = Timer.getFPGATimestamp() - shooterInitTime;
-        if (shooterCurrTime < shooterFlashCycleTime) {
-          for (var i = 0; i < shooterLeds; i++) {
-            ledBuffer.setRGB(i, 0, 0, 100);
-          }
-        } else if (shooterCurrTime < shooterFlashCycleTime * 2) {
-          // updateShooterLEDS();
-          
-        } else if (shooterCurrTime < shooterFlashCycleTime *3) {
-          for (var i = 0; i < shooterLeds; i++) {
-            ledBuffer.setRGB(i, 0, 0, 100);
-          }
-          ShooterLedInit = false;
-        }
-        // for (var i = 0; i < shooterLeds; i++) {
-        //     ledBuffer.setRGB(i, 0, 0, 100);
-        //   }
-        ledstrip.setData(ledBuffer);
-          
-      } else {
-        // updateShooterLEDS();
-        ShooterLedInit = false;
-      }
-    } else if (GlobalVariables.Timing.teleopTimeElapsed < 130) {
-      setYellow(0);
-    } else {
-      setRed(0);
-    }
-    ledstrip.setData(ledBuffer);
-  }
+	private void ready(){
+		candle.animate(flashLEDS(0, 255, 0, 0, Constants.LEDS.numShooterLEDs, Constants.LEDS.ledShooterBegin));
+	}
+
+	private void atVelo(){
+		candle.animate(solidLEDS(0, 0, 255, 0, Constants.LEDS.numShooterLEDs, Constants.LEDS.ledShooterBegin));
+	}
+	
+	private void alliance() {
+		if (GlobalVariables.alliance == DriverStation.Alliance.Red) {
+			candle.animate(solidLEDS(255, 0, 0, 0, Constants.LEDS.numLEDs, Constants.LEDS.ledStart));
+		} else if (GlobalVariables.alliance == DriverStation.Alliance.Blue){
+			candle.animate(solidLEDS(0, 0, 255, 0, Constants.LEDS.numLEDs, Constants.LEDS.ledStart));
+		}
+	}
+
+
+	@Override
+	public void periodic() {
+		if (DriverStation.isDisabled()) {
+			// if at starting pose
+				// state = State.ALIGNED;
+			// else
+				state = State.NOTALIGNED;
+		} else {
+			if (Math.abs(GlobalVariables.Intake.intakeDuty) > 0){
+				state = State.INTAKING;
+			}
+			if (GlobalVariables.Conveyor.beamBroken){
+				state = State.PIECED;
+			}
+			if (GlobalVariables.Flywheel.topVelo > 6250 && GlobalVariables.Flywheel.bottomVelo > 6250){
+				state = State.ATVELO;
+			}
+			if (!(Math.abs(GlobalVariables.Intake.intakeDuty) > 0) && !(GlobalVariables.Conveyor.beamBroken) && (GlobalVariables.Flywheel.topVelo > 6250 && GlobalVariables.Flywheel.bottomVelo > 6250)){
+				state = State.NOTALIGNED;
+			}
+		}
+
+		switch (state) {
+			case ALIGNED:
+				aligned();
+				break;
+			case NOTALIGNED:
+				notAligned();
+				break;
+			case INTAKING:
+				intaking();
+				break;
+			case PIECED:
+				ready();
+				break;
+			case ATVELO:
+				atVelo();
+				break;
+			default:
+				alliance();
+				break;
+		} 
+	}
 }

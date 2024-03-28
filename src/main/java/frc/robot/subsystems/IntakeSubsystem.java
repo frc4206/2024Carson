@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.spark.SparkDefaultMethods;
 import frc.lib.util.spark.sparkConfig.SparkConfig;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
+
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -26,5 +28,7 @@ public class IntakeSubsystem extends SubsystemBase implements SparkDefaultMethod
 	}
 
 	@Override
-	public void periodic() {}
+	public void periodic() {
+		GlobalVariables.Intake.intakeDuty = intakeMotor.getAppliedOutput();
+	}
 }

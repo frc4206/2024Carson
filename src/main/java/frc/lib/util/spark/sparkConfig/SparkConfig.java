@@ -6,6 +6,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+
 /**
  * Utility class for initializing all configurations of a CANSparkFlex controller.
  */
@@ -17,6 +19,7 @@ public class SparkConfig {
     CANSparkMax maxMotor;
     RelativeEncoder relativeEncoder;
     AbsoluteEncoder absoluteEncoder;
+    DutyCycleEncoder dutyEncoder;
     SparkPIDController pidController;
     boolean shouldRestore;
     boolean shouldBurn;
@@ -63,6 +66,7 @@ public class SparkConfig {
         this.maxMotor = null;
         this.relativeEncoder = null;
         this.absoluteEncoder = null;
+        this.dutyEncoder = null;
         this.pidController = null;
     } 
 
@@ -74,6 +78,7 @@ public class SparkConfig {
         this.maxMotor = maxMotor;
         this.relativeEncoder = null;
         this.absoluteEncoder = null;
+        this.dutyEncoder = null;
         this.pidController = null;
     } 
 
@@ -85,6 +90,7 @@ public class SparkConfig {
         this.maxMotor = null;
         this.relativeEncoder = encoder;
         this.absoluteEncoder = null;
+        this.dutyEncoder = null;
         this.pidController = pidController;
     }
 
@@ -96,6 +102,7 @@ public class SparkConfig {
         this.maxMotor = null;
         this.relativeEncoder = null;
         this.absoluteEncoder = absoluteEncoder;
+        this.dutyEncoder = null;
         this.pidController = pidController;
     }
 
@@ -107,6 +114,7 @@ public class SparkConfig {
         this.maxMotor = maxMotor;
         this.relativeEncoder = encoder;
         this.absoluteEncoder = null;
+        this.dutyEncoder = null;
         this.pidController = pidController;
     }
 
@@ -118,6 +126,19 @@ public class SparkConfig {
         this.maxMotor = maxMotor;
         this.relativeEncoder = null;
         this.absoluteEncoder = absoluteEncoder;
+        this.dutyEncoder = null;
+        this.pidController = pidController;
+    }
+    
+    /**
+     * Configures the motor controller to be accessed by the applyConfig() method.
+     */
+    public void configureController(CANSparkMax maxMotor, DutyCycleEncoder encoder, SparkPIDController pidController){
+        this.motor = null;
+        this.maxMotor = maxMotor;
+        this.relativeEncoder = null;
+        this.absoluteEncoder = null;
+        this.dutyEncoder = encoder;
         this.pidController = pidController;
     }
 
@@ -204,7 +225,7 @@ public class SparkConfig {
 
         if (relativeEncoder != null){
             pidController.setFeedbackDevice(relativeEncoder);
-        } else {
+        } else if (absoluteEncoder != null){
             pidController.setFeedbackDevice(absoluteEncoder);
         }
 

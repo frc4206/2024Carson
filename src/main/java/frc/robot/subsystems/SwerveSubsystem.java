@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.robot.Telemetry;
 
 public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
     private final SwerveRequest.RobotCentric driveRobotCentricNoDeadband = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
@@ -33,6 +34,8 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
     }
 
     public HeadingState headingState = HeadingState.FREE;
+
+    Telemetry telemetry = new Telemetry(Constants.Swerve.maxTranslationVelocity);
 
     public SwerveSubsystem(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
@@ -136,5 +139,10 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
         } else {
             headingState = HeadingState.FREE;
         }
+    }
+
+    @Override
+    public void periodic() {
+        telemetry.telemeterize(getState());
     }
 }

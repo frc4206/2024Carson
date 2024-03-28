@@ -15,8 +15,15 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.PoseEstimator;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
@@ -25,6 +32,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.lib.util.TunerConstants;
 import frc.robot.GlobalVariables;
+import frc.robot.LimelightCameraClass;
+import frc.robot.SwerveModule;
+import frc.robot.Constants.Swerve.Mod0;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements subsystem
@@ -35,7 +45,24 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
     private final SwerveRequest.RobotCentric driveRobotCentricNoDeadband = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
-    double HeadingState;
+    double HeadingState = 3;
+    private final SwerveDrivePoseEstimator m_poseEstimator =
+        new SwerveDrivePoseEstimator(
+            m_kinematics, 
+            gyro.getRotation2d(),
+            new SwerveModulePosition[] {
+                m_modulePositions[0],
+                m_modulePositions[1],
+                m_modulePositions[2],
+                m_modulePositions[3],
+            },
+            new Pose2d(),
+            VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(5)),
+            VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30))
+            );
+        
+        
+
 
     public SwerveSubsystem(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
@@ -78,13 +105,13 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
 
 
     public double goToNoteOutput() {
-        PIDController yawController = new PIDController (0, 0, 0);
+        PIDController yawController = new PIDController (0.1, 0, 0);
 
         return yawController.calculate(Limelight.limelightintake.limelightTable.getEntry("tx").getDouble(0));
     }
 
     public double goToSpeakerOutput() {
-        PIDController yawController = new PIDController (0, 0, 0);
+        PIDController yawController = new PIDController (0.1, 0, 0);
 
         return yawController.calculate(Limelight.limelightshooter.limelightTable.getEntry("tx").getDouble(0));
     }
@@ -113,6 +140,12 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
         
     }
 
+    public void setHeadingState(double newHeadingState) {
+        HeadingState = newHeadingState;
+    }
+
+
+
     public void configurePathPlanner() {
 
         double driveBaseRadius = 0;
@@ -123,7 +156,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
             () -> this.getState().Pose, // Robot pose supplier
             (pose) -> seedFieldRelative(pose), // Method to reset odometry (will be called if your auto has a starting pose)
             this::getCurrentRobotChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds)  -> fromChassisSpeeds(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            (speeds)  -> fromChassisSpeedsAutoAlign(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                 new PIDConstants(10, 0.0, 0.0), // Translation PID constants
                 new PIDConstants(10, 0.0, 0.0), // Rotation PID constants

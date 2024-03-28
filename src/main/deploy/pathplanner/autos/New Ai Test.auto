@@ -1,0 +1,50 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7859976973515199,
+      "y": 6.6188914144210065
+    },
+    "rotation": -120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "New Ai Part 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetHeading Normal"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetHeading Normal"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Ai Part 2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

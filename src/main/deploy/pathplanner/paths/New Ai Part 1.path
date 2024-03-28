@@ -1,0 +1,92 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7859976973515199,
+        "y": 6.6188914144210065
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.46070020881134544,
+        "y": 6.961327366835257
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.4649253051475237,
+        "y": 7.07832446543753
+      },
+      "prevControl": {
+        "x": 0.5191987581124822,
+        "y": 7.07832446543753
+      },
+      "nextControl": {
+        "x": 2.464925305147523,
+        "y": 7.07832446543753
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.155858572999807,
+        "y": 7.07832446543753
+      },
+      "prevControl": {
+        "x": 4.061123321771585,
+        "y": 7.034450553461677
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "EndOfNewAiTestPt1"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.25,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetHeading AiNote"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "NewAi",
+  "previewStartingState": {
+    "rotation": -121.53479190518834,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

@@ -49,6 +49,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -118,6 +119,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("fly", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo));
     NamedCommands.registerCommand("flytimed", new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo).withTimeout(1));
     NamedCommands.registerCommand("stopfly", new ShooterToDuty(m_flywheelSubsystem, 0).withTimeout(0.05));
+    NamedCommands.registerCommand("SetHeading AiNote", new InstantCommand( () -> m_swerveSubsystem.setHeadingState(1)));
+    NamedCommands.registerCommand("SetHeading Speaker", new InstantCommand( () -> m_swerveSubsystem.setHeadingState(2)));
+    NamedCommands.registerCommand("SetHeading Normal", new InstantCommand( () -> m_swerveSubsystem.setHeadingState(3)));
+
     
     // NamedCommands.registerCommand("Ai Pickup", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 2.5));//2.5
     // NamedCommands.registerCommand("Ai Pickup long", new PID_to_game_Piece(m_swerveSubsystem, false, true, false, 3));//2.5
@@ -143,8 +148,9 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    new JoystickButton(driva, 1).onTrue(new ToggleAutoMode(m_pivotSubsystem));
-    new JoystickButton(driva, 2).whileTrue(new Outtake(m_conveyorSubsystem, m_intakeSubsystem));
+    //new JoystickButton(driva, 1).onTrue(new ToggleAutoMode(m_pivotSubsystem));
+    new JoystickButton(driva, 1).onTrue(new InstantCommand( () -> m_swerveSubsystem.setHeadingState(1)));
+    new JoystickButton(driva, 2).onTrue(new InstantCommand( () -> m_swerveSubsystem.setHeadingState(3)));
     new JoystickButton(driva, 3).onTrue(m_swerveSubsystem.runOnce(() -> m_swerveSubsystem.seedFieldRelative()));
     // new JoystickButton(driva, 4).onTrue(new ToggleAmped(m_swerveSubsystem));
     new JoystickButton(driva, 5).onTrue(new SetupNote(m_conveyorSubsystem, m_intakeSubsystem));
@@ -185,6 +191,7 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
+    m_swerveSubsystem.configurePathPlanner();
     return new SequentialCommandGroup(
       new ParallelCommandGroup(
         new PivotToPosition(m_pivotSubsystem, Constants.Pivot.subwooferPosition).withTimeout(1),
@@ -195,7 +202,8 @@ public class RobotContainer {
 
       // new ParallelCommandGroup(
         // new ShooterToVelocity(m_flywheelSubsystem, Constants.Flywheel.speakerVelo),
-        new PathPlannerAuto("Source")
+        
+        new PathPlannerAuto("New Ai Test")
       // )
     );
   }

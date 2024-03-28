@@ -8,10 +8,14 @@
     "AiAmp3",
     "AiPartSource1",
     "AiSource1",
-    "Amp",
+    "Amp1",
+    "Amp2",
+    "Amp3",
     "Cleanup",
-    "Tele Paths",
-    "Source"
+    "NewAi",
+    "Source1",
+    "Source2",
+    "TestPath"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
